@@ -1,0 +1,364 @@
+using System;
+using System.Web;
+using System.Web.Services;
+using System.Web.Services.Protocols;
+using CoreBankingLogic.EntityObjects;
+using System.Collections.Generic;
+using CoreBankingLogic.ExposedObjects;
+
+[WebService(Namespace = "http://pegasus.co.ug/")]
+[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+public class Service : System.Web.Services.WebService
+{
+    private BussinessLogic bll = new BussinessLogic();
+
+
+    public Service()
+    {
+
+    }
+
+    [WebMethod]
+    public Result Transact(TransactionRequest tranRequest)
+    {
+        Result result = new Result();
+        try
+        {
+            if (tranRequest.IsValid())
+            {
+                result = bll.Transact(tranRequest);
+            }
+            else
+            {
+                result.StatusCode = tranRequest.StatusCode;
+                result.StatusDesc = tranRequest.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result ReverseTransaction(TransactionRequest tranRequest)
+    {
+        Result result = new Result();
+        try
+        {
+            if (tranRequest.IsValidReversal())
+            {
+                result = bll.ReverseTransaction(tranRequest);
+            }
+            else
+            {
+                result.StatusCode = tranRequest.StatusCode;
+                result.StatusDesc = tranRequest.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+
+    [WebMethod]
+    public BankAccountStatement GetMiniStatement(string AccountNumber, string BankCode, string Password, BankCharge[] charges)
+    {
+        BankAccountStatement statement = new BankAccountStatement();
+        try
+        {
+            statement = bll.GenerateStatement(AccountNumber, BankCode, Password, "MINI");
+        }
+        catch (Exception ex)
+        {
+            statement.StatusCode = "100";
+            statement.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return statement;
+    }
+
+    [WebMethod]
+    public BankAccountStatement GetFullStatement(string AccountNumber, string BankCode, string Password)
+    {
+        BankAccountStatement statement = new BankAccountStatement();
+        try
+        {
+            statement = bll.GenerateStatement(AccountNumber, BankCode, Password, "FULL");
+        }
+        catch (Exception ex)
+        {
+            statement.StatusCode = "100";
+            statement.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return statement;
+    }
+
+    [WebMethod]
+    public Result SaveBankAccountDetails(BankAccount account, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (account.IsValidCreateAccountRequest(BankCode, Password))
+            {
+                result = bll.SaveAccountDetails(account, BankCode);
+            }
+            else
+            {
+                result.StatusCode = account.StatusCode;
+                result.StatusDesc = account.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankDetails(Bank bank, string adminUsername, string adminPassword)
+    {
+        Result result = new Result();
+        try
+        {
+            if (bank.IsValidCreateBankRequest(adminUsername, adminPassword))
+            {
+                result = bll.SaveBankDetails(bank);
+            }
+            else
+            {
+                result.StatusCode = bank.StatusCode;
+                result.StatusDesc = bank.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankChargeDetails(BankCharge charge, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (charge.IsValid(BankCode, Password))
+            {
+                result = bll.SaveBankChargeDetails(charge, BankCode);
+            }
+            else
+            {
+                result.StatusCode = charge.StatusCode;
+                result.StatusDesc = charge.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankUserDetails(BankUser user, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (user.IsValid(BankCode, Password))
+            {
+                result = bll.SaveBankUserDetails(user, BankCode);
+            }
+            else
+            {
+                result.StatusCode = user.StatusCode;
+                result.StatusDesc = user.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Object GetById(string className, string objectId, string bankCode, string Password)
+    {
+        Object result = new Object();
+        result = bll.GetById(className, objectId, bankCode, Password);
+        return result;
+    }
+
+    [WebMethod]
+    public Object[] GetAll(string className, string bankCode, string Password)
+    {
+        Object[] result = { };
+        result = bll.GetAll(className, bankCode, Password);
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankTellerDetails(BankTeller teller, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (teller.IsValid(BankCode, Password))
+            {
+                result = bll.SaveTellerDetails(teller, BankCode);
+            }
+            else
+            {
+                result.StatusCode = teller.StatusCode;
+                result.StatusDesc = teller.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED : " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankBranchDetails(BankBranch branch, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (branch.IsValid(BankCode, Password))
+            {
+                result = bll.SaveBankBranchDetails(branch, BankCode);
+            }
+            else
+            {
+                result.StatusCode = branch.StatusCode;
+                result.StatusDesc = branch.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED : " + ex.Message;
+        }
+        return result;
+    }
+
+
+
+    [WebMethod]
+    public Result SaveUserTypeDetails(UserType userType, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (userType.IsValid(BankCode, Password))
+            {
+                result = bll.SaveUserTypeDetails(userType, BankCode);
+            }
+            else
+            {
+                result.StatusCode = userType.StatusCode;
+                result.StatusDesc = userType.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED : " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveTransactionTypeDetails(TransactionType tranType, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (tranType.IsValid(BankCode, Password))
+            {
+                result = bll.SaveTranType(tranType, BankCode);
+            }
+            else
+            {
+                result.StatusCode = tranType.StatusCode;
+                result.StatusDesc = tranType.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+
+
+
+    [WebMethod]
+    public Result SaveBankCustomerDetails(BankCustomer cust, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (cust.IsValidNewCustomer())
+            {
+                result = bll.SaveBankCustomerDetails(cust, BankCode);
+            }
+            else
+            {
+                result.StatusCode = cust.StatusCode;
+                result.StatusDesc = cust.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveCustomerTypeDetails(CustomerType custType, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (custType.IsValid())
+            {
+                result = bll.SaveCustomerTypeDetails(custType, BankCode);
+            }
+            else
+            {
+                result.StatusCode = custType.StatusCode;
+                result.StatusDesc = custType.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+
+}

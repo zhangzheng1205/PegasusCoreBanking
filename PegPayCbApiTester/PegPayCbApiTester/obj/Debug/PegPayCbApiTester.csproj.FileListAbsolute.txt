@@ -1,0 +1,8 @@
+c:\users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.exe.config
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.exe
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.pdb
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.dll
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.xml
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.csprojResolveAssemblyReference.cache
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.exe
+C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.pdb

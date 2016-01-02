@@ -19,7 +19,9 @@ namespace PegPayCbApiTester
             //test.TestTransact();
             //test.TestReverseTransaction();
             //test.TestSaveBankDetails();
-            test.TestSaveCustomerTypeDetails();
+            //test.TestSaveCustomerTypeDetails();
+            //test.TestGetAll();
+            test.TestGetById();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CoreBankingLogic.ExposedObjects
         public string MinimumBalance = "";
         public string CreatedBy = "";
         public string ApprovedBy = "";
+        public string BankCode = "";
 
 
         public bool IsValid(string BankCode, string Password) 

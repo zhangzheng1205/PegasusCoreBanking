@@ -74,7 +74,9 @@ public class DatabaseHandler
                                                         bank.BankContactEmail,
                                                         bank.BankPassword,
                                                         bank.IsActive,
-                                                        bank.ModifiedBy
+                                                        bank.ModifiedBy,
+                                                        bank.PathToLogoImage,
+                                                        bank.PathToPublicKey
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -353,8 +355,15 @@ public class DatabaseHandler
                 user.IsActive = dr["IsActive"].ToString();
                 user.Password = dr["Password"].ToString();
                 user.Id = dr["UserId"].ToString();
-                user.Email = dr["Username"].ToString();
+                user.Email = dr["Email"].ToString();
                 user.Usertype = dr["Usertype"].ToString();
+                user.PhoneNumber = dr["PhoneNumber"].ToString();
+                user.BankCode = dr["BankCode"].ToString();
+                user.BranchCode = dr["BranchCode"].ToString();
+                user.Gender = dr["Gender"].ToString();
+                user.DateOfBirth = dr["DateOfBirth"].ToString();
+                user.CanHaveAccount = dr["CanHaveAccount"].ToString();
+          
                 user.StatusCode = "0";
                 user.StatusDesc = "SUCCESS";
             }
@@ -423,7 +432,7 @@ public class DatabaseHandler
                     user.IsActive = dr["IsActive"].ToString();
                     user.Password = dr["Password"].ToString();
                     user.Id = dr["UserId"].ToString();
-                    user.Email = dr["Username"].ToString();
+                    user.Email = dr["Email"].ToString();
                     user.Usertype = dr["Usertype"].ToString();
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
@@ -466,6 +475,7 @@ public class DatabaseHandler
                     user.Id = dr["UserTypeId"].ToString();
                     user.Role = dr["Role"].ToString();
                     user.Usertype = dr["UserType"].ToString();
+                    user.BankCode = dr["BankCode"].ToString();
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
                     all.Add(user);
@@ -487,5 +497,157 @@ public class DatabaseHandler
             all.Add(user);
         }
         return all.ToArray(); 
+    }
+
+    internal DataSet ExecuteDataSet(string storedProcedureName, string[] Parameters)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand(storedProcedureName,
+                                                       Parameters
+                                                      );
+            DataSet ds = CbDatabase.ExecuteDataSet(command);
+            return ds;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal Result ExecuteNonQuery(string storedProcedureName, string[] Parameters)
+    {
+        Result result = new Result();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand(storedProcedureName,
+                                                       Parameters
+                                                      );
+            int rows = CbDatabase.ExecuteNonQuery(command);
+            result.PegPayId = ""+rows;
+            result.RequestId = "";
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return result;
+    }
+
+    internal List<string> GetAccountsByUserId(string userId)
+    {
+        List<string> all = new List<string>();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("GetAccountsByUserId",
+                                                      userId
+                                                     );
+            DataTable dt = CbDatabase.ExecuteDataSet(command).Tables[0];
+
+            if (dt.Rows.Count == 0) 
+            {
+                all.Add("");
+            }
+            foreach (DataRow dr in dt.Rows) 
+            {
+                string accNo = dr["AccNumber"].ToString();
+                all.Add(accNo);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return all;
+    }
+
+    internal Bank[] GetAllBanks()
+    {
+        List<Bank> all = new List<Bank>();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Banks_SelectAll"
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                foreach (DataRow dr in datatable.Rows)
+                {
+                    Bank bank = new Bank();
+                    bank.BankCode = dr["BankCode"].ToString();
+                    bank.BankContactEmail = dr["BankContactEmail"].ToString();
+                    bank.BankId = dr["BankId"].ToString();
+                    bank.BankName = dr["BankName"].ToString();
+                    bank.BankPassword = dr["BankPassword"].ToString();
+                    bank.IsActive = dr["IsActive"].ToString();
+                    bank.ModifiedBy = dr["ModifiedBy"].ToString();
+                    bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
+                    bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
+                    
+                    all.Add(bank);
+                }
+            }
+            else
+            {
+                Bank bank = new Bank();
+                bank.StatusCode = "100";
+                bank.StatusDesc = "FAILED: NO BANKS FOUND";
+                all.Add(bank);
+            }
+        }
+        catch (Exception ex)
+        {
+            Bank bank = new Bank();
+            bank.StatusCode = "100";
+            bank.StatusDesc = "FAILED: " + ex.Message;
+            all.Add(bank);
+        }
+        return all.ToArray(); 
+    }
+
+    internal BankBranch[] GetAllBankBranches(string bankCode)
+    {
+        List<BankBranch> all = new List<BankBranch>();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("BankBranches_SelectAll"
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                foreach (DataRow dr in datatable.Rows)
+                {
+                    BankBranch branch = new BankBranch();
+                    branch.BankCode = dr["BankCode"].ToString();
+                    branch.BankBranchId = dr["BranchId"].ToString();
+                    branch.BranchCode = dr["BranchCode"].ToString();
+                    branch.BranchManagerId = dr["BranchManagerId"].ToString();
+                    branch.BranchName = dr["BranchName"].ToString();
+                    branch.CreatedBy = dr["CreatedBy"].ToString();
+                    branch.CreatedOn = dr["CreatedOn"].ToString();
+                    branch.LastModifiedOn = dr["ModifiedOn"].ToString();
+                    branch.Location = dr["Location"].ToString();
+                    branch.ModifiedBy = dr["ModifiedBy"].ToString();
+                    all.Add(branch);
+                }
+            }
+            else
+            {
+                BankBranch branch = new BankBranch();
+                branch.StatusCode = "100";
+                branch.StatusDesc = "FAILED: NO BRANCHES FOUND";
+                all.Add(branch);
+            }
+        }
+        catch (Exception ex)
+        {
+            BankBranch branch = new BankBranch();
+            branch.StatusCode = "100";
+            branch.StatusDesc = "FAILED: " + ex.Message;
+            all.Add(branch);
+        }
+        return all.ToArray();
     }
 }

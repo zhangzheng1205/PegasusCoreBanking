@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-public class BankBranch : Status
+public class BankBranch : BaseObject
 {
     public string BankBranchId = "";
     public string BranchName = "";

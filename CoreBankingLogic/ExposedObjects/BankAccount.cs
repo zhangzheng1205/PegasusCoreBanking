@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace CoreBankingLogic.EntityObjects
 {
-    public class BankAccount : Status
+    public class BankAccount : BaseObject
     {
         public string AccountId = "0";
         public string AccountNumber = "";

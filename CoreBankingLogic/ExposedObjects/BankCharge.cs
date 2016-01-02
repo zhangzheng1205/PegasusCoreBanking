@@ -6,7 +6,7 @@ using CoreBankingLogic.EntityObjects;
 /// <summary>
 /// Summary description for Charge
 /// </summary>
-public class BankCharge:Status
+public class BankCharge:BaseObject
 {
     public string Id = "";
     public string CommissionAccountNumber = "";

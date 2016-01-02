@@ -15,7 +15,7 @@ namespace PegPayCbApiTester.CbApi {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Status", Namespace="http://pegasus.co.ug/")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseObject", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.Result))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.BankAccountStatement))]
@@ -30,7 +30,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.TransactionType))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.CustomerType))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.TransactionRequest))]
-    public partial class Status : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class BaseObject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -92,7 +92,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.Runtime.Serialization.DataContractAttribute(Name="Result", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.BankAccountStatement))]
-    public partial class Result : PegPayCbApiTester.CbApi.Status {
+    public partial class Result : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string RequestIdField;
@@ -170,7 +170,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="BankCharge", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class BankCharge : PegPayCbApiTester.CbApi.Status {
+    public partial class BankCharge : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdField;
@@ -305,7 +305,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="BankAccount", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class BankAccount : PegPayCbApiTester.CbApi.Status {
+    public partial class BankAccount : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string AccountIdField;
@@ -408,7 +408,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Bank", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class Bank : PegPayCbApiTester.CbApi.Status {
+    public partial class Bank : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string BankIdField;
@@ -529,7 +529,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.BankTeller))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PegPayCbApiTester.CbApi.BankCustomer))]
-    public partial class BankUser : PegPayCbApiTester.CbApi.Status {
+    public partial class BankUser : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string EmailField;
@@ -774,7 +774,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="BankBranch", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class BankBranch : PegPayCbApiTester.CbApi.Status {
+    public partial class BankBranch : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string BankBranchIdField;
@@ -941,7 +941,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="UserType", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class UserType : PegPayCbApiTester.CbApi.Status {
+    public partial class UserType : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdField;
@@ -1012,7 +1012,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="TransactionType", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class TransactionType : PegPayCbApiTester.CbApi.Status {
+    public partial class TransactionType : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdField;
@@ -1099,7 +1099,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="CustomerType", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class CustomerType : PegPayCbApiTester.CbApi.Status {
+    public partial class CustomerType : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string IdField;
@@ -1186,7 +1186,7 @@ namespace PegPayCbApiTester.CbApi {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="TransactionRequest", Namespace="http://pegasus.co.ug/")]
     [System.SerializableAttribute()]
-    public partial class TransactionRequest : PegPayCbApiTester.CbApi.Status {
+    public partial class TransactionRequest : PegPayCbApiTester.CbApi.BaseObject {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string CustomerNameField;
@@ -1434,13 +1434,6 @@ namespace PegPayCbApiTester.CbApi {
     [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfString", Namespace="http://pegasus.co.ug/", ItemName="string")]
     [System.SerializableAttribute()]
     public class ArrayOfString : System.Collections.Generic.List<string> {
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfAnyType", Namespace="http://pegasus.co.ug/", ItemName="anyType")]
-    [System.SerializableAttribute()]
-    public class ArrayOfAnyType : System.Collections.Generic.List<object> {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -2226,12 +2219,12 @@ namespace PegPayCbApiTester.CbApi {
     public partial class GetByIdResponseBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public object GetByIdResult;
+        public PegPayCbApiTester.CbApi.BaseObject GetByIdResult;
         
         public GetByIdResponseBody() {
         }
         
-        public GetByIdResponseBody(object GetByIdResult) {
+        public GetByIdResponseBody(PegPayCbApiTester.CbApi.BaseObject GetByIdResult) {
             this.GetByIdResult = GetByIdResult;
         }
     }
@@ -2302,12 +2295,12 @@ namespace PegPayCbApiTester.CbApi {
     public partial class GetAllResponseBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public PegPayCbApiTester.CbApi.ArrayOfAnyType GetAllResult;
+        public PegPayCbApiTester.CbApi.BaseObject[] GetAllResult;
         
         public GetAllResponseBody() {
         }
         
-        public GetAllResponseBody(PegPayCbApiTester.CbApi.ArrayOfAnyType GetAllResult) {
+        public GetAllResponseBody(PegPayCbApiTester.CbApi.BaseObject[] GetAllResult) {
             this.GetAllResult = GetAllResult;
         }
     }
@@ -3026,7 +3019,7 @@ namespace PegPayCbApiTester.CbApi {
             return base.Channel.GetById(request);
         }
         
-        public object GetById(string className, string objectId, string bankCode, string Password) {
+        public PegPayCbApiTester.CbApi.BaseObject GetById(string className, string objectId, string bankCode, string Password) {
             PegPayCbApiTester.CbApi.GetByIdRequest inValue = new PegPayCbApiTester.CbApi.GetByIdRequest();
             inValue.Body = new PegPayCbApiTester.CbApi.GetByIdRequestBody();
             inValue.Body.className = className;
@@ -3057,7 +3050,7 @@ namespace PegPayCbApiTester.CbApi {
             return base.Channel.GetAll(request);
         }
         
-        public PegPayCbApiTester.CbApi.ArrayOfAnyType GetAll(string className, string bankCode, string Password) {
+        public PegPayCbApiTester.CbApi.BaseObject[] GetAll(string className, string bankCode, string Password) {
             PegPayCbApiTester.CbApi.GetAllRequest inValue = new PegPayCbApiTester.CbApi.GetAllRequest();
             inValue.Body = new PegPayCbApiTester.CbApi.GetAllRequestBody();
             inValue.Body.className = className;

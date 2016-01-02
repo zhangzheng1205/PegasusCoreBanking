@@ -5,7 +5,7 @@ using CoreBankingLogic.EntityObjects;
 
 namespace CoreBankingLogic.ExposedObjects
 {
-    public class Bank:Status
+    public class Bank:BaseObject
     {
         public string BankId = "0";
         public string BankName = "";
@@ -14,6 +14,8 @@ namespace CoreBankingLogic.ExposedObjects
         public string BankPassword = "";
         public string IsActive = "";
         public string ModifiedBy = "";
+        public string PathToPublicKey = "";
+        public string PathToLogoImage = "";
        
 
         public bool IsValidCreateBankRequest(string BankCode, string Password)

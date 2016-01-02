@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-public class Status
+public class BaseObject
 {
     public string StatusCode = "";
     public string StatusDesc = "";

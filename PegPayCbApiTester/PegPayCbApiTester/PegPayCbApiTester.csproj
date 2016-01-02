@@ -58,10 +58,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.ArrayOfAnyType.datasource">
+    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BankAccountStatement.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BankAccountStatement.datasource">
+    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BaseObject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.GetAllResponse.datasource">
@@ -115,16 +115,13 @@
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.TransactResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\CbApi\Service.wsdl" />
+    <None Include="Service References\CbApi\Service1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\CbApi\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CbApi\Service.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\CbApi\configuration91.svcinfo" />

@@ -6,3 +6,11 @@ C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbAp
 C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.csprojResolveAssemblyReference.cache
 C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.exe
 C:\Users\home\documents\visual studio 2013\Projects\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.pdb
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.exe.config
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.exe
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.pdb
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.exe
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\PegPayCbApiTester.pdb
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.dll
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.xml
+C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.csprojResolveAssemblyReference.cache

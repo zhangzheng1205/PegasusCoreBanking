@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoreBankingLogic.ExposedObjects
 {
-    public class CustomerType:Status
+    public class CustomerType:BaseObject
     {
         public string Id = "";
         public string CustType = "";

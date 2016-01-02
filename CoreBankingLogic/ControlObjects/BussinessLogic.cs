@@ -183,9 +183,9 @@ public class BussinessLogic
         return result;
     }
 
-    public object GetById(string className, string objectId, string bankCode, string Password)
+    public BaseObject GetById(string className, string objectId, string bankCode, string Password)
     {
-        object result = new object();
+        BaseObject result = new BaseObject();
         if (string.IsNullOrEmpty(className))
         {
             return result;
@@ -194,10 +194,9 @@ public class BussinessLogic
         {
             return result;
         }
-        else if (className.ToUpper() == "USER")
+        else if (className.ToUpper() == "BANKUSER")
         {
-            BankUser user = dh.GetUserById(objectId, bankCode);
-            result = user;
+            result = GetBankUser(objectId, bankCode, Password);
             return result;
         }
         else if (className.ToUpper() == "USERTYPE")
@@ -212,14 +211,37 @@ public class BussinessLogic
         }
     }
 
-    public object[] GetAll(string className, string bankCode, string Password)
+    private BaseObject GetBankUser(string objectId, string bankCode, string Password)
     {
-        object[] result ={ };
+        BaseObject result = new BaseObject();
+        BankUser user = dh.GetUserById(objectId, bankCode);
+        if (user.Usertype == "TELLER")
+        {
+            BankTeller teller = new BankTeller(user);
+            teller.TellerAccountNumber = dh.GetAccountsByUserId(user.Id)[0];
+            result = teller;
+        }
+        else if (user.Usertype == "CUSTOMER")
+        {
+            //BankCustomer cust = new BankCustomer(user);
+            //cust.
+        }
+        else 
+        {
+            result = user;
+        }
+        
+        return result;
+    }
+
+    public BaseObject[] GetAll(string className, string bankCode, string Password)
+    {
+        BaseObject[] result ={ };
         if (string.IsNullOrEmpty(className))
         {
             return result;
         }
-        else if (className.ToUpper() == "USER")
+        else if (className.ToUpper() == "BANKUSER")
         {
             BankUser[] all = dh.GetAllUsers(bankCode);
             result = all;
@@ -228,6 +250,18 @@ public class BussinessLogic
         else if (className.ToUpper() == "USERTYPE")
         {
             UserType[] all = dh.GetAllUserTypes(bankCode);
+            result = all;
+            return result;
+        }
+        else if (className.ToUpper() == "BANK")
+        {
+            Bank[] all = dh.GetAllBanks();
+            result = all;
+            return result;
+        }
+        else if (className.ToUpper() == "BANKBRANCH")
+        {
+            BankBranch[] all = dh.GetAllBankBranches(bankCode);
             result = all;
             return result;
         }
@@ -257,5 +291,17 @@ public class BussinessLogic
         result.StatusDesc = "SUCCESS";
         result.PegPayId = Id;
         return result;
+    }
+
+    public DataSet ExecuteDataSet(string storedProcedureName, string[] Parameters)
+    {
+        DataSet ds = dh.ExecuteDataSet(storedProcedureName, Parameters);
+        return ds;
+    }
+
+    public Result ExecuteNonQuery(string storedProcedureName, string[] Parameters)
+    {
+        Result ds = dh.ExecuteNonQuery(storedProcedureName, Parameters);
+        return ds;
     }
 }

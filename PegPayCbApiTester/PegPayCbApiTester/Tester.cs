@@ -14,14 +14,36 @@ namespace PegPayCbApiTester
         ServiceSoapClient client = new ServiceSoapClient();
         string BankCode = "TESTBANK";
         string Password = "TEST";
-        
-        public Tester() 
+
+        public Tester()
         {
-        
+
         }
 
         [Test]
-        public void TestSaveBankBranchDetails() 
+        public void TestGetAll()
+        {
+            //List<Object> obj = 
+
+            BaseObject[] bo = client.GetAll("BankUser", "TESTBANK", "TEST");
+            foreach (BaseObject obj in bo)
+            {
+                BankUser user = obj as BankUser;
+                Assert.AreEqual(user.StatusCode, "0");
+            }
+        }
+
+        [Test]
+        public void TestGetById()
+        {
+            //List<Object> obj = 
+            BaseObject bo = client.GetById("BANKUSER","1","TESTBANK","TEST");
+            BankUser user = bo as BankUser;
+            Assert.AreEqual(user.StatusCode, "0");
+        }
+
+        [Test]
+        public void TestSaveBankBranchDetails()
         {
             BankBranch branch = new BankBranch();
             branch.BankBranchId = "0";
@@ -34,7 +56,7 @@ namespace PegPayCbApiTester
             branch.LastModifiedOn = "27/12/2015";
             branch.Location = "KANSANGA";
             branch.ModifiedBy = "TEST";
-            Result result= client.SaveBankBranchDetails(branch, BankCode, Password);
+            Result result = client.SaveBankBranchDetails(branch, BankCode, Password);
             Assert.AreEqual(result.StatusCode, "0");
         }
 
@@ -132,7 +154,7 @@ namespace PegPayCbApiTester
             req.Narration = "TEST NARRATION";
             req.PaymentDate = "28/12/2015";
             req.Password = "TEST";
-            
+
             Result result = client.Transact(req);
             Assert.AreEqual(result.StatusCode, "0");
         }
@@ -169,8 +191,8 @@ namespace PegPayCbApiTester
             bank.BankId = "0";
             bank.BankName = "TEST NAME";
             bank.BankPassword = "TEST";
-         
-            Result result = client.SaveBankDetails(bank,"TEST","TEST");
+
+            Result result = client.SaveBankDetails(bank, "TEST", "TEST");
             Assert.AreEqual(result.StatusCode, "0");
         }
 
@@ -183,7 +205,7 @@ namespace PegPayCbApiTester
             type.CustType = "FARMERS";
             type.Description = "TEST";
             type.Id = "0";
-            
+
             Result result = client.SaveCustomerTypeDetails(type, "TESTBANK", "TEST");
             Assert.AreEqual(result.StatusCode, "0");
         }

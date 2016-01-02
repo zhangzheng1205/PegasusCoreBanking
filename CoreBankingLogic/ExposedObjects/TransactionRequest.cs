@@ -6,7 +6,7 @@ using CoreBankingLogic.EntityObjects;
 using System.Collections.Generic;
 
 
-public class TransactionRequest:Status
+public class TransactionRequest:BaseObject
 {
     public string CustomerName="";
     public string CustomerId="";

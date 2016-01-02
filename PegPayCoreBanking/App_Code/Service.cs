@@ -5,6 +5,8 @@ using System.Web.Services.Protocols;
 using CoreBankingLogic.EntityObjects;
 using System.Collections.Generic;
 using CoreBankingLogic.ExposedObjects;
+using System.Runtime.Serialization;
+using System.Data;
 
 [WebService(Namespace = "http://pegasus.co.ug/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -196,17 +198,18 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public Object GetById(string className, string objectId, string bankCode, string Password)
+    public BaseObject GetById(string className, string objectId, string bankCode, string Password)
     {
-        Object result = new Object();
+        BaseObject result = new BaseObject();
         result = bll.GetById(className, objectId, bankCode, Password);
         return result;
     }
 
     [WebMethod]
-    public Object[] GetAll(string className, string bankCode, string Password)
+    
+    public BaseObject[] GetAll(string className, string bankCode, string Password)
     {
-        Object[] result = { };
+        BaseObject[] result = { };
         result = bll.GetAll(className, bankCode, Password);
         return result;
     }
@@ -359,6 +362,41 @@ public class Service : System.Web.Services.WebService
         }
         return result;
     }
+
+    [WebMethod]
+    public Result ExecuteNonQuery(string storedProcedureName, params string[] Parameters)
+    {
+
+        Result result = new Result();
+        try
+        {
+            result = bll.ExecuteNonQuery(storedProcedureName, Parameters);
+        }
+        catch (Exception e)
+        {
+            throw new SoapException(e.Message, new System.Xml.XmlQualifiedName(e.Message), e);
+        }
+        return result;
+    }
+
+
+    [WebMethod]
+    public DataSet ExecuteDataSet(string storedProcedureName, params string[] Parameters)
+    {
+
+        DataSet dataSet = new DataSet();
+        try
+        {
+            dataSet = bll.ExecuteDataSet(storedProcedureName, Parameters);
+            return dataSet;
+        }
+        catch (Exception e)
+        {
+            throw new SoapException(e.Message, new System.Xml.XmlQualifiedName(e.Message), e);
+        }
+        return dataSet;
+    }
+
 
 
 }

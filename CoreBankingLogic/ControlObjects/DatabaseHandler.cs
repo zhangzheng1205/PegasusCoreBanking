@@ -32,10 +32,10 @@ public class DatabaseHandler
         }
     }
 
-    public string SaveCustomer(BankCustomer cust,string BankCode) 
+    public string SaveCustomer(BankCustomer cust, string BankCode)
     {
         string format = "dd/MM/yyyy";
-        DateTime birthDate = DateTime.ParseExact(cust.DateOfBirth,format,CultureInfo.InvariantCulture);
+        DateTime birthDate = DateTime.ParseExact(cust.DateOfBirth, format, CultureInfo.InvariantCulture);
         try
         {
             command = CbDatabase.GetStoredProcCommand("Customers_Update",
@@ -88,7 +88,7 @@ public class DatabaseHandler
     }
 
 
-    internal string SaveBankBranch(BankBranch branch,string BankCode)
+    internal string SaveBankBranch(BankBranch branch, string BankCode)
     {
         try
         {
@@ -168,7 +168,7 @@ public class DatabaseHandler
         }
     }
 
-    public string Transact(TransactionRequest tranRequest) 
+    public string Transact(TransactionRequest tranRequest)
     {
         try
         {
@@ -201,7 +201,7 @@ public class DatabaseHandler
     internal string Reverse(string BankId, string BankCode)
     {
         try
-        {    
+        {
             command = CbDatabase.GetStoredProcCommand("ReverseTransaction",
                                                         BankId,
                                                         BankCode
@@ -221,11 +221,11 @@ public class DatabaseHandler
         {
             command = CbDatabase.GetStoredProcCommand("Charges_Update",
                                                        charge.Id,
-	                                                   charge.ChargeAmount,
-	                                                   charge.CommissionAccountNumber,
-	                                                   charge.TransCategory,
-	                                                   charge.IsDebit,
-	                                                   BankCode,
+                                                       charge.ChargeAmount,
+                                                       charge.CommissionAccountNumber,
+                                                       charge.TransCategory,
+                                                       charge.IsDebit,
+                                                       BankCode,
                                                        charge.ModifiedBy,
                                                        charge.ModifiedOn,
                                                        charge.ChargeDescription,
@@ -331,6 +331,30 @@ public class DatabaseHandler
         }
     }
 
+    internal string SaveAccountTypeDetails(AccountType accountType, string BankCode)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("AccountTypes_Update",
+                                                       accountType.Id,
+                                                       accountType.AccTypeName,
+                                                       accountType.AccTypeCode,
+                                                       accountType.MinimumBalance,
+                                                       BankCode,
+                                                       accountType.IsDebitable,
+                                                       accountType.Description,
+                                                       accountType.ModifiedBy,
+                                                       accountType.IsActive
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     internal DataTable GetAccountStatement(string AccountNumber, string BankCode, string StatementType)
     {
         try
@@ -349,7 +373,7 @@ public class DatabaseHandler
         }
     }
 
-    internal BankUser GetUserById(string objectId,string BankCode)
+    internal BankUser GetUserById(string objectId, string BankCode)
     {
         BankUser user = new BankUser();
         try
@@ -373,11 +397,11 @@ public class DatabaseHandler
                 user.Gender = dr["Gender"].ToString();
                 user.DateOfBirth = dr["DateOfBirth"].ToString();
                 user.CanHaveAccount = dr["CanHaveAccount"].ToString();
-          
+
                 user.StatusCode = "0";
                 user.StatusDesc = "SUCCESS";
             }
-            else 
+            else
             {
                 user.StatusCode = "100";
                 user.StatusDesc = "FAILED: USER NOT FOUND";
@@ -386,7 +410,7 @@ public class DatabaseHandler
         catch (Exception ex)
         {
             user.StatusCode = "100";
-            user.StatusDesc = "FAILED: "+ex.Message;
+            user.StatusDesc = "FAILED: " + ex.Message;
         }
         return user;
     }
@@ -410,7 +434,7 @@ public class DatabaseHandler
                 user.StatusCode = "0";
                 user.StatusDesc = "SUCCESS";
             }
-            else 
+            else
             {
                 user.StatusCode = "100";
                 user.StatusDesc = "FAILED: USERTYPE NOT FOUND";
@@ -461,10 +485,10 @@ public class DatabaseHandler
         {
             BankUser user = new BankUser();
             user.StatusCode = "100";
-            user.StatusDesc = "FAILED: "+ex.Message;
+            user.StatusDesc = "FAILED: " + ex.Message;
             allUsers.Add(user);
         }
-        return allUsers.ToArray(); 
+        return allUsers.ToArray();
     }
 
     internal UserType[] GetAllUserTypes(string bankCode)
@@ -506,7 +530,7 @@ public class DatabaseHandler
             user.StatusDesc = "FAILED: " + ex.Message;
             all.Add(user);
         }
-        return all.ToArray(); 
+        return all.ToArray();
     }
 
     internal TransactionCategory[] GetAllTransactionTypes(string bankCode)
@@ -579,7 +603,7 @@ public class DatabaseHandler
                                                        Parameters
                                                       );
             int rows = CbDatabase.ExecuteNonQuery(command);
-            result.PegPayId = ""+rows;
+            result.PegPayId = "" + rows;
             result.RequestId = "";
             result.StatusCode = "0";
             result.StatusDesc = "SUCCESS";
@@ -601,11 +625,11 @@ public class DatabaseHandler
                                                      );
             DataTable dt = CbDatabase.ExecuteDataSet(command).Tables[0];
 
-            if (dt.Rows.Count == 0) 
+            if (dt.Rows.Count == 0)
             {
                 all.Add("");
             }
-            foreach (DataRow dr in dt.Rows) 
+            foreach (DataRow dr in dt.Rows)
             {
                 string accNo = dr["AccNumber"].ToString();
                 all.Add(accNo);
@@ -660,7 +684,7 @@ public class DatabaseHandler
             bank.StatusDesc = "FAILED: " + ex.Message;
             all.Add(bank);
         }
-        return all.ToArray(); 
+        return all.ToArray();
     }
 
     internal BankBranch[] GetAllBankBranches(string bankCode)
@@ -707,5 +731,43 @@ public class DatabaseHandler
             all.Add(branch);
         }
         return all.ToArray();
+    }
+
+    internal BaseObject GetBankById(string objectId, string bankCode, string Password)
+    {
+        Bank bank = new Bank();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Banks_SelectRow",
+                                                       objectId
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                bank.BankCode = dr["BankCode"].ToString();
+                bank.BankContactEmail = dr["BankContactEmail"].ToString();
+                bank.BankId = dr["BankId"].ToString();
+                bank.BankName = dr["BankName"].ToString();
+                bank.BankPassword = dr["BankPassword"].ToString();
+                bank.IsActive = dr["IsActive"].ToString();
+                bank.ModifiedBy = dr["ModifiedBy"].ToString();
+                bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
+                bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
+                bank.StatusCode = "0";
+                bank.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                bank.StatusCode = "100";
+                bank.StatusDesc = "FAILED: BANK NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            bank.StatusCode = "100";
+            bank.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return bank;
     }
 }

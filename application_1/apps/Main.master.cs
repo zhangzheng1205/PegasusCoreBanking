@@ -9,10 +9,12 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using InterLinkClass.EntityObjects;
+using InterLinkClass.CoreBankingApi;
 
 public partial class Main : System.Web.UI.MasterPage
 {
     ProcessUsers Usersdll = new ProcessUsers();
+    BankUser user;
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -21,20 +23,12 @@ public partial class Main : System.Web.UI.MasterPage
             {
                 Response.Redirect("Default.aspx");
             }
-            //lblUserId.Text = Session["FullName"].ToString();
-            //string AreaDesc = "";
-            //string Area = Session["AreaName"].ToString();
-            //string Branch = Session["DistrictName"].ToString();
-            //if (Branch.Equals("NONE"))
-            //{
-            //    AreaDesc = Area;
-            //}
-            //else
-            //{
-            //    AreaDesc = Area + " - " + Branch;
-            //}
-            ////lblArea.Text = AreaDesc;
-            ////lblRole.Text = Session["RoleName"].ToString();
+            else 
+            {
+                user=(BankUser)Session["User"];
+                TitleLbl.InnerText = "BankName: " + user.BankCode;
+                lblName.Text = user.FullName;
+            }
         }
         catch (NullReferenceException exe)
         {
@@ -43,20 +37,11 @@ public partial class Main : System.Web.UI.MasterPage
         }
         catch (Exception ex)
         {
-            //lblmsg.Text = ex.Message;
         }
     }
+
     private void Logout()
     {
-        SystemUser user = new SystemUser();
-        user.Action = "Logged-out";
-        user.Uname = Session["UserName"].ToString();
-        user.Userid = int.Parse(Session["UserID"].ToString());
-        user.LoggedOn = false;
-        Usersdll.LogActivity(user);
-        Usersdll.LoginStatus(user);    
-        Session["Accesslevel"] = "";
-        Session["UserName"] = "";
         Session.Clear();
         Session.Abandon();
         Response.Redirect("Default.aspx");

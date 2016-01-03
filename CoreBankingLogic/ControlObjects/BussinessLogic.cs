@@ -183,6 +183,17 @@ public class BussinessLogic
         return result;
     }
 
+    public Result SaveAccountTypeDetails(AccountType accountType, string BankCode)
+    {
+        Result result = new Result();
+        result.RequestId = accountType.Id;
+        string Id = dh.SaveAccountTypeDetails(accountType, BankCode);
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = Id;
+        return result;
+    }
+
     public BaseObject GetById(string className, string objectId, string bankCode, string Password)
     {
         BaseObject result = new BaseObject();
@@ -197,6 +208,11 @@ public class BussinessLogic
         else if (className.ToUpper() == "BANKUSER")
         {
             result = GetBankUser(objectId, bankCode, Password);
+            return result;
+        }
+        else if (className.ToUpper() == "BANK")
+        {
+            result = dh.GetBankById(objectId, bankCode, Password);
             return result;
         }
         else if (className.ToUpper() == "USERTYPE")

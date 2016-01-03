@@ -72,7 +72,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
             TransactionRequest tran = GetTranRequest();
 
             //does request need approval??
-            if (bll.TransactionRequiresApproval(tran))
+            if (bll.TransactionRequiresApproval(ref tran))
             {
                 //send to supervisor
                 //display message to user

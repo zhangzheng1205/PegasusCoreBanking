@@ -86,20 +86,20 @@ public partial class AddOrEditBank : System.Web.UI.Page
             string fileName = fuBankLogo.FileName.ToUpper();
             if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
             {
-                string PathToFolderForBankLogos = @"C:\CoreBankingResources\BankLogos\" + BankCode + @"\";
+                string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
                 bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
                 string FullFileName = PathToFolderForBankLogos + fuBankLogo.FileName;
                 fuBankLogo.SaveAs(FullFileName);
-                return FullFileName;
+                return fuBankLogo.FileName;
             }
             else
             {
                 throw new Exception("PLEASE UPLOAD A BANK LOGO IMAGE IN .PNG OR .JPEG FORMAT");
             }
         }
-        else
+        else 
         {
-            throw new Exception("PLEASE UPLOAD A BANK LOGO IMAGE");
+            return "";
         }
     }
 
@@ -109,7 +109,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
         {
             if (fuPublicKey.FileName.Contains(".cer"))
             {
-                string PathToFolderForPublicKeys = @"C:\CoreBankingResources\PublicKeys\"+BankCode+@"\";
+                string PathToFolderForPublicKeys = @"C:\CoreBankingResources\PublicKeys\" + BankCode + @"\";
                 bll.CreateFolderPathIfItDoesntExist(PathToFolderForPublicKeys);
                 string FullFileName = PathToFolderForPublicKeys + fuPublicKey.FileName;
                 fuPublicKey.SaveAs(FullFileName);
@@ -120,9 +120,9 @@ public partial class AddOrEditBank : System.Web.UI.Page
                 throw new Exception("PLEASE UPLOAD A PUBLIC KEY IN THE .CER FORMAT");
             }
         }
-        else
+        else 
         {
-            throw new Exception("PLEASE UPLOAD A PUBLIC KEY");
+            return "";
         }
     }
 

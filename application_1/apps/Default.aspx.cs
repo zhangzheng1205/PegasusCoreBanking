@@ -14,6 +14,7 @@ using InterLinkClass.CoreBankingApi;
 
 public partial class _Default : System.Web.UI.Page
 {
+    Bussinesslogic bll = new Bussinesslogic();
     Service client = new Service();
     String BankCode = "";
     protected void Page_Load(object sender, EventArgs e)
@@ -74,7 +75,9 @@ public partial class _Default : System.Web.UI.Page
         {
             if (user.Password == Password)
             {
+                Bank UsersBank = (Bank)client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword);
                 Session["User"] = user;
+                Session["UsersBank"] = UsersBank;
                 Response.Redirect("LoggedInStartPage.aspx");
             }
             else

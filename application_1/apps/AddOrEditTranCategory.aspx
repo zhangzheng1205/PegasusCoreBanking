@@ -99,7 +99,7 @@
 
                             <div class="row">
                                 <div class="text-center">
-                                    <asp:Button ID="btnSubmit" runat="server" Text="Save" Width="200px" CssClass="btn btn-primary btn-lg" OnClick="btnSubmit_Click" />
+                                    <asp:Button ID="btnSubmit" runat="server" Text="Save" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
                                 </div>
                             </div>
 

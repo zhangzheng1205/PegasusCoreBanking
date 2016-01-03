@@ -7,6 +7,7 @@ namespace CoreBankingLogic.ExposedObjects
     public class UserType:BaseObject
     {
         public string Id = "";
+        public string UserTypeName = "";
         public string Usertype = "";
         public string Role = "";
         public string Description = "";

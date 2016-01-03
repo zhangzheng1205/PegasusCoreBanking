@@ -56,6 +56,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private System.Threading.SendOrPostCallback SaveUserTypeDetailsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SaveAccountTypeDetailsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SaveTransactionCategoryDetailsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveBankCustomerDetailsOperationCompleted;
@@ -142,6 +144,9 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event SaveUserTypeDetailsCompletedEventHandler SaveUserTypeDetailsCompleted;
+        
+        /// <remarks/>
+        public event SaveAccountTypeDetailsCompletedEventHandler SaveAccountTypeDetailsCompleted;
         
         /// <remarks/>
         public event SaveTransactionCategoryDetailsCompletedEventHandler SaveTransactionCategoryDetailsCompleted;
@@ -584,6 +589,39 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveAccountTypeDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveAccountTypeDetails(AccountType accountType, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveAccountTypeDetails", new object[] {
+                        accountType,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveAccountTypeDetailsAsync(AccountType accountType, string BankCode, string Password) {
+            this.SaveAccountTypeDetailsAsync(accountType, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void SaveAccountTypeDetailsAsync(AccountType accountType, string BankCode, string Password, object userState) {
+            if ((this.SaveAccountTypeDetailsOperationCompleted == null)) {
+                this.SaveAccountTypeDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveAccountTypeDetailsOperationCompleted);
+            }
+            this.InvokeAsync("SaveAccountTypeDetails", new object[] {
+                        accountType,
+                        BankCode,
+                        Password}, this.SaveAccountTypeDetailsOperationCompleted, userState);
+        }
+        
+        private void OnSaveAccountTypeDetailsOperationCompleted(object arg) {
+            if ((this.SaveAccountTypeDetailsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveAccountTypeDetailsCompleted(this, new SaveAccountTypeDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveTransactionCategoryDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result SaveTransactionCategoryDetails(TransactionCategory tranType, string BankCode, string Password) {
             object[] results = this.Invoke("SaveTransactionCategoryDetails", new object[] {
@@ -955,6 +993,7 @@ namespace InterLinkClass.CoreBankingApi {
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccountType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
@@ -1166,9 +1205,140 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class AccountType : BaseObject {
+        
+        private string idField;
+        
+        private string accTypeNameField;
+        
+        private string accTypeCodeField;
+        
+        private string descriptionField;
+        
+        private string minimumBalanceField;
+        
+        private string modifiedByField;
+        
+        private string bankCodeField;
+        
+        private string isDebitableField;
+        
+        private string modifiedOnField;
+        
+        private string isActiveField;
+        
+        /// <remarks/>
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccTypeName {
+            get {
+                return this.accTypeNameField;
+            }
+            set {
+                this.accTypeNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccTypeCode {
+            get {
+                return this.accTypeCodeField;
+            }
+            set {
+                this.accTypeCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MinimumBalance {
+            get {
+                return this.minimumBalanceField;
+            }
+            set {
+                this.minimumBalanceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsDebitable {
+            get {
+                return this.isDebitableField;
+            }
+            set {
+                this.isDebitableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedOn {
+            get {
+                return this.modifiedOnField;
+            }
+            set {
+                this.modifiedOnField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.34209")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
     public partial class UserType : BaseObject {
         
         private string idField;
+        
+        private string userTypeNameField;
         
         private string usertypeField;
         
@@ -1185,6 +1355,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserTypeName {
+            get {
+                return this.userTypeNameField;
+            }
+            set {
+                this.userTypeNameField = value;
             }
         }
         
@@ -2322,6 +2502,32 @@ namespace InterLinkClass.CoreBankingApi {
         private object[] results;
         
         internal SaveUserTypeDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    public delegate void SaveAccountTypeDetailsCompletedEventHandler(object sender, SaveAccountTypeDetailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveAccountTypeDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveAccountTypeDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

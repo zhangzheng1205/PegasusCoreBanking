@@ -5,9 +5,24 @@
 body /* this is to set the body element, but mostly used for removing margins. */ {
     margin-top: 200px;
     padding: 0px;
-    background-color: #222;
+    background-color: black;
 }
 
+
+.navbar-center {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+    padding-left:225px;
+	padding-top: 15px;
+	text-align: left;
+	margin: auto;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.428571429;
+	color: #9D9D9D;
+}
 
 
 .thumbnail {
@@ -47,6 +62,8 @@ img.bg {
         left: 50%;
         margin-left: -512px; /* 50% */
     }
+
+    .navbar-center{display:none;}/*hide on smaller screens*/
 }
 
 .form-signin {
@@ -201,7 +218,7 @@ img.bg {
             .top-nav > .open > a:hover,
             .top-nav > .open > a:focus {
                 color: #fff;
-                background-color: #000;
+                background-color: #5cb85c;
             }
 
     .top-nav > .open > .dropdown-menu {
@@ -257,7 +274,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #222;
+        background-color: #111;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
@@ -415,3 +432,15 @@ ul.alert-dropdown {
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_title {
     color: #bbbbbb;
 }
+
+body /* this is to set the body element, but mostly used for removing margins. */ {
+    background-color: black;
+}
+
+.navbar-inverse {
+    background-color: black;
+    border-color: white;
+    /*border-width:5px;*/
+}
+
+

@@ -185,9 +185,21 @@ public class Bussinesslogic
         }
     }
 
-    public bool TransactionRequiresApproval(TransactionRequest tran)
+    public bool TransactionRequiresApproval(ref TransactionRequest tran)
     {
-        return false;
+        string[] parameters={tran.BankCode,tran.BranchCode,tran.Teller,tran.TranAmount};
+        DataSet ds = dh.ExecuteSelect("CheckIfItViolatesRules", parameters);
+        DataTable dt = ds.Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            tran.StatusCode = "100";
+            tran.StatusDesc = dt.Rows[0]["Description"].ToString();
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     public void SendToSupervisorForApproval(TransactionRequest tran)

@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="AddOrEditBankCharges.aspx.cs" Inherits="AddOrEditBankCharges" Title="Save Bank Charge" %>
-
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="AddOrEditAccountType.aspx.cs" Inherits="AddOrEditAccountType" Title="Save Account Type Details" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:MultiView ID="MultiView1" runat="server">
@@ -17,14 +16,14 @@
                             <!-- Page Heading -->
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h4>Input Bank Charge Details
+                                    <h4>Input Account Type Details Below
                                     </h4>
                                     <ol class="breadcrumb">
                                         <li>
                                             <i class="fa fa-dashboard"></i>Dashboard
                                         </li>
                                         <li class="active">
-                                            <i class="fa fa-edit"></i>Edit Bank Charge
+                                            <i class="fa fa-edit"></i>Edit Account Type
                                         </li>
                                     </ol>
                                 </div>
@@ -50,7 +49,8 @@
                                             Response.Write("<div class=\"alert alert-success\">");
                                         } 
                                     %>
-                                    <strong><asp:Label ID="lblmsg" runat="server"></asp:Label></strong>
+                                    <strong>
+                                        <asp:Label ID="lblmsg" runat="server"></asp:Label></strong>
                                     <%Response.Write("</div>"); %>
                                 </div>
                             </div>
@@ -59,82 +59,59 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Bank</label>
-                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddBank_SelectedIndexChanged">
+                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control">
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
-                                    <p class="help-block">The bank to Which the charge belongs</p>
+                                    <p class="help-block">The bank to Which the Account Category belongs</p>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label>Charge Name</label>
-                                    <asp:TextBox ID="txtChargeName" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                    <p class="help-block">The Name of the Charge</p>
+                                    <label>Account Type Name</label>
+                                    <asp:TextBox ID="txtCategoryName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">The Name of the Account Category</p>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Charge Code</label>
-                                    <asp:TextBox ID="txtChargeCode" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                    <p class="help-block">Unique Identifier of this Charge.</p>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label>Commission Account</label>
-                                    <asp:DropDownList ID="ddComAccount" runat="server" CssClass="form-control">
-                                        <asp:ListItem>Male</asp:ListItem>
-                                        <asp:ListItem>Female</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <p class="help-block">The commission Account Number attached to this charge</p>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Transaction Category</label>
-                                    <asp:DropDownList ID="ddTranCategory" runat="server" CssClass="form-control">
-                                        <asp:ListItem>Male</asp:ListItem>
-                                        <asp:ListItem>Female</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <p class="help-block">The Transaction Category that will be affected by the charge</p>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label>Charge Amount</label>
-                                    <asp:TextBox ID="txtChargeAmount" runat="server" CssClass="form-control" placeholder="1000" />
-                                    <p class="help-block">Amount to charge Transaction</p>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Charge Description</label>
-                                    <asp:TextBox ID="txtChargeDesc" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                    <p class="help-block">Explain a bit more about this charge.</p>
+                                    <label>Account Type Code</label>
+                                    <asp:TextBox ID="txtCategoryCode" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">Unique Identifier of this Account Category.</p>
                                 </div>
                             </div>
 
 
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <label>Is A Debit</label>
-                                    <asp:DropDownList ID="ddIsDebit" runat="server" CssClass="form-control">
-                                        <asp:ListItem>True</asp:ListItem>
-                                        <asp:ListItem>False</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <p class="help-block">True: Means this charge is a debit. False: Means its a Credit</p>
-                                </div>
                                 <div class="col-lg-6">
                                     <label>Is Active</label>
                                     <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
-                                    <p class="help-block">True: Charge is Active and will be applied. False: Means its deactivated.</p>
+                                    <p class="help-block">True: Category is Active and will be applied. False: Means its deactivated.</p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Category Description</label>
+                                    <asp:TextBox ID="txtCategoryDesc" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">Explain a bit more about this Account Category.</p>
                                 </div>
                             </div>
 
-
+                             <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Is Debitable</label>
+                                    <asp:DropDownList ID="ddIsDebitable" runat="server" CssClass="form-control">
+                                        <asp:ListItem>True</asp:ListItem>
+                                        <asp:ListItem>False</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <p class="help-block">True:Accounts of this type can be debited. False: This account can only be debited.</p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Minimum Balance</label>
+                                    <asp:TextBox ID="txtMinBal" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">The minimum balance acceptable on accounts of this type</p>
+                                </div>
+                            </div>
 
 
                             <div class="row">
@@ -157,7 +134,4 @@
         <asp:View ID="View2" runat="server">
         </asp:View>
     </asp:MultiView>
-
-
-
 </asp:Content>

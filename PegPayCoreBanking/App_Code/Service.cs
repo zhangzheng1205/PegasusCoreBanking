@@ -289,6 +289,31 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public Result SaveAccountTypeDetails(AccountType accountType, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (accountType.IsValid(BankCode, Password))
+            {
+                result = bll.SaveAccountTypeDetails(accountType, BankCode);
+            }
+            else
+            {
+                result.StatusCode = accountType.StatusCode;
+                result.StatusDesc = accountType.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED : " + ex.Message;
+        }
+        return result;
+    }
+
+
+    [WebMethod]
     public Result SaveTransactionCategoryDetails(TransactionCategory tranType, string BankCode, string Password)
     {
         Result result = new Result();

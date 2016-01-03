@@ -56,7 +56,7 @@ namespace InterLinkClass.CoreBankingApi {
         
         private System.Threading.SendOrPostCallback SaveUserTypeDetailsOperationCompleted;
         
-        private System.Threading.SendOrPostCallback SaveTransactionTypeDetailsOperationCompleted;
+        private System.Threading.SendOrPostCallback SaveTransactionCategoryDetailsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveBankCustomerDetailsOperationCompleted;
         
@@ -144,7 +144,7 @@ namespace InterLinkClass.CoreBankingApi {
         public event SaveUserTypeDetailsCompletedEventHandler SaveUserTypeDetailsCompleted;
         
         /// <remarks/>
-        public event SaveTransactionTypeDetailsCompletedEventHandler SaveTransactionTypeDetailsCompleted;
+        public event SaveTransactionCategoryDetailsCompletedEventHandler SaveTransactionCategoryDetailsCompleted;
         
         /// <remarks/>
         public event SaveBankCustomerDetailsCompletedEventHandler SaveBankCustomerDetailsCompleted;
@@ -584,9 +584,9 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveTransactionTypeDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result SaveTransactionTypeDetails(TransactionType tranType, string BankCode, string Password) {
-            object[] results = this.Invoke("SaveTransactionTypeDetails", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveTransactionCategoryDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveTransactionCategoryDetails(TransactionCategory tranType, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveTransactionCategoryDetails", new object[] {
                         tranType,
                         BankCode,
                         Password});
@@ -594,25 +594,25 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public void SaveTransactionTypeDetailsAsync(TransactionType tranType, string BankCode, string Password) {
-            this.SaveTransactionTypeDetailsAsync(tranType, BankCode, Password, null);
+        public void SaveTransactionCategoryDetailsAsync(TransactionCategory tranType, string BankCode, string Password) {
+            this.SaveTransactionCategoryDetailsAsync(tranType, BankCode, Password, null);
         }
         
         /// <remarks/>
-        public void SaveTransactionTypeDetailsAsync(TransactionType tranType, string BankCode, string Password, object userState) {
-            if ((this.SaveTransactionTypeDetailsOperationCompleted == null)) {
-                this.SaveTransactionTypeDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveTransactionTypeDetailsOperationCompleted);
+        public void SaveTransactionCategoryDetailsAsync(TransactionCategory tranType, string BankCode, string Password, object userState) {
+            if ((this.SaveTransactionCategoryDetailsOperationCompleted == null)) {
+                this.SaveTransactionCategoryDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveTransactionCategoryDetailsOperationCompleted);
             }
-            this.InvokeAsync("SaveTransactionTypeDetails", new object[] {
+            this.InvokeAsync("SaveTransactionCategoryDetails", new object[] {
                         tranType,
                         BankCode,
-                        Password}, this.SaveTransactionTypeDetailsOperationCompleted, userState);
+                        Password}, this.SaveTransactionCategoryDetailsOperationCompleted, userState);
         }
         
-        private void OnSaveTransactionTypeDetailsOperationCompleted(object arg) {
-            if ((this.SaveTransactionTypeDetailsCompleted != null)) {
+        private void OnSaveTransactionCategoryDetailsOperationCompleted(object arg) {
+            if ((this.SaveTransactionCategoryDetailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.SaveTransactionTypeDetailsCompleted(this, new SaveTransactionTypeDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.SaveTransactionCategoryDetailsCompleted(this, new SaveTransactionCategoryDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -954,7 +954,7 @@ namespace InterLinkClass.CoreBankingApi {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionCategory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
@@ -1073,17 +1073,21 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class TransactionType : BaseObject {
+    public partial class TransactionCategory : BaseObject {
         
         private string idField;
         
-        private string tranTypeField;
+        private string tranCategoryCodeField;
+        
+        private string tranCategoryNameField;
         
         private string descriptionField;
         
-        private string createdByField;
+        private string modifiedByField;
         
         private string approvedByField;
+        
+        private string bankCodeField;
         
         /// <remarks/>
         public string Id {
@@ -1096,12 +1100,22 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string TranType {
+        public string TranCategoryCode {
             get {
-                return this.tranTypeField;
+                return this.tranCategoryCodeField;
             }
             set {
-                this.tranTypeField = value;
+                this.tranCategoryCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string TranCategoryName {
+            get {
+                return this.tranCategoryNameField;
+            }
+            set {
+                this.tranCategoryNameField = value;
             }
         }
         
@@ -1116,12 +1130,12 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string CreatedBy {
+        public string ModifiedBy {
             get {
-                return this.createdByField;
+                return this.modifiedByField;
             }
             set {
-                this.createdByField = value;
+                this.modifiedByField = value;
             }
         }
         
@@ -1132,6 +1146,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.approvedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
             }
         }
     }
@@ -1221,17 +1245,17 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string locationField;
         
-        private string branchManagerIdField;
-        
         private string bankCodeField;
         
         private string createdOnField;
         
-        private string lastModifiedOnField;
+        private string modifiedOnField;
         
         private string createdByField;
         
         private string modifiedByField;
+        
+        private string isActiveField;
         
         /// <remarks/>
         public string BankBranchId {
@@ -1274,16 +1298,6 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string BranchManagerId {
-            get {
-                return this.branchManagerIdField;
-            }
-            set {
-                this.branchManagerIdField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string BankCode {
             get {
                 return this.bankCodeField;
@@ -1304,12 +1318,12 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string LastModifiedOn {
+        public string ModifiedOn {
             get {
-                return this.lastModifiedOnField;
+                return this.modifiedOnField;
             }
             set {
-                this.lastModifiedOnField = value;
+                this.modifiedOnField = value;
             }
         }
         
@@ -1330,6 +1344,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
             }
         }
     }
@@ -1680,6 +1704,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string bankCodeField;
         
+        private string modifiedByField;
+        
         /// <remarks/>
         public string AccountId {
             get {
@@ -1739,6 +1765,16 @@ namespace InterLinkClass.CoreBankingApi {
                 this.bankCodeField = value;
             }
         }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1755,15 +1791,23 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string chargeAmountField;
         
-        private string transactionTypeField;
+        private string transCategoryField;
         
-        private string createdByField;
+        private string modifiedByField;
         
-        private string approvedByField;
+        private string modifiedOnField;
         
         private string isDebitField;
         
         private string chargeDescriptionField;
+        
+        private string bankCodeField;
+        
+        private string chargeNameField;
+        
+        private string chargeCodeField;
+        
+        private string isActiveField;
         
         /// <remarks/>
         public string Id {
@@ -1796,32 +1840,32 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string TransactionType {
+        public string TransCategory {
             get {
-                return this.transactionTypeField;
+                return this.transCategoryField;
             }
             set {
-                this.transactionTypeField = value;
+                this.transCategoryField = value;
             }
         }
         
         /// <remarks/>
-        public string CreatedBy {
+        public string ModifiedBy {
             get {
-                return this.createdByField;
+                return this.modifiedByField;
             }
             set {
-                this.createdByField = value;
+                this.modifiedByField = value;
             }
         }
         
         /// <remarks/>
-        public string ApprovedBy {
+        public string ModifiedOn {
             get {
-                return this.approvedByField;
+                return this.modifiedOnField;
             }
             set {
-                this.approvedByField = value;
+                this.modifiedOnField = value;
             }
         }
         
@@ -1842,6 +1886,46 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.chargeDescriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ChargeName {
+            get {
+                return this.chargeNameField;
+            }
+            set {
+                this.chargeNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ChargeCode {
+            get {
+                return this.chargeCodeField;
+            }
+            set {
+                this.chargeCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
             }
         }
     }
@@ -2253,17 +2337,17 @@ namespace InterLinkClass.CoreBankingApi {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
-    public delegate void SaveTransactionTypeDetailsCompletedEventHandler(object sender, SaveTransactionTypeDetailsCompletedEventArgs e);
+    public delegate void SaveTransactionCategoryDetailsCompletedEventHandler(object sender, SaveTransactionCategoryDetailsCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.34209")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class SaveTransactionTypeDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class SaveTransactionCategoryDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal SaveTransactionTypeDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal SaveTransactionCategoryDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

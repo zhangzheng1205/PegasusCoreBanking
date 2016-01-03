@@ -289,7 +289,7 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public Result SaveTransactionTypeDetails(TransactionType tranType, string BankCode, string Password)
+    public Result SaveTransactionCategoryDetails(TransactionCategory tranType, string BankCode, string Password)
     {
         Result result = new Result();
         try

@@ -92,11 +92,15 @@
               <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="CommissionAccountNumber" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ChargeAmount" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="TransactionType" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ApprovedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransCategory" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsDebit" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ChargeDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -157,6 +161,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -334,12 +339,12 @@
               <s:element minOccurs="0" maxOccurs="1" name="BranchName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="BranchManagerId" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="CreatedOn" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="LastModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -380,32 +385,34 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="SaveTransactionTypeDetails">
+      <s:element name="SaveTransactionCategoryDetails">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="tranType" type="tns:TransactionType" />
+            <s:element minOccurs="0" maxOccurs="1" name="tranType" type="tns:TransactionCategory" />
             <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="TransactionType">
+      <s:complexType name="TransactionCategory">
         <s:complexContent mixed="false">
           <s:extension base="tns:BaseObject">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="TranType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranCategoryCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranCategoryName" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ApprovedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
       </s:complexType>
-      <s:element name="SaveTransactionTypeDetailsResponse">
+      <s:element name="SaveTransactionCategoryDetailsResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="SaveTransactionTypeDetailsResult" type="tns:Result" />
+            <s:element minOccurs="0" maxOccurs="1" name="SaveTransactionCategoryDetailsResult" type="tns:Result" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -580,11 +587,11 @@
   <wsdl:message name="SaveUserTypeDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:SaveUserTypeDetailsResponse" />
   </wsdl:message>
-  <wsdl:message name="SaveTransactionTypeDetailsSoapIn">
-    <wsdl:part name="parameters" element="tns:SaveTransactionTypeDetails" />
+  <wsdl:message name="SaveTransactionCategoryDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetails" />
   </wsdl:message>
-  <wsdl:message name="SaveTransactionTypeDetailsSoapOut">
-    <wsdl:part name="parameters" element="tns:SaveTransactionTypeDetailsResponse" />
+  <wsdl:message name="SaveTransactionCategoryDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetailsResponse" />
   </wsdl:message>
   <wsdl:message name="SaveBankCustomerDetailsSoapIn">
     <wsdl:part name="parameters" element="tns:SaveBankCustomerDetails" />
@@ -663,9 +670,9 @@
       <wsdl:input message="tns:SaveUserTypeDetailsSoapIn" />
       <wsdl:output message="tns:SaveUserTypeDetailsSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="SaveTransactionTypeDetails">
-      <wsdl:input message="tns:SaveTransactionTypeDetailsSoapIn" />
-      <wsdl:output message="tns:SaveTransactionTypeDetailsSoapOut" />
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <wsdl:input message="tns:SaveTransactionCategoryDetailsSoapIn" />
+      <wsdl:output message="tns:SaveTransactionCategoryDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SaveBankCustomerDetails">
       <wsdl:input message="tns:SaveBankCustomerDetailsSoapIn" />
@@ -803,8 +810,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SaveTransactionTypeDetails">
-      <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionTypeDetails" style="document" />
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionCategoryDetails" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -968,8 +975,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SaveTransactionTypeDetails">
-      <soap12:operation soapAction="http://pegasus.co.ug/SaveTransactionTypeDetails" style="document" />
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveTransactionCategoryDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

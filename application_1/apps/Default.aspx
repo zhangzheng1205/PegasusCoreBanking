@@ -40,18 +40,25 @@
 
 
 </head>
-<body bgcolor="#EFFBF5">
+<body style="background-color:black">
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <h1 class="text-center login-title"><asp:Label ID="lblmsg" runat="server">OS: A New way of Banking</asp:Label></h1>
+
+                <a href="#" class="text-center new-account" style="font-size:large">
+                    <asp:Label ID="lblmsg" runat="server">
+                            BANK OS: A New way of Banking
+                    </asp:Label>
+                </a>
+
+                <hr />
+
                 <div class="account-wall">
                     <img class="profile-img" src="Images/Billing.jpg" alt="" />
                     <form runat="server" action="#" class="form-signin">
                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email" required="true" autofocus="true" />
                         <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" required="true" />
-                        <asp:button runat="server" Text="Sign in"  cssclass="btn btn-lg btn-primary btn-block" id="btnLogin" OnClick="btnLogin_Click">
-                            </asp:button>
+                        <asp:Button runat="server" Text="Sign in" CssClass="btn btn-lg btn-success btn-block" ID="btnLogin" OnClick="btnLogin_Click"></asp:Button>
                         <label class="checkbox pull-left">
                             <input type="checkbox" value="remember-me" />
                             Remember me
@@ -59,7 +66,6 @@
                         <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     </form>
                 </div>
-                <a href="#" class="text-center new-account">Create an account </a>
             </div>
         </div>
     </div>

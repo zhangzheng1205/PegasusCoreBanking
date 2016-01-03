@@ -99,7 +99,7 @@ public class DatabaseHandler
                                                        branch.BranchName,
                                                        branch.BankCode,
                                                        branch.Location,
-                                                       branch.BranchManagerId,
+                                                       branch.IsActive,
                                                        BankCode,
                                                        CreateDate,
                                                        ModifyDate,
@@ -156,7 +156,8 @@ public class DatabaseHandler
                                                         account.UserId,
                                                         account.AccountNumber,
                                                         account.AccountType,
-                                                        BankCode
+                                                        BankCode,
+                                                        account.ModifiedBy
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -222,10 +223,16 @@ public class DatabaseHandler
                                                        charge.Id,
 	                                                   charge.ChargeAmount,
 	                                                   charge.CommissionAccountNumber,
-	                                                   charge.TransactionType,
+	                                                   charge.TransCategory,
 	                                                   charge.IsDebit,
-	                                                   BankCode
+	                                                   BankCode,
+                                                       charge.ModifiedBy,
+                                                       charge.ModifiedOn,
+                                                       charge.ChargeDescription,
+                                                       charge.ChargeName,
+                                                       charge.ChargeCode
                                                       );
+
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
         }
@@ -235,15 +242,16 @@ public class DatabaseHandler
         }
     }
 
-    internal string SaveTransactionType(TransactionType tranType, string BankCode)
+    internal string SaveTransactionType(TransactionCategory tranType, string BankCode)
     {
         try
         {
             command = CbDatabase.GetStoredProcCommand("TransactionTypes_Update",
                                                        tranType.Id,
-                                                       tranType.TranType,
+                                                       tranType.TranCategoryCode,
                                                        tranType.Description,
-                                                       BankCode
+                                                       BankCode,
+                                                       tranType.ModifiedBy
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -290,7 +298,9 @@ public class DatabaseHandler
                                                        user.ModifiedBy,
                                                        user.CanHaveAccount,
                                                        user.PhoneNumber,
-                                                       user.BranchCode
+                                                       user.BranchCode,
+                                                       user.DateOfBirth,
+                                                       user.Gender
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -499,6 +509,51 @@ public class DatabaseHandler
         return all.ToArray(); 
     }
 
+    internal TransactionCategory[] GetAllTransactionTypes(string bankCode)
+    {
+        List<TransactionCategory> all = new List<TransactionCategory>();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("TransactionTypes_SelectAll",
+                                                       bankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                foreach (DataRow dr in datatable.Rows)
+                {
+                    TransactionCategory tranType = new TransactionCategory();
+                    tranType.BankCode = dr["BankCode"].ToString();
+                    tranType.Description = dr["Description"].ToString();
+                    tranType.Id = dr["TranTypeId"].ToString();
+                    tranType.ModifiedBy = dr["ModifiedBy"].ToString();
+                    tranType.TranCategoryCode = dr["TranType"].ToString();
+                    tranType.StatusCode = "0";
+                    tranType.StatusDesc = "SUCCESS";
+                    all.Add(tranType);
+                }
+            }
+            else
+            {
+                TransactionCategory tranType = new TransactionCategory();
+                tranType.StatusCode = "100";
+                tranType.StatusDesc = "FAILED: NO USERTYPE FOUND";
+                all.Add(tranType);
+            }
+        }
+        catch (Exception ex)
+        {
+            TransactionCategory user = new TransactionCategory();
+            user.StatusCode = "100";
+            user.StatusDesc = "FAILED: " + ex.Message;
+            all.Add(user);
+        }
+        return all.ToArray();
+    }
+
+
+
+
     internal DataSet ExecuteDataSet(string storedProcedureName, string[] Parameters)
     {
         try
@@ -585,7 +640,8 @@ public class DatabaseHandler
                     bank.ModifiedBy = dr["ModifiedBy"].ToString();
                     bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
                     bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
-                    
+                    bank.StatusCode = "0";
+                    bank.StatusDesc = "SUCCESS";
                     all.Add(bank);
                 }
             }
@@ -623,13 +679,15 @@ public class DatabaseHandler
                     branch.BankCode = dr["BankCode"].ToString();
                     branch.BankBranchId = dr["BranchId"].ToString();
                     branch.BranchCode = dr["BranchCode"].ToString();
-                    branch.BranchManagerId = dr["BranchManagerId"].ToString();
+                    branch.IsActive = dr["BranchManagerId"].ToString();
                     branch.BranchName = dr["BranchName"].ToString();
                     branch.CreatedBy = dr["CreatedBy"].ToString();
                     branch.CreatedOn = dr["CreatedOn"].ToString();
-                    branch.LastModifiedOn = dr["ModifiedOn"].ToString();
+                    branch.ModifiedOn = dr["ModifiedOn"].ToString();
                     branch.Location = dr["Location"].ToString();
                     branch.ModifiedBy = dr["ModifiedBy"].ToString();
+                    branch.StatusCode = "0";
+                    branch.StatusDesc = "SUCCESS";
                     all.Add(branch);
                 }
             }

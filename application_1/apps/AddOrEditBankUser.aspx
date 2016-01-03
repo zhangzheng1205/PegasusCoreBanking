@@ -23,14 +23,14 @@
                             <!-- Page Heading -->
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h4>Input Bank Admin Details
+                                    <h4>Input Bank Users Details
                                     </h4>
                                     <ol class="breadcrumb">
                                         <li>
                                             <i class="fa fa-dashboard"></i>Dashboard
                                         </li>
                                         <li class="active">
-                                            <i class="fa fa-edit"></i>Add Bank User
+                                            <i class="fa fa-edit"></i>Edit Bank User
                                         </li>
                                     </ol>
                                 </div>

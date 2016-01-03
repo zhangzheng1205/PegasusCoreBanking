@@ -4,14 +4,15 @@ using System.Text;
 
 namespace CoreBankingLogic.ExposedObjects
 {
-    public class TransactionType:BaseObject
+    public class TransactionCategory:BaseObject
     {
         public string Id = "";
-        public string TranType = "";
+        public string TranCategoryCode = "";
+        public string TranCategoryName = "";
         public string Description = "";
-        public string CreatedBy = "";
+        public string ModifiedBy = "";
         public string ApprovedBy = "";
-        //public string BankCode = "";
+        public string BankCode = "";
 
         private BussinessLogic bll = new BussinessLogic();
 
@@ -25,7 +26,7 @@ namespace CoreBankingLogic.ExposedObjects
                 StatusDesc = "INVALID PEGPAY BANK CREDENTIALS";
                 return false;
             }
-            else if (!bll.IsValidUser(CreatedBy,BankCode))
+            else if (!bll.IsValidUser(ModifiedBy,BankCode))
             {
                 StatusCode = "100";
                 StatusDesc = "INVALID CREATED_BY USER";

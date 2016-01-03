@@ -18,7 +18,7 @@
     <title>BANK_OS</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="css/PutCustomCssHere.css" rel="stylesheet">
@@ -152,7 +152,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                    <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-arrows-v"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-dashboard"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="teller" class="collapse">
                             <li>
                                 <a href="Transact.aspx">Transact</a>
@@ -169,18 +169,15 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Supervisor<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Supervisor<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="#">Approve Transactions</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-arrows-v"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-table"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Manager" class="collapse">
                             <li>
                                 <a href="#">Dropdown Item</a>
@@ -191,30 +188,27 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-arrows-v"></i>Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-edit"></i>Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="CustService" class="collapse">
                             <li>
-                                <a href="#">Create Customer</a>
-                            </li>
-                            <li>
-                                <a href="#">Create Charges</a>
+                                <a href="AddOrEditBankUser.aspx">Create Customer</a>
                             </li>
                              <li>
-                                <a href="#">Create Branches</a>
+                                <a href="AddOrEditBankAccount.aspx">Create Bank Account</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#BankAdmin"><i class="fa fa-fw fa-arrows-v"></i>Bank Admin<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#BankAdmin"><i class="fa fa-fw fa-bank"></i>Bank Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="BankAdmin" class="collapse">
                             <li>
-                                <a href="#">Create Transaction Categories</a>
+                                <a href="AddOrEditTranCategory.aspx">Create Transaction Categories</a>
                             </li>
                             <li>
-                                <a href="#">Create Charges</a>
+                                <a href="AddOrEditBankCharges.aspx">Create Bank Charge</a>
                             </li>
                              <li>
-                                <a href="#">Create Branches</a>
+                                <a href="AddOrEditBankBranch.aspx">Create Bank Branches</a>
                             </li>
                               <li>
                                 <a href="AddOrEditBankUser.aspx">Create Bank User</a>
@@ -231,7 +225,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-arrows-v"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-archive"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="SysAdmin" class="collapse">
                             <li>
                                 <a href="AddOrEditBank.aspx">Create Bank</a>

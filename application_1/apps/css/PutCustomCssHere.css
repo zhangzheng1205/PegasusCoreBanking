@@ -2,12 +2,12 @@
 
 
 
-body /* this is to set the body element, but mostly used for removing margins. */
-{
-    margin-top:200px;
-    padding:0px;
+body /* this is to set the body element, but mostly used for removing margins. */ {
+    margin-top: 200px;
+    padding: 0px;
     background-color: #222;
 }
+
 
 
 .thumbnail {
@@ -113,7 +113,10 @@ img.bg {
     margin: 0 auto 10px;
     display: block;
     border: solid;
-    /*border-radius: 50%;*/
+    border-width:1px;
+    border-color:grey;
+    -moz-border-radius: 20%;
+    -webkit-border-radius: 4%;
 }
 
 .need-help {
@@ -143,7 +146,7 @@ img.bg {
 
 @media(min-width:768px) {
     body {
-        margin-top:50px;
+        margin-top: 50px;
     }
 }
 
@@ -267,7 +270,7 @@ ul.alert-dropdown {
         .side-nav li a:hover,
         .side-nav li a:focus {
             outline: none;
-            background-color: #000 !important;
+            background-color: #5cb85c !important;
         }
 }
 
@@ -358,57 +361,57 @@ ul.alert-dropdown {
             color: #df8a13;
         }
 
-        /*Calendar Control CSS*/
-.cal_Theme1 .ajax__calendar_container   {
-background-color: #DEF1F4;
-border:solid 1px #77D5F7;
+/*Calendar Control CSS*/
+.cal_Theme1 .ajax__calendar_container {
+    background-color: #DEF1F4;
+    border: solid 1px #77D5F7;
 }
 
-.cal_Theme1 .ajax__calendar_header  {
-background-color: #ffffff;
-margin-bottom: 4px;
+.cal_Theme1 .ajax__calendar_header {
+    background-color: #ffffff;
+    margin-bottom: 4px;
 }
 
 .cal_Theme1 .ajax__calendar_title,
 .cal_Theme1 .ajax__calendar_next,
-.cal_Theme1 .ajax__calendar_prev    {
-color: #004080;
-padding-top: 3px;
+.cal_Theme1 .ajax__calendar_prev {
+    color: #004080;
+    padding-top: 3px;
 }
 
-.cal_Theme1 .ajax__calendar_body    {
-background-color: #ffffff;
-border: solid 1px #77D5F7;
+.cal_Theme1 .ajax__calendar_body {
+    background-color: #ffffff;
+    border: solid 1px #77D5F7;
 }
 
 .cal_Theme1 .ajax__calendar_dayname {
-text-align:center;
-font-weight:bold;
-margin-bottom: 4px;
-margin-top: 2px;
-color: #004080;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 4px;
+    margin-top: 2px;
+    color: #004080;
 }
 
 .cal_Theme1 .ajax__calendar_day {
-color: #004080;
-text-align:center;
+    color: #004080;
+    text-align: center;
 }
 
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_day,
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_month,
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_year,
-.cal_Theme1 .ajax__calendar_active  {
-color: #004080;
-font-weight: bold;
-background-color: #DEF1F4;
+.cal_Theme1 .ajax__calendar_active {
+    color: #004080;
+    font-weight: bold;
+    background-color: #DEF1F4;
 }
 
-.cal_Theme1 .ajax__calendar_today   {
-font-weight:bold;
+.cal_Theme1 .ajax__calendar_today {
+    font-weight: bold;
 }
 
 .cal_Theme1 .ajax__calendar_other,
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_today,
 .cal_Theme1 .ajax__calendar_hover .ajax__calendar_title {
-color: #bbbbbb;
+    color: #bbbbbb;
 }

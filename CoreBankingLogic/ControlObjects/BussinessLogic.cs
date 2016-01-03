@@ -82,7 +82,7 @@ public class BussinessLogic
         return result;
     }
 
-    public Result SaveTranType(TransactionType tranType, string BankCode)
+    public Result SaveTranType(TransactionCategory tranType, string BankCode)
     {
         Result result = new Result();
         result.RequestId = tranType.Id;

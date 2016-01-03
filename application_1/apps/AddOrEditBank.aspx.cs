@@ -48,7 +48,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
             Result result = client.SaveBankDetails(bank, user.Id, user.Password);
             if (result.StatusCode == "0")
             {
-                string msg = "SUCCESS: BANK CREATED WITH BANKCODE = " + result.PegPayId;
+                string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId+"]";
                 bll.ShowMessage(lblmsg, msg, false);
             }
             else

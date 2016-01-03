@@ -8,53 +8,88 @@ using System.Web.UI.WebControls;
 public partial class Transact : System.Web.UI.Page
 {
     BankUser user;
-    Bussinesslogic bll = new Bussinesslogic();
     Service client = new Service();
+    Bussinesslogic bll = new Bussinesslogic();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            user = Session["user"] as BankUser;
+
+            user = Session["User"] as BankUser;
+            Session["IsError"] = null;
+
+            //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
 
-            if (IsPostBack)
+            else if (IsPostBack)
             {
 
             }
-            else 
+            else
             {
+                LoadData();
                 MultiView1.ActiveViewIndex = 0;
             }
         }
         catch (Exception ex)
         {
-
+            bll.ShowMessage(lblmsg, ex.Message, true, Session);
         }
     }
+
+    private void LoadData()
+    {
+        bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
+    }
+
+
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
+            //generate transaction request
             TransactionRequest tran = GetTranRequest();
-            Result result = client.Transact(tran);
-            if (result.StatusCode == "0")
+
+            //does request need approval??
+            if (bll.TransactionRequiresApproval(tran)) 
             {
-                string msg = "Transaction SUCCESS!! BANK ID: "+result.RequestId;
-                bll.ShowMessage(lblmsg, msg, false);
+                //send to supervisor
+                //display message to user
+                string msg = "Transaction Has Been Sent to Supervisor for Approval: "+tran.StatusDesc;
+                bll.SendToSupervisorForApproval(tran);
+                bll.ShowMessage(lblmsg, msg, true, Session);
             }
+            //doesnt need approval
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true);
+                //go to core banking and move funds
+                Result result = client.Transact(tran);
+
+                //is successfull
+                if (result.StatusCode == "0")
+                {
+                    //generate reciept
+                    string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
+                //it has failed
+                else
+                {
+                    //display error
+                    string msg = result.StatusDesc;
+                    bll.ShowMessage(lblmsg, msg, true, Session);
+                }
             }
         }
         catch (Exception ex) 
         {
-            string msg = ex.Message;
-            bll.ShowMessage(lblmsg, msg, true);
+            //display error
+            string msg = "Failed: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

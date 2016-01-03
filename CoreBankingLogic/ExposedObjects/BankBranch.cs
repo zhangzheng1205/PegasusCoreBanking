@@ -9,12 +9,12 @@ public class BankBranch : BaseObject
     public string BranchName = "";
     public string BranchCode = "";
     public string Location = "";
-    public string BranchManagerId = "";
     public string BankCode = "";
     public string CreatedOn = "";
-    public string LastModifiedOn = "";
+    public string ModifiedOn = "";
     public string CreatedBy = "";
     public string ModifiedBy = "";
+    public string IsActive = "";
 
 
     public bool IsValid(string BankCode, string Password)

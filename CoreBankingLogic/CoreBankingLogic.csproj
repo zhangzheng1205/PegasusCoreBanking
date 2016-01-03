@@ -71,7 +71,7 @@
     <Compile Include="ExposedObjects\BankTeller.cs" />
     <Compile Include="ExposedObjects\TransactionRequest.cs" />
     <Compile Include="ExposedObjects\BankUser.cs" />
-    <Compile Include="ExposedObjects\TransactionType.cs" />
+    <Compile Include="ExposedObjects\TransactionCategory.cs" />
     <Compile Include="ExposedObjects\UserType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

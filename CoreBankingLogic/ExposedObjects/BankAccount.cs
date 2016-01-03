@@ -12,6 +12,7 @@ namespace CoreBankingLogic.EntityObjects
         public string UserId = "";
         public string AccountType = "";
         public string BankCode = "";
+        public string ModifiedBy = "";
 
 
         public BankAccount()

@@ -11,11 +11,16 @@ public class BankCharge:BaseObject
     public string Id = "";
     public string CommissionAccountNumber = "";
     public string ChargeAmount = "";
-    public string TransactionType = "";
-    public string CreatedBy = "";
-    public string ApprovedBy = "";
+    public string TransCategory = "";
+    public string ModifiedBy = "";
+    public string ModifiedOn = "";
     public string IsDebit = "";
     public string ChargeDescription = "";
+    public string BankCode = "";
+    public string ChargeName = "";
+    public string ChargeCode = "";
+    public string IsActive = "";
+
 
 	public BankCharge()
 	{

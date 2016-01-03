@@ -18,6 +18,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
         {
             Operation = Request.QueryString["Op"].ToUpper();
             teller = Session["User"] as BankTeller;
+            Session["IsError"] = null;
 
             //Session is invalid
             if (teller == null)
@@ -36,6 +37,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
             else
             {
                 MultiView1.ActiveViewIndex = 0;
+                LoadData();
                 //if teller wants to process deposit
                 if (Operation == "DEPOSIT")
                 {
@@ -52,8 +54,13 @@ public partial class DepositWithdraw : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            bll.ShowMessage(lblmsg, ex.Message, true);
+            bll.ShowMessage(lblmsg, ex.Message, true,Session);
         }
+    }
+
+    private void LoadData()
+    {
+        bll.LoadTransactionTypesIntoDropDown(teller.BankCode, ddTranCategory, teller);
     }
 
 
@@ -61,29 +68,45 @@ public partial class DepositWithdraw : System.Web.UI.Page
     {
         try
         {
-            //build transaction request
+            //generate transaction request
             TransactionRequest tran = GetTranRequest();
-            Result result = client.Transact(tran);
 
-            //success in core banking
-            if (result.StatusCode == "0")
+            //does request need approval??
+            if (bll.TransactionRequiresApproval(tran))
             {
-                //print reciept
-                string msg = "Transaction SUCCESS!! BANK ID: " + result.RequestId;
-                bll.ShowMessage(lblmsg, msg, false);
+                //send to supervisor
+                //display message to user
+                string msg = "Transaction Has Been Sent to Supervisor for Approval: " + tran.StatusDesc;
+                bll.SendToSupervisorForApproval(tran);
+                bll.ShowMessage(lblmsg, msg, true, Session);
             }
+            //doesnt need approval
             else
             {
-                //show error msg
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true);
+                //go to core banking and move funds
+                Result result = client.Transact(tran);
+
+                //is successfull
+                if (result.StatusCode == "0")
+                {
+                    //generate reciept
+                    string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
+                //it has failed
+                else
+                {
+                    //display error
+                    string msg = result.StatusDesc;
+                    bll.ShowMessage(lblmsg, msg, true, Session);
+                }
             }
         }
         catch (Exception ex)
         {
-            //show error msg
-            string msg = ex.Message;
-            bll.ShowMessage(lblmsg, msg, true);
+            //display error
+            string msg = "Failed: "+ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

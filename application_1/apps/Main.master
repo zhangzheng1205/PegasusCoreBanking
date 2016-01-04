@@ -149,7 +149,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Supervisor<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Approve Transactions</a>
+                                <a href="ApproveTransaction.aspx?Approver=SuperVisor">Approve Transactions</a>
                             </li>
                         </ul>
                     </li>
@@ -157,10 +157,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-table"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Manager" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="ApproveTransaction.aspx?Approver=Manager">Approve Transactions</a>
                             </li>
                         </ul>
                     </li>
@@ -197,13 +194,13 @@
                                 <a href="AddOrEditAccountType.aspx">Create Account Type</a>
                             </li>
                              <li>
-                                <a href="#">View/Edit Charges</a>
+                                <a href="ViewAll.aspx">View/Edit Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
-                             <li>
+<%--                             <li>
                                 <a href="#">View/Edit Branches</a>
                             </li>
                              <li>
-                                <a href="#">View/Edit Bank User</a>
+                                <a href="#">View/Edit Bank User</a>--%>
                             </li>
                         </ul>
                     </li>
@@ -213,11 +210,12 @@
                             <li>
                                 <a href="AddOrEditBank.aspx">Create Bank</a>
                             </li>
+                           
                             <li>
-                                <a href="#">View Banks</a>
+                                <a href="AddOrEditBankUser.aspx">Create BankAdmin</a>
                             </li>
-                            <li>
-                                <a href="#">Create BankAdmin</a>
+                             <li>
+                                <a href="#">View Banks</a>
                             </li>
                             <li>
                                 <a href="#">View/Edit BankAdmin</a>
@@ -225,7 +223,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i>Reports</a>
+                        <a href="Reports.aspx"><i class="fa fa-fw fa-file"></i>Reports</a>
                     </li>
                     <li>
                         <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i>Profile Settings</a>
@@ -237,7 +235,7 @@
 
             <div id="page-wrapper">
 
-                <div class="container-fluid" style="height: 800px;">
+                <div class="container-fluid" style="height: 100%; min-height:800px;">
 
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>
@@ -262,10 +260,16 @@
         <script src="js/plugins/morris/morris.min.js"></script>
         <script src="js/plugins/morris/morris-data.js"></script>
         <!-- Script to Activate the Carousel -->
-        <script>
-            $('.carousel').carousel({
-                interval: 5000 //changes the speed
-            })
+        <script type="text/javascript">
+            function DisableButtons() {
+                var inputs = document.getElementsByTagName("INPUT");
+                for (var i in inputs) {
+                    if (inputs[i].type == "button" || inputs[i].type == "submit") {
+                        inputs[i].disabled = true;
+                    }
+                }
+            }
+            window.onbeforeunload = DisableButtons;
         </script>
     </form>
 </body>

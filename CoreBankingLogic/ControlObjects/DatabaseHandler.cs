@@ -230,7 +230,8 @@ public class DatabaseHandler
                                                        charge.ModifiedOn,
                                                        charge.ChargeDescription,
                                                        charge.ChargeName,
-                                                       charge.ChargeCode
+                                                       charge.ChargeCode,
+                                                       charge.IsActive
                                                       );
 
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];

@@ -11,7 +11,6 @@
                     <%-- form beegins --%>
                     <div class="row">
 
-                        <form runat="server" action="#" method="post">
 
                             <!-- Page Heading -->
                             <div class="row">
@@ -109,7 +108,6 @@
                                 </div>
                             </div>
 
-                        </form>
                         <%-- /form --%>
                     </div>
                     <!-- /.form row -->

@@ -77,7 +77,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
                 //send to supervisor
                 //display message to user
                 string msg = "Transaction Has Been Sent to Supervisor for Approval: " + tran.StatusDesc;
-                bll.SendToSupervisorForApproval(tran);
+                //bll.SendToSupervisorForApproval(tran);
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
             //doesnt need approval

@@ -36,6 +36,22 @@ public class Bussinesslogic
         }
     }
 
+    public void LoadBanksBranchesIntoDropDownALL(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetBankBranchesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("ALL", "ALL"));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string BranchName = dr["BranchName"].ToString();
+            string BranchCode = dr["BranchCode"].ToString();
+            ddlst.Items.Add(new ListItem(BranchName, BranchCode));
+        }
+    }
+
     public void LoadAccountTypesIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
@@ -88,6 +104,32 @@ public class Bussinesslogic
             ddLst.SelectedIndex = index;
             ddLst.Enabled = false;
         }
+    }
+
+    public void LoadBanksIntoDropDownALL(BankUser user, DropDownList ddlst)
+    {
+        ddlst.Items.Clear();
+        if (user.Usertype.ToUpper() == "SYS_ADMIN")
+        {
+            ddlst.Items.Add(new ListItem("ALL", "ALL"));
+            user.BankCode = "ALL";
+        }
+        else 
+        {
+            ddlst.Enabled = false;
+        }
+        string[] parameters = { user.BankCode };
+        DataSet ds = dh.ExecuteSelect("Banks_SelectRow", parameters);
+        DataTable dt = ds.Tables[0];
+
+       
+        foreach (DataRow dr in dt.Rows)
+        {
+            string bankcode = dr["BankCode"].ToString();
+            string bankName = dr["BankName"].ToString();
+            ddlst.Items.Add(new ListItem(bankName, bankcode));
+        }
+      
     }
 
     public void CreateFolderPathIfItDoesntExist(string folderPath)
@@ -155,6 +197,22 @@ public class Bussinesslogic
         }
     }
 
+    public void LoadTransactionTypesIntoDropDownALL(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetTransactionTypesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("ALL", "ALL"));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string TranType = dr["TranType"].ToString();
+            string TranTypeName = dr["TranType"].ToString();
+            ddlst.Items.Add(new ListItem(TranTypeName, TranType));
+        }
+    }
+
     public void LoadCommissionAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
@@ -192,6 +250,8 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
         if (dt.Rows.Count > 0)
         {
+            string Approver = dt.Rows[0]["Approver"].ToString();
+            SendToSupervisorForApproval(tran, Approver);
             tran.StatusCode = "100";
             tran.StatusDesc = dt.Rows[0]["Description"].ToString();
             return true;
@@ -202,8 +262,37 @@ public class Bussinesslogic
         }
     }
 
-    public void SendToSupervisorForApproval(TransactionRequest tran)
+    public void SendToSupervisorForApproval(TransactionRequest tran,string Approver)
     {
-        
+        string[] parameters={tran.BankTranId,"PENDING","True",Approver};
+        dh.ExecuteNonQuery("UpdateTransacttionApprovalStatus", parameters);
+    }
+
+    public DataTable SearchGeneralLedgerTable(string[] searchParams)
+    {
+        DataSet ds = dh.ExecuteSelect("SearchGeneralLedgerTable", searchParams);
+        DataTable dt = ds.Tables[0];
+        return dt;
+    }
+
+    public DataTable SearchAll(string[] searchParams, string code)
+    {
+        DataTable dt = new DataTable();
+        switch (code) 
+        {
+            case "BANK_TELLERS":
+               DataSet ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            default:
+                return dt;
+        }
+    }
+
+    public DataTable SearchTransactionRequestsTable(string[] searchParams)
+    {
+        DataSet ds = dh.ExecuteSelect("SearchTransactionRequestsTable", searchParams);
+        DataTable dt = ds.Tables[0];
+        return dt;
     }
 }

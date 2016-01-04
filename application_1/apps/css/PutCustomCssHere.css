@@ -8,20 +8,28 @@ body /* this is to set the body element, but mostly used for removing margins. *
     background-color: black;
 }
 
+input[type=button] {
+    display: block;
+    vertical-align: middle;
+}
+
+.button-wrapper {
+    vertical-align: middle;
+}
 
 .navbar-center {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: 0;
-    padding-left:225px;
-	padding-top: 15px;
-	text-align: left;
-	margin: auto;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 16px;
-	line-height: 1.428571429;
-	color: #9D9D9D;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    padding-left: 225px;
+    padding-top: 15px;
+    text-align: left;
+    margin: auto;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.428571429;
+    color: white;
 }
 
 
@@ -63,7 +71,10 @@ img.bg {
         margin-left: -512px; /* 50% */
     }
 
-    .navbar-center{display:none;}/*hide on smaller screens*/
+    .navbar-center {
+        display: none;
+    }
+    /*hide on smaller screens*/
 }
 
 .form-signin {
@@ -130,8 +141,8 @@ img.bg {
     margin: 0 auto 10px;
     display: block;
     border: solid;
-    border-width:1px;
-    border-color:grey;
+    border-width: 1px;
+    border-color: grey;
     -moz-border-radius: 20%;
     -webkit-border-radius: 4%;
 }
@@ -209,7 +220,7 @@ img.bg {
             padding-top: 15px;
             padding-bottom: 15px;
             line-height: 20px;
-            color: #999;
+            color: white;
         }
 
             .top-nav > li > a:hover,
@@ -299,7 +310,7 @@ ul.alert-dropdown {
         display: block;
         padding: 10px 15px 10px 38px;
         text-decoration: none;
-        color: #999;
+        color: white;
     }
 
         .side-nav > li > ul > li > a:hover {
@@ -440,7 +451,16 @@ body /* this is to set the body element, but mostly used for removing margins. *
 .navbar-inverse {
     background-color: black;
     border-color: white;
+    color: white;
     /*border-width:5px;*/
 }
 
+}
 
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}

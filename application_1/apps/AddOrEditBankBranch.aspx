@@ -11,7 +11,7 @@
 
                     <div class="row">
 
-                        <form runat="server" action="#" method="post">
+                        <%--<form runat="server" action="#" method="post">--%>
 
                             <!-- Page Heading -->
                             <div class="row">
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
 
-                        </form>
+                        <%--</form>--%>
                         <%--</div>--%>
                         <!-- /.row -->
 

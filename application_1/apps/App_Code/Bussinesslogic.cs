@@ -295,4 +295,46 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
         return dt;
     }
+
+    public void LoadUsertypesIntoDropDownsALL(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetUserTypesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("ALL", "ALL"));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string UserTypeName = dr["UserType"].ToString();
+            string UserTypeCode = dr["UserType"].ToString();
+            ddlst.Items.Add(new ListItem(UserTypeName, UserTypeCode));
+        }
+    }
+
+    public void LoadAccessAreasIntoDropDownsALL(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { };
+        DataSet ds = dh.ExecuteSelect("AccessAreas_SelectAll", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("ALL", "ALL"));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string AreaName = dr["AreaName"].ToString();
+            string AreaCode = dr["AreaCode"].ToString();
+            ddlst.Items.Add(new ListItem(AreaName, AreaCode));
+        }
+    }
+
+    public Result SaveAccessRule(string[] parameters)
+    {
+        int rows = dh.ExecuteNonQuery("AccessRules_Update", parameters);
+        Result result = new Result();
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = rows.ToString();
+        return result;
+    }
 }

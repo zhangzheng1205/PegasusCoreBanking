@@ -194,6 +194,12 @@
                                 <a href="AddOrEditAccountType.aspx">Create Account Type</a>
                             </li>
                              <li>
+                                <a href="AddOrEditAccessControl.aspx">Create Access Control Rule</a>
+                            </li>
+                             <li>
+                                <a href="AddOrEditTransactionRule.aspx">Create Transaction Rule</a>
+                            </li>
+                             <li>
                                 <a href="ViewAll.aspx">View/Edit Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
 <%--                             <li>
@@ -201,7 +207,7 @@
                             </li>
                              <li>
                                 <a href="#">View/Edit Bank User</a>--%>
-                            </li>
+                            <%--</li>--%>
                         </ul>
                     </li>
                     <li>

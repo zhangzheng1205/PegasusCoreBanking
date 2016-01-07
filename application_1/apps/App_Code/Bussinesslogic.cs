@@ -278,10 +278,39 @@ public class Bussinesslogic
     public DataTable SearchAll(string[] searchParams, string code)
     {
         DataTable dt = new DataTable();
+        DataSet ds=new DataSet();
         switch (code) 
         {
-            case "BANK_TELLERS":
-               DataSet ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+            case "TELLER":
+               ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "CUSTOMER":
+               ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "TRANSACTIONCATEGORY":
+               ds = dh.ExecuteSelect("SearchTransactionCategoriesTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "USERTYPE":
+               ds = dh.ExecuteSelect("SearchUserTypesTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "ACCOUNTTYPE":
+               ds = dh.ExecuteSelect("SearchAccountTypesTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "ACCOUNTS":
+               ds = dh.ExecuteSelect("SearchBankAccountsTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "BRANCHES":
+               ds = dh.ExecuteSelect("SearchBankBranchesTable", searchParams);
+               dt = ds.Tables[0];
+               return dt;
+            case "CHARGES":
+               ds = dh.ExecuteSelect("SearchBankChargesTable", searchParams);
                dt = ds.Tables[0];
                return dt;
             default:
@@ -336,5 +365,12 @@ public class Bussinesslogic
         result.StatusDesc = "SUCCESS";
         result.PegPayId = rows.ToString();
         return result;
+    }
+
+    public DataTable SearchAccountsTable(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("SearchAccountsTable", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
     }
 }

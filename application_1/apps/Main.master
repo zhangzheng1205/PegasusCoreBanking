@@ -131,6 +131,9 @@
                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-dashboard"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="teller" class="collapse">
+                             <li>
+                                <a href="GetAccountDetails.aspx">Check balance/Mini Statement</a>
+                            </li>
                             <li>
                                 <a href="Transact.aspx">Transact</a>
                             </li>

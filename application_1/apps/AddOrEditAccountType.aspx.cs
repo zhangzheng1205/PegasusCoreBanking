@@ -19,15 +19,26 @@ public partial class AddOrEditAccountType : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
 
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                MultiView1.ActiveViewIndex = 0;
+                LoadAccountTypeData(Id, BankCode);
             }
             else
             {
@@ -38,6 +49,26 @@ public partial class AddOrEditAccountType : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
+        }
+    }
+
+    private void LoadAccountTypeData(string Id, string BankCode)
+    {
+        AccountType type = client.GetById("ACCOUNTTYPE", Id, BankCode, bll.BankPassword) as AccountType;
+        if (type.StatusCode == "0")
+        {
+            this.ddBank.Text = type.BankCode;
+            this.ddIsActive.Text = type.IsActive;
+            this.ddIsDebitable.Text = type.IsDebitable;
+            this.txtCategoryCode.Text = type.AccTypeCode;
+            this.txtCategoryDesc.Text = type.Description;
+            this.txtCategoryName.Text = type.AccTypeName;
+            this.txtMinBal.Text = type.MinimumBalance;
+        }
+        else 
+        {
+            string msg = type.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

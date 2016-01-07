@@ -252,7 +252,8 @@ public class DatabaseHandler
                                                        tranType.TranCategoryCode,
                                                        tranType.Description,
                                                        BankCode,
-                                                       tranType.ModifiedBy
+                                                       tranType.ModifiedBy,
+                                                       tranType.IsActive
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -318,7 +319,7 @@ public class DatabaseHandler
         {
             command = CbDatabase.GetStoredProcCommand("UserTypes_Update",
                                                        userType.Id,
-                                                       userType.Usertype,
+                                                       userType.UserTypeCode,
                                                        userType.Role,
                                                        userType.Description,
                                                        BankCode
@@ -422,7 +423,8 @@ public class DatabaseHandler
         try
         {
             command = CbDatabase.GetStoredProcCommand("UserTypes_SelectRow",
-                                                       objectId
+                                                       objectId,
+                                                       BankCode
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             if (datatable.Rows.Count > 0)
@@ -431,7 +433,9 @@ public class DatabaseHandler
                 user.Description = dr["Description"].ToString();
                 user.Id = dr["UserTypeId"].ToString();
                 user.Role = dr["Role"].ToString();
-                user.Usertype = dr["UserType"].ToString();
+                user.UserTypeCode = dr["UserType"].ToString();
+                user.UserTypeName = dr["UserType"].ToString();
+                user.BankCode = dr["BankCode"].ToString();
                 user.StatusCode = "0";
                 user.StatusDesc = "SUCCESS";
             }
@@ -447,6 +451,88 @@ public class DatabaseHandler
             user.StatusDesc = "FAILED: " + ex.Message;
         }
         return user;
+    }
+
+
+    internal AccountType GetAccountTypeById(string objectId, string BankCode)
+    {
+        AccountType type = new AccountType();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("AccountTypes_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                type.AccTypeCode = dr["AccTypeCode"].ToString();
+                type.AccTypeName = dr["AccTypeName"].ToString();
+                type.BankCode = dr["BankCode"].ToString();
+                type.Description = dr["Description"].ToString();
+                type.Id = dr["AccTypeId"].ToString();
+                type.IsActive = dr["IsActive"].ToString();
+                type.IsDebitable = dr["IsDebitable"].ToString();
+                type.MinimumBalance = dr["MinimumBal"].ToString();
+                type.ModifiedOn = dr["ModifiedOn"].ToString();
+                type.ModifiedBy = dr["ModifiedBy"].ToString();
+                type.StatusCode = "0";
+                type.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                type.StatusCode = "100";
+                type.StatusDesc = "FAILED: USERTYPE NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            type.StatusCode = "100";
+            type.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return type;
+    }
+
+
+
+    internal BankAccount GetBankAccountById(string objectId, string BankCode)
+    {
+        BankAccount type = new BankAccount();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Accounts_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                type.AccountBalance = dr["AccBal"].ToString();
+                type.AccountId = dr["AccountId"].ToString();
+                type.BankCode = dr["BankCode"].ToString();
+                type.AccountNumber = dr["AccNumber"].ToString();
+                type.AccountType = dr["AccType"].ToString();
+                type.IsActive = dr["IsActive"].ToString();
+                type.BranchCode = dr["BranchCode"].ToString();
+                type.ModifiedBy = dr["ModifiedBy"].ToString();
+                type.ModifiedBy = dr["ModifiedBy"].ToString();
+                type.StatusCode = "0";
+                type.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                type.StatusCode = "100";
+                type.StatusDesc = "FAILED: USERTYPE NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            type.StatusCode = "100";
+            type.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return type;
     }
 
     internal BankUser[] GetAllUsers(string bankCode)
@@ -509,7 +595,7 @@ public class DatabaseHandler
                     user.Description = dr["Description"].ToString();
                     user.Id = dr["UserTypeId"].ToString();
                     user.Role = dr["Role"].ToString();
-                    user.Usertype = dr["UserType"].ToString();
+                    user.UserTypeCode = dr["UserType"].ToString();
                     user.BankCode = dr["BankCode"].ToString();
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
@@ -770,5 +856,42 @@ public class DatabaseHandler
             bank.StatusDesc = "FAILED: " + ex.Message;
         }
         return bank;
+    }
+
+    internal TransactionCategory GetTransactionCategoryById(string objectId, string bankCode)
+    {
+        TransactionCategory category = new TransactionCategory();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("TransactionTypes_SelectRow",
+                                                       objectId
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                category.ApprovedBy = "";
+                category.BankCode = dr["BankCode"].ToString();
+                category.Description = dr["Description"].ToString();
+                category.Id = dr["TranTypeId"].ToString();
+                category.IsActive = dr["IsActive"].ToString();
+                category.ModifiedBy = dr["ModifiedBy"].ToString();
+                category.TranCategoryCode = dr["TranType"].ToString();
+                category.TranCategoryName = dr["TranType"].ToString();
+                category.StatusCode = "0";
+                category.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                category.StatusCode = "100";
+                category.StatusDesc = "FAILED: BANK NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            category.StatusCode = "100";
+            category.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return category;
     }
 }

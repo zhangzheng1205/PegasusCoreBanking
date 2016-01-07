@@ -19,14 +19,26 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
+
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadAccountData(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
 
             }
             else
@@ -38,6 +50,24 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
+        }
+    }
+
+    private void LoadAccountData(string Id, string BankCode)
+    {
+        BankAccount account = client.GetById("BANKACCOUNT", Id, BankCode, bll.BankPassword) as BankAccount;
+        if (account.StatusCode == "0")
+        {
+            this.ddAccountType.SelectedValue = account.AccountType;
+            this.ddBank.SelectedValue = account.BankCode;
+            this.ddBankBranch.SelectedValue = account.BranchCode;
+            this.txtUserId.Text = account.UserId;
+            this.ddIsActive.Text = account.IsActive;
+        }
+        else 
+        {
+            string msg = account.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 
@@ -59,7 +89,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
                 string msg = "SUCCESS: BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] SAVED SUCCESSFULLY";
                 bll.ShowMessage(lblmsg, msg, false, Session);
             }
-            else 
+            else
             {
                 string msg = result.StatusDesc;
                 bll.ShowMessage(lblmsg, msg, true, Session);
@@ -77,8 +107,10 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         BankAccount account = new BankAccount();
         account.AccountBalance = "0";
         account.AccountId = "";
+        account.BranchCode = ddBankBranch.SelectedValue;
         account.AccountNumber = GenerateAccountNumber();
         account.AccountType = ddAccountType.SelectedValue;
+        account.IsActive = ddIsActive.Text;
         account.BankCode = ddBank.SelectedValue;
         account.UserId = txtUserId.Text;
         account.ModifiedBy = user.Id;

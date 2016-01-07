@@ -20,3 +20,14 @@ C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBank
 C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.csproj.GenerateResource.Cache
 C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.dll
 C:\Users\home\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\CoreBankingLogic.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\CoreBankingLogic.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.ObjectBuilder.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.xml
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.Properties.Resources.resources
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.csproj.GenerateResource.Cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.pdb

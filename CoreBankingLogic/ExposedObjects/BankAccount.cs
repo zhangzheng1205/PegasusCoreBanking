@@ -13,6 +13,8 @@ namespace CoreBankingLogic.EntityObjects
         public string AccountType = "";
         public string BankCode = "";
         public string ModifiedBy = "";
+        public string BranchCode = "";
+        public string IsActive = "";
 
 
         public BankAccount()

@@ -221,6 +221,24 @@ public class BussinessLogic
             result = user;
             return result;
         }
+        else if (className.ToUpper() == "TRANSACTIONCATEGORY")
+        {
+            TransactionCategory category = dh.GetTransactionCategoryById(objectId, bankCode);
+            result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "BANKACCOUNT")
+        {
+            BankAccount category = dh.GetBankAccountById(objectId, bankCode);
+            result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "ACCOUNTYPE")
+        {
+            BankAccount category = dh.GetBankAccountById(objectId, bankCode);
+            result = category;
+            return result;
+        }
         else
         {
             return result;

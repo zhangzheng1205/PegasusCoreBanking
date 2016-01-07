@@ -20,15 +20,26 @@ public partial class ViewAll : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //------------------------------------------------
+            //Check if this is an Edit Request
+            string EditType = Request.QueryString["EditType"];
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
+            //is this a PostBack
             else if (IsPostBack)
             {
-
+                
+            }
+            //if this guy isnt empty then this is an Edit Request
+            else if (EditType!=null)
+            {
+                RouteRequestToCorrectEditPage(EditType, Id, BankCode);
             }
             else
             {
@@ -43,6 +54,50 @@ public partial class ViewAll : System.Web.UI.Page
         }
     }
 
+    private void RouteRequestToCorrectEditPage(string EditType, string Id, string BankCode)
+    {
+        if (EditType == "TELLER" || EditType == "CUSTOMER") 
+        {
+            string url = "~/AddOrEditBankUser.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "TRANSACTIONCATEGORY")
+        {
+            string url = "~/AddOrEditTranCategory.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "USERTYPE")
+        {
+            string url = "~/AddOrEditUserType.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "ACCOUNTTYPE")
+        {
+            string url = "~/AddOrEditAccountType.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "ACCOUNT")
+        {
+            string url = "~/AddOrEditBankAccount.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "BRANCHES")
+        {
+            string url = "~/AddOrEditBankBranch.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "CHARGES")
+        {
+            string url = "~/AddOrEditBankCharges.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else 
+        {
+            throw new Exception("UNABLE TO DETERMINE CORRECT EDIT PAGE TO ROUTE REQUEST TO");
+        }
+
+    }
+
     private void LoadData()
     {
         bll.LoadBanksIntoDropDownALL(user, ddBank);
@@ -51,17 +106,21 @@ public partial class ViewAll : System.Web.UI.Page
 
     private void LoadReportTypesIntoDropDown()
     {
+        //think of moving these to DB
         ddReporttype.Items.Clear();
-        ddReporttype.Items.Add(new ListItem("BANK TELLERS","BANK_TELLERS"));
-        ddReporttype.Items.Add(new ListItem("BANK CUSTOMERS", "BANK_CUSTOMERS"));
-        ddReporttype.Items.Add(new ListItem("TRANSACTION CATEGORIES", "TRAN_CATEGORIES"));
-        ddReporttype.Items.Add(new ListItem("USER TYPES", "USER_TYPES"));
-        ddReporttype.Items.Add(new ListItem("ACCOUNT TYPES", "ACCOUNT_TYPES"));
+        ddReporttype.Items.Add(new ListItem("BANK TELLERS", "TELLER"));
+        ddReporttype.Items.Add(new ListItem("BANK CUSTOMERS", "CUSTOMER"));
+        ddReporttype.Items.Add(new ListItem("TRANSACTION CATEGORIES", "TRANSACTIONCATEGORY"));
+        ddReporttype.Items.Add(new ListItem("USER TYPES", "USERTYPE"));
+        ddReporttype.Items.Add(new ListItem("ACCOUNT TYPES", "ACCOUNTTYPE"));
+        ddReporttype.Items.Add(new ListItem("BANK ACCOUNTS", "ACCOUNTS"));
+        ddReporttype.Items.Add(new ListItem("BANK BRANCHES", "BRANCHES"));
+        ddReporttype.Items.Add(new ListItem("BANK CHARGES", "CHARGES"));
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)
-    { 
-    
+    {
+
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -70,7 +129,7 @@ public partial class ViewAll : System.Web.UI.Page
         {
             string[] parameters = GetSearchCriteria();
             DataTable dt = bll.SearchAll(parameters, ddReporttype.SelectedValue);
-            if (dt.Rows.Count > 0) 
+            if (dt.Rows.Count > 0)
             {
                 dataGridResults.DataSource = dt;
                 dataGridResults.DataBind();
@@ -80,6 +139,8 @@ public partial class ViewAll : System.Web.UI.Page
             }
             else
             {
+                dataGridResults.DataSource = null;
+                dataGridResults.DataBind();
                 string msg = "No Records Found Matching Search Criteria";
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
@@ -95,17 +156,69 @@ public partial class ViewAll : System.Web.UI.Page
     {
         List<string> searchCriteria = new List<string>();
         string BankCode = ddBank.SelectedValue;
-        string Name = txtName.Text;
+        string Id = txtName.Text;
         string ReportType = ddReporttype.SelectedValue;
-        if (ReportType == "BANK_TELLERS") 
+        string UserType = ddReporttype.SelectedValue;
+        if (ReportType == "TELLER" || ReportType == "CUSTOMER")
         {
-            string UserType = "TELLER";
             searchCriteria.Add(BankCode);
-            searchCriteria.Add(UserType);
-            searchCriteria.Add(Name);
-            return searchCriteria.ToArray();
+            searchCriteria.Add(ReportType);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "TRANSACTIONCATEGORY")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "USERTYPE")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "ACCOUNTTYPE")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "ACCOUNTS")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "BRANCHES")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else if (ReportType == "CHARGES")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add(Id);
+        }
+        else 
+        {
+            throw new Exception("PLEASE SELECT A BANK AND A REPORT TYPE");
         }
         return searchCriteria.ToArray();
-
     }
+    //protected void dataGridResults_OnRowDataBound(object sender, GridViewRowEventArgs e)
+    //{
+    //    if (e.Row.RowType == DataControlRowType.DataRow)
+    //    {
+    //        HyperLink link = new HyperLink();
+    //        link.ID = "EditColumn";
+    //        link.Text = "Edit";
+    //        link.NavigateUrl = "ViewAll.aspx?EditType=" + ddReporttype.SelectedValue+    
+    //                           "&Id=" + DataBinder.Eval(e.Row.DataItem,"Id").ToString()+    
+    //                           "&BankCode=" +ddBank.SelectedValue;
+            
+    //        e.Row.Cells[0].Controls.Add(link);
+    //    }
+    
+    //}
+    //protected void ddReporttype_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    string selectedValue = ddReporttype.SelectedValue;
+        
+    //}
 }

@@ -13,6 +13,7 @@ namespace CoreBankingLogic.ExposedObjects
         public string ModifiedBy = "";
         public string ApprovedBy = "";
         public string BankCode = "";
+        public string IsActive = "";
 
         private BussinessLogic bll = new BussinessLogic();
 

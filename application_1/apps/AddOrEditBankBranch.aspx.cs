@@ -19,14 +19,26 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
+
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadBranchData(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
 
             }
             else
@@ -38,6 +50,24 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
+        }
+    }
+
+    private void LoadBranchData(string Id, string BankCode)
+    {
+        BankBranch branch = client.GetById("BANKBRANCH", Id, BankCode, bll.BankPassword) as BankBranch;
+        if (branch.StatusCode == "0")
+        {
+            this.ddBank.SelectedValue = branch.BranchCode;
+            this.ddIsActive.Text = branch.IsActive;
+            this.txtBranchCode.Text = branch.BranchCode;
+            this.txtBranchName.Text = branch.BranchName;
+            this.txtLocation.Text = branch.Location;
+        }
+        else 
+        {
+            string msg = branch.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

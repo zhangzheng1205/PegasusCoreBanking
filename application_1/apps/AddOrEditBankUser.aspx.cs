@@ -17,15 +17,26 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
             user = Session["User"] as BankUser;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
-            else if (IsPostBack)
+            else if (IsPostBack) 
             {
-
+            
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                MultiView1.ActiveViewIndex = 0;
+                LoadUserData(Id, BankCode);
             }
             else
             {
@@ -39,22 +50,49 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         }
     }
 
-    private void LoadData()
+    private void LoadUserData(string Id, string BankCode)
     {
-        bll.LoadBanksIntoDropDown(user,ddBank);
-        if (user.Usertype != "SYS_ADMIN")
+        
+        BankUser userEdited = client.GetById("BankUser", Id, BankCode, bll.BankPassword) as BankUser;
+        if (userEdited.StatusCode == "0")
         {
-            bll.LoadBanksBranchesIntoDropDown(user.BankCode,ddBankBranch,user);
-            bll.LoadUsertypesIntoDropDowns(user.BankCode,ddUserType,user);
+            FillFormWithData(userEdited);
         }
+        else 
+        {
+            string msg = userEdited.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void FillFormWithData(BankUser userEdited)
+    {
+        this.txtBankUsersName.Text = userEdited.FullName;
+        this.txtDateOfBirth.Text = userEdited.DateOfBirth;
+        this.txtEmail.Text = userEdited.Email;
+        this.txtPhoneNumber.Text = userEdited.PhoneNumber;
+        this.txtUserId.Text = userEdited.Id;
+        this.ddBank.Text = userEdited.BankCode;
+        this.ddBankBranch.Text = userEdited.BranchCode;
+        this.ddGender.Text = userEdited.Gender;
+        this.ddIsActive.Text = userEdited.IsActive;
+        this.ddUserType.Text = userEdited.Usertype;
 
     }
 
-   
+    private void LoadData()
+    {
+        bll.LoadBanksIntoDropDown(user, ddBank);
+        bll.LoadBanksBranchesIntoDropDown(user.BankCode, ddBankBranch, user);
+        bll.LoadUsertypesIntoDropDowns(user.BankCode, ddUserType, user);
 
-   
+    }
 
-    
+
+
+
+
+
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
@@ -102,8 +140,8 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     {
         List<Bank> banks = (List<Bank>)HttpContext.Current.Cache["Banks"];
         string bankCode = banks[ddBank.SelectedIndex].BankCode;
-        bll.LoadBanksBranchesIntoDropDown(bankCode,ddBankBranch,user);
-        bll.LoadUsertypesIntoDropDowns(bankCode,ddUserType,user);
+        bll.LoadBanksBranchesIntoDropDown(bankCode, ddBankBranch, user);
+        bll.LoadUsertypesIntoDropDowns(bankCode, ddUserType, user);
         ddUserType.Enabled = true;
         ddBankBranch.Enabled = true;
 

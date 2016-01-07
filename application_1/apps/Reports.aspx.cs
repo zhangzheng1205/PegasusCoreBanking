@@ -25,14 +25,26 @@ public partial class Reports : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
+
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadAccountStatement(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
 
             }
             else
@@ -46,6 +58,16 @@ public partial class Reports : System.Web.UI.Page
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
         }
+    }
+
+    private void LoadAccountStatement(string Id, string BankCode)
+    {
+        this.txtAccount.Text = Id;
+        this.ddBank.SelectedValue = BankCode;
+        this.ddBank.Enabled = false;
+        this.ddBankBranch.Enabled = false;
+        this.txtAccount.Enabled = false;
+        SearchDb();
     }
 
     private void LoadData()
@@ -62,25 +84,32 @@ public partial class Reports : System.Web.UI.Page
     {
         try
         {
-            string[] searchParams = GetSearchParameters();
-            DataTable dt = bll.SearchGeneralLedgerTable(searchParams);
-            if (dt.Rows.Count > 0)
-            {
-                dataGridResults.DataSource = dt;
-                dataGridResults.DataBind();
-                string msg="Found "+dt.Rows.Count+" Records Matching Search Criteria";
-                Multiview2.ActiveViewIndex = 0;
-                bll.ShowMessage(lblmsg, msg, false, Session);
-            }
-            else 
-            {
-                string msg = "No Records Found Matching Search Criteria";
-                bll.ShowMessage(lblmsg, msg, true, Session);
-            }
+            SearchDb();
         }
         catch (Exception ex)
         {
             string msg = "FAILED: "+ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void SearchDb()
+    {
+        string[] searchParams = GetSearchParameters();
+        DataTable dt = bll.SearchGeneralLedgerTable(searchParams);
+        if (dt.Rows.Count > 0)
+        {
+            dataGridResults.DataSource = dt;
+            dataGridResults.DataBind();
+            string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
+            Multiview2.ActiveViewIndex = 0;
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            dataGridResults.DataSource = null;
+            dataGridResults.DataBind();
+            string msg = "No Records Found Matching Search Criteria";
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }

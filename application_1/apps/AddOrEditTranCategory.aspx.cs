@@ -19,15 +19,26 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
 
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadTranCategoryData(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
             }
             else
             {
@@ -41,9 +52,27 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
         }
     }
 
+    private void LoadTranCategoryData(string Id, string BankCode)
+    {
+        TransactionCategory tranCategory = client.GetById("TRANSACTIONCATEGORY", Id, BankCode, bll.BankPassword) as TransactionCategory;
+        if (tranCategory.StatusCode == "0")
+        {
+            this.txtCategoryCode.Text = tranCategory.TranCategoryCode;
+            this.txtCategoryDesc.Text = tranCategory.Description;
+            this.txtCategoryName.Text = tranCategory.TranCategoryName;
+            ddIsActive.Text = tranCategory.IsActive;
+            ddBank.Text = tranCategory.BankCode;
+        }
+        else
+        {
+            string msg = tranCategory.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
     private void LoadData()
     {
-        bll.LoadBanksIntoDropDown(user,ddBank);
+        bll.LoadBanksIntoDropDown(user, ddBank);
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -57,7 +86,7 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
                 string msg = "SUCCESS: TRANSACTION CATEGORY WITH CATEGORY CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
                 bll.ShowMessage(lblmsg, msg, false, Session);
             }
-            else 
+            else
             {
                 string msg = result.StatusDesc;
                 bll.ShowMessage(lblmsg, msg, true, Session);
@@ -65,7 +94,7 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string msg="FAILED: "+ex.Message;
+            string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
@@ -80,6 +109,7 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
         category.ModifiedBy = user.Id;
         category.TranCategoryCode = txtCategoryCode.Text;
         category.TranCategoryName = txtCategoryName.Text;
+        category.IsActive = ddIsActive.Text;
         return category;
     }
 

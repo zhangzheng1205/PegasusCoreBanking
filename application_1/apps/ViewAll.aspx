@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="ViewAll.aspx.cs" Inherits="ViewAll" Title=" view All" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="ViewAll.aspx.cs" Inherits="ViewAll" Title="View All" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:MultiView ID="MultiView1" runat="server">
@@ -66,15 +66,15 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-lg-2">
-                                    <label>Report Category</label>
-                                    <asp:DropDownList ID="ddReporttype" runat="server" CssClass="form-control">
+                                    <label>Report Category</label> <asp:DropDownList ID="ddReporttype" runat="server" CssClass="form-control">
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-lg-2">
-                                    <label>Name</label>
-                                     <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <label>Id</label>
+                                    <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">Unique Identifier of that Category. e.g UserType Code,Account Number etc</p>
                                 </div>
                                 <div class="col-lg-2">
                                     <label>Search</label>
@@ -111,9 +111,21 @@
                                     </div>
                                     <hr />
                                     <div class="row">
-                                        <div class="table-responsive">
-                                            <asp:DataGrid runat="server" Width="1200" CssClass="table table-bordered table-hover" ID="dataGridResults"></asp:DataGrid>
-                                        </div>
+                                        <%--<div class="table-responsive">--%>
+                                            <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" >
+                                                <Columns>
+                                                    <asp:TemplateField HeaderText="Edit">
+                                                        <ItemTemplate>
+                                                            <asp:HyperLink runat="server" Text='Edit'
+                                                                NavigateUrl='<%# "ViewAll.aspx?EditType=" + ddReporttype.SelectedValue+    
+                                                                                 "&Id=" + DataBinder.Eval(Container.DataItem,"Id").ToString()+    
+                                                                                 "&BankCode=" +ddBank.SelectedValue  %>'
+                                                                ID="EditColumn" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                       <%-- </div>--%>
                                     </div>
                                 </asp:View>
                                 <asp:View runat="server" ID="EmptyView"></asp:View>
@@ -125,11 +137,11 @@
                             <!-- /.row -->
 
                         </div>
-                    <!-- /.container-fluid -->
+                        <!-- /.container-fluid -->
 
+                    </div>
                 </div>
-            </div>
-            <!-- /#page-wrapper -->
+                <!-- /#page-wrapper -->
         </asp:View>
         <asp:View ID="View2" runat="server">
         </asp:View>

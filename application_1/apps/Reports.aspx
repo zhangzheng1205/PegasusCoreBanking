@@ -152,7 +152,7 @@
                                 <hr />
                                 <div class="row">
                                     <div class="table-responsive">
-                                        <asp:DataGrid runat="server" Width="1200" CssClass="table table-bordered table-hover" ID="dataGridResults"></asp:DataGrid>
+                                        <asp:DataGrid runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults"></asp:DataGrid>
                                     </div>
                                 </div>
                             </asp:View>

@@ -19,15 +19,26 @@ public partial class AddOrEditUserType : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
 
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadUserTypeData(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
             }
             else
             {
@@ -38,6 +49,24 @@ public partial class AddOrEditUserType : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
+        }
+    }
+
+    private void LoadUserTypeData(string Id, string BankCode)
+    {
+        UserType type = client.GetById("USERTYPE", Id, BankCode, bll.BankPassword) as UserType;
+        if (type.StatusCode == "0")
+        {
+            this.txtCategoryCode.Text = type.UserTypeCode;
+            this.txtCategoryName.Text = type.UserTypeName;
+            this.txtCategoryDesc.Text = type.Description;
+            this.ddBank.Text = type.BankCode;
+            this.ddIsActive.Text = type.IsActive;
+        }
+        else 
+        {
+            string msg = type.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 
@@ -77,7 +106,7 @@ public partial class AddOrEditUserType : System.Web.UI.Page
         category.Description = txtCategoryDesc.Text;
         category.Id = "";
         category.Role = txtCategoryCode.Text;
-        category.Usertype = txtCategoryCode.Text;
+        category.UserTypeCode = txtCategoryCode.Text;
         category.UserTypeName = txtCategoryName.Text;
         return category;
     }

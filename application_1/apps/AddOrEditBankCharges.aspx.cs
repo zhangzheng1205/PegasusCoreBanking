@@ -18,14 +18,26 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
+            //----------------------------------
+            //Check If this is an Edit Request
+            string Id = Request.QueryString["Id"];
+            string BankCode = Request.QueryString["BankCode"];
+
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
+
+            }
+            //this is an edit request
+            else if (Id != null)
+            {
+                LoadData();
+                LoadChargeData(Id, BankCode);
+                MultiView1.ActiveViewIndex = 0;
 
             }
             else
@@ -37,6 +49,28 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true,Session);
+        }
+    }
+
+    private void LoadChargeData(string Id, string BankCode)
+    {
+        BankCharge charge = client.GetById("BANKCHARGE", Id, BankCode, bll.BankPassword) as BankCharge;
+        if (charge.StatusCode == "0")
+        {
+            this.ddBank.SelectedValue = charge.BankCode;
+            this.ddComAccount.Text = charge.CommissionAccountNumber;
+            this.ddIsActive.Text = charge.IsActive;
+            this.ddIsDebit.Text = charge.IsDebit;
+            this.ddTranCategory.SelectedValue = charge.TransCategory;
+            this.txtChargeAmount.Text = charge.ChargeAmount;
+            this.txtChargeCode.Text = charge.ChargeCode;
+            this.txtChargeDesc.Text = charge.ChargeDescription;
+            this.txtChargeName.Text = charge.ChargeName;
+        }
+        else 
+        {
+            string msg = charge.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

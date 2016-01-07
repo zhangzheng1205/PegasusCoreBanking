@@ -235,8 +235,14 @@ public class BussinessLogic
         }
         else if (className.ToUpper() == "ACCOUNTYPE")
         {
-            BankAccount category = dh.GetBankAccountById(objectId, bankCode);
+            AccountType category = dh.GetAccountTypeById(objectId, bankCode);
             result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "ACCESSRULE")
+        {
+            AccessRule rule = dh.GetAccessRuleById(objectId, bankCode);
+            result = rule;
             return result;
         }
         else
@@ -337,5 +343,27 @@ public class BussinessLogic
     {
         Result ds = dh.ExecuteNonQuery(storedProcedureName, Parameters);
         return ds;
+    }
+
+    public Result SaveAccessRule(AccessRule rule, string BankCode)
+    {
+        Result result = new Result();
+        result.RequestId = rule.Id;
+        string Id = dh.SaveAccessRule(rule, BankCode);
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = Id;
+        return result;
+    }
+
+    public Result SaveTransactionRule(TransactionRule rule, string BankCode)
+    {
+        Result result = new Result();
+        result.RequestId = rule.Id;
+        string Id = dh.SaveTransactionRule(rule, BankCode);
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = Id;
+        return result;
     }
 }

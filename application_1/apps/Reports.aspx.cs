@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -72,9 +72,9 @@ public partial class Reports : System.Web.UI.Page
 
     private void LoadData()
     {
-        bll.LoadBanksIntoDropDownALL(user, ddBank);
-        bll.LoadBanksBranchesIntoDropDownALL(user.BankCode, ddBankBranch, user);
-        bll.LoadTransactionTypesIntoDropDownALL(user.BankCode, ddTranCategory, user);
+        bll.LoadBanksIntoDropDown(user, ddBank);
+        bll.LoadBanksBranchesIntoDropDownALL(ddBank.SelectedValue, ddBankBranch, user);
+        bll.LoadTransactionTypesIntoDropDownALL(ddBank.SelectedValue, ddTranCategory, user);
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ public partial class Reports : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            string msg = "FAILED: "+ex.Message;
+            string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
@@ -138,5 +138,22 @@ public partial class Reports : System.Web.UI.Page
         searchCriteria.Add(FromDate);
         searchCriteria.Add(ToDate);
         return searchCriteria.ToArray();
+    }
+
+    protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            bll.LoadBanksBranchesIntoDropDownALL(ddBank.SelectedValue, ddBankBranch, user);
+            bll.LoadTransactionTypesIntoDropDownALL(ddBank.SelectedValue, ddTranCategory, user);
+            ddBankBranch.Enabled = true;
+            ddTranCategory.Enabled = true;
+            btnSubmit.Enabled = true;
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
     }
 }

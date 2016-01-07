@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/PaymentMaster.master" AutoEventWireup="true" CodeFile="ReversePayments.aspx.cs" Inherits="ReversePayments" Title="VIEW PAYMENT FOR REVERSAL" %>
+<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="ReversePayments.aspx.cs" Inherits="ReversePayments" Title="VIEW PAYMENT FOR REVERSAL" %>
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
     Namespace="CrystalDecisions.Web" TagPrefix="CR" %>

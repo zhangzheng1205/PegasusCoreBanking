@@ -44,6 +44,10 @@ namespace InterLinkClass.CoreBankingApi {
         
         private System.Threading.SendOrPostCallback SaveBankChargeDetailsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SaveAccessRuleOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SaveTransactionRuleOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SaveBankUserDetailsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetByIdOperationCompleted;
@@ -126,6 +130,12 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event SaveBankChargeDetailsCompletedEventHandler SaveBankChargeDetailsCompleted;
+        
+        /// <remarks/>
+        public event SaveAccessRuleCompletedEventHandler SaveAccessRuleCompleted;
+        
+        /// <remarks/>
+        public event SaveTransactionRuleCompletedEventHandler SaveTransactionRuleCompleted;
         
         /// <remarks/>
         public event SaveBankUserDetailsCompletedEventHandler SaveBankUserDetailsCompleted;
@@ -385,6 +395,72 @@ namespace InterLinkClass.CoreBankingApi {
             if ((this.SaveBankChargeDetailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SaveBankChargeDetailsCompleted(this, new SaveBankChargeDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveAccessRule", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveAccessRule(AccessRule rule, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveAccessRule", new object[] {
+                        rule,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveAccessRuleAsync(AccessRule rule, string BankCode, string Password) {
+            this.SaveAccessRuleAsync(rule, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void SaveAccessRuleAsync(AccessRule rule, string BankCode, string Password, object userState) {
+            if ((this.SaveAccessRuleOperationCompleted == null)) {
+                this.SaveAccessRuleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveAccessRuleOperationCompleted);
+            }
+            this.InvokeAsync("SaveAccessRule", new object[] {
+                        rule,
+                        BankCode,
+                        Password}, this.SaveAccessRuleOperationCompleted, userState);
+        }
+        
+        private void OnSaveAccessRuleOperationCompleted(object arg) {
+            if ((this.SaveAccessRuleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveAccessRuleCompleted(this, new SaveAccessRuleCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveTransactionRule", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveTransactionRule(TransactionRule rule, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveTransactionRule", new object[] {
+                        rule,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveTransactionRuleAsync(TransactionRule rule, string BankCode, string Password) {
+            this.SaveTransactionRuleAsync(rule, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void SaveTransactionRuleAsync(TransactionRule rule, string BankCode, string Password, object userState) {
+            if ((this.SaveTransactionRuleOperationCompleted == null)) {
+                this.SaveTransactionRuleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveTransactionRuleOperationCompleted);
+            }
+            this.InvokeAsync("SaveTransactionRule", new object[] {
+                        rule,
+                        BankCode,
+                        Password}, this.SaveTransactionRuleOperationCompleted, userState);
+        }
+        
+        private void OnSaveTransactionRuleOperationCompleted(object arg) {
+            if ((this.SaveTransactionRuleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveTransactionRuleCompleted(this, new SaveTransactionRuleCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -999,6 +1075,8 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionRule))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccessRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bank))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankAccount))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCharge))]
@@ -1801,6 +1879,300 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class TransactionRule : BaseObject {
+        
+        private string idField;
+        
+        private string ruleNameField;
+        
+        private string ruleCodeField;
+        
+        private string userIdField;
+        
+        private string descriptionField;
+        
+        private string minimumAmountField;
+        
+        private string maximumAmountField;
+        
+        private string isActiveField;
+        
+        private string bankCodeField;
+        
+        private string branchCodeField;
+        
+        private string modifiedOnField;
+        
+        private string modifiedByField;
+        
+        private string approverField;
+        
+        /// <remarks/>
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RuleName {
+            get {
+                return this.ruleNameField;
+            }
+            set {
+                this.ruleNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RuleCode {
+            get {
+                return this.ruleCodeField;
+            }
+            set {
+                this.ruleCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MinimumAmount {
+            get {
+                return this.minimumAmountField;
+            }
+            set {
+                this.minimumAmountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MaximumAmount {
+            get {
+                return this.maximumAmountField;
+            }
+            set {
+                this.maximumAmountField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BranchCode {
+            get {
+                return this.branchCodeField;
+            }
+            set {
+                this.branchCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedOn {
+            get {
+                return this.modifiedOnField;
+            }
+            set {
+                this.modifiedOnField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Approver {
+            get {
+                return this.approverField;
+            }
+            set {
+                this.approverField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class AccessRule : BaseObject {
+        
+        private string idField;
+        
+        private string userTypeField;
+        
+        private string bankCodeField;
+        
+        private string canAccessField;
+        
+        private string userIdField;
+        
+        private string branchCodeField;
+        
+        private string modifiedOnField;
+        
+        private string modifiedByField;
+        
+        private string ruleNameField;
+        
+        private string isActiveField;
+        
+        /// <remarks/>
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserType {
+            get {
+                return this.userTypeField;
+            }
+            set {
+                this.userTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CanAccess {
+            get {
+                return this.canAccessField;
+            }
+            set {
+                this.canAccessField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BranchCode {
+            get {
+                return this.branchCodeField;
+            }
+            set {
+                this.branchCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedOn {
+            get {
+                return this.modifiedOnField;
+            }
+            set {
+                this.modifiedOnField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string RuleName {
+            get {
+                return this.ruleNameField;
+            }
+            set {
+                this.ruleNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
     public partial class Bank : BaseObject {
         
         private string bankIdField;
@@ -2418,6 +2790,58 @@ namespace InterLinkClass.CoreBankingApi {
         private object[] results;
         
         internal SaveBankChargeDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void SaveAccessRuleCompletedEventHandler(object sender, SaveAccessRuleCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveAccessRuleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveAccessRuleCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void SaveTransactionRuleCompletedEventHandler(object sender, SaveTransactionRuleCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveTransactionRuleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveTransactionRuleCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

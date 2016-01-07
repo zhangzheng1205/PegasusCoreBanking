@@ -894,4 +894,102 @@ public class DatabaseHandler
         }
         return category;
     }
+
+    internal AccessRule GetAccessRuleById(string objectId, string bankCode)
+    {
+        AccessRule rule = new AccessRule();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("AccessRules_SelectRow",
+                                                       objectId,
+                                                       bankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                rule.BranchCode = dr["BranchCode"].ToString();
+                rule.BankCode = dr["BankCode"].ToString();
+                rule.CanAccess = dr["CanAccess"].ToString();
+                rule.Id = dr["RecordId"].ToString();
+                rule.IsActive = dr["IsActive"].ToString();
+                rule.ModifiedBy = dr["ModifiedBy"].ToString();
+                rule.ModifiedOn = dr["ModifiedOn"].ToString();
+                rule.UserId = dr["UserId"].ToString();
+                rule.UserType = dr["UserType"].ToString();
+                rule.StatusCode = "0";
+                rule.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                rule.StatusCode = "100";
+                rule.StatusDesc = "FAILED: BANK NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            rule.StatusCode = "100";
+            rule.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return rule;
+    }
+
+    internal string SaveAccessRule(AccessRule rule, string BankCode)
+    {
+        try
+        {
+            DateTime ModifyDate = DateTime.Now;
+            //string ModifyDate = CreateDate;
+            command = CbDatabase.GetStoredProcCommand("AccessRules_Update",
+                                                       rule.Id,
+                                                       rule.RuleName,
+                                                       rule.UserType,
+                                                       rule.BankCode,
+                                                       rule.CanAccess,
+                                                       rule.UserId,
+                                                       rule.BranchCode,
+                                                       rule.IsActive,
+                                                       ModifyDate,
+                                                       rule.ModifiedBy
+                                                        );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal string SaveTransactionRule(TransactionRule rule, string BankCode)
+    {
+        try
+        {
+            string CreateDate = DateTime.Now.ToString("yyyy-MM-dd");
+            string ModifyDate = CreateDate;
+            command = CbDatabase.GetStoredProcCommand("AccessRules_Update",
+                                                      rule.Id,
+                                                      rule.RuleName,
+                                                      rule.RuleCode,
+                                                      rule.RuleCode,
+                                                      rule.RuleName,
+                                                      rule.UserId,
+                                                      rule.Description,
+                                                      rule.MinimumAmount,
+                                                      rule.MaximumAmount,
+                                                      rule.IsActive,
+                                                      rule.BankCode,
+                                                      rule.BranchCode,
+                                                      rule.ModifiedOn,
+                                                      rule.ModifiedBy,
+                                                      rule.Approver
+                                                     );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[1];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="Reports.aspx.cs" Inherits="Reports" Title="REPORTING" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="Reports.aspx.cs" Inherits="Reports" Title="REPORTING" %>
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
     Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
@@ -66,7 +66,7 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     <label>Bank</label>
-                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control">
+                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control" AutoPostBack="true" EnableViewState="true" OnSelectedIndexChanged="ddBank_SelectedIndexChanged">
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
@@ -190,4 +190,3 @@
 
 
 </asp:Content>
-

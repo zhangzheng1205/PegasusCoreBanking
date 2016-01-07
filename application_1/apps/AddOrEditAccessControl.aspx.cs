@@ -46,16 +46,18 @@ public partial class AddOrEditAccessControl : System.Web.UI.Page
         bll.LoadBanksIntoDropDown(user, ddBank);
         bll.LoadUsertypesIntoDropDownsALL(user.BankCode, ddUserType, user);
         bll.LoadAccessAreasIntoDropDownsALL(user.BankCode, ddAccessAreas, user);
+        bll.LoadBanksBranchesIntoDropDown(user.BankCode, ddBankBranch, user);
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
-            string[] parameters = GetAccessRuleDetails();
-            Result result = bll.SaveAccessRule(parameters);
+            AccessRule rule = GetAccessRuleDetails();
+            Result result = client.SaveAccessRule(rule,user.BankCode,bll.BankPassword);
             if (result.StatusCode == "0")
             {
+                txtAllowedAreas.Text = "";
                 string msg = "SUCCESS: Access Rule Saved";
                 bll.ShowMessage(lblmsg, msg, false, Session);
             }
@@ -72,7 +74,23 @@ public partial class AddOrEditAccessControl : System.Web.UI.Page
         }
     }
 
-    private string[] GetAccessRuleDetails()
+    private AccessRule GetAccessRuleDetails()
+    {
+        AccessRule rule = new AccessRule();
+        rule.BankCode = ddBank.SelectedValue;
+        rule.BranchCode = ddBankBranch.SelectedValue;
+        rule.CanAccess = txtAllowedAreas.Text;
+        rule.Id = "";
+        rule.IsActive = ddIsActive.Text;
+        rule.ModifiedBy = user.Id;
+        rule.ModifiedOn = DateTime.Now.ToString("dd/MM/yyyy");
+        rule.RuleName = txtRuleName.Text;
+        rule.UserId = txtUserId.Text;
+        rule.UserType = ddUserType.SelectedValue;
+        return rule;
+    }
+
+    private string[] GetAccessRuleDetailsOld()
     {
         List<string> all = new List<string>();
         string AllowedAreas = txtAllowedAreas.Text;
@@ -85,7 +103,6 @@ public partial class AddOrEditAccessControl : System.Web.UI.Page
         all.Add(UserId);
         return all.ToArray();
     }
-
 
     public void btnAddAccessArea_Click(object sender, EventArgs e)
     {

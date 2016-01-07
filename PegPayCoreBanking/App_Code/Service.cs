@@ -174,6 +174,55 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public Result SaveAccessRule(AccessRule rule, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (rule.IsValid(BankCode, Password))
+            {
+                result = bll.SaveAccessRule(rule, BankCode);
+            }
+            else
+            {
+                result.StatusCode = rule.StatusCode;
+                result.StatusDesc = rule.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveTransactionRule(TransactionRule rule, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (rule.IsValid(BankCode, Password))
+            {
+                result = bll.SaveTransactionRule(rule, BankCode);
+            }
+            else
+            {
+                result.StatusCode = rule.StatusCode;
+                result.StatusDesc = rule.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+
+    [WebMethod]
     public Result SaveBankUserDetails(BankUser user, string BankCode, string Password)
     {
         Result result = new Result();

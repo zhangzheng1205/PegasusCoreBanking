@@ -11,6 +11,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using InterLinkClass.EntityObjects;
 using InterLinkClass.CoreBankingApi;
+using System.Collections.Generic;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -75,9 +76,18 @@ public partial class _Default : System.Web.UI.Page
         {
             if (user.Password == Password)
             {
-                Bank UsersBank = (Bank)client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword);
+                Bank UsersBank = client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword) as Bank;
+                List<string> allowedAreas = bll.GetAllowedAreas(user.Usertype, user.BankCode);
+
+                if (UsersBank.StatusCode != "0") 
+                {
+                    throw new Exception("Unable To Determine Users Bank");
+                }
+               
+
                 Session["User"] = user;
                 Session["UsersBank"] = UsersBank;
+                Session["AllowedAreas"] = allowedAreas;
                 Response.Redirect("LoggedInStartPage.aspx");
             }
             else

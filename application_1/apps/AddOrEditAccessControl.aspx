@@ -66,10 +66,14 @@
                                 <p class="help-block">The bank to which the Access Control Belongs</p>
                             </div>
                             <div class="col-lg-6">
-                                <label>Description</label>
-                                 <asp:TextBox ID="txtAccessDesc" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">Reason for this Access Rule</p>
+                                <label>Bank Branch</label>
+                                <asp:DropDownList ID="ddBankBranch" runat="server" CssClass="form-control">
+                                    <asp:ListItem>True</asp:ListItem>
+                                    <asp:ListItem>False</asp:ListItem>
+                                </asp:DropDownList>
+                                <p class="help-block">Bank Branch whose Users will be affected</p>
                             </div>
+                            
                         </div>
 
                         <div class="row">
@@ -84,7 +88,19 @@
                                     <asp:ListItem>True</asp:ListItem>
                                     <asp:ListItem>False</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">The User Category that will be affected by the Access rule</p>
+                                <p class="help-block">The User Category that will be affected by the Access rule.Can be ALL</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label>Rule Name</label>
+                                <asp:TextBox ID="txtRuleName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">Tabs the User Access</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Rule Code</label><br />
+                                <asp:TextBox ID="txtRuleCode" runat="server" CssClass="form-control" placeholder="Enter text" />
                             </div>
                         </div>
 
@@ -100,6 +116,22 @@
                             <div class="col-lg-6">
                                 <label>Add Access to This Area</label><br />
                                 <asp:Button ID="btnAddAccessArea" runat="server" Text="Allow Access" Width="200px" CssClass="btn btn-primary btn-lg" OnClick="btnAddAccessArea_Click" />
+                            </div>
+                        </div>
+
+                          <div class="row">
+                            <div class="col-lg-6">
+                                <label>IsActive</label>
+                                <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
+                                    <asp:ListItem>True</asp:ListItem>
+                                    <asp:ListItem>False</asp:ListItem>
+                                </asp:DropDownList>
+                                <p class="help-block">Is this rule Active</p>
+                            </div>
+                           <div class="col-lg-6">
+                                <label>Description</label>
+                                 <asp:TextBox ID="txtAccessDesc" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">Reason for this Access Rule</p>
                             </div>
                         </div>
 

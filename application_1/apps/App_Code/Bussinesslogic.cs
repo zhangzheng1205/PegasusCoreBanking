@@ -109,16 +109,17 @@ public class Bussinesslogic
     public void LoadBanksIntoDropDownALL(BankUser user, DropDownList ddlst)
     {
         ddlst.Items.Clear();
+        string[] parameters = { };
         if (user.Usertype.ToUpper() == "SYS_ADMIN")
         {
             ddlst.Items.Add(new ListItem("ALL", "ALL"));
-            user.BankCode = "ALL";
+            parameters = new string[] { "ALL" };
         }
         else 
         {
+            parameters = new string[] { user.BankCode };
             ddlst.Enabled = false;
         }
-        string[] parameters = { user.BankCode };
         DataSet ds = dh.ExecuteSelect("Banks_SelectRow", parameters);
         DataTable dt = ds.Tables[0];
 
@@ -216,6 +217,7 @@ public class Bussinesslogic
     public void LoadCommissionAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
+
         DataSet ds = dh.ExecuteSelect("GetCommissionAccountsByBankCode", parameters);
         DataTable dt = ds.Tables[0];
 
@@ -372,5 +374,26 @@ public class Bussinesslogic
         DataSet ds = dh.ExecuteSelect("SearchAccountsTable", parameters);
         DataTable dt = ds.Tables[0];
         return dt;
+    }
+
+    public List<string> GetAllowedAreas(string usertype, string BankCode)
+    {
+        List<string> allowedAreas = new List<string>();
+        string[] parameters = { usertype, BankCode };
+        DataSet ds = dh.ExecuteSelect("AccessRules_SelectRow", parameters);
+        DataTable dt = ds.Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows) 
+            {
+                string allowedArea=dr["CanAccess"].ToString().ToUpper();
+                allowedAreas.AddRange(allowedArea.Split(','));
+            }
+        }
+        else 
+        {
+            throw new Exception("Unable to Determine User Access Rights");
+        }
+        return allowedAreas;
     }
 }

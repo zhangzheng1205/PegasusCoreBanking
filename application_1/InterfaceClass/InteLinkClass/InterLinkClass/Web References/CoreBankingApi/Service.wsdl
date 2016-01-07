@@ -224,6 +224,77 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SaveAccessRule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rule" type="tns:AccessRule" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccessRule">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CanAccess" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveAccessRuleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveAccessRuleResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTransactionRule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rule" type="tns:TransactionRule" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransactionRule">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MinimumAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MaximumAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Approver" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveTransactionRuleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveTransactionRuleResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="SaveBankUserDetails">
         <s:complexType>
           <s:sequence>
@@ -592,6 +663,18 @@
   <wsdl:message name="SaveBankChargeDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:SaveBankChargeDetailsResponse" />
   </wsdl:message>
+  <wsdl:message name="SaveAccessRuleSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveAccessRule" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccessRuleSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveAccessRuleResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionRuleSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTransactionRule" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionRuleSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTransactionRuleResponse" />
+  </wsdl:message>
   <wsdl:message name="SaveBankUserDetailsSoapIn">
     <wsdl:part name="parameters" element="tns:SaveBankUserDetails" />
   </wsdl:message>
@@ -692,6 +775,14 @@
     <wsdl:operation name="SaveBankChargeDetails">
       <wsdl:input message="tns:SaveBankChargeDetailsSoapIn" />
       <wsdl:output message="tns:SaveBankChargeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <wsdl:input message="tns:SaveAccessRuleSoapIn" />
+      <wsdl:output message="tns:SaveAccessRuleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <wsdl:input message="tns:SaveTransactionRuleSoapIn" />
+      <wsdl:output message="tns:SaveTransactionRuleSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SaveBankUserDetails">
       <wsdl:input message="tns:SaveBankUserDetailsSoapIn" />
@@ -800,6 +891,24 @@
     </wsdl:operation>
     <wsdl:operation name="SaveBankChargeDetails">
       <soap:operation soapAction="http://pegasus.co.ug/SaveBankChargeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveAccessRule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionRule" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -974,6 +1083,24 @@
     </wsdl:operation>
     <wsdl:operation name="SaveBankChargeDetails">
       <soap12:operation soapAction="http://pegasus.co.ug/SaveBankChargeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveAccessRule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveTransactionRule" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

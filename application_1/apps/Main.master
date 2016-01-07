@@ -1,6 +1,8 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="Main.master.cs" Inherits="Main" %>
 
 <%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -128,6 +130,8 @@
                     <li>
                         <a href="LoggedInStartPage.aspx" class="active" data-toggle="collapse" data-target="#Start"><i class="fa fa-fw fa-home"></i> Home</a>
                     </li>
+                    <% List<string> allowedAreas = Session["AllowedAreas"] as List<string>; %>
+                    <% if(allowedAreas.Contains("TELLER")||allowedAreas.Contains("ALL")){ %>
                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-dashboard"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="teller" class="collapse">
@@ -148,14 +152,21 @@
                             </li>
                         </ul>
                     </li>
+                    <%} %>
+                     <% if(allowedAreas.Contains("SUPERVISOR")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Supervisor<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
                                 <a href="ApproveTransaction.aspx?Approver=SuperVisor">Approve Transactions</a>
                             </li>
+                            <li>
+                                <a href="#">Reverse Transaction</a>
+                            </li>
                         </ul>
                     </li>
+                     <%} %>
+                     <% if(allowedAreas.Contains("MANAGER")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-table"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Manager" class="collapse">
@@ -164,6 +175,8 @@
                             </li>
                         </ul>
                     </li>
+                     <%} %>
+                     <% if(allowedAreas.Contains("CUSTOMERSERVICE")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-edit"></i>Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="CustService" class="collapse">
@@ -175,6 +188,8 @@
                             </li>
                         </ul>
                     </li>
+                     <%} %>
+                     <% if(allowedAreas.Contains("BANK_ADMIN")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#BankAdmin"><i class="fa fa-fw fa-bank"></i>Bank Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="BankAdmin" class="collapse">
@@ -205,14 +220,10 @@
                              <li>
                                 <a href="ViewAll.aspx">View/Edit Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
-<%--                             <li>
-                                <a href="#">View/Edit Branches</a>
-                            </li>
-                             <li>
-                                <a href="#">View/Edit Bank User</a>--%>
-                            <%--</li>--%>
                         </ul>
                     </li>
+                     <%} %>
+                     <% if(allowedAreas.Contains("SYS_ADMIN")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-archive"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="SysAdmin" class="collapse">
@@ -231,9 +242,12 @@
                             </li>
                         </ul>
                     </li>
+                     <%} %>
+                     <% if(allowedAreas.Contains("REPORTS")||allowedAreas.Contains("ALL")){ %>
                     <li>
                         <a href="Reports.aspx"><i class="fa fa-fw fa-file"></i>Reports</a>
                     </li>
+                    <%} %>
                     <li>
                         <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i>Profile Settings</a>
                     </li>

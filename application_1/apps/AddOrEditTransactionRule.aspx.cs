@@ -47,5 +47,46 @@ public partial class AddOrEditTransactionRule : System.Web.UI.Page
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
-    { }
+    {
+        try
+        {
+            TransactionRule rule = GetTransactionRule();
+            Result result = client.SaveTransactionRule(rule, user.BankCode, bll.BankPassword);
+            if (result.StatusCode == "0")
+            {
+                string msg = "SUCCESS: TRANSACTION RULE CREATED WITH RULECODE = [" + result.PegPayId + "]";
+                bll.ShowMessage(lblmsg, msg, false);
+            }
+            else
+            {
+                string msg = result.StatusDesc;
+                bll.ShowMessage(lblmsg, msg, true);
+            
+            }
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true);
+        }
+    }
+
+    private TransactionRule GetTransactionRule()
+    {
+        TransactionRule rule = new TransactionRule();
+        rule.Approver = ddApprover.SelectedValue;
+        rule.BankCode = ddBank.SelectedValue;
+        rule.BranchCode = ddBank.SelectedValue;
+        rule.Description = "";
+        rule.Id = "";
+        rule.IsActive = ddIsActive.Text;
+        rule.MaximumAmount = txtMaxAmount.Text;
+        rule.MinimumAmount = txtMinAmount.Text;
+        rule.ModifiedBy = user.Id;
+        rule.ModifiedOn = ""+DateTime.Now;
+        rule.RuleCode = txtRuleCode.Text;
+        rule.RuleName = txtRuleName.Text;
+        rule.UserId = txtUserId.Text;
+        return rule;
+    }
 }

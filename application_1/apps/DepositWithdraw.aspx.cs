@@ -91,7 +91,8 @@ public partial class DepositWithdraw : System.Web.UI.Page
                 {
                     //generate reciept
                     string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-                    bll.ShowMessage(lblmsg, msg, false, Session);
+                    bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode,result.PegPayId);
+                    Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
                 }
                 //it has failed
                 else
@@ -125,7 +126,14 @@ public partial class DepositWithdraw : System.Web.UI.Page
         tran.ToAccount = txtToAccount.Text;
         tran.TranAmount = txtAmount.Text;
         tran.TranCategory = ddTranCategory.SelectedValue;
-        tran.BankTranId = bll.SaveTranRequest(tran);
+        if (Operation == "Deposit")
+        {
+            tran.BankTranId = bll.SaveTranRequest(tran,tran.ToAccount);
+        }
+        else 
+        {
+            tran.BankTranId = bll.SaveTranRequest(tran, tran.FromAccount);
+        }
         return tran;
     }
 }

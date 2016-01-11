@@ -60,7 +60,6 @@ public partial class Transact : System.Web.UI.Page
                 //send to supervisor
                 //display message to user
                 string msg = "Transaction Has Been Sent to Supervisor for Approval: "+tran.StatusDesc;
-                //bll.SendToSupervisorForApproval(tran);
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
             //doesnt need approval
@@ -74,7 +73,8 @@ public partial class Transact : System.Web.UI.Page
                 {
                     //generate reciept
                     string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-                    bll.ShowMessage(lblmsg, msg, false, Session);
+                    bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
+                    Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
                 }
                 //it has failed
                 else
@@ -108,7 +108,7 @@ public partial class Transact : System.Web.UI.Page
         tran.ToAccount = txtToAccount.Text;
         tran.TranAmount = txtAmount.Text;
         tran.TranCategory = ddTranCategory.SelectedValue;
-        tran.BankTranId = bll.SaveTranRequest(tran);
+        tran.BankTranId = bll.SaveTranRequest(tran,tran.FromAccount);
         return tran;
     }
 }

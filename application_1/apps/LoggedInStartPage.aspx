@@ -1,10 +1,8 @@
 <%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="LoggedInStartPage.aspx.cs" Inherits="Admin" Title="START PAGE" %>
 <%@ Import Namespace="InterLinkClass.CoreBankingApi"  %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <!-- Header Carousel -->
     <hr />
-    <!-- Project One -->
-    <div class="row">
+    <div class="row" style="padding-top:10px">
         <div class="col-md-5">
             <a href="portfolio-item.html">
                 <img class="img-responsive img-thumbnail" style="height:300px" src="Images\<% Bank bank = (Bank)Session["UsersBank"]; Response.Write(bank.BankCode+@"\"+bank.PathToLogoImage); %>" alt="">
@@ -21,13 +19,7 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Marketing Icons Section -->
-        <%--<div class="row">
-            <div class="col-lg-12">
-                <h3>Welcome to Modern Banking
-                </h3>
-            </div>
-        </div>--%>
+      
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default">

@@ -11,25 +11,25 @@
 
 <head id="Head1" runat="server">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
     <title>BANK_OS</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Custom CSS -->
-    <link href="css/PutCustomCssHere.css" rel="stylesheet">
+    <link href="css/PutCustomCssHere.css" rel="stylesheet"/>
 
     <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
+    <link href="css/plugins/morris.css" rel="stylesheet"/>
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -88,7 +88,7 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt=""/>
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>John Smith</strong>
@@ -161,7 +161,7 @@
                                 <a href="ApproveTransaction.aspx?Approver=SuperVisor">Approve Transactions</a>
                             </li>
                             <li>
-                                <a href="#">Reverse Transaction</a>
+                                <a href="ReversePayments.aspx">Reverse Transaction</a>
                             </li>
                         </ul>
                     </li>

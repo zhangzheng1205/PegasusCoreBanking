@@ -446,6 +446,9 @@ ul.alert-dropdown {
 
 body /* this is to set the body element, but mostly used for removing margins. */ {
     background-color: black;
+    font-size:14px;
+    margin:0; padding:0;
+
 }
 
 .navbar-inverse {
@@ -464,3 +467,5 @@ body /* this is to set the body element, but mostly used for removing margins. *
 .navbar-inverse .navbar-brand {
     color: white;
 }
+
+

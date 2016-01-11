@@ -94,6 +94,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
         string BankId = txtBankTranId.Text;
         string FromDate = txtFromDate.Text;
         string ToDate = txtToDate.Text;
+        string Status = "PENDING";
         searchCriteria.Add(BankCode);
         searchCriteria.Add(BranchCode);
         searchCriteria.Add(Teller);
@@ -104,6 +105,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
         searchCriteria.Add(FromDate);
         searchCriteria.Add(ToDate);
         searchCriteria.Add(Approver);
+        searchCriteria.Add(Status);
         return searchCriteria.ToArray();
     }
 }

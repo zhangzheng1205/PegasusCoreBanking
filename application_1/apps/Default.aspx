@@ -59,10 +59,10 @@
                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email" required="true" autofocus="true" />
                         <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" required="true" />
                         <asp:Button runat="server" Text="Sign in" CssClass="btn btn-lg btn-success btn-block" ID="btnLogin" OnClick="btnLogin_Click"></asp:Button>
-                        <label class="checkbox pull-left">
+                        <%--<label class="checkbox pull-left">
                             <input type="checkbox" value="remember-me" />
                             Remember me
-                        </label>
+                        </label>--%>
                         <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     </form>
                 </div>

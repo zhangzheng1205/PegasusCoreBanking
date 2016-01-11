@@ -163,9 +163,10 @@ public class Bussinesslogic
 
 
 
-    public string SaveTranRequest(TransactionRequest tran)
+    public string SaveTranRequest(TransactionRequest tran,string AccountNumber)
     {
         string[] parameters ={ tran.CustomerName,
+                                 AccountNumber,
                               tran.ToAccount,
                               tran.FromAccount,
                               tran.TranAmount,
@@ -395,5 +396,11 @@ public class Bussinesslogic
             throw new Exception("Unable to Determine User Access Rights");
         }
         return allowedAreas;
+    }
+
+    public void UpdateBankTransactionStatus(string BankID, string BankCode,string PegPayId)
+    {
+        string[] parameters = { BankID, BankCode,PegPayId };
+        int rowsAffected = dh.ExecuteNonQuery("UpdateBankTransactionStatus", parameters);
     }
 }

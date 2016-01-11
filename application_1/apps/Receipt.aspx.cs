@@ -13,6 +13,7 @@ using InterLinkClass.Epayment;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Web;
 using CrystalDecisions.Shared;
+using InterLinkClass.CoreBankingApi;
 
 public partial class Receipt : System.Web.UI.Page
 {
@@ -20,55 +21,82 @@ public partial class Receipt : System.Web.UI.Page
     Datapay datapay = new Datapay();
     DataTable dataTable = new DataTable();
     DataTable dtable = new DataTable();
+    Bussinesslogic bll = new Bussinesslogic();
+    DatabaseHandler dh = new DatabaseHandler();
+    Bank usersBank = new Bank();
+
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            if (IsPostBack == false)
-            {
-                if ((Session["FullName"] != null))
-                {
-                    if (Request.QueryString["transfereid"] != null && Request.QueryString["transferecode"] != null)
-                    {
-                        lblcode.Text = Request.QueryString["transfereid"].ToString();
-                        lblvendorcode.Text = Request.QueryString["transferecode"].ToString();
-                        //LoadReceipt();
+            string Id = Request.QueryString["Id"];
+            string Code = Request.QueryString["BankCode"];
 
-                        string receiptno = lblcode.Text.Trim();
-                        string vendorRef = lblvendorcode.Text.Trim();
-                        LoadReceiptRpt(receiptno, vendorRef);
-                    }
-                }
-                else
-                {
-                    Response.Redirect("Default.aspx?login=1", false);
-                }
+            if ((Session["User"] == null) || Id == null || Code == null || Session["UsersBank"] == null)
+            {
+                Response.Redirect("Default.aspx?login=1", false);
+            }
+            else if (IsPostBack)
+            {
+
 
             }
             else
             {
-                //if (Request.QueryString["transfereid"] != null && Request.QueryString["transferecode"] != null)
-                //{
-                //    lblcode.Text = Request.QueryString["transfereid"].ToString();
-                //    lblvendorcode.Text = Request.QueryString["transferecode"].ToString();
-                //    //LoadReceipt();
-
-                //    string receiptno = lblcode.Text.Trim();
-                //    string vendorRef = lblvendorcode.Text.Trim();
-                //    LoadReceiptRpt(receiptno, vendorRef);
-                //}
+                usersBank = Session["UsersBank"] as Bank;
+                LoadData(Id, Code);
+                MultiView1.ActiveViewIndex = 0;
             }
-        }
-        catch (NullReferenceException exe)
-        {
-            Response.Redirect("Default.aspx?login=1", false);
 
+        }
+        catch (NullReferenceException ex)
+        {
+            bll.ShowMessage(lblmsg, ex.Message, true);
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message, true);
+            bll.ShowMessage(lblmsg, ex.Message, true);
         }
     }
+
+    private void LoadData(string vendorref, string BankCode)
+    {
+        string[] parameters = { vendorref, BankCode };
+        DataTable dataTable = dh.ExecuteSelect("GetTransactionRequestDetails", parameters).Tables[0];
+        if (dataTable.Rows.Count > 0)
+        {
+            DataRow dr = dataTable.Rows[0];
+            string status = dr["Status"].ToString().ToUpper();
+            if (status == "SUCCESS")
+            {
+                lblcode.Text = BankCode;
+                lblAgentRef.Text = vendorref;
+                lblamount.Text = dr["TranAmount"].ToString();
+                lblcashier.Text = dr["Teller"].ToString();
+                lblCustname.Text = dr["CustomerName"].ToString();
+                lblAccountRef.Text = dr["AccountNumber"].ToString();
+                lblPayDate.Text = dr["PaymentDate"].ToString();
+                lblRecieptno.Text = dr["Reason"].ToString();
+                lblTitle.Text = "Payment Reciept";
+                lblTranCategory.Text = dr["TranCategory"].ToString();
+                lblBranchCode.Text = dr["BranchCode"].ToString();
+                lblBankCode.Text = BankCode;
+                Label1.Text = usersBank.BankName;
+            }
+            else
+            {
+                throw new Exception("No Successfull Bank Transaction has been found with Id Specified");
+            }
+        }
+        else
+        {
+            throw new Exception("Bank Transaction with Id Specified Not Found");
+        }
+    }
+
+
     private void Page_Unload(object sender, EventArgs e)
     {
         if (Rptdoc != null)
@@ -78,127 +106,56 @@ public partial class Receipt : System.Web.UI.Page
             GC.Collect();
         }
     }
-    private void LoadReceipt()
-    {
-        Responseobj res = new Responseobj();
-        res.VendorRef = lblvendorcode.Text.Trim();
-        res.Receiptno = lblcode.Text.Trim();
-        dataTable = datapay.GetPaymentDetails(res);
-        if (dataTable.Rows.Count > 0)
-        {
-            MultiView1.ActiveViewIndex = 0;
-            lblRecieptno.Text = dataTable.Rows[0]["RecieptNo"].ToString();
-            lblAgentRef.Text = dataTable.Rows[0]["VendorRef"].ToString();
-            lblCustRef.Text = dataTable.Rows[0]["Custref"].ToString();
-            lblCustname.Text = dataTable.Rows[0]["Custname"].ToString();
-            lblcashier.Text = dataTable.Rows[0]["Createdby"].ToString();
-            lblPaymode.Text = dataTable.Rows[0]["Paymentmode"].ToString();
-            lblDistrict.Text = dataTable.Rows[0]["District"].ToString();
-            DateTime paydate = DateTime.Parse(dataTable.Rows[0]["PaymentDate"].ToString());
-            lblPayDate.Text = paydate.ToString("dd/MM/yyyy : HH:MM:ss");
-            double bal = double.Parse(dataTable.Rows[0]["Balance"].ToString());
-            double amount = double.Parse(dataTable.Rows[0]["Amount"].ToString());
-            double newbal = double.Parse(dataTable.Rows[0]["NewBal"].ToString());
 
-            lblamount.Text = amount.ToString("#,##0");
-            lblbal.Text = newbal.ToString("#,##0");
-            lbloldbal.Text = bal.ToString("#,##0");
-            string pagefrom = Session["frompage"].ToString();
-            if (pagefrom.ToUpper().Equals("MAKEPAYMENT.ASPX"))
-            {
-                lblTitle.Text = "PAYMENT RECEIPT";
-            }
-            else
-            {
-                lblTitle.Text = "DUPLICATE PAYMENT RECEIPT";
-            }
-        }
-    }
-    private void ShowMessage(string Message, bool Error)
-    {       
-        if (Error) { lblmsg.ForeColor = System.Drawing.Color.Red; lblmsg.Font.Bold = false; }
-        else { lblmsg.ForeColor = System.Drawing.Color.Black; lblmsg.Font.Bold = true; }
-        if (Message == ".")
-        {
-            lblmsg.Text = ".";
-        }
-        else
-        {
-            lblmsg.Text = "MESSAGE: " + Message.ToUpper();
-        }
-    }
+
     protected void Button4_Click(object sender, EventArgs e)
     {
         try
         {
             string pageto = Session["frompage"].ToString();
-            Response.Redirect(pageto,true);
+            Response.Redirect(pageto, true);
         }
-        catch (NullReferenceException exe)
+        catch (NullReferenceException ex)
         {
-            Response.Redirect("Default.aspx?login=1", false);
-
+            bll.ShowMessage(lblmsg, ex.Message, true);
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message, true);
-            //Response.Redirect("Default.aspx?login=1", false);
+            bll.ShowMessage(lblmsg, ex.Message, true);
         }
+
     }
-    private void LoadReceiptRpt(string receiptno, string vendorref)
+
+
+    private void LoadReceiptRpt(string vendorref, string BankCode)
     {
         Responseobj res = new Responseobj();
-        res.VendorRef = vendorref;
-        res.Receiptno = receiptno;
-        dataTable = datapay.GetPaymentDetails(res);
+        string[] parameters = { vendorref, BankCode };
+        DataTable dataTable = dh.ExecuteSelect("GetTransactionRequestDetails", parameters).Tables[0];
         if (dataTable.Rows.Count > 0)
         {
-            string cust_type = dataTable.Rows[0]["CustType"].ToString();
-            if (cust_type.ToUpper().Equals("POSTPAID"))
-            {
-                dataTable = formatTable(dataTable);
+            dataTable = formatTable(dataTable);
 
-                MultiView1.ActiveViewIndex = 1;
-                string appPath, physicalPath, rptName;
-                appPath = HttpContext.Current.Request.ApplicationPath;
-                physicalPath = HttpContext.Current.Request.MapPath(appPath);
+            MultiView1.ActiveViewIndex = 1;
+            string appPath, physicalPath, rptName;
+            appPath = HttpContext.Current.Request.ApplicationPath;
+            physicalPath = HttpContext.Current.Request.MapPath(appPath);
 
-                rptName = physicalPath + "\\Bin\\Reports\\Receipt.rpt";
+            rptName = physicalPath + "\\Bin\\Reports\\Receipt.rpt";
 
-                Rptdoc.Load(rptName);
-                Rptdoc.SetDataSource(dataTable);
-                CrystalReportViewer1.ReportSource = Rptdoc;
-                ///Rptdoc.PrintOptions.PrinterName("");
-                Rptdoc.PrintOptions.PaperSize = PaperSize.PaperEnvelopeDL;
-                //Rptdoc.PrintToPrinter(1, true, 0, 0);
-                //Rptdoc.Dispose();
-                Hidetoolbar();
-            }
-            else
-            {
-                dtable = datapay.GetPreReceiptDetails(res);
-                if (dtable.Rows.Count > 0)
-                {
-                    dtable = formatTokenTable(dtable);
-                    MultiView1.ActiveViewIndex = 1;
-                    string appPath, physicalPath, rptName;
-                    appPath = HttpContext.Current.Request.ApplicationPath;
-                    physicalPath = HttpContext.Current.Request.MapPath(appPath);
-
-                    rptName = physicalPath + "\\Bin\\Reports\\TokenReceipt.rpt";
-
-                    Rptdoc.Load(rptName);
-                    Rptdoc.SetDataSource(dtable);
-                    CrystalReportViewer1.ReportSource = Rptdoc;
-                    ///Rptdoc.PrintOptions.PrinterName("");
-                    Rptdoc.PrintOptions.PaperSize = PaperSize.PaperEnvelopeDL;
-                    //Rptdoc.PrintToPrinter(1, true, 0, 0);
-                    //Rptdoc.Dispose();
-                    Hidetoolbar();
-                }
-            }
+            Rptdoc.Load(rptName);
+            Rptdoc.SetDataSource(dataTable);
+            CrystalReportViewer1.ReportSource = Rptdoc;
+            Rptdoc.PrintOptions.PaperSize = PaperSize.PaperEnvelopeDL;
+            Hidetoolbar();
+        }
+        else
+        {
+            string msg = "Failed: Record of a Transaction with this Id not found";
+            bll.ShowMessage(lblmsg, msg, true);
         }
     }
+
     private void Hidetoolbar()
     {
         CrystalReportViewer1.HasCrystalLogo = false;
@@ -214,30 +171,24 @@ public partial class Receipt : System.Web.UI.Page
         CrystalReportViewer1.HasToggleGroupTreeButton = false;
         CrystalReportViewer1.DisplayGroupTree = false;
     }
+
     private DataTable formatTable(DataTable dataTable)
     {
         DataTable formedTable;
         string pagefrom = Session["frompage"].ToString();
         string Header = "";
-        if (pagefrom.ToUpper().Equals("MAKEPAYMENT.ASPX"))
-        {
-            Header = "PAYMENT RECEIPT";
-        }
-        else
-        {
-            Header = "DUPLICATE PAYMENT RECEIPT";
-        }
-        
+
         DataColumn myDataColumn = new DataColumn();
         myDataColumn.DataType = System.Type.GetType("System.String");
         myDataColumn.ColumnName = "Title";
         dataTable.Columns.Add(myDataColumn);
         // Add data to the new columns
 
-        dataTable.Rows[0]["Title"] = Header;
+        //dataTable.Rows[0]["Title"] = Header;
         formedTable = dataTable;
         return formedTable;
     }
+
     private DataTable formatTokenTable(DataTable dataTable)
     {
         DataTable formedTable;
@@ -269,8 +220,7 @@ public partial class Receipt : System.Web.UI.Page
             string receiptno = lblcode.Text.Trim();
             string vendorRef = lblvendorcode.Text.Trim();
             LoadReceiptRpt(receiptno, vendorRef);
-            //Rptdoc.PrintToPrinter(1, true, 0, 0);
-            
+
             Rptdoc.ExportToHttpResponse(ExportFormatType.PortableDocFormat, Response, true, "RECEIPT(" + receiptno + ")");
 
         }
@@ -281,7 +231,15 @@ public partial class Receipt : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message, true);
+            bll.ShowMessage(lblmsg, ex.Message, true);
         }
+    }
+
+    private string bankCode;
+
+    public string BankCode
+    {
+        get { return bankCode; }
+        set { bankCode = value; }
     }
 }

@@ -102,8 +102,15 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
-                bll.ShowMessage(lblmsg, msg, false);
+                if (newUser.Usertype.Contains("CUSTOMER")) 
+                {
+                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId="+newUser.Id+"&BankCode="+newUser.BankCode);
+                }
+                else 
+                {
+                    string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
+                    bll.ShowMessage(lblmsg, msg, false);
+                }
             }
             else
             {
@@ -129,7 +136,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.FullName = txtBankUsersName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
-        aUser.IsActive = ddIsActive.Text;
+        aUser.IsActive = "False";
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GenerateBankPassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;

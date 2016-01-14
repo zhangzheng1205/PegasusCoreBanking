@@ -23,6 +23,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             //Check If this is an Edit Request
             string Id = Request.QueryString["Id"];
             string BankCode = Request.QueryString["BankCode"];
+            string UserId = Request.QueryString["UserId"];
 
             //Session is invalid
             if (user == null)
@@ -32,6 +33,14 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             else if (IsPostBack)
             {
 
+            }
+            //create customer request
+            else if (UserId != null) 
+            {
+                LoadData();
+                txtUserId.Text = UserId;
+                txtUserId.Enabled = false;
+                MultiView1.ActiveViewIndex = 0;
             }
             //this is an edit request
             else if (Id != null)

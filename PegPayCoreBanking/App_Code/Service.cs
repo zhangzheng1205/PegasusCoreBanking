@@ -26,7 +26,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (tranRequest.IsValid())
+            if (tranRequest.IsValidTransactRequest())
             {
                 result = bll.Transact(tranRequest);
             }
@@ -468,7 +468,6 @@ public class Service : System.Web.Services.WebService
         {
             throw new SoapException(e.Message, new System.Xml.XmlQualifiedName(e.Message), e);
         }
-        return dataSet;
     }
 
 

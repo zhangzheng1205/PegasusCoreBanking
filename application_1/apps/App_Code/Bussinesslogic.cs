@@ -115,7 +115,7 @@ public class Bussinesslogic
             ddlst.Items.Add(new ListItem("ALL", "ALL"));
             parameters = new string[] { "ALL" };
         }
-        else 
+        else
         {
             parameters = new string[] { user.BankCode };
             ddlst.Enabled = false;
@@ -123,14 +123,14 @@ public class Bussinesslogic
         DataSet ds = dh.ExecuteSelect("Banks_SelectRow", parameters);
         DataTable dt = ds.Tables[0];
 
-       
+
         foreach (DataRow dr in dt.Rows)
         {
             string bankcode = dr["BankCode"].ToString();
             string bankName = dr["BankName"].ToString();
             ddlst.Items.Add(new ListItem(bankName, bankcode));
         }
-      
+
     }
 
     public void CreateFolderPathIfItDoesntExist(string folderPath)
@@ -145,7 +145,7 @@ public class Bussinesslogic
 
     public string GenerateBankPassword()
     {
-        return "TEST";
+        return "T3rr1613";
     }
 
     public void ShowMessage(Label lblmsg, string msg, bool IsError)
@@ -163,7 +163,7 @@ public class Bussinesslogic
 
 
 
-    public string SaveTranRequest(TransactionRequest tran,string AccountNumber)
+    public string SaveTranRequest(TransactionRequest tran, string AccountNumber)
     {
         string[] parameters ={ tran.CustomerName,
                                  AccountNumber,
@@ -248,7 +248,7 @@ public class Bussinesslogic
 
     public bool TransactionRequiresApproval(ref TransactionRequest tran)
     {
-        string[] parameters={tran.BankCode,tran.BranchCode,tran.Teller,tran.TranAmount};
+        string[] parameters = { tran.BankCode, tran.BranchCode, tran.Teller, tran.TranAmount };
         DataSet ds = dh.ExecuteSelect("CheckIfItViolatesRules", parameters);
         DataTable dt = ds.Tables[0];
         if (dt.Rows.Count > 0)
@@ -259,15 +259,15 @@ public class Bussinesslogic
             tran.StatusDesc = dt.Rows[0]["Description"].ToString();
             return true;
         }
-        else 
+        else
         {
             return false;
         }
     }
 
-    public void SendToSupervisorForApproval(TransactionRequest tran,string Approver)
+    public void SendToSupervisorForApproval(TransactionRequest tran, string Approver)
     {
-        string[] parameters={tran.BankTranId,"PENDING","True",Approver};
+        string[] parameters = { tran.BankTranId, "PENDING", "True", Approver };
         dh.ExecuteNonQuery("UpdateTransacttionApprovalStatus", parameters);
     }
 
@@ -281,41 +281,41 @@ public class Bussinesslogic
     public DataTable SearchAll(string[] searchParams, string code)
     {
         DataTable dt = new DataTable();
-        DataSet ds=new DataSet();
-        switch (code) 
+        DataSet ds = new DataSet();
+        switch (code)
         {
             case "TELLER":
-               ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "CUSTOMER":
-               ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "TRANSACTIONCATEGORY":
-               ds = dh.ExecuteSelect("SearchTransactionCategoriesTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchTransactionCategoriesTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "USERTYPE":
-               ds = dh.ExecuteSelect("SearchUserTypesTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchUserTypesTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "ACCOUNTTYPE":
-               ds = dh.ExecuteSelect("SearchAccountTypesTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchAccountTypesTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "ACCOUNTS":
-               ds = dh.ExecuteSelect("SearchBankAccountsTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchBankAccountsTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "BRANCHES":
-               ds = dh.ExecuteSelect("SearchBankBranchesTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchBankBranchesTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "CHARGES":
-               ds = dh.ExecuteSelect("SearchBankChargesTable", searchParams);
-               dt = ds.Tables[0];
-               return dt;
+                ds = dh.ExecuteSelect("SearchBankChargesTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             default:
                 return dt;
         }
@@ -385,22 +385,80 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
         if (dt.Rows.Count > 0)
         {
-            foreach (DataRow dr in dt.Rows) 
+            foreach (DataRow dr in dt.Rows)
             {
-                string allowedArea=dr["CanAccess"].ToString().ToUpper();
+                string allowedArea = dr["CanAccess"].ToString().ToUpper();
                 allowedAreas.AddRange(allowedArea.Split(','));
             }
         }
-        else 
+        else
         {
             throw new Exception("Unable to Determine User Access Rights");
         }
         return allowedAreas;
     }
 
-    public void UpdateBankTransactionStatus(string BankID, string BankCode,string PegPayId)
+    public void UpdateBankTransactionStatus(string BankID, string BankCode, string PegPayId)
     {
-        string[] parameters = { BankID, BankCode,PegPayId };
+        string[] parameters = { BankID, BankCode, PegPayId };
         int rowsAffected = dh.ExecuteNonQuery("UpdateBankTransactionStatus", parameters);
+    }
+
+    public TransactionRequest GetTransactionRequest(string BankTranId, string BankCode, string Approver)
+    {
+        TransactionRequest tran = new TransactionRequest();
+        string[] parameters = { BankTranId, BankCode };
+        DataSet ds = dh.ExecuteSelect("GetTransactionRequest", parameters);
+        DataTable dt = ds.Tables[0];
+        if (dt.Rows.Count > 0)
+        {
+            DataRow dr = dt.Rows[0];
+            tran.ApprovedBy = Approver;
+            tran.BankCode = BankCode;
+            tran.BankTranId = BankTranId;
+            tran.BranchCode = dr["BranchCode"].ToString();
+            tran.CustomerId = "";
+            tran.CustomerName = dr["CustomerName"].ToString();
+            tran.DigitalSignature = "";
+            tran.FromAccount = dr["fromAccount"].ToString();
+            tran.Narration = dr["Narration"].ToString();
+            tran.Password = BankPassword;
+            tran.PaymentDate = dr["PaymentDate"].ToString();
+            DateTime payDate = DateTime.Parse(tran.PaymentDate);
+            tran.PaymentDate = payDate.ToString("dd/MM/yyyy");
+            tran.Teller = dr["Teller"].ToString();
+            tran.ToAccount = dr["toAccount"].ToString();
+            tran.TranAmount = dr["TranAmount"].ToString();
+            tran.TranCategory = dr["TranCategory"].ToString();
+        }
+        else
+        {
+            throw new Exception("Failed to Find Transaction with Bank Id:" + BankTranId);
+        }
+        return tran;
+    }
+
+    public DataTable SearchBankUsersTable(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("GetBankUsersPendingApproval", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
+    }
+
+    public Result UpdateUserIsActiveStatus(string[] parameters)
+    {
+        Result result = new Result();
+        int rows = dh.ExecuteNonQuery("UpdateUserIsActiveStatus", parameters);
+        if (rows > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNBALE TO APPROVE USER AT THE MOMENT";
+        }
+        return result;
     }
 }

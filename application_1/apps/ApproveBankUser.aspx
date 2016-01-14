@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="ApproveTransaction.aspx.cs" Inherits="ApproveTransaction" Title="Approve Transaction" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Main.master" CodeFile="ApproveBankUser.aspx.cs" Inherits="ApproveBankUser" Title="APPROVE BANK USER" %>
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
     Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
@@ -23,14 +23,14 @@
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
-                                <h4>Check for Transactions Pending Approval
+                                <h4>Check for Bank Users Pending Approval
                                 </h4>
                                 <ol class="breadcrumb">
                                     <li>
                                         <i class="fa fa-dashboard"></i>Dashboard
                                     </li>
                                     <li class="active">
-                                        <i class="fa fa-edit"></i>Approve Transactions
+                                        <i class="fa fa-edit"></i>Approve Users
                                     </li>
                                 </ol>
                             </div>
@@ -91,19 +91,10 @@
                                     <asp:TextBox ID="txtCustName" runat="server" CssClass="form-control" placeholder="Enter text" />
                                 </div>
                                 <div class="col-lg-2">
-                                    <label>Transaction Category</label>
-                                    <asp:DropDownList ID="ddTranCategory" runat="server" CssClass="form-control">
-                                        <asp:ListItem>True</asp:ListItem>
-                                        <asp:ListItem>False</asp:ListItem>
-                                    </asp:DropDownList>
                                 </div>
                             </div>
                             <hr />
                             <div class="row">
-                                <div class="col-lg-2">
-                                    <label>Bank Transaction Id</label>
-                                    <asp:TextBox ID="txtBankTranId" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                </div>
                                 <div class="col-lg-2">
                                     <label>From Date</label>
                                     <asp:TextBox ID="txtFromDate" runat="server" CssClass="form-control" placeholder="Enter text" />
@@ -112,37 +103,40 @@
                                     <label>To Date</label>
                                     <asp:TextBox ID="txtToDate" runat="server" CssClass="form-control" placeholder="Enter text" />
                                 </div>
-                                <div class="col-lg-2">
-                                    <label>Reason</label>
-                                    <asp:TextBox ID="txtReason" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                </div>
+
                                 <div class="col-lg-2">
                                     <label>Search</label>
                                     <div class="button-wrapper">
                                         <asp:Button ID="btnSubmit" Width="130px" Height="40px" runat="server" Text="Search" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
                                     </div>
                                 </div>
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-2">
+                                </div>
                             </div>
                         </div>
                         <hr />
                         <asp:MultiView runat="server" ID="Multiview2">
                             <asp:View runat="server" ID="resultView">
-                               <div class="row">
+                                <div class="row">
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
                                         <asp:Button ID="btnApprove" runat="server" OnClick="btnApprove_Click"
-                                            CssClass="btn-primary" Text="Approve Transaction(s)" />
+                                            CssClass="btn-primary" Text="Approve Users(s)" />
                                     </div>
                                     <div class="col-lg-4"></div>
                                 </div>
                                 <hr />
                                 <div class="row">
                                     <div class="table-responsive">
-                                       <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" OnSelectedIndexChanged="dataGridResults_SelectedIndexChanged">
-                                           <AlternatingRowStyle BackColor="#BFE4FF" />
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" OnSelectedIndexChanged="dataGridResults_SelectedIndexChanged">
+                                            <AlternatingRowStyle BackColor="#BFE4FF" />
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Approve">
-                                                    <HeaderTemplate >
+                                                    <HeaderTemplate>
                                                         <asp:CheckBox ID="chkboxSelectAll" Text="Approve All" runat="server" AutoPostBack="true" OnCheckedChanged="dataGridResults_SelectedIndexChanged" />
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
@@ -184,5 +178,5 @@
         <asp:View ID="View2" runat="server">
         </asp:View>
     </asp:MultiView>
-   
+
 </asp:Content>

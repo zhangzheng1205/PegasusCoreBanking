@@ -23,10 +23,145 @@ public class TransactionRequest:BaseObject
     public string DigitalSignature = "";
     public string TranCategory = "";
     public string BranchCode = "";
+   
 
 
-    public bool IsValid()
+    public bool IsValidTransactRequest()
     {
+        BaseObject valObj=new BaseObject();
+        if (string.IsNullOrEmpty(this.ApprovedBy)) 
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY APPROVER USER ID IN APPROVEDBY FIELD";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.BankCode))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANKCODE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.BankTranId))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANK TRANSACTION ID";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.BranchCode))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BRANCH CODE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.CustomerName))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A CUSTOMER NAME";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.FromAccount))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A FROM ACCOUNT";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.Narration))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A NARRATION/REASON FOR THIS TRANSACTION";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.Password))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANK PASSWORD";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.PaymentDate))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A PAYMENT DATE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.Teller))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A TELLER ID";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.ToAccount))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A TO ACCOUNT";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.TranAmount))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A TRANSACTION AMOUNT";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.TranCategory))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A TRANSACTION CATEGORY";
+            return false;
+        }
+        else if (bll.IsValidBankCode(this.BankCode,out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A VALID BANKCODE. BANK NOT FOUND";
+            return false;
+        }
+        else if (!bll.IsValidUser(this.ApprovedBy,this.BankCode,out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidBankRef(this.BankTranId,this.BankCode,this.ToAccount,this.FromAccount,this.TranAmount,out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidBankBranchCode(this.BranchCode,this.BankCode,out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidAccountNumber(this.FromAccount, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidUser(this.Teller, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidAccountNumber(this.ToAccount, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidTransactionAmount(this.TranAmount, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidTransactionCategory(this.TranCategory, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        
         return true;
     }
 

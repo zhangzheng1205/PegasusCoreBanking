@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class ApproveTransaction : System.Web.UI.Page
+public partial class ApproveBankUser : System.Web.UI.Page
 {
     BankUser user;
     Service client = new Service();
@@ -23,7 +23,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
             Approver = Request.QueryString["Approver"];
 
             //Session is invalid
-            if (user == null||string.IsNullOrEmpty(Approver))
+            if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
@@ -49,23 +49,9 @@ public partial class ApproveTransaction : System.Web.UI.Page
     {
         bll.LoadBanksIntoDropDownALL(user, ddBank);
         bll.LoadBanksBranchesIntoDropDownALL(user.BankCode, ddBankBranch, user);
-        bll.LoadTransactionTypesIntoDropDownALL(user.BankCode, ddTranCategory, user);
     }
 
     protected void btnApprove_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            ApproveTransactions();
-        }
-        catch (Exception ex)
-        {
-            string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true, Session);
-        }
-    }
-
-    private void ApproveTransactions()
     {
         //loop thru the rows
         foreach (GridViewRow row in dataGridResults.Rows)
@@ -82,7 +68,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
                     try
                     {
                         //send reversal request
-                        ApproveTransactionRequest(row);
+                        ApproveUser(row);
                     }
                     catch (Exception ex)
                     {
@@ -94,64 +80,35 @@ public partial class ApproveTransaction : System.Web.UI.Page
         }
     }
 
-    private void ApproveTransactionRequest(GridViewRow row)
+    private void ApproveUser(GridViewRow row)
     {
         //get the Bank Transaction Id and the bank code
-        string BankTranId = row.Cells[1].Text.Trim();
+        string UserId = row.Cells[1].Text.Trim();
         string BankCode = ddBank.SelectedValue;
+        string ApprovedBy = user.Id;
+        string IsActive="True";
+        string[] parameters = { UserId, BankCode,IsActive ,ApprovedBy };
 
-        //send transact request
-        TransactionRequest tran = bll.GetTransactionRequest(BankTranId, BankCode,user.Id);
-        Result result = client.Transact(tran);
-
-        //success
+        Result result = bll.UpdateUserIsActiveStatus(parameters);
         if (result.StatusCode == "0") 
         {
-            //generate reciept
-            string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-            bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
-            Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
+             string msg = "User(s) Approved Successfully";
+             bll.ShowMessage(lblmsg, msg, false, Session);
         }
         else 
         {
-            //display error
             string msg = result.StatusDesc;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
 
     }
 
-    protected void dataGridResults_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            CheckBox ChkBoxHeader = (CheckBox)dataGridResults.HeaderRow.FindControl("chkboxSelectAll");
-            foreach (GridViewRow row in dataGridResults.Rows)
-            {
-                CheckBox ChkBoxRows = (CheckBox)row.FindControl("CheckBox");
-                if (ChkBoxHeader.Checked == true)
-                {
-                    ChkBoxRows.Checked = true;
-                }
-                else
-                {
-                    ChkBoxRows.Checked = false;
-                }
-            }
-        }
-        catch (Exception ex) 
-        {
-            string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true, Session);
-        }
-    }
-
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
-            string[] searchParams = GetSearchParameters();
-            DataTable dt = bll.SearchTransactionRequestsTable(searchParams);
+            string[] parameters = GetSearchParameters();
+            DataTable dt = bll.SearchBankUsersTable(parameters);
             if (dt.Rows.Count > 0)
             {
                 dataGridResults.DataSource = dt;
@@ -176,28 +133,49 @@ public partial class ApproveTransaction : System.Web.UI.Page
 
     private string[] GetSearchParameters()
     {
-        List<string> searchCriteria = new List<string>();
+        List<string> parameters = new List<string>();
         string BankCode = ddBank.SelectedValue;
         string BranchCode = ddBankBranch.SelectedValue;
         string Teller = txtTeller.Text;
         string AccountNumber = txtAccount.Text;
-        string CustomerName = txtCustName.Text;
-        string TransCategory = ddTranCategory.SelectedValue;
-        string BankId = txtBankTranId.Text;
-        string FromDate = txtFromDate.Text;
-        string ToDate = txtToDate.Text;
-        string Status = "PENDING";
-        searchCriteria.Add(BankCode);
-        searchCriteria.Add(BranchCode);
-        searchCriteria.Add(Teller);
-        searchCriteria.Add(AccountNumber);
-        searchCriteria.Add(CustomerName);
-        searchCriteria.Add(TransCategory);
-        searchCriteria.Add(BankId);
-        searchCriteria.Add(FromDate);
-        searchCriteria.Add(ToDate);
-        searchCriteria.Add(Approver);
-        searchCriteria.Add(Status);
-        return searchCriteria.ToArray();
+        string Username = txtCustName.Text;
+        string fromDate = txtFromDate.Text;
+        string toDate = txtToDate.Text;
+       
+        parameters.Add(BankCode);
+        parameters.Add(BranchCode);
+        parameters.Add(Teller);
+        parameters.Add(AccountNumber);
+        parameters.Add(Username);
+        parameters.Add(fromDate);
+        parameters.Add(toDate);
+      
+        return parameters.ToArray();
     }
+
+    protected void dataGridResults_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            CheckBox ChkBoxHeader = (CheckBox)dataGridResults.HeaderRow.FindControl("chkboxSelectAll");
+            foreach (GridViewRow row in dataGridResults.Rows)
+            {
+                CheckBox ChkBoxRows = (CheckBox)row.FindControl("CheckBox");
+                if (ChkBoxHeader.Checked == true)
+                {
+                    ChkBoxRows.Checked = true;
+                }
+                else
+                {
+                    ChkBoxRows.Checked = false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+ 
 }

@@ -21,19 +21,20 @@ namespace CoreBankingLogic.ExposedObjects
 
         public bool IsValid(string BankCode, string Password)
         {
+            BaseObject valobj=new BaseObject();
             if (!bll.AreValidBankCredentials(BankCode, Password)) 
             {
                 StatusCode = "100";
                 StatusDesc = "INVALID PEGPAY BANK CREDENTIALS";
                 return false;
             }
-            else if (!bll.IsValidUser(ModifiedBy,BankCode))
+            else if (!bll.IsValidUser(ModifiedBy,BankCode,out valobj))
             {
                 StatusCode = "100";
                 StatusDesc = "INVALID CREATED_BY USER";
                 return false;
             }
-            else if (!bll.IsValidUser(ApprovedBy, BankCode))
+            else if (!bll.IsValidUser(ApprovedBy, BankCode,out valobj))
             {
                 StatusCode = "100";
                 StatusDesc = "INVALID APPROVED_BY USER";

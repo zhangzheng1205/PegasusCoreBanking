@@ -95,31 +95,58 @@ public partial class ReversePayments : System.Web.UI.Page
     private void ReversePayment()
     {
 
+        //loop thru the rows
         foreach (GridViewRow row in dataGridResults.Rows)
         {
+            //for each row get the checkbox attached
             CheckBox ChkBox = (CheckBox)row.FindControl("CheckBox");
+
+            //has user ticked the box
             if (ChkBox.Checked)
             {
+                //if this row is not the header row
                 if (row.RowType != DataControlRowType.Header)
                 {
-                    string BankTranId = row.Cells[1].Text.Trim();
-                    string BankCode = user.BankCode;
-                    TransactionRequest tranRequest = new TransactionRequest();
-                    tranRequest.BankCode = BankCode;
-                    tranRequest.BankTranId = BankTranId;
-                    Result result = client.ReverseTransaction(tranRequest);
-                    if (result.StatusCode == "0")
+                    try
                     {
-                        string msg = "SUCCESS: Transaction with bank Id:" + BankTranId + " reversed Successfully";
-                        bll.ShowMessage(lblmsg, msg, false, Session);
+                        //send reversal request
+                        SendReversalRequest(row);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        string msg = result.StatusDesc;
+                        string msg = "FAILED: " + ex.Message;
                         bll.ShowMessage(lblmsg, msg, true, Session);
                     }
                 }
             }
+        }
+    }
+
+    private void SendReversalRequest(GridViewRow row)
+    {
+        //get the Bank Transaction Id and the bank code
+        string BankTranId = row.Cells[1].Text.Trim();
+        string BankCode = user.BankCode;
+
+        //build reversal request
+        TransactionRequest tranRequest = new TransactionRequest();
+        tranRequest.BankCode = BankCode;
+        tranRequest.BankTranId = BankTranId;
+
+        //send the request
+        Result result = client.ReverseTransaction(tranRequest);
+
+        //succees
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: Transaction with bank Id:" + BankTranId + " reversed Successfully";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        //failure
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 

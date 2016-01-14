@@ -151,13 +151,44 @@ public class BussinessLogic
         return true;
     }
 
-    public bool IsDuplicateBankRef(string BankId, string BankCode)
+    public bool IsValidBankRef(string BankId, string BankCode, string toAccount,string fromAccount, string Amount, out BaseObject obj)
     {
+        obj = new BaseObject();
+        string[] parameters ={ BankId, BankCode, toAccount,fromAccount, Amount };
+        DataSet ds = dh.ExecuteDataSet("IsValidBankRef", parameters);
+        DataTable dt = ds.Tables[0];
+
+        //something has been found
+        if (dt.Rows.Count > 0)
+        {
+            DataRow dr = dt.Rows[0];
+            string BankRef = dr["BankTranId"].ToString().ToUpper().Trim();
+            string PegPayId = dr["PegPayTranId"].ToString();
+            if (BankId.ToUpper().Trim() == BankRef)
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "FAILED:DUPLICATE BANK TRANSACTION ID["+BankRef+"], ORIGINAL RECIEPT NUMBER =" + PegPayId;
+            }
+            else
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "FAILED:SUSPECTED DOUBLE POSTING,SAME AMOUNT TO SAME ACCOUNT NUMBER WITHIN 10 min, ORIGINAL RECIEPT NUMBER =" + PegPayId;
+            }
+        }
+        //no record of Id found
+        else
+        {
+            obj.StatusCode = "0";
+            obj.StatusDesc = "SUCCESS";
+        }
         return true;
     }
 
-    internal bool IsValidUser(string username, string BankCode)
+    internal bool IsValidUser(string username, string BankCode, out BaseObject obj)
     {
+        obj = new BaseObject();
+        BankUser user = dh.GetUserById(username, BankCode);
+        obj = user;
         return true;
     }
 
@@ -212,7 +243,7 @@ public class BussinessLogic
         }
         else if (className.ToUpper() == "BANK")
         {
-            result = dh.GetBankById(objectId, bankCode, Password);
+            result = dh.GetBankById(objectId);
             return result;
         }
         else if (className.ToUpper() == "USERTYPE")
@@ -266,11 +297,11 @@ public class BussinessLogic
             //BankCustomer cust = new BankCustomer(user);
             //cust.
         }
-        else 
+        else
         {
             result = user;
         }
-        
+
         return result;
     }
 
@@ -365,5 +396,43 @@ public class BussinessLogic
         result.StatusDesc = "SUCCESS";
         result.PegPayId = Id;
         return result;
+    }
+
+    internal bool IsValidBankCode(string BankCode, out BaseObject obj)
+    {
+        obj = new BaseObject();
+        obj = dh.GetBankById(BankCode);
+        if (obj.StatusCode == "0")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    internal bool IsValidBankBranchCode(string BranchCode, string BankCode, out BaseObject obj)
+    {
+        obj = new BaseObject();
+        return true;
+    }
+
+    internal bool IsValidAccountNumber(string AccountNumber, string BankCode, out BaseObject valObj)
+    {
+        valObj = new BaseObject();
+        return true;
+    }
+
+    internal bool IsValidTransactionAmount(string Amount, out BaseObject valObj)
+    {
+        valObj = new BaseObject();
+        return true;
+    }
+
+    internal bool IsValidTransactionCategory(string tranCategory, string BankCode, out BaseObject valObj)
+    {
+        valObj = new BaseObject();
+        return true;
     }
 }

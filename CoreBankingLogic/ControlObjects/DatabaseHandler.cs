@@ -157,7 +157,8 @@ public class DatabaseHandler
                                                         account.AccountNumber,
                                                         account.AccountType,
                                                         BankCode,
-                                                        account.ModifiedBy
+                                                        account.ModifiedBy,
+                                                        account.BranchCode
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -387,21 +388,30 @@ public class DatabaseHandler
             if (datatable.Rows.Count > 0)
             {
                 DataRow dr = datatable.Rows[0];
-                user.FullName = dr["FullName"].ToString();
-                user.IsActive = dr["IsActive"].ToString();
-                user.Password = dr["Password"].ToString();
-                user.Id = dr["UserId"].ToString();
-                user.Email = dr["Email"].ToString();
-                user.Usertype = dr["Usertype"].ToString();
-                user.PhoneNumber = dr["PhoneNumber"].ToString();
-                user.BankCode = dr["BankCode"].ToString();
-                user.BranchCode = dr["BranchCode"].ToString();
-                user.Gender = dr["Gender"].ToString();
-                user.DateOfBirth = dr["DateOfBirth"].ToString();
-                user.CanHaveAccount = dr["CanHaveAccount"].ToString();
-
-                user.StatusCode = "0";
-                user.StatusDesc = "SUCCESS";
+                string IsActive = dr["IsActive"].ToString().ToUpper();
+                if (IsActive == "TRUE")
+                {
+                   
+                    user.FullName = dr["FullName"].ToString();
+                    user.IsActive = IsActive;
+                    user.Password = dr["Password"].ToString();
+                    user.Id = dr["UserId"].ToString();
+                    user.Email = dr["Email"].ToString();
+                    user.Usertype = dr["Usertype"].ToString();
+                    user.PhoneNumber = dr["PhoneNumber"].ToString();
+                    user.BankCode = dr["BankCode"].ToString();
+                    user.BranchCode = dr["BranchCode"].ToString();
+                    user.Gender = dr["Gender"].ToString();
+                    user.DateOfBirth = dr["DateOfBirth"].ToString();
+                    user.CanHaveAccount = dr["CanHaveAccount"].ToString();
+                    user.StatusCode = "0";
+                    user.StatusDesc = "SUCCESS";
+                }
+                else 
+                {
+                    user.StatusCode = "100";
+                    user.StatusDesc = "FAILED: USER SPECIFIED IS DEACTIVATED.";
+                }
             }
             else
             {
@@ -820,7 +830,7 @@ public class DatabaseHandler
         return all.ToArray();
     }
 
-    internal BaseObject GetBankById(string objectId, string bankCode, string Password)
+    internal BaseObject GetBankById(string objectId)
     {
         Bank bank = new Bank();
         try
@@ -967,7 +977,7 @@ public class DatabaseHandler
         {
             string CreateDate = DateTime.Now.ToString("yyyy-MM-dd");
             string ModifyDate = CreateDate;
-            command = CbDatabase.GetStoredProcCommand("AccessRules_Update",
+            command = CbDatabase.GetStoredProcCommand("TransactionRules_Update",
                                                       rule.Id,
                                                       rule.RuleName,
                                                       rule.RuleCode,

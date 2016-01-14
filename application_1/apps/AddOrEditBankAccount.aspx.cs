@@ -34,22 +34,23 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             {
 
             }
-            //create customer request
+            //create customers bank account request
             else if (UserId != null) 
             {
                 LoadData();
-                txtUserId.Text = UserId;
-                txtUserId.Enabled = false;
+                DisableControls(UserId);
                 MultiView1.ActiveViewIndex = 0;
             }
-            //this is an edit request
+            //this is an edit bank account request
             else if (Id != null)
             {
                 LoadData();
+                DisableControls(Id);
                 LoadAccountData(Id, BankCode);
                 MultiView1.ActiveViewIndex = 0;
 
             }
+            //this is a normal create account request
             else
             {
                 LoadData();
@@ -60,6 +61,14 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         {
             bll.ShowMessage(lblmsg, ex.Message, true, Session);
         }
+    }
+
+    private void DisableControls(string UserId)
+    {
+        ddIsActive.Text = "False";
+        ddIsActive.Enabled = false;
+        txtUserId.Text = UserId;
+        txtUserId.Enabled = false;
     }
 
     private void LoadAccountData(string Id, string BankCode)

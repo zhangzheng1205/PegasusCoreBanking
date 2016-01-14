@@ -27,14 +27,15 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             {
                 Response.Redirect("Default.aspx");
             }
-            else if (IsPostBack) 
+            else if (IsPostBack)
             {
-            
+
             }
-            //this is an edit request
+            //this is an edit Bank User request
             else if (Id != null)
             {
                 LoadData();
+                DisableControls(Id);
                 MultiView1.ActiveViewIndex = 0;
                 LoadUserData(Id, BankCode);
             }
@@ -52,13 +53,13 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
     private void LoadUserData(string Id, string BankCode)
     {
-        
+
         BankUser userEdited = client.GetById("BankUser", Id, BankCode, bll.BankPassword) as BankUser;
         if (userEdited.StatusCode == "0")
         {
             FillFormWithData(userEdited);
         }
-        else 
+        else
         {
             string msg = userEdited.StatusDesc;
             bll.ShowMessage(lblmsg, msg, true, Session);
@@ -88,7 +89,13 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
     }
 
-
+    private void DisableControls(string UserId)
+    {
+        ddIsActive.Text = "False";
+        ddIsActive.Enabled = false;
+        txtUserId.Text = UserId;
+        txtUserId.Enabled = false;
+    }
 
 
 
@@ -102,11 +109,11 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                if (newUser.Usertype.Contains("CUSTOMER")) 
+                if (newUser.Usertype.Contains("CUSTOMER"))
                 {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId="+newUser.Id+"&BankCode="+newUser.BankCode);
+                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode);
                 }
-                else 
+                else
                 {
                     string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
                     bll.ShowMessage(lblmsg, msg, false);
@@ -136,7 +143,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.FullName = txtBankUsersName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
-        aUser.IsActive = "False";
+        aUser.IsActive = ddIsActive.Text;
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GenerateBankPassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;

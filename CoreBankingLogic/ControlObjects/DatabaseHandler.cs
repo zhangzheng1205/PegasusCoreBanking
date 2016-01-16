@@ -158,7 +158,8 @@ public class DatabaseHandler
                                                         account.AccountType,
                                                         BankCode,
                                                         account.ModifiedBy,
-                                                        account.BranchCode
+                                                        account.BranchCode,
+                                                        account.IsActive
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();

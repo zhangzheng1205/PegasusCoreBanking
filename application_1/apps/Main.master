@@ -174,7 +174,10 @@
                                 <a href="ApproveTransaction.aspx?Approver=Manager">Approve Transactions</a>
                             </li>
                             <li>
-                                <a href="ApproveBankUser.aspx">Approve Customer</a>
+                                <a href="ApproveBankUser.aspx">Approve Customers</a>
+                            </li>
+                             <li>
+                                <a href="ApproveBankUser.aspx">Approve Bank Accounts</a>
                             </li>
                         </ul>
                     </li>

@@ -57,7 +57,7 @@
 
                         <!-- /.row -->
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-sm-3">
                                 <label>Bank</label>
                                 <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control">
                                     <asp:ListItem>True</asp:ListItem>
@@ -65,22 +65,22 @@
                                 </asp:DropDownList>
                                 <p class="help-block">The bank to which the Account Belongs</p>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-md-3">
                                 <label>Account Number</label>
                                 <asp:TextBox ID="txtAccountNumber" runat="server" CssClass="form-control" placeholder="Enter text" />
                                 <p class="help-block">The Account Number</p>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-sm-3">
                                 <label>Customers Name</label>
                                 <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="Enter text" />
                                 <p class="help-block">The Customers Name. Can be empty</p>
                             </div>
-                            <div class="col-lg-3"></div>
+                            <div class="col-sm-3"></div>
                         </div>
 
                         <div class="row">
                             <div class="text-center">
-                                <asp:Button ID="btnSubmit" runat="server" Text="Search" Width="200px" CssClass="btn btn-primary btn-lg" OnClick="btnSubmit_Click" />
+                                <asp:Button ID="btnSubmit" runat="server" Text="Search" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
                             </div>
                         </div>
                         <hr />

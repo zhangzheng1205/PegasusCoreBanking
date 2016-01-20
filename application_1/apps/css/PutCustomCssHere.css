@@ -208,7 +208,7 @@ img.bg {
 /* Top Navigation */
 
 .top-nav {
-    padding: 0 15px;
+    padding: 0 0;
 }
 
     .top-nav > li {
@@ -284,7 +284,12 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color:#111;
+        background-color: white;
+        border: solid;
+        border-color: black;
+        border-top: none;
+        border-bottom: hidden;
+        border-width: 1.9px;
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
@@ -309,7 +314,12 @@ ul.alert-dropdown {
         display: block;
         padding: 10px 15px 10px 38px;
         text-decoration: none;
-        color: white;
+        color: black;
+        border: dotted;
+        border-left: hidden;
+        border-width: 1px;
+        border-bottom: hidden;
+        border-color: black;
     }
 
         .side-nav > li > ul > li > a:hover {
@@ -445,31 +455,18 @@ ul.alert-dropdown {
 
 body /* this is to set the body element, but mostly used for removing margins. */ {
     background-color: black;
-    font-size:14px;
-    margin:0; padding:0;
-
+    font-size: 14px;
+    margin: 0;
 }
 
 /*top menu */
 .navbar-inverse {
-    background-color: black;
-    border-color: white;
+    background-color: #115E9B;
+    border-color:inherit;
     color: white;
     /*border-width:5px;*/
 }
 
-body::-webkit-scrollbar {
-    width: 1em;
-}
- 
-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
- 
-body::-webkit-scrollbar-thumb {
-  background-color: black;
-  outline: 1px solid darkgrey;
-}
 
 .navbar-inverse .navbar-nav > li > a {
     color: white;
@@ -481,8 +478,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 /*Sidebar menu text color*/
-.navbar-inverse .navbar-nav>li>a {
-    color: #fff;
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+    border:  dotted;
+    border-left: hidden;
+    border-width: 1px;
+    border-bottom: hidden;
+    border-color: black;
+    /*border-bottom-right-radius: 20px;*/
 }
-
-

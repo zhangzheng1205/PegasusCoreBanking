@@ -5,13 +5,14 @@
     <div class="row" style="padding-top:10px">
         <div class="col-md-5">
             <a href="portfolio-item.html">
-                <img class="img-responsive img-thumbnail" style="height:300px" src="Images\<% Bank bank = (Bank)Session["UsersBank"]; Response.Write(bank.BankCode+@"\"+bank.PathToLogoImage); %>" alt="">
+                <img class="img-responsive img-thumbnail" style="height:300px;padding:3px;" 
+                    src="Images\<% Bank bank = (Bank)Session["UsersBank"]; Response.Write(bank.BankCode+@"\"+bank.PathToLogoImage); %>" alt="">
             </a>
         </div>
         <div class="col-md-7">
             <h3>Hi <asp:Label runat="server" ID="lblUsername">Username</asp:Label></h3>
-            <h4>Nice to See you</h4>
-            <p>Welcome to Bank OS, The Pegasus Online Banking Platform for Banks. </p>
+            <h4>Nice to See you Again</h4>
+            <p>Welcome to Bank OS, The Pegasus Online Banking Platform for Banks.</p>
             <p>For a quick Start, Use the links on your left to Navigate</p>
         </div>
     </div>

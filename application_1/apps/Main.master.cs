@@ -15,6 +15,7 @@ public partial class Main : System.Web.UI.MasterPage
 {
     ProcessUsers Usersdll = new ProcessUsers();
     BankUser user;
+    Bank usersBank;
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -26,17 +27,20 @@ public partial class Main : System.Web.UI.MasterPage
             else 
             {
                 user=(BankUser)Session["User"];
-                TitleLbl.InnerText = "BankName: " + user.BankCode;
+                usersBank = (Bank)Session["UsersBank"];
+                TitleLbl.InnerHtml = "<i class=\"fa fa-bank\"></i> BANK-OS : " + usersBank.BankName.ToUpper();
                 lblName.Text = user.FullName;
             }
         }
         catch (NullReferenceException exe)
         {
-            Response.Redirect("Default.aspx?login=1", false);
-
+            string Msg = exe.Message;
+            Response.Redirect("Default.aspx?Msg="+Msg, false);
         }
         catch (Exception ex)
         {
+            string Msg = ex.Message;
+            Response.Redirect("Default.aspx?Msg="+Msg, false);
         }
     }
 

@@ -103,8 +103,8 @@
                                                 Text=" EXCEL" />
                                         </div>
                                         <div class="col-lg-2">
-                                            <asp:Button ID="btnConvert" runat="server" Font-Size="9pt" Height="23px" OnClick="btnConvert_Click"
-                                                CssClass="btn-primary" Text="Convert" Width="85px" />
+                                            <asp:Button ID="btnConvert" runat="server" OnClick="btnConvert_Click"
+                                                CssClass="btn-primary" Text="Convert"  />
                                         </div>
                                         <div class="col-lg-2"></div>
                                         <div class="col-lg-2"></div>

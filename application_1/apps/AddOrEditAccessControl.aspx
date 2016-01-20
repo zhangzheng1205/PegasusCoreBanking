@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <label>Add Access to This Area</label><br />
-                                <asp:Button ID="btnAddAccessArea" runat="server" Text="Allow Access" Width="200px" CssClass="btn btn-primary btn-lg" OnClick="btnAddAccessArea_Click" />
+                                <asp:Button ID="btnAddAccessArea" runat="server" Text="Allow Access" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnAddAccessArea_Click" />
                             </div>
                         </div>
 

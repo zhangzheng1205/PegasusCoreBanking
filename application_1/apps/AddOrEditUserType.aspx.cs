@@ -108,6 +108,8 @@ public partial class AddOrEditUserType : System.Web.UI.Page
         category.Role = txtCategoryCode.Text;
         category.UserTypeCode = txtCategoryCode.Text;
         category.UserTypeName = txtCategoryName.Text;
+        category.IsActive = ddIsActive.SelectedValue;
+        category.ModifiedBy = user.Id;
         return category;
     }
 }

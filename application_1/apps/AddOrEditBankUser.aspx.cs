@@ -16,6 +16,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         {
 
             user = Session["User"] as BankUser;
+            Session["IsError"] = null;
 
             //----------------------------------
             //Check If this is an Edit Request
@@ -47,7 +48,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            bll.ShowMessage(lblmsg, ex.Message, true);
+            bll.ShowMessage(lblmsg, ex.Message, true,Session);
         }
     }
 
@@ -111,24 +112,28 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             {
                 if (newUser.Usertype.Contains("CUSTOMER"))
                 {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode);
+                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
+                }
+                else if (newUser.Usertype.Contains("TELLER"))
+                {
+                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode+"&Msg=CREATE A TELLER ACCOUNT FOR THIS USER");
                 }
                 else
                 {
                     string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
-                    bll.ShowMessage(lblmsg, msg, false);
+                    bll.ShowMessage(lblmsg, msg, false,Session);
                 }
             }
             else
             {
                 string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true);
+                bll.ShowMessage(lblmsg, msg, true,Session);
             }
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true);
+            bll.ShowMessage(lblmsg, msg, true,Session);
         }
     }
 
@@ -152,8 +157,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
-        List<Bank> banks = (List<Bank>)HttpContext.Current.Cache["Banks"];
-        string bankCode = banks[ddBank.SelectedIndex].BankCode;
+        string bankCode = ddBank.SelectedValue;
         bll.LoadBanksBranchesIntoDropDown(bankCode, ddBankBranch, user);
         bll.LoadUsertypesIntoDropDowns(bankCode, ddUserType, user);
         ddUserType.Enabled = true;

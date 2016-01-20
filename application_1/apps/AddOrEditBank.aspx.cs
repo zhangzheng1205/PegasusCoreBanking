@@ -19,13 +19,14 @@ public partial class AddOrEditBank : System.Web.UI.Page
         {
 
             user = Session["User"] as BankUser;
+            Session["IsError"] = null;
+            string Id = Request.QueryString["BankCode"];
 
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
 
@@ -37,7 +38,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            bll.ShowMessage(lblmsg, ex.Message, true);
+            bll.ShowMessage(lblmsg, ex.Message, true,Session);
         }
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -54,13 +55,13 @@ public partial class AddOrEditBank : System.Web.UI.Page
             else
             {
                 string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true);
+                bll.ShowMessage(lblmsg, msg, true,Session);
             }
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true);
+            bll.ShowMessage(lblmsg, msg, true,Session);
         }
     }
 

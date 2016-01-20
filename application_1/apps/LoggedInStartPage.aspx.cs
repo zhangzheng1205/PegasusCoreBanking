@@ -25,7 +25,7 @@ public partial class Admin : System.Web.UI.Page
             else 
             {
                 user = (BankUser)Session["User"];
-                lblUsername.Text = user.Id;
+                lblUsername.Text = user.FullName;
             }
             
         }

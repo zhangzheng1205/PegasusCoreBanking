@@ -10,6 +10,11 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
     BankUser user;
     Service client = new Service();
     Bussinesslogic bll = new Bussinesslogic();
+    string BankCode = "";
+    string UserId = "";
+    string Id = "";
+    string BranchCode = "";
+    string Msg = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -21,9 +26,11 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
 
             //----------------------------------
             //Check If this is an Edit Request
-            string Id = Request.QueryString["Id"];
-            string BankCode = Request.QueryString["BankCode"];
-            string UserId = Request.QueryString["UserId"];
+            Id = Request.QueryString["Id"];
+            BankCode = Request.QueryString["BankCode"];
+            UserId = Request.QueryString["UserId"];
+            BranchCode = Request.QueryString["BranchCode"];
+            Msg = Request.QueryString["Msg"];
 
             //Session is invalid
             if (user == null)
@@ -40,6 +47,8 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
                 LoadData();
                 DisableControls(UserId);
                 MultiView1.ActiveViewIndex = 0;
+                bll.ShowMessage(lblmsg, Msg, false, Session);
+                //ddAccountType.Text = "TELLER";
             }
             //this is an edit bank account request
             else if (Id != null)
@@ -65,10 +74,14 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
 
     private void DisableControls(string UserId)
     {
+        ddBank.SelectedValue = BankCode;
+        ddBankBranch.SelectedValue = BranchCode;
+        ddBank.Enabled = false;
         ddIsActive.Text = "False";
         ddIsActive.Enabled = false;
         txtUserId.Text = UserId;
         txtUserId.Enabled = false;
+        
     }
 
     private void LoadAccountData(string Id, string BankCode)
@@ -104,8 +117,18 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             Result result = client.SaveBankAccountDetails(account, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                string msg = "SUCCESS: BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                if (string.IsNullOrEmpty(UserId))
+                {
+                    //create account request
+                    string msg = "SUCCESS: BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
+                else 
+                {
+                    //create customer request
+                    string msg = "SUCCESS: USER ID:"+UserId+" BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] CREATED SUCCESSFULLY";
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
             }
             else
             {

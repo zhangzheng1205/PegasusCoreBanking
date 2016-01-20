@@ -41,12 +41,14 @@ public partial class DepositWithdraw : System.Web.UI.Page
                 //if teller wants to process deposit
                 if (Operation == "DEPOSIT")
                 {
+                    ddTranCategory.Text = Operation;
                     txtFromAccount.Text = teller.TellerAccountNumber;
                     txtFromAccount.Enabled = false;
                 }
                 //if teller wants to process withdraw
                 else
                 {
+                    ddTranCategory.Text = Operation;
                     txtToAccount.Text = teller.TellerAccountNumber;
                     txtToAccount.Enabled = false;
                 }

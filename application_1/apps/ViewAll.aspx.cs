@@ -61,6 +61,11 @@ public partial class ViewAll : System.Web.UI.Page
             string url = "~/AddOrEditBankUser.aspx?Id=" + Id + "&BankCode=" + BankCode;
             Server.Transfer(url);
         }
+        else if (EditType == "")
+        {
+            string url = "~/AddOrEditBank.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
         else if (EditType == "TRANSACTIONCATEGORY")
         {
             string url = "~/AddOrEditTranCategory.aspx?Id=" + Id + "&BankCode=" + BankCode;
@@ -108,6 +113,7 @@ public partial class ViewAll : System.Web.UI.Page
     {
         //think of moving these to DB
         ddReporttype.Items.Clear();
+        ddReporttype.Items.Add(new ListItem("", ""));
         ddReporttype.Items.Add(new ListItem("BANK TELLERS", "TELLER"));
         ddReporttype.Items.Add(new ListItem("BANK CUSTOMERS", "CUSTOMER"));
         ddReporttype.Items.Add(new ListItem("TRANSACTION CATEGORIES", "TRANSACTIONCATEGORY"));
@@ -170,6 +176,10 @@ public partial class ViewAll : System.Web.UI.Page
             searchCriteria.Add(BankCode);
             searchCriteria.Add(Id);
         }
+        else if (ReportType == "")
+        {
+            searchCriteria.Add(BankCode);
+        }
         else if (ReportType == "USERTYPE")
         {
             searchCriteria.Add(BankCode);
@@ -201,24 +211,4 @@ public partial class ViewAll : System.Web.UI.Page
         }
         return searchCriteria.ToArray();
     }
-    //protected void dataGridResults_OnRowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (e.Row.RowType == DataControlRowType.DataRow)
-    //    {
-    //        HyperLink link = new HyperLink();
-    //        link.ID = "EditColumn";
-    //        link.Text = "Edit";
-    //        link.NavigateUrl = "ViewAll.aspx?EditType=" + ddReporttype.SelectedValue+    
-    //                           "&Id=" + DataBinder.Eval(e.Row.DataItem,"Id").ToString()+    
-    //                           "&BankCode=" +ddBank.SelectedValue;
-            
-    //        e.Row.Cells[0].Controls.Add(link);
-    //    }
-    
-    //}
-    //protected void ddReporttype_SelectedIndexChanged(object sender, EventArgs e)
-    //{
-    //    string selectedValue = ddReporttype.SelectedValue;
-        
-    //}
 }

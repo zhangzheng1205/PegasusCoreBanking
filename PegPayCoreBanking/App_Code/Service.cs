@@ -107,7 +107,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (account.IsValidCreateAccountRequest(BankCode, Password))
+            if (account.IsValidSaveAccountRequest(BankCode, Password))
             {
                 result = bll.SaveAccountDetails(account, BankCode);
             }
@@ -131,7 +131,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (bank.IsValidCreateBankRequest(adminUsername, adminPassword))
+            if (bank.IsValidSaveBankRequest(adminUsername, adminPassword))
             {
                 result = bll.SaveBankDetails(bank);
             }
@@ -419,7 +419,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (custType.IsValid())
+            if (custType.IsValid(BankCode,Password))
             {
                 result = bll.SaveCustomerTypeDetails(custType, BankCode);
             }

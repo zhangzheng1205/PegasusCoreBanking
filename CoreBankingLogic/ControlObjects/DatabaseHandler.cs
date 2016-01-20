@@ -45,7 +45,7 @@ public class DatabaseHandler
                                                        cust.Usertype,
                                                        cust.Password,
                                                        cust.IsActive,
-                                                       BankCode,
+                                                       cust.BankCode,
                                                        cust.ModifiedBy,
                                                        cust.ModifiedBy,
                                                        cust.CanHaveAccount,
@@ -78,7 +78,9 @@ public class DatabaseHandler
                                                         bank.PathToLogoImage,
                                                         bank.PathToPublicKey
                 );
-            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            DataSet allTables=CbDatabase.ExecuteDataSet(command);
+            //get last table because it has what we need
+            DataTable datatable = allTables.Tables[allTables.Tables.Count-1];
             return datatable.Rows[0][0].ToString();
         }
         catch (Exception ex)
@@ -97,10 +99,10 @@ public class DatabaseHandler
             command = CbDatabase.GetStoredProcCommand("BankBranches_Update",
                                                        branch.BankBranchId,
                                                        branch.BranchName,
-                                                       branch.BankCode,
+                                                       branch.BranchCode,
                                                        branch.Location,
                                                        branch.IsActive,
-                                                       BankCode,
+                                                       branch.BankCode,
                                                        CreateDate,
                                                        ModifyDate,
                                                        branch.CreatedBy,
@@ -136,7 +138,7 @@ public class DatabaseHandler
                                                        teller.PhoneNumber,
                                                        teller.Gender,
                                                        teller.TellerAccountNumber,
-                                                       BankCode);
+                                                       teller.BankCode);
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[1];
             return datatable.Rows[0][0].ToString();
         }
@@ -156,7 +158,7 @@ public class DatabaseHandler
                                                         account.UserId,
                                                         account.AccountNumber,
                                                         account.AccountType,
-                                                        BankCode,
+                                                        account.BankCode,
                                                         account.ModifiedBy,
                                                         account.BranchCode,
                                                         account.IsActive
@@ -227,9 +229,9 @@ public class DatabaseHandler
                                                        charge.CommissionAccountNumber,
                                                        charge.TransCategory,
                                                        charge.IsDebit,
-                                                       BankCode,
+                                                       charge.BankCode,
                                                        charge.ModifiedBy,
-                                                       charge.ModifiedOn,
+                                                       DateTime.Now,
                                                        charge.ChargeDescription,
                                                        charge.ChargeName,
                                                        charge.ChargeCode,
@@ -253,7 +255,7 @@ public class DatabaseHandler
                                                        tranType.Id,
                                                        tranType.TranCategoryCode,
                                                        tranType.Description,
-                                                       BankCode,
+                                                       tranType.BankCode,
                                                        tranType.ModifiedBy,
                                                        tranType.IsActive
                                                       );
@@ -266,25 +268,25 @@ public class DatabaseHandler
         }
     }
 
-    internal string SaveCustomerType(CustomerType custType, string BankCode)
-    {
-        try
-        {
-            command = CbDatabase.GetStoredProcCommand("UserTypes_Update",
-                                                       custType.Id,
-                                                       custType.CustType,
-                                                       "CUSTOMER",
-                                                       custType.Description,
-                                                       BankCode
-                                                      );
-            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
-            return datatable.Rows[0][0].ToString();
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-    }
+    //internal string SaveCustomerType(CustomerType custType, string BankCode)
+    //{
+    //    try
+    //    {
+    //        command = CbDatabase.GetStoredProcCommand("UserTypes_Update",
+    //                                                   custType.Id,
+    //                                                   custType.CustType,
+    //                                                   "CUSTOMER",
+    //                                                   custType.Description,
+    //                                                   custType.
+    //                                                  );
+    //        DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+    //        return datatable.Rows[0][0].ToString();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+    //    }
+    //}
 
     internal string SaveUserDetails(BankUser user, string BankCode)
     {
@@ -297,7 +299,7 @@ public class DatabaseHandler
                                                        user.Usertype,
                                                        user.Password,
                                                        user.IsActive,
-                                                       BankCode,
+                                                       user.BankCode,
                                                        user.ModifiedBy,
                                                        user.ModifiedBy,
                                                        user.CanHaveAccount,
@@ -324,7 +326,7 @@ public class DatabaseHandler
                                                        userType.UserTypeCode,
                                                        userType.Role,
                                                        userType.Description,
-                                                       BankCode
+                                                       userType.BankCode
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -344,7 +346,7 @@ public class DatabaseHandler
                                                        accountType.AccTypeName,
                                                        accountType.AccTypeCode,
                                                        accountType.MinimumBalance,
-                                                       BankCode,
+                                                       accountType.BankCode,
                                                        accountType.IsDebitable,
                                                        accountType.Description,
                                                        accountType.ModifiedBy,
@@ -392,7 +394,6 @@ public class DatabaseHandler
                 string IsActive = dr["IsActive"].ToString().ToUpper();
                 if (IsActive == "TRUE")
                 {
-                   
                     user.FullName = dr["FullName"].ToString();
                     user.IsActive = IsActive;
                     user.Password = dr["Password"].ToString();
@@ -408,22 +409,22 @@ public class DatabaseHandler
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
                 }
-                else 
+                else
                 {
                     user.StatusCode = "100";
-                    user.StatusDesc = "FAILED: USER SPECIFIED IS DEACTIVATED.";
+                    user.StatusDesc = "FAILED: USER SPECIFIED [" + objectId + "] IS DEACTIVATED.";
                 }
             }
             else
             {
                 user.StatusCode = "100";
-                user.StatusDesc = "FAILED: USER NOT FOUND";
+                user.StatusDesc = "FAILED: USER WITH ID: " + objectId + " NOT FOUND";
             }
         }
         catch (Exception ex)
         {
             user.StatusCode = "100";
-            user.StatusDesc = "FAILED: " + ex.Message;
+            user.StatusDesc = "FAILED: " + ex.Message+"";
         }
         return user;
     }
@@ -520,7 +521,7 @@ public class DatabaseHandler
             if (datatable.Rows.Count > 0)
             {
                 DataRow dr = datatable.Rows[0];
-                type.AccountBalance = dr["AccBal"].ToString();
+                type.AccountBalance = dr["AccBalance"].ToString();
                 type.AccountId = dr["AccountId"].ToString();
                 type.BankCode = dr["BankCode"].ToString();
                 type.AccountNumber = dr["AccNumber"].ToString();
@@ -535,7 +536,7 @@ public class DatabaseHandler
             else
             {
                 type.StatusCode = "100";
-                type.StatusDesc = "FAILED: USERTYPE NOT FOUND";
+                type.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:"+objectId+" NOT FOUND UNDER "+BankCode;
             }
         }
         catch (Exception ex)
@@ -831,7 +832,7 @@ public class DatabaseHandler
         return all.ToArray();
     }
 
-    internal BaseObject GetBankById(string objectId)
+    internal Bank GetBankById(string objectId)
     {
         Bank bank = new Bank();
         try
@@ -895,7 +896,7 @@ public class DatabaseHandler
             else
             {
                 category.StatusCode = "100";
-                category.StatusDesc = "FAILED: BANK NOT FOUND";
+                category.StatusDesc = "FAILED: TRANSACTION CATEGORY:"+objectId+" NOT FOUND UNDER BANK:"+bankCode;
             }
         }
         catch (Exception ex)
@@ -1002,5 +1003,10 @@ public class DatabaseHandler
         {
             throw ex;
         }
+    }
+
+    internal DataTable GetTransactionById(string bankRef, string bankCode)
+    {
+        throw new Exception("The method or operation is not implemented.");
     }
 }

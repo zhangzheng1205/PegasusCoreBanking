@@ -134,16 +134,28 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = custType.Id;
-        string Id = dh.SaveCustomerType(custType, BankCode);
+        string Id = dh.SaveUserTypeDetails(custType, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
         result.PegPayId = Id;
         return result;
     }
 
-    public bool AreValidBankCredentials(string BankCode, string Password)
+    public bool AreValidBankCredentials(string BankCode, string Password,out BaseObject valObj)
     {
-        return true;
+        valObj = new BaseObject();
+        Bank bank = dh.GetBankById(BankCode);
+        if (bank.StatusCode == "0")
+        {
+            //check that bank password is correct and that bank is Active
+            valObj = bank;
+            return true;
+        }
+        else
+        {
+            valObj = bank;
+            return false;
+        }
     }
 
     public bool IsDuplicateAccount(string AccountNumber, string BankCode)
@@ -151,10 +163,10 @@ public class BussinessLogic
         return true;
     }
 
-    public bool IsValidBankRef(string BankId, string BankCode, string toAccount,string fromAccount, string Amount, out BaseObject obj)
+    public bool IsValidBankRef(string BankId, string BankCode, string toAccount, string fromAccount, string Amount, out BaseObject obj)
     {
         obj = new BaseObject();
-        string[] parameters ={ BankId, BankCode, toAccount,fromAccount, Amount };
+        string[] parameters ={ BankId, BankCode, toAccount, fromAccount, Amount };
         DataSet ds = dh.ExecuteDataSet("IsValidBankRef", parameters);
         DataTable dt = ds.Tables[0];
 
@@ -167,7 +179,7 @@ public class BussinessLogic
             if (BankId.ToUpper().Trim() == BankRef)
             {
                 obj.StatusCode = "100";
-                obj.StatusDesc = "FAILED:DUPLICATE BANK TRANSACTION ID["+BankRef+"], ORIGINAL RECIEPT NUMBER =" + PegPayId;
+                obj.StatusDesc = "FAILED:DUPLICATE BANK TRANSACTION ID[" + BankRef + "], ORIGINAL RECIEPT NUMBER =" + PegPayId;
             }
             else
             {
@@ -184,13 +196,33 @@ public class BussinessLogic
         return true;
     }
 
-    internal bool IsValidUser(string username, string BankCode, out BaseObject obj)
+    
+
+    internal bool IsValidUser(string UserId, string BankCode, string UserType, out BaseObject obj)
     {
+        List<string> allowedUserTypes = new List<string>();
+        allowedUserTypes.AddRange(UserType.Split('|'));
         obj = new BaseObject();
-        BankUser user = dh.GetUserById(username, BankCode);
-        obj = user;
+        BankUser user = dh.GetUserById(UserId, BankCode);
+        if (user.StatusCode == "0")
+        {
+            if (allowedUserTypes.Contains(UserType))
+            {
+                obj = user;
+            }
+            else
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:"+UserType+" IS NOT PERMITTED TO PERFORM THIS OPERATION" ;
+            }
+        }
+        else
+        {
+            obj = user;
+        }
         return true;
     }
+
 
     public Result SaveBankUserDetails(BankUser user, string BankCode)
     {
@@ -421,6 +453,8 @@ public class BussinessLogic
     internal bool IsValidAccountNumber(string AccountNumber, string BankCode, out BaseObject valObj)
     {
         valObj = new BaseObject();
+        BankAccount account = dh.GetBankAccountById(AccountNumber, BankCode);
+        valObj = account;
         return true;
     }
 
@@ -433,6 +467,102 @@ public class BussinessLogic
     internal bool IsValidTransactionCategory(string tranCategory, string BankCode, out BaseObject valObj)
     {
         valObj = new BaseObject();
+        TransactionCategory category = dh.GetTransactionCategoryById(tranCategory, BankCode);
+        valObj = category;
         return true;
+    }
+
+    internal bool IsValidReversal(string bankRef, string bankCode, out BaseObject valObject)
+    {
+        valObject = new BaseObject();
+        DataTable dt = dh.GetTransactionById(bankRef, bankCode);
+        if (dt.Rows.Count > 0)
+        {
+            foreach (DataRow dr in dt.Rows) 
+            {
+                string TranCategory = dr["TranCategory"].ToString().Trim().ToUpper();
+                if (TranCategory == "REVERSAL")
+                {
+                    string PegPayId=dr["PegPayTranId"].ToString();
+                    valObject.StatusCode = "100";
+                    valObject.StatusDesc = "TRANSACTION WITH BANK REF:"+bankRef+" ALREADY REVERSED. RECIEPT NUMBER FOR REVERSAL:"+PegPayId;
+                    return false;
+                }
+                else 
+                {
+                    continue;
+                }
+            }
+            valObject.StatusCode = "0";
+            valObject.StatusDesc = "SUCCESS";
+            return true;
+        }
+        else 
+        {
+            valObject.StatusCode = "100";
+            valObject.StatusDesc = "TRANSACTION WITH BANK ID:"+bankRef+" NOT FOUND: REVERSAL NOT POSSIBLE";
+            return false;
+        }
+    }
+
+    internal bool IsValidBoolean(string p)
+    {
+        if (String.IsNullOrEmpty(p)) 
+        {
+            return false;
+        }
+        else if (p.ToUpper() == "TRUE" || p.ToUpper() == "FALSE") 
+        {
+            return true;
+        }
+        return false;
+    }
+
+    internal bool IsValidAccountType(string AccountType,string BankCode)
+    {
+        return true;
+    }
+    internal bool IsNumeric(string Amount)
+    {
+        try
+        {
+            int amount = int.Parse(Amount);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+
+    internal bool IsNumericAndAboveZero(string Amount)
+    {
+        try
+        {
+            int amount = int.Parse(Amount);
+            if (amount <= 0) 
+            {
+                return false;
+            }
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    internal bool IsValidGender(string Gender)
+    {
+        if (string.IsNullOrEmpty(Gender)) 
+        {
+            return false;
+        }
+        else if (Gender.ToUpper() == "MALE" || Gender.ToUpper() == "FEMALE") 
+        {
+            return true;
+        }
+        return false;
     }
 }

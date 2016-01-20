@@ -81,7 +81,7 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         try
         {
             BankBranch branch = GetBranch();
-            Result result = client.SaveBankBranchDetails(branch, user.BankCode, bll.BankPassword);
+            Result result = client.SaveBankBranchDetails(branch, ddBank.SelectedValue, bll.BankPassword);
             if (result.StatusCode == "0")
             {
                 string msg = "SUCCESS: BRANCH WITH BRANCH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";

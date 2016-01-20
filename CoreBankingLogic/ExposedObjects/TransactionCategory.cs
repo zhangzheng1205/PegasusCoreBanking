@@ -22,27 +22,66 @@ namespace CoreBankingLogic.ExposedObjects
         public bool IsValid(string BankCode, string Password)
         {
             BaseObject valobj=new BaseObject();
-            if (!bll.AreValidBankCredentials(BankCode, Password)) 
+            if (string.IsNullOrEmpty(this.BankCode)) 
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY A BANK CODE";
+                return false;
+            }
+            else if (string.IsNullOrEmpty(this.Description))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY A DESCRIPTION FOR THIS TRANSACTION CATEGORY";
+                return false;
+            }
+            else if (string.IsNullOrEmpty(this.ModifiedBy))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY ID OF USER MODIFYING THIS CATEGORY";
+                return false;
+            }
+            else if (string.IsNullOrEmpty(this.TranCategoryCode))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY THE TRANSACTION CATEGORY CODE";
+                return false;
+            }
+            else if (string.IsNullOrEmpty(this.TranCategoryName))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY THE TRANSACTION CATEGORY NAME";
+                return false;
+            }
+            else if (!bll.IsValidBoolean(this.IsActive))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY INDICATE WHETHER THIS CATEGORY IS ACTIVE.[TRUE OR FALSE]";
+                return false;
+            }
+            else if (!bll.AreValidBankCredentials(BankCode, Password,out valobj)) 
             {
                 StatusCode = "100";
                 StatusDesc = "INVALID PEGPAY BANK CREDENTIALS";
                 return false;
             }
-            else if (!bll.IsValidUser(ModifiedBy,BankCode,out valobj))
+            else if (!bll.IsValidUser(ModifiedBy,BankCode,"BANK_ADMIN|SYS_ADMIN",out valobj))
             {
                 StatusCode = "100";
-                StatusDesc = "INVALID CREATED_BY USER";
+                StatusDesc = valobj.StatusDesc;
                 return false;
             }
-            else if (!bll.IsValidUser(ApprovedBy, BankCode,out valobj))
+            else if (!bll.IsValidUser(ApprovedBy,BankCode,"BANK_ADMIN|SYS_ADMIN",out valobj))
             {
                 StatusCode = "100";
-                StatusDesc = "INVALID APPROVED_BY USER";
+                StatusDesc = valobj.StatusDesc;
                 return false;
             }
-            StatusCode = "0";
-            StatusDesc = "SUCCESS";
-            return true;
+            else
+            {
+                StatusCode = "0";
+                StatusDesc = "SUCCESS";
+                return true;
+            }
         }
     }
 }

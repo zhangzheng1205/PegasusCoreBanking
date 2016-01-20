@@ -83,16 +83,17 @@ public partial class ApproveBankAccount : System.Web.UI.Page
     private void ApproveUser(GridViewRow row)
     {
         //get the Bank Transaction Id and the bank code
-        string UserId = row.Cells[1].Text.Trim();
+        string AccNumber = row.Cells[1].Text.Trim();
         string BankCode = ddBank.SelectedValue;
         string ApprovedBy = user.Id;
         string IsActive = "True";
-        string[] parameters = { UserId, BankCode, IsActive, ApprovedBy };
+        string[] parameters = { BankCode,AccNumber, IsActive, ApprovedBy };
 
-        Result result = bll.UpdateUserIsActiveStatus(parameters);
+        Result result = bll.UpdateBankAccountApprovalStatus(parameters);
         if (result.StatusCode == "0")
         {
-            string msg = "User(s) Approved Successfully";
+            string msg = "BankAccount(s) Approved Successfully";
+            SearchDB();
             bll.ShowMessage(lblmsg, msg, false, Session);
         }
         else
@@ -107,26 +108,31 @@ public partial class ApproveBankAccount : System.Web.UI.Page
     {
         try
         {
-            string[] parameters = GetSearchParameters();
-            DataTable dt = bll.SearchBankUsersTable(parameters);
-            if (dt.Rows.Count > 0)
-            {
-                dataGridResults.DataSource = dt;
-                dataGridResults.DataBind();
-                string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
-                Multiview2.ActiveViewIndex = 0;
-                bll.ShowMessage(lblmsg, msg, false, Session);
-            }
-            else
-            {
-                string msg = "No Records Found Matching Search Criteria";
-                Multiview2.ActiveViewIndex = 1;
-                bll.ShowMessage(lblmsg, msg, true, Session);
-            }
+            SearchDB();
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void SearchDB()
+    {
+        string[] parameters = GetSearchParameters();
+        DataTable dt = bll.GetBankAccountsPendingApproval(parameters);
+        if (dt.Rows.Count > 0)
+        {
+            dataGridResults.DataSource = dt;
+            dataGridResults.DataBind();
+            string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
+            Multiview2.ActiveViewIndex = 0;
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = "No Records Found Matching Search Criteria";
+            Multiview2.ActiveViewIndex = 1;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
@@ -136,7 +142,6 @@ public partial class ApproveBankAccount : System.Web.UI.Page
         List<string> parameters = new List<string>();
         string BankCode = ddBank.SelectedValue;
         string BranchCode = ddBankBranch.SelectedValue;
-        string Teller = txtTeller.Text;
         string AccountNumber = txtAccount.Text;
         string Username = txtCustName.Text;
         string fromDate = txtFromDate.Text;
@@ -144,7 +149,6 @@ public partial class ApproveBankAccount : System.Web.UI.Page
 
         parameters.Add(BankCode);
         parameters.Add(BranchCode);
-        parameters.Add(Teller);
         parameters.Add(AccountNumber);
         parameters.Add(Username);
         parameters.Add(fromDate);

@@ -35,10 +35,28 @@
                                     </ol>
                                 </div>
                             </div>
+                             <%-- Message Label --%>
                             <div class="row">
                                 <div class="text-center">
-                                    <h4 class="text-success">
-                                        <asp:Label ID="lblmsg" runat="server"></asp:Label></h4>
+                                    <% 
+                                        string IsError = Session["IsError"] as string;
+                                        if (IsError == null)
+                                        {
+                                            Response.Write("<div>");
+
+                                        }
+                                        else if (IsError == "True")
+                                        {
+                                            Response.Write("<div class=\"alert alert-danger\">");
+
+                                        }
+                                        else
+                                        {
+                                            Response.Write("<div class=\"alert alert-success\">");
+                                        } 
+                                    %>
+                                    <strong><asp:Label ID="lblmsg" runat="server"></asp:Label></strong>
+                                    <%Response.Write("</div>"); %>
                                 </div>
                             </div>
                             <!-- /.row -->
@@ -58,7 +76,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label>Bank</label>
-                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddBank_SelectedIndexChanged">
+                                    <asp:DropDownList ID="ddBank" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddBank_SelectedIndexChanged" AutoPostBack="true">
                                         <asp:ListItem>Male</asp:ListItem>
                                         <asp:ListItem>Female</asp:ListItem>
                                     </asp:DropDownList>

@@ -11,25 +11,25 @@
 
 <head id="Head1" runat="server">
 
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
     <title>BANK_OS</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
-    <link href="css/PutCustomCssHere.css" rel="stylesheet"/>
+    <link href="css/PutCustomCssHere.css" rel="stylesheet" />
 
     <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet"/>
+    <link href="css/plugins/morris.css" rel="stylesheet" />
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -131,7 +131,8 @@
                         <a href="LoggedInStartPage.aspx" class="active" data-toggle="collapse" data-target="#Start"><i class="fa fa-fw fa-home"></i> Home</a>
                     </li>
                     <% List<string> allowedAreas = Session["AllowedAreas"] as List<string>; %>
-                    <% if(allowedAreas.Contains("TELLER")||allowedAreas.Contains("ALL")){ %>
+                    <% if (allowedAreas.Contains("TELLER") || allowedAreas.Contains("ALL"))
+                       { %>
                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-dashboard"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="teller" class="collapse">
@@ -153,7 +154,8 @@
                         </ul>
                     </li>
                     <%} %>
-                     <% if(allowedAreas.Contains("SUPERVISOR")||allowedAreas.Contains("ALL")){ %>
+                     <% if (allowedAreas.Contains("SUPERVISOR") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Supervisor<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -166,7 +168,8 @@
                         </ul>
                     </li>
                      <%} %>
-                     <% if(allowedAreas.Contains("MANAGER")||allowedAreas.Contains("ALL")){ %>
+                     <% if (allowedAreas.Contains("MANAGER") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-table"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Manager" class="collapse">
@@ -177,12 +180,13 @@
                                 <a href="ApproveBankUser.aspx">Approve Customers</a>
                             </li>
                              <li>
-                                <a href="ApproveBankUser.aspx">Approve Bank Accounts</a>
+                                <a href="ApproveBankAccount.aspx">Approve Bank Accounts</a>
                             </li>
                         </ul>
                     </li>
                      <%} %>
-                     <% if(allowedAreas.Contains("CUSTOMERSERVICE")||allowedAreas.Contains("ALL")){ %>
+                     <% if (allowedAreas.Contains("CUSTOMER_SERVICE") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-edit"></i>Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="CustService" class="collapse">
@@ -195,10 +199,11 @@
                         </ul>
                     </li>
                      <%} %>
-                     <% if(allowedAreas.Contains("BANK_ADMIN")||allowedAreas.Contains("ALL")){ %>
+                     <% if (allowedAreas.Contains("BUSSINESS_ADMIN") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#BankAdmin"><i class="fa fa-fw fa-bank"></i>Bank Admin<i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="BankAdmin" class="collapse">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#BussinessAdmin"><i class="fa fa-fw fa-bank"></i>Bussiness Admin<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="BussinessAdmin" class="collapse">
                             <li>
                                 <a href="AddOrEditTranCategory.aspx">Create Transaction Categories</a>
                             </li>
@@ -206,19 +211,7 @@
                                 <a href="AddOrEditBankCharges.aspx">Create Bank Charge</a>
                             </li>
                              <li>
-                                <a href="AddOrEditBankBranch.aspx">Create Bank Branches</a>
-                            </li>
-                              <li>
-                                <a href="AddOrEditBankUser.aspx">Create Bank User</a>
-                            </li>
-                             <li>
-                                <a href="AddOrEditUserType.aspx">Create User Category</a>
-                            </li>
-                             <li>
                                 <a href="AddOrEditAccountType.aspx">Create Account Type</a>
-                            </li>
-                             <li>
-                                <a href="AddOrEditAccessControl.aspx">Create Access Control Rule</a>
                             </li>
                              <li>
                                 <a href="AddOrEditTransactionRule.aspx">Create Transaction Rule</a>
@@ -229,27 +222,52 @@
                         </ul>
                     </li>
                      <%} %>
-                     <% if(allowedAreas.Contains("SYS_ADMIN")||allowedAreas.Contains("ALL")){ %>
+                    
+                     <% if (allowedAreas.Contains("BANK_ADMIN") || allowedAreas.Contains("ALL"))
+                        { %>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#BankAdmin"><i class="fa fa-fw fa-bank"></i>Bank Admin<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="BankAdmin" class="collapse">
+                             <li>
+                                <a href="AddOrEditBankBranch.aspx">Create Bank Branches</a>
+                            </li>
+                              <li>
+                                <a href="AddOrEditBankUser.aspx">Create Bank User</a>
+                            </li>
+                             <li>
+                                <a href="AddOrEditUserType.aspx">Create User Category</a>
+                            </li>
+                             <li>
+                                <a href="AddOrEditAccessControl.aspx">Create Access Control Rule</a>
+                            </li>
+                             <li>
+                                <a href="ViewAll.aspx">View/Edit Branches,Tellers,Account Types,Transaction Categories</a>
+                            </li>
+                        </ul>
+                    </li>
+                     <%} %>
+                     <% if (allowedAreas.Contains("SYS_ADMIN") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-archive"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="SysAdmin" class="collapse">
                             <li>
                                 <a href="AddOrEditBank.aspx">Create Bank</a>
                             </li>
-                           
+                            <li>
+                                <a href="AddOrEditBankBranch.aspx">Create Bank Branches</a>
+                            </li>
                             <li>
                                 <a href="AddOrEditBankUser.aspx">Create BankAdmin</a>
                             </li>
                              <li>
-                                <a href="#">View Banks</a>
-                            </li>
-                            <li>
-                                <a href="#">View/Edit BankAdmin</a>
+                                <a href="ViewAll.aspx">View/Edit Banks,Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
                         </ul>
                     </li>
                      <%} %>
-                     <% if(allowedAreas.Contains("REPORTS")||allowedAreas.Contains("ALL")){ %>
+                     <% if (allowedAreas.Contains("REPORTS") || allowedAreas.Contains("ALL"))
+                        { %>
                     <li>
                         <a href="Reports.aspx"><i class="fa fa-fw fa-file"></i>Reports</a>
                     </li>
@@ -264,7 +282,7 @@
 
             <div id="page-wrapper">
 
-                <div class="container-fluid" style="height: 100%; min-height:800px;">
+                <div class="container-fluid" style="height: 100%; min-height: 800px;">
 
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                     </asp:ContentPlaceHolder>

@@ -76,12 +76,13 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
 
     private void LoadData()
     {
-        bll.LoadBanksIntoDropDown(user, ddBank);
+        bll.LoadBanksIntoDropDownALL(user, ddBank);
         if (user.Usertype == "SYS_ADMIN")
         {
-            //disbale these drop downs till the sys admin can select a bank
-            ddComAccount.Enabled = false;
-            ddTranCategory.Enabled = false;
+            //disbale these submit btn till the sys admin can select a bank
+            ddComAccount.Items.Clear();
+            ddTranCategory.Items.Clear();// = false;
+            btnSubmit.Enabled = false;
         }
         else 
         {
@@ -133,9 +134,20 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string bankCode = ddBank.SelectedValue;
-        bll.LoadTransactionTypesIntoDropDown(bankCode, ddTranCategory, user);
-        bll.LoadCommissionAccountsIntoDropDown(bankCode, ddComAccount, user);
+        string bankCode = ddBank.SelectedValue.ToUpper();
+        if (bankCode != "ALL")
+        {
+            bll.LoadTransactionTypesIntoDropDown(bankCode, ddTranCategory, user);
+            bll.LoadCommissionAccountsIntoDropDown(bankCode, ddComAccount, user);
+            btnSubmit.Enabled = true;
+        }
+        else 
+        {
+            //disbale these submit btn till the sys admin can select a bank
+            ddComAccount.Items.Clear();
+            ddTranCategory.Items.Clear();// = false;
+            btnSubmit.Enabled = false;
+        }
     }
     protected void txtEmail_TextChanged(object sender, EventArgs e)
     {

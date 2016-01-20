@@ -113,7 +113,7 @@ public class TransactionRequest:BaseObject
             StatusDesc = "PLEASE SUPPLY A VALID BANKCODE. BANK NOT FOUND";
             return false;
         }
-        else if (!bll.IsValidUser(this.ApprovedBy,this.BankCode,out valObj))
+        else if (!bll.IsValidUser(this.ApprovedBy,this.BankCode,"SUPERVISOR|TELLER",out valObj))
         {
             StatusCode = "100";
             StatusDesc = valObj.StatusDesc;
@@ -137,7 +137,7 @@ public class TransactionRequest:BaseObject
             StatusDesc = valObj.StatusDesc;
             return false;
         }
-        else if (!bll.IsValidUser(this.Teller, this.BankCode, out valObj))
+        else if (!bll.IsValidUser(this.Teller, this.BankCode,"TELLER", out valObj))
         {
             StatusCode = "100";
             StatusDesc = valObj.StatusDesc;
@@ -169,6 +169,57 @@ public class TransactionRequest:BaseObject
 
     public bool IsValidReversal()
     {
+        BaseObject valObject = new BaseObject();
+        if (string.IsNullOrEmpty(this.BankTranId)) 
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANK REFERENCE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.BankCode))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANK CODE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.Password))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A BANK PASSWORD";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.Teller))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY ID OF BANK TELLER";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.ApprovedBy))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A ID OF BANK SUPERVISOR IN APPROVED BY FIELD";
+            return false;
+        }
+        else if (bll.IsValidUser(this.ApprovedBy,this.BankCode,"SUPERVISOR",out valObject))
+        {
+            StatusCode = "100";
+            StatusDesc = valObject.StatusDesc;
+            return false;
+        }
+        else if (bll.IsValidUser(this.Teller,this.BankCode,"TELLER",out valObject))
+        {
+            StatusCode = "100";
+            StatusDesc = valObject.StatusDesc;
+            return false;
+        }
+
+        else if (bll.IsValidReversal(this.BankTranId, this.BankCode, out valObject))
+        {
+            StatusCode = valObject.StatusCode;
+            StatusDesc = valObject.StatusDesc;
+            return false;
+        }
+
         return true;
     }
 }

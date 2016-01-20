@@ -79,10 +79,6 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-lg-2">
-                                    <label>Teller</label>
-                                    <asp:TextBox ID="txtTeller" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                </div>
-                                <div class="col-lg-2">
                                     <label>Account Number</label>
                                     <asp:TextBox ID="txtAccount" runat="server" CssClass="form-control" placeholder="Enter text" />
                                 </div>
@@ -124,8 +120,7 @@
                                 <div class="row">
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
-                                        <asp:Button ID="btnApprove" runat="server" OnClick="btnApprove_Click"
-                                            CssClass="btn-primary" Text="Approve Users(s)" />
+                                        <asp:Button ID="btnApprove" runat="server" OnClick="btnApprove_Click" CssClass="btn-primary" Text="Approve BankAccount(s)" />
                                     </div>
                                     <div class="col-lg-4"></div>
                                 </div>

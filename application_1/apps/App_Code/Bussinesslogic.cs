@@ -82,27 +82,24 @@ public class Bussinesslogic
         }
     }
 
-    public void LoadBanksIntoDropDown(BankUser user, DropDownList ddLst)
+    public void LoadBanksIntoDropDown(BankUser user, DropDownList ddlst)
     {
+        string[] parameters = {};
+        DataSet ds = dh.ExecuteSelect("GetAllBanks",parameters);
+        DataTable dt = ds.Tables[0];
 
-        List<Bank> banks = new List<Bank>();
-        BaseObject[] bo = client.GetAll("Bank", user.BankCode, BankPassword);
-        ddLst.Items.Clear();
-        foreach (BaseObject obj in bo)
+        ddlst.Items.Clear();
+        foreach (DataRow dr in dt.Rows)
         {
-            Bank bank = obj as Bank;
-            if (bank.StatusCode == "0")
-            {
-                ddLst.Items.Add(new ListItem(bank.BankName, bank.BankCode));
-                banks.Add(bank);
-            }
+            string BankName = dr["BankName"].ToString();
+            string UserTypeCode = dr["BankCode"].ToString();
+            ddlst.Items.Add(new ListItem(BankName, UserTypeCode));
         }
+
         if (user.Usertype.ToUpper() != "SYS_ADMIN")
         {
-            //ddBank.Enabled = true;
-            int index = banks.FindIndex(delegate(Bank p) { return p.BankCode == user.BankCode; });
-            ddLst.SelectedIndex = index;
-            ddLst.Enabled = false;
+            ddlst.SelectedValue = user.BankCode;
+            ddlst.Enabled = false;
         }
     }
 
@@ -191,6 +188,7 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
             string TranType = dr["TranType"].ToString();
@@ -223,6 +221,7 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
             string AccName = dr["AccNumber"].ToString();
@@ -284,6 +283,10 @@ public class Bussinesslogic
         DataSet ds = new DataSet();
         switch (code)
         {
+            case "":
+                ds = dh.ExecuteSelect("SearchBanksTable", searchParams);
+                dt = ds.Tables[0];
+                return dt;
             case "TELLER":
                 ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
                 dt = ds.Tables[0];
@@ -460,5 +463,29 @@ public class Bussinesslogic
             result.StatusDesc = "UNBALE TO APPROVE USER AT THE MOMENT";
         }
         return result;
+    }
+
+    public Result UpdateBankAccountApprovalStatus(string[] parameters)
+    {
+        Result result = new Result();
+        int rows = dh.ExecuteNonQuery("UpdateBankAccountsIsActiveStatus", parameters);
+        if (rows > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNBALE TO APPROVE USER AT THE MOMENT";
+        }
+        return result;
+    }
+
+    public DataTable GetBankAccountsPendingApproval(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("GetBankAccountsPendingApproval", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
     }
 }

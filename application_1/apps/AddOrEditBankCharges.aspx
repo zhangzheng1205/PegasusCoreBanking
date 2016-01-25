@@ -5,7 +5,6 @@
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="View1" runat="server">
             <div id="page-wrapper">
-
                 <div class="container-fluid">
 
 
@@ -134,6 +133,17 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label>Account Type</label>
+                                    <asp:DropDownList ID="ddAccountType" runat="server" CssClass="form-control">
+                                        <asp:ListItem>True</asp:ListItem>
+                                        <asp:ListItem>False</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <p class="help-block">The Account Type this charge may affect</p>
+                                </div>
+                              </div>
+
 
 
 
@@ -147,8 +157,8 @@
                         <%--</div>--%>
                         <!-- /.row -->
 
-                    </div>
-                    <!-- /.container-fluid -->
+            </div>
+            <!-- /.container-fluid -->
 
                 </div>
             </div>

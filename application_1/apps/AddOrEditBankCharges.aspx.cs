@@ -88,6 +88,7 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         {
             bll.LoadCommissionAccountsIntoDropDown(user.BankCode, ddComAccount, user);
             bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
+            bll.LoadAccountTypesIntoDropDownALL(user.BankCode, ddAccountType, user);
         }
     }
 
@@ -130,6 +131,7 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         charge.ModifiedBy = user.Id;
         charge.ModifiedOn = DateTime.Now.ToString("dd/MM/yyyy");
         charge.TransCategory = ddTranCategory.SelectedValue;
+        charge.AccountType = ddAccountType.SelectedValue;
         return charge;
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)

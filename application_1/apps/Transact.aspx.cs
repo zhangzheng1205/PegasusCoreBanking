@@ -74,6 +74,7 @@ public partial class Transact : System.Web.UI.Page
                     //generate reciept
                     string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
                     bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
+                    Session["frompage"] = Request.Url.AbsolutePath;
                     Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
                 }
                 //it has failed
@@ -96,13 +97,13 @@ public partial class Transact : System.Web.UI.Page
     private TransactionRequest GetTranRequest()
     {
         TransactionRequest tran = new TransactionRequest();
-        tran.ApprovedBy = "";
+        tran.ApprovedBy = user.Id;
         tran.BankCode = user.BankCode;
         tran.BranchCode = user.BranchCode;
         tran.CustomerName = txtName.Text;
         tran.FromAccount = txtFromAccount.Text;
         tran.Narration = txtReason.Text;
-        tran.Password = "";
+        tran.Password = bll.BankPassword;
         tran.PaymentDate = DateTime.Now.ToString("dd/MM/yyyy");
         tran.Teller = user.Id;
         tran.ToAccount = txtToAccount.Text;

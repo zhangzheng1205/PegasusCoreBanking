@@ -16,6 +16,8 @@ namespace CoreBankingLogic.ExposedObjects
         public string IsDebitable = "";
         public string ModifiedOn = "";
         public string IsActive = "";
+        public int MinNumberOfSignatories = 0;
+        public int MaxNumberOfSignatories = 0;
 
 
         public bool IsValid(string BankCode, string Password) 

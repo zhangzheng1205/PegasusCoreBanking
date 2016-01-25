@@ -229,7 +229,7 @@ img.bg {
             .top-nav > .open > a:hover,
             .top-nav > .open > a:focus {
                 color: #fff;
-                background-color: #5cb85c;
+                background-color: #059211;
             }
 
     .top-nav > .open > .dropdown-menu {
@@ -284,9 +284,9 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: white;
+        background-color: #F5F5F5;
         border: solid;
-        border-color: black;
+        border-color: gray;
         border-top: none;
         border-bottom: hidden;
         border-width: 1.9px;
@@ -454,8 +454,9 @@ ul.alert-dropdown {
 }
 
 body /* this is to set the body element, but mostly used for removing margins. */ {
-    background-color: black;
+    background-color: white;
     font-size: 14px;
+    zoom:90%;
     margin: 0;
 }
 

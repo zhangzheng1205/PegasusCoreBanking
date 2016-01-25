@@ -67,6 +67,22 @@ public class Bussinesslogic
         }
     }
 
+    public void LoadAccountTypesIntoDropDownALL(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetAccountTypesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add("ALL");
+        foreach (DataRow dr in dt.Rows)
+        {
+            string BranchName = dr["AccTypeName"].ToString();
+            string BranchCode = dr["AccTypeCode"].ToString();
+            ddlst.Items.Add(new ListItem(BranchName, BranchCode));
+        }
+    }
+
     public void LoadUsertypesIntoDropDowns(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
@@ -168,7 +184,7 @@ public class Bussinesslogic
                               tran.FromAccount,
                               tran.TranAmount,
                               tran.TranCategory,
-                              tran.PaymentDate,
+                              DateTime.Now.ToString(),
                               tran.Teller,
                               tran.ApprovedBy,
                               tran.BankCode,

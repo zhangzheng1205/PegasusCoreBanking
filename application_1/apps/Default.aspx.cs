@@ -88,7 +88,7 @@ public partial class _Default : System.Web.UI.Page
                 Session["User"] = user;
                 Session["UsersBank"] = UsersBank;
                 Session["AllowedAreas"] = allowedAreas;
-                Response.Redirect("LoggedInStartPage.aspx");
+                Response.Redirect("LoggedInStartPage.aspx",false);
             }
             else
             {

@@ -40,7 +40,7 @@
 
 
 </head>
-<body style="background-color:black">
+<body style="background-color:#06283D;">
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
@@ -54,16 +54,11 @@
                 <hr />
 
                 <div class="account-wall">
-                    <img class="profile-img" src="Images/Billing.jpg" alt="" />
+                    <img id="logoImage" runat="server" class="profile-img" src="Images/Billing.jpg" alt="" />
                     <form runat="server" action="#" class="form-signin">
                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email" required="true" autofocus="true" />
                         <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" required="true" />
                         <asp:Button runat="server" Text="Sign in" CssClass="btn btn-lg btn-success btn-block" ID="btnLogin" OnClick="btnLogin_Click"></asp:Button>
-                        <%--<label class="checkbox pull-left">
-                            <input type="checkbox" value="remember-me" />
-                            Remember me
-                        </label>--%>
-                        <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
                     </form>
                 </div>
             </div>

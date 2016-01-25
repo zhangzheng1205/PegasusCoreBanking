@@ -153,6 +153,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.Password = bll.GenerateBankPassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
         aUser.Usertype = ddUserType.SelectedValue;
+        aUser.TransactionLimit = txtTranLimit.Text;
         return aUser;
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)

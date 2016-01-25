@@ -133,7 +133,7 @@
                             <asp:View runat="server" ID="resultView">
                                 <div class="row">
                                     <div class="col-lg-2"></div>
-                                    <div class="col-lg-2"></div>
+
                                     <div class="col-lg-2">
                                         <asp:RadioButton ID="rdPdf" runat="server" Font-Bold="True" GroupName="FileFormat"
                                             Text=" PDF" />
@@ -144,9 +144,12 @@
                                     </div>
                                     <div class="col-lg-2">
                                         <asp:Button ID="btnConvert" runat="server" Font-Size="9pt" Height="23px" OnClick="btnConvert_Click"
-                                            CssClass="btn-primary" Text="Convert" Width="85px" />
+                                            CssClass="btn-primary" Text="Export As" Width="85px" />
                                     </div>
-                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-2">
+                                        <asp:Button ID="btnPrint" runat="server" Font-Size="9pt" Height="23px" OnClick="btnConvert_Click"
+                                            CssClass="btn-primary" Text="Print Statement" />
+                                    </div>
                                     <div class="col-lg-2"></div>
                                 </div>
                                 <hr />

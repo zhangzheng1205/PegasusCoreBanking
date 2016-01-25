@@ -1067,10 +1067,10 @@ namespace InterLinkClass.CoreBankingApi {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionCategory))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccountType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
@@ -1111,75 +1111,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.statusDescField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class CustomerType : BaseObject {
-        
-        private string idField;
-        
-        private string custTypeField;
-        
-        private string descriptionField;
-        
-        private string createdByField;
-        
-        private string approvedByField;
-        
-        /// <remarks/>
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CustType {
-            get {
-                return this.custTypeField;
-            }
-            set {
-                this.custTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Description {
-            get {
-                return this.descriptionField;
-            }
-            set {
-                this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CreatedBy {
-            get {
-                return this.createdByField;
-            }
-            set {
-                this.createdByField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ApprovedBy {
-            get {
-                return this.approvedByField;
-            }
-            set {
-                this.approvedByField = value;
             }
         }
     }
@@ -1419,6 +1350,7 @@ namespace InterLinkClass.CoreBankingApi {
     }
     
     /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1533,6 +1465,15 @@ namespace InterLinkClass.CoreBankingApi {
                 this.modifiedOnField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class CustomerType : UserType {
     }
     
     /// <remarks/>
@@ -1700,6 +1641,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string bankCodeField;
         
+        private string transactionLimitField;
+        
         /// <remarks/>
         public string Email {
             get {
@@ -1827,6 +1770,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string TransactionLimit {
+            get {
+                return this.transactionLimitField;
+            }
+            set {
+                this.transactionLimitField = value;
             }
         }
     }
@@ -2433,6 +2386,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string isActiveField;
         
+        private string accountTypeField;
+        
         /// <remarks/>
         public string Id {
             get {
@@ -2550,6 +2505,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string AccountType {
+            get {
+                return this.accountTypeField;
+            }
+            set {
+                this.accountTypeField = value;
             }
         }
     }

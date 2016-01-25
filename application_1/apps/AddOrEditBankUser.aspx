@@ -153,7 +153,11 @@
                                     <asp:TextBox ID="txtDateOfBirth" runat="server" CssClass="form-control" placeholder="Enter text" />
                                     <p class="help-block">Users Date of Birth. Format dd/MM/yyyy e.g 04/02/1991</p>
                                 </div>
-
+                                <div class="col-lg-6">
+                                    <label>Transaction Limit</label>
+                                    <asp:TextBox ID="txtTranLimit" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                    <p class="help-block">If User Type is Teller, Please supply a transaction limit</p>
+                                </div>
                             </div>
 
                             <div class="row">

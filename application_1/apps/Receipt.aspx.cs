@@ -36,7 +36,7 @@ public partial class Receipt : System.Web.UI.Page
 
             if ((Session["User"] == null) || Id == null || Code == null || Session["UsersBank"] == null)
             {
-                Response.Redirect("Default.aspx?login=1", false);
+                Response.Redirect("Default.aspx", false);
             }
             else if (IsPostBack)
             {
@@ -84,6 +84,9 @@ public partial class Receipt : System.Web.UI.Page
                 lblBranchCode.Text = dr["BranchCode"].ToString();
                 lblBankCode.Text = BankCode;
                 Label1.Text = usersBank.BankName;
+                logo1.Attributes["src"] = @"Images\"+usersBank.BankCode+@"\"+ usersBank.PathToLogoImage;
+                logo2.Attributes["src"] = @"Images\" + usersBank.BankCode + @"\" + usersBank.PathToLogoImage;
+                
             }
             else
             {
@@ -118,6 +121,7 @@ public partial class Receipt : System.Web.UI.Page
         catch (NullReferenceException ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true);
+            Response.Redirect("LoggedInStartPage.aspx");
         }
         catch (Exception ex)
         {

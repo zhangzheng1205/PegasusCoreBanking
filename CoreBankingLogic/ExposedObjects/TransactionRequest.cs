@@ -107,7 +107,7 @@ public class TransactionRequest:BaseObject
             StatusDesc = "PLEASE SUPPLY A TRANSACTION CATEGORY";
             return false;
         }
-        else if (bll.IsValidBankCode(this.BankCode,out valObj))
+        else if (!bll.IsValidBankCode(this.BankCode,out valObj))
         {
             StatusCode = "100";
             StatusDesc = "PLEASE SUPPLY A VALID BANKCODE. BANK NOT FOUND";

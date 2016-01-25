@@ -21,6 +21,7 @@ public class BankUser : BaseObject
     public string PhoneNumber = "";
     public string Gender = "";
     public string BankCode = "";
+    public string TransactionLimit = "";
 
 
 

@@ -12,14 +12,14 @@
     <link href="scripts/globalscape.css" rel="stylesheet" type="text/css" />
     <link href="/aspnet_client/System_Web/2_0_50727/CrystalReportWebFormViewer3/css/default.css"
         rel="stylesheet" type="text/css" />
-     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet"/>
+    <link href="css/plugins/morris.css" rel="stylesheet" />
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .auto-style1 {
             width: 100%;
@@ -47,12 +47,18 @@
                         <tr>
                             <td style="width: 100%; height: 150px; text-align: center">
                                 <table align="center" cellpadding="0" cellspacing="0" class="style12" style="border-right: #617da6 2px double; border-top: #617da6 2px double; border-left: #617da6 2px double; border-bottom: #617da6 2px double; height: 25px;"
-                                    width="100%">
+                                    width="900px">
                                     <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 5px; text-align: center">
-                                            <asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="X-Large" Text="UMEME LIMITTED">
-
-                                            </asp:Label></td>
+                                        <td style="vertical-align: top; height: 5px; text-align: right">
+                                            <img alt="" width="400" class="thumbnail" height="150" src="" id="logo1" runat="server" /></td>
+                                        <td  class="text-center" style="align-content:center;padding-left:230px;">
+                                            <div class="text-center">
+                                                <asp:Label ID="Label1" runat="server" CssClass="text-center" Font-Bold="True" Font-Size="X-Large" Text="UMEME LIMITTED">
+                                                </asp:Label>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align: top; height: 5px; padding-left: 295px;">
+                                            <img alt="" width="400" class="thumbnail" height="150" src="" id="logo2" runat="server" /></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>

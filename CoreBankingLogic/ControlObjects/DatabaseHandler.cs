@@ -235,7 +235,8 @@ public class DatabaseHandler
                                                        charge.ChargeDescription,
                                                        charge.ChargeName,
                                                        charge.ChargeCode,
-                                                       charge.IsActive
+                                                       charge.IsActive,
+                                                       charge.AccountType
                                                       );
 
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
@@ -306,7 +307,8 @@ public class DatabaseHandler
                                                        user.PhoneNumber,
                                                        user.BranchCode,
                                                        user.DateOfBirth,
-                                                       user.Gender
+                                                       user.Gender,
+                                                       user.TransactionLimit
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();

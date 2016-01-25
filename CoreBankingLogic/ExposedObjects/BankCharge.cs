@@ -20,6 +20,7 @@ public class BankCharge:BaseObject
     public string ChargeName = "";
     public string ChargeCode = "";
     public string IsActive = "";
+    public string AccountType = "";
 
 
 	public BankCharge()

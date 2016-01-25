@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace CoreBankingLogic.EntityObjects
 {
@@ -15,6 +16,7 @@ namespace CoreBankingLogic.EntityObjects
         public string ModifiedBy = "";
         public string BranchCode = "";
         public string IsActive = "";
+        public List<string> AccountSignatories = new List<string>();
 
 
         public BankAccount()

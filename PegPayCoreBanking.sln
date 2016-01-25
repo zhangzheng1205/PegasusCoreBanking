@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\PegPayCoreBanking\", "C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCoreBanking", "{CBE965D2-BC7F-405F-8FE5-707D164808B8}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\PegPayCoreBanking\", "PegPayCoreBanking\", "{CBE965D2-BC7F-405F-8FE5-707D164808B8}"
 	ProjectSection(WebsiteProperties) = preProject
 		ProjectReferences = "{0D50AF8E-C216-4E88-80CD-04E73A8816B9}|CoreBankingLogic.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/PegPayCoreBanking"
@@ -18,7 +18,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\PegPayCoreBanking\",
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "64020"
+		VWDPort = "50102"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject

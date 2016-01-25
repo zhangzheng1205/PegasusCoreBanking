@@ -82,6 +82,8 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
             //disbale these submit btn till the sys admin can select a bank
             ddComAccount.Items.Clear();
             ddTranCategory.Items.Clear();// = false;
+            ddAccountType.Items.Clear();
+            ddChargeType.Items.Clear();
             btnSubmit.Enabled = false;
         }
         else 
@@ -89,6 +91,7 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
             bll.LoadCommissionAccountsIntoDropDown(user.BankCode, ddComAccount, user);
             bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
             bll.LoadAccountTypesIntoDropDownALL(user.BankCode, ddAccountType, user);
+            bll.LoadChargeTypesIntoDropDown(user.BankCode, ddChargeType, user);
         }
     }
 
@@ -132,6 +135,7 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         charge.ModifiedOn = DateTime.Now.ToString("dd/MM/yyyy");
         charge.TransCategory = ddTranCategory.SelectedValue;
         charge.AccountType = ddAccountType.SelectedValue;
+        charge.ChargeType = ddChargeType.SelectedValue;
         return charge;
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
@@ -141,6 +145,8 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         {
             bll.LoadTransactionTypesIntoDropDown(bankCode, ddTranCategory, user);
             bll.LoadCommissionAccountsIntoDropDown(bankCode, ddComAccount, user);
+            bll.LoadAccountTypesIntoDropDown(bankCode, ddAccountType, user);
+            bll.LoadChargeTypesIntoDropDown(bankCode, ddChargeType, user);
             btnSubmit.Enabled = true;
         }
         else 

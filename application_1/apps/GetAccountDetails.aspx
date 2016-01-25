@@ -122,7 +122,26 @@
                                     </div>
                                 </div>
                             </asp:View>
-                            <asp:View runat="server" ID="EmptyView"></asp:View>
+                            <asp:View runat="server" ID="EmptyView">
+                            </asp:View>
+                            <asp:View runat="server" ID="AddSignatoryView">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults2">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Add as Signatory">
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="btnAddSignatory" runat="server" OnClick="btnAddSignatory_Click"
+                                                            CommandArgument='<%# DataBinder.Eval(Container.DataItem,"AccNumber").ToString() %>'
+                                                            Text="Add this Customer as Signatory to this account" />
+
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                    </div>
+                                </div>
+                            </asp:View>
                         </asp:MultiView>
                         <%--</form>--%>
                         <%--</div>--%>

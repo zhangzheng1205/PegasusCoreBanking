@@ -51,7 +51,11 @@ public class DatabaseHandler
                                                        cust.CanHaveAccount,
                                                        cust.PhoneNumber,
                                                        cust.BranchCode,
-                                                       cust.DateOfBirth
+                                                       cust.DateOfBirth,
+                                                       cust.Gender,
+                                                       cust.TransactionLimit,
+                                                       cust.PathToProfilePic,
+                                                       cust.PathToSignature
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -78,9 +82,9 @@ public class DatabaseHandler
                                                         bank.PathToLogoImage,
                                                         bank.PathToPublicKey
                 );
-            DataSet allTables=CbDatabase.ExecuteDataSet(command);
+            DataSet allTables = CbDatabase.ExecuteDataSet(command);
             //get last table because it has what we need
-            DataTable datatable = allTables.Tables[allTables.Tables.Count-1];
+            DataTable datatable = allTables.Tables[allTables.Tables.Count - 1];
             return datatable.Rows[0][0].ToString();
         }
         catch (Exception ex)
@@ -236,7 +240,8 @@ public class DatabaseHandler
                                                        charge.ChargeName,
                                                        charge.ChargeCode,
                                                        charge.IsActive,
-                                                       charge.AccountType
+                                                       charge.AccountType,
+                                                       charge.ChargeType
                                                       );
 
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
@@ -426,7 +431,7 @@ public class DatabaseHandler
         catch (Exception ex)
         {
             user.StatusCode = "100";
-            user.StatusDesc = "FAILED: " + ex.Message+"";
+            user.StatusDesc = "FAILED: " + ex.Message + "";
         }
         return user;
     }
@@ -538,7 +543,7 @@ public class DatabaseHandler
             else
             {
                 type.StatusCode = "100";
-                type.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:"+objectId+" NOT FOUND UNDER "+BankCode;
+                type.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:" + objectId + " NOT FOUND UNDER " + BankCode;
             }
         }
         catch (Exception ex)
@@ -898,7 +903,7 @@ public class DatabaseHandler
             else
             {
                 category.StatusCode = "100";
-                category.StatusDesc = "FAILED: TRANSACTION CATEGORY:"+objectId+" NOT FOUND UNDER BANK:"+bankCode;
+                category.StatusDesc = "FAILED: TRANSACTION CATEGORY:" + objectId + " NOT FOUND UNDER BANK:" + bankCode;
             }
         }
         catch (Exception ex)

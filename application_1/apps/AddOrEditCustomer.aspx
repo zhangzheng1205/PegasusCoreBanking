@@ -1,4 +1,4 @@
-﻿<%@ Page MasterPageFile="~/Main.master" Language="C#" AutoEventWireup="true" CodeFile="AddOrEditBankUser.aspx.cs" Inherits="AddOrEditBankUser" Title="Save Bank Admin Details" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" Title="EDIT CUSTOMER" AutoEventWireup="true" CodeFile="AddOrEditCustomer.aspx.cs" Inherits="AddOrEditCustomer" %>
 
 <%@ Register Assembly="CrystalDecisions.Web, Version=10.2.3600.0, Culture=neutral, PublicKeyToken=692fbea5521e1304"
     Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
@@ -23,7 +23,7 @@
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
-                                <h4>Input Bank Users Details
+                                <h4>Input Bank Customers' Details
                                 </h4>
                                 <ol class="breadcrumb">
                                     <li>
@@ -68,9 +68,9 @@
                                 <p class="help-block">The Name of the User</p>
                             </div>
                             <div class="col-lg-6">
-                                <label>User Id</label>
+                                <label>Customer Id</label>
                                 <asp:TextBox ID="txtUserId" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">Unique Identifier of this User. It can be users Email or PhoneNumber etc.</p>
+                                <p class="help-block">Unique Identifier of this Customer. It can be Customers' Email or PhoneNumber etc.</p>
                             </div>
                         </div>
 
@@ -104,7 +104,7 @@
                             <div class="col-lg-6">
                                 <label>Phone Number</label>
                                 <asp:TextBox ID="txtPhoneNumber" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">Users Phone Number in International format. e.g 256</p>
+                                <p class="help-block">Customers' Phone Number in International format. e.g 256</p>
                             </div>
                         </div>
 
@@ -118,15 +118,12 @@
                                     <asp:ListItem>Male</asp:ListItem>
                                     <asp:ListItem>Female</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">Users Sex</p>
+                                <p class="help-block">Customers' Sex</p>
                             </div>
                             <div class="col-lg-6">
-                                <label>User type</label>
-                                <asp:DropDownList ID="ddUserType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddUserType_SelectedIndexChanged">
-                                    <asp:ListItem>Male</asp:ListItem>
-                                    <asp:ListItem>Female</asp:ListItem>
-                                </asp:DropDownList>
-                                <p class="help-block">Role of this User</p>
+                                <label>Date Of Birth</label>
+                                <asp:TextBox ID="txtDateOfBirth" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">Customers' Date of Birth. Format dd/MM/yyyy e.g 04/02/1991</p>
                             </div>
                         </div>
 
@@ -137,7 +134,7 @@
                                     <asp:ListItem>False</asp:ListItem>
                                     <asp:ListItem>True</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">Should an Email be sent to User with UserId and Password for access Web Portal directly</p>
+                                <p class="help-block">Should an Email be sent to User with CustomerId and Password for access Web Portal directly</p>
                             </div>
                             <div class="col-lg-6">
                                 <label>Is Active</label>
@@ -145,19 +142,7 @@
                                     <asp:ListItem>True</asp:ListItem>
                                     <asp:ListItem>False</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">Activate or Deactivate Users Credentials</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <label>Date Of Birth</label>
-                                <asp:TextBox ID="txtDateOfBirth" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">Users Date of Birth. Format dd/MM/yyyy e.g 04/02/1991</p>
-                            </div>
-                            <div class="col-lg-6" id="TellersSection" runat="server">
-                                <label>Transaction Limit</label>
-                                <asp:TextBox ID="txtTranLimit" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">If User Type is Teller, Please supply a transaction limit</p>
+                                <p class="help-block">Activate or Deactivate Customers' Credentials</p>
                             </div>
                         </div>
 
@@ -186,8 +171,16 @@
                         </ajaxToolkit:ToolkitScriptManager>
                         <br />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="cal_Theme1"
-                            Format="dd/MM/yyyy" PopupPosition="BottomRight" TargetControlID="txtDateOfBirth">
+                            Format="dd/MM/yyyy" PopupPosition="BottomRight" OnClientShown="calendarShown" TargetControlID="txtDateOfBirth">
                         </ajaxToolkit:CalendarExtender>
+
+                        <script type="text/javascript" language="javascript">
+                            function calendarShown(sender, args)
+                            {
+                                sender._popupBehavior._element.style.zIndex = 10005;
+                            }
+                        </script>
+
                         <%--/Scripts--%>
                         <%--</form>--%>
                         <%--</div>--%>

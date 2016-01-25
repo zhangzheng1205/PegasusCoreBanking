@@ -140,7 +140,15 @@
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
-                                    <p class="help-block">The Account Type this charge may affect</p>
+                                    <p class="help-block">The Account Type this charge affects. Can be left empty if targetting Transaction Categories</p>
+                                </div>
+                                 <div class="col-lg-6">
+                                    <label>Charge Type</label>
+                                    <asp:DropDownList ID="ddChargeType" runat="server" CssClass="form-control">
+                                        <asp:ListItem>True</asp:ListItem>
+                                        <asp:ListItem>False</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <p class="help-block">What Type of charge is this. Flat fee,percentage etc</p>
                                 </div>
                               </div>
 

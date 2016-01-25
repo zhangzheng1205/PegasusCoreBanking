@@ -102,6 +102,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeType" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -165,6 +166,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountSignatories" type="tns:ArrayOfString" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -323,6 +325,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="Gender" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="TransactionLimit" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToProfilePic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToSignature" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -487,6 +491,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="IsDebitable" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="MinNumberOfSignatories" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxNumberOfSignatories" type="s:int" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -541,11 +547,7 @@
       </s:element>
       <s:complexType name="BankCustomer">
         <s:complexContent mixed="false">
-          <s:extension base="tns:BankUser">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="BankAccountNumbers" type="tns:ArrayOfString" />
-            </s:sequence>
-          </s:extension>
+          <s:extension base="tns:BankUser" />
         </s:complexContent>
       </s:complexType>
       <s:element name="SaveBankCustomerDetailsResponse">

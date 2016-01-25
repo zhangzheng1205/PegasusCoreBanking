@@ -11,6 +11,10 @@ public partial class GetAccountDetails : System.Web.UI.Page
     BankUser user;
     Service client = new Service();
     Bussinesslogic bll = new Bussinesslogic();
+    string BankCode = "";
+    string UserId = "";
+    string Id = "";
+    string BranchCode = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -19,16 +23,24 @@ public partial class GetAccountDetails : System.Web.UI.Page
 
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
+            BankCode = Request.QueryString["BankCode"];
+            UserId = Request.QueryString["CustomerId"];
+            BranchCode = Request.QueryString["BranchCode"];
 
             //Session is invalid
             if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
-
             else if (IsPostBack)
             {
 
+            }
+            else if (UserId!=null)
+            {
+                LoadData();
+                MultiView1.ActiveViewIndex = 0;
+                Multiview2.ActiveViewIndex = 1;
             }
             else
             {
@@ -61,11 +73,22 @@ public partial class GetAccountDetails : System.Web.UI.Page
             DataTable dt = bll.SearchAccountsTable(parameters);
             if (dt.Rows.Count > 0)
             {
-                dataGridResults.DataSource = dt;
-                dataGridResults.DataBind();
-                Multiview2.ActiveViewIndex = 0;
-                string msg = "SUCCESS: " + dt.Rows.Count+" RECORDS FOUND";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                if (UserId == null)
+                {
+                    dataGridResults.DataSource = dt;
+                    dataGridResults.DataBind();
+                    Multiview2.ActiveViewIndex = 0;
+                    string msg = "SUCCESS: " + dt.Rows.Count + " RECORDS FOUND";
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
+                else 
+                {
+                    dataGridResults2.DataSource = dt;
+                    dataGridResults2.DataBind();
+                    Multiview2.ActiveViewIndex = 2;
+                    string msg = "SUCCESS: " + dt.Rows.Count + " RECORDS FOUND";
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
             }
             else 
             {
@@ -90,5 +113,29 @@ public partial class GetAccountDetails : System.Web.UI.Page
         all.Add(AccNumber);
         all.Add(BankCode);
         return all.ToArray();
+    }
+    protected void btnAddSignatory_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string AccountNumber = dataGridResults2.Rows[0].Cells[2].Text.Trim();
+            string[] parameters = { UserId, AccountNumber,BankCode };
+            Result result = bll.SaveAccountSignatory(parameters);
+            if (result.StatusCode == "0")
+            {
+                string msg = "SUCCESS: "+UserId+" Added as Signatory to Account ["+AccountNumber+"]";
+                bll.ShowMessage(lblmsg, msg, false, Session);
+            }
+            else 
+            {
+                string msg = result.StatusDesc;
+                bll.ShowMessage(lblmsg, msg, true, Session);
+            }
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
     }
 }

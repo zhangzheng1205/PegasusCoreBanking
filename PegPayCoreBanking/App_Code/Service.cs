@@ -395,7 +395,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (cust.IsValidNewCustomer())
+            if (cust.IsValidNewCustomer(BankCode,Password))
             {
                 result = bll.SaveBankCustomerDetails(cust, BankCode);
             }

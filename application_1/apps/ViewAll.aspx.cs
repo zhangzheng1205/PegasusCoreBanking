@@ -56,9 +56,14 @@ public partial class ViewAll : System.Web.UI.Page
 
     private void RouteRequestToCorrectEditPage(string EditType, string Id, string BankCode)
     {
-        if (EditType == "TELLER" || EditType == "CUSTOMER") 
+        if (EditType == "TELLER") 
         {
             string url = "~/AddOrEditBankUser.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            Server.Transfer(url);
+        }
+        else if (EditType == "CUSTOMER")
+        {
+            string url = "~/AddOrEditCustomer.aspx?Id=" + Id + "&BankCode=" + BankCode;
             Server.Transfer(url);
         }
         else if (EditType == "")

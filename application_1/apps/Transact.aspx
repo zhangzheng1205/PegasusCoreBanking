@@ -10,8 +10,6 @@
 
                     <%-- form beegins --%>
                     <div class="row">
-
-
                             <!-- Page Heading -->
                             <div class="row">
                                 <div class="col-lg-12">

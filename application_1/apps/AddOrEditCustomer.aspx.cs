@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class AddOrEditBankUser : System.Web.UI.Page
+public partial class AddOrEditCustomer : System.Web.UI.Page
 {
     BankUser user;
     Service client = new Service();
@@ -48,7 +48,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            bll.ShowMessage(lblmsg, ex.Message, true,Session);
+            bll.ShowMessage(lblmsg, ex.Message, true, Session);
         }
     }
 
@@ -78,7 +78,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         this.ddBankBranch.Text = userEdited.BranchCode;
         this.ddGender.Text = userEdited.Gender;
         this.ddIsActive.Text = userEdited.IsActive;
-        this.ddUserType.Text = userEdited.Usertype;
+       
 
     }
 
@@ -86,10 +86,6 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     {
         bll.LoadBanksIntoDropDown(user, ddBank);
         bll.LoadBanksBranchesIntoDropDown(user.BankCode, ddBankBranch, user);
-        bll.LoadUsertypesIntoDropDowns(user.BankCode, ddUserType, user);
-        CustomersSection.Visible = false;
-        TellersSection.Visible = false;
-        txtTranLimit.Text = "0";
     }
 
     private string GetPathToProfilePicImage(string BankCode)
@@ -131,7 +127,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             }
             else
             {
-                throw new Exception("PLEASE UPLOAD A BANK LOGO IMAGE IN .PNG OR .JPEG FORMAT");
+                throw new Exception("PLEASE UPLOAD SCANNED SIGNATURE IMAGE IN .PNG OR .JPEG FORMAT");
             }
         }
         else
@@ -158,40 +154,28 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     {
         try
         {
-            BankUser newUser = GetBankUser();
-            Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
+            BankCustomer newUser = GetBankCustomer();
+            Result result = client.SaveBankCustomerDetails(newUser, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                if (newUser.Usertype.Contains("CUSTOMER"))
-                {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
-                }
-                else if (newUser.Usertype.Contains("TELLER"))
-                {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode+"&Msg=CREATE A TELLER ACCOUNT FOR THIS USER");
-                }
-                else
-                {
-                    string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
-                    bll.ShowMessage(lblmsg, msg, false,Session);
-                }
+                Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
             }
             else
             {
                 string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true,Session);
+                bll.ShowMessage(lblmsg, msg, true, Session);
             }
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true,Session);
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 
-    private BankUser GetBankUser()
+    private BankCustomer GetBankCustomer()
     {
-        BankUser aUser = new BankUser();
+        BankCustomer aUser = new BankCustomer();
         aUser.BankCode = ddBank.SelectedValue;
         aUser.BranchCode = ddBankBranch.SelectedValue;
         aUser.CanHaveAccount = "False";
@@ -204,53 +188,16 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GenerateBankPassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
-        aUser.Usertype = ddUserType.SelectedValue;
-        if (aUser.Usertype == "CUSTOMER")
-        {
-            aUser.TransactionLimit = "0";
-        }
-        else
-        {
-            aUser.TransactionLimit = txtTranLimit.Text;
-        }
+        aUser.Usertype = "CUSTOMER";
+        aUser.TransactionLimit = "0";
+        aUser.PathToProfilePic = GetPathToProfilePicImage(ddBank.SelectedValue);
+        aUser.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
         return aUser;
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
         string bankCode = ddBank.SelectedValue;
         bll.LoadBanksBranchesIntoDropDown(bankCode, ddBankBranch, user);
-        bll.LoadUsertypesIntoDropDowns(bankCode, ddUserType, user);
-        ddUserType.Enabled = true;
         ddBankBranch.Enabled = true;
-
-    }
-    protected void ddUserType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            if (ddUserType.SelectedValue.Contains("CUSTOMER"))
-            {
-                CustomersSection.Visible = true;
-                TellersSection.Visible = false;
-                txtTranLimit.Text = "0";
-            }
-            else if (ddUserType.SelectedValue.Contains("TELLER"))
-            {
-                CustomersSection.Visible = false;
-                TellersSection.Visible = true;
-                txtTranLimit.Text = "";
-            }
-            else
-            {
-                CustomersSection.Visible = false;
-                TellersSection.Visible = false;
-                txtTranLimit.Text = "0";
-            }
-        }
-        catch (Exception ex) 
-        {
-            string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true, Session);
-        }
     }
 }

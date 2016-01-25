@@ -28,6 +28,7 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
             string BranchName = dr["BranchName"].ToString();
@@ -59,10 +60,27 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
             string BranchName = dr["AccTypeName"].ToString();
             string BranchCode = dr["AccTypeCode"].ToString();
+            ddlst.Items.Add(new ListItem(BranchName, BranchCode));
+        }
+    }
+
+    public void LoadChargeTypesIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetChargeTypesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string BranchName = dr["ChargeTypeName"].ToString();
+            string BranchCode = dr["ChargeTypeCode"].ToString();
             ddlst.Items.Add(new ListItem(BranchName, BranchCode));
         }
     }
@@ -90,6 +108,7 @@ public class Bussinesslogic
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
             string UserTypeName = dr["UserType"].ToString();
@@ -503,5 +522,22 @@ public class Bussinesslogic
         DataSet ds = dh.ExecuteSelect("GetBankAccountsPendingApproval", parameters);
         DataTable dt = ds.Tables[0];
         return dt;
+    }
+
+    public Result SaveAccountSignatory(string[] parameters)
+    {
+        Result result = new Result();
+        int rowsAffected = dh.ExecuteNonQuery("UsersToAccounts_Insert", parameters);
+        if (rowsAffected > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else 
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNABLE TO ADD CUSTOMER AS SIGNATORY. TRY AGAIN OR CONTACT BANK ADMIN";
+        }
+        return result;
     }
 }

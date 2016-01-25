@@ -19,10 +19,11 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:64020/PegPayCoreBanking/Service.asmx?WSDL" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:50102/PegPayCoreBanking/Service.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="cbbc58e1-dfb9-4f82-a2ed-fa0f940aca03" SourceId="1" SourceUrl="http://localhost:64020/PegPayCoreBanking/Service.asmx?WSDL" />
+    <MetadataFile FileName="Service.disco" MetadataType="Disco" ID="af4ce946-2fba-4135-9bb8-16303b106d03" SourceId="1" SourceUrl="http://localhost:50102/PegPayCoreBanking/Service.asmx?disco" />
+    <MetadataFile FileName="Service.wsdl" MetadataType="Wsdl" ID="30af5ed6-d19b-48c6-90dd-2c868417d603" SourceId="1" SourceUrl="http://localhost:50102/PegPayCoreBanking/Service.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

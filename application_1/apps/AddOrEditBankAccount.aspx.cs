@@ -48,7 +48,6 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
                 DisableControls(UserId);
                 MultiView1.ActiveViewIndex = 0;
                 bll.ShowMessage(lblmsg, Msg, false, Session);
-                //ddAccountType.Text = "TELLER";
             }
             //this is an edit bank account request
             else if (Id != null)
@@ -81,6 +80,14 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         ddIsActive.Enabled = false;
         txtUserId.Text = UserId;
         txtUserId.Enabled = false;
+        if (Msg.Contains("CUSTOMER"))
+        {
+            ExistingAccountSection.Visible = true;
+        }
+        else 
+        {
+            ExistingAccountSection.Visible = false;
+        }
         
     }
 
@@ -163,4 +170,16 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         return DateTime.Now.ToString("yyyyMMddHHmmssfff");
     }
 
+    protected void btnAddSignatory_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("GetAccountDetails.aspx?CustomerId=" + UserId + "&BankCode=" + BankCode + "&BranchCode=" + BranchCode);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
 }

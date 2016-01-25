@@ -49,11 +49,9 @@ namespace PegPayCbApiTester
             branch.BankBranchId = "0";
             branch.BankCode = "TESTBANK";
             branch.BranchCode = "TESTBRANCH";
-            branch.BranchManagerId = "1";
             branch.BranchName = "TESTBRANCH";
             branch.CreatedBy = "TEST";
             branch.CreatedOn = "27/12/2015";
-            branch.LastModifiedOn = "27/12/2015";
             branch.Location = "KANSANGA";
             branch.ModifiedBy = "TEST";
             Result result = client.SaveBankBranchDetails(branch, BankCode, Password);
@@ -77,6 +75,8 @@ namespace PegPayCbApiTester
             teller.Id = "0";
             teller.Email = "nsubugak@yahoo.com";
             teller.Usertype = "TELLER";
+            teller.BranchCode = "MY";
+            teller.TransactionLimit = "1000";
 
             Result result = client.SaveBankTellerDetails(teller, BankCode, Password);
             Assert.AreEqual(result.StatusCode, "0");
@@ -196,19 +196,19 @@ namespace PegPayCbApiTester
             Assert.AreEqual(result.StatusCode, "0");
         }
 
-        public void TestSaveCustomerTypeDetails()
-        {
+        //public void TestSaveCustomerTypeDetails()
+        //{
 
-            CustomerType type = new CustomerType();
-            type.ApprovedBy = "TEST";
-            type.CreatedBy = "TEST";
-            type.CustType = "FARMERS";
-            type.Description = "TEST";
-            type.Id = "0";
+        //    CustomerType type = new CustomerType();
+        //    type.ApprovedBy = "TEST";
+        //    type.CreatedBy = "TEST";
+        //    type.CustType = "FARMERS";
+        //    type.Description = "TEST";
+        //    type.Id = "0";
 
-            Result result = client.SaveCustomerTypeDetails(type, "TESTBANK", "TEST");
-            Assert.AreEqual(result.StatusCode, "0");
-        }
+        //    Result result = client.SaveCustomerTypeDetails(type, "TESTBANK", "TEST");
+        //    Assert.AreEqual(result.StatusCode, "0");
+        //}
 
         //public void TestSaveCustomerTypeDetails()
         //{

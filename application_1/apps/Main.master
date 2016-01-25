@@ -192,7 +192,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-edit"></i> Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="CustService" class="collapse">
                             <li>
-                                <a href="AddOrEditBankUser.aspx"><i class="fa fa-caret-right"></i> Create Customer</a>
+                                <a href="AddOrEditCustomer.aspx"><i class="fa fa-caret-right"></i> Create Customer</a>
                             </li>
                              <li>
                                 <a href="AddOrEditBankAccount.aspx"><i class="fa fa-caret-right"></i> Create Bank Account</a>

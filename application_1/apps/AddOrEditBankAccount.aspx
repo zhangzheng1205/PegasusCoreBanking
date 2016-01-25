@@ -64,6 +64,11 @@
                                     </asp:DropDownList>
                                     <p class="help-block">The bank to Which the Account belongs</p>
                                 </div>
+                                <div class="col-lg-6" id="ExistingAccountSection" runat="server">
+                                    <label>Existing Account??</label>
+                                     <asp:Button ID="btnAddSignatory" runat="server" Text="Add As Signatory to Existing Account"  CssClass="btn btn-success btn-lg" OnClick="btnAddSignatory_Click" />
+                                    <p class="help-block">Add this customer as a Signatory to an existing Account.e.g Joint Account,Corporate Account etc</p>
+                                </div>
                             </div>
 
                             <div class="row">

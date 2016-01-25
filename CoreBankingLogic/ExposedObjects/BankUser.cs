@@ -22,7 +22,8 @@ public class BankUser : BaseObject
     public string Gender = "";
     public string BankCode = "";
     public string TransactionLimit = "";
-
+    public string PathToProfilePic = "";
+    public string PathToSignature = "";
 
 
     public BankUser()
@@ -47,6 +48,9 @@ public class BankUser : BaseObject
         this.StatusCode = user.StatusCode;
         this.StatusDesc = user.StatusDesc;
         this.Usertype = user.Usertype;
+        this.PathToProfilePic = user.PathToProfilePic;
+        this.PathToSignature = user.PathToSignature;
+        this.TransactionLimit = user.TransactionLimit;
     }
 
     public bool IsValid(string bankCode, string Password)

@@ -1248,6 +1248,10 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string isActiveField;
         
+        private int minNumberOfSignatoriesField;
+        
+        private int maxNumberOfSignatoriesField;
+        
         /// <remarks/>
         public string Id {
             get {
@@ -1345,6 +1349,26 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int MinNumberOfSignatories {
+            get {
+                return this.minNumberOfSignatoriesField;
+            }
+            set {
+                this.minNumberOfSignatoriesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int MaxNumberOfSignatories {
+            get {
+                return this.maxNumberOfSignatoriesField;
+            }
+            set {
+                this.maxNumberOfSignatoriesField = value;
             }
         }
     }
@@ -1643,6 +1667,10 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string transactionLimitField;
         
+        private string pathToProfilePicField;
+        
+        private string pathToSignatureField;
+        
         /// <remarks/>
         public string Email {
             get {
@@ -1782,6 +1810,26 @@ namespace InterLinkClass.CoreBankingApi {
                 this.transactionLimitField = value;
             }
         }
+        
+        /// <remarks/>
+        public string PathToProfilePic {
+            get {
+                return this.pathToProfilePicField;
+            }
+            set {
+                this.pathToProfilePicField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PathToSignature {
+            get {
+                return this.pathToSignatureField;
+            }
+            set {
+                this.pathToSignatureField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1791,18 +1839,6 @@ namespace InterLinkClass.CoreBankingApi {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
     public partial class BankCustomer : BankUser {
-        
-        private string[] bankAccountNumbersField;
-        
-        /// <remarks/>
-        public string[] BankAccountNumbers {
-            get {
-                return this.bankAccountNumbersField;
-            }
-            set {
-                this.bankAccountNumbersField = value;
-            }
-        }
     }
     
     /// <remarks/>
@@ -2263,6 +2299,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string isActiveField;
         
+        private string[] accountSignatoriesField;
+        
         /// <remarks/>
         public string AccountId {
             get {
@@ -2352,6 +2390,16 @@ namespace InterLinkClass.CoreBankingApi {
                 this.isActiveField = value;
             }
         }
+        
+        /// <remarks/>
+        public string[] AccountSignatories {
+            get {
+                return this.accountSignatoriesField;
+            }
+            set {
+                this.accountSignatoriesField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -2387,6 +2435,8 @@ namespace InterLinkClass.CoreBankingApi {
         private string isActiveField;
         
         private string accountTypeField;
+        
+        private string chargeTypeField;
         
         /// <remarks/>
         public string Id {
@@ -2515,6 +2565,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.accountTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ChargeType {
+            get {
+                return this.chargeTypeField;
+            }
+            set {
+                this.chargeTypeField = value;
             }
         }
     }

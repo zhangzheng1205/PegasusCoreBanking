@@ -12,7 +12,7 @@ namespace PegPayCbApiTester
         {
             Tester test = new Tester();
             //test.TestSaveBankBranchDetails();
-            //test.TestSaveBankTellerDetails();
+            test.TestSaveBankTellerDetails();
             //test.TestSaveUserDetails();
             //test.TestSaveCustomerDetails();
             //test.TestSaveAccountDetails();
@@ -21,7 +21,7 @@ namespace PegPayCbApiTester
             //test.TestSaveBankDetails();
             //test.TestSaveCustomerTypeDetails();
             //test.TestGetAll();
-            test.TestGetById();
+            //test.TestGetById();
         }
     }
 }

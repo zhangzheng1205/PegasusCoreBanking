@@ -58,64 +58,17 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BankAccountStatement.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BaseObject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.GetAllResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.GetByIdResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.GetFullStatementResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.GetMiniStatementResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.Result.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.ReverseTransactionResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankAccountDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankBranchDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankChargeDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankCustomerDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankTellerDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveBankUserDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveCustomerTypeDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveTransactionTypeDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.SaveUserTypeDetailsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.TransactResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CbApi\Service1.wsdl" />
+    <None Include="Service References\CbApi\Service.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -134,6 +87,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CbApi\Service.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

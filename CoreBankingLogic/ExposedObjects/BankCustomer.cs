@@ -8,10 +8,7 @@ using System.Collections.Generic;
 /// Summary description for Customer
 /// </summary>
 public class BankCustomer:BankUser
-{
-    public List<string> BankAccountNumbers = new List<string>();
-   
-
+{  
 	public BankCustomer()
 	{
 		//
@@ -19,9 +16,9 @@ public class BankCustomer:BankUser
 		//
 	}
 
-    public bool IsValidNewCustomer()
+    public bool IsValidNewCustomer(string BankCode,string Password)
     {
-        return true;
+        return IsValid(BankCode,Password);
     }
 
 }

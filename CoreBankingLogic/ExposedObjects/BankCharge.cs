@@ -21,6 +21,7 @@ public class BankCharge:BaseObject
     public string ChargeCode = "";
     public string IsActive = "";
     public string AccountType = "";
+    public string ChargeType = "";
 
 
 	public BankCharge()
@@ -80,10 +81,16 @@ public class BankCharge:BaseObject
             StatusDesc = "PLEASE ID OF USER WHO IS MODIFYING THIS CHARGE";
             return false;
         }
-        else if (string.IsNullOrEmpty(this.TransCategory))
+        else if (string.IsNullOrEmpty(this.TransCategory)&&string.IsNullOrEmpty(this.AccountType))
         {
             StatusCode = "100";
-            StatusDesc = "PLEASE SUPPLY THE TRANSACTION CATEGORY TO BE AFFECTED BY THE CHARGE";
+            StatusDesc = "PLEASE SUPPLY THE TRANSACTION CATEGORY OR ACCOUNT TYPE TO BE AFFECTED BY THE CHARGE";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.ChargeType))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A CHARGE TYPE.";
             return false;
         }
         else if (!bll.IsValidBoolean(this.IsActive))
@@ -110,12 +117,12 @@ public class BankCharge:BaseObject
             StatusDesc = valObj.StatusDesc;
             return false;
         }
-        else if (!bll.IsValidTransactionCategory(this.TransCategory, BankCode, out valObj))
-        {
-            StatusCode = "100";
-            StatusDesc = valObj.StatusDesc;
-            return false;
-        }
+        //else if (!bll.IsValidTransactionCategory(this.TransCategory, BankCode, out valObj))
+        //{
+        //    StatusCode = "100";
+        //    StatusDesc = valObj.StatusDesc;
+        //    return false;
+        //}
         else 
         {
             StatusCode = "0";

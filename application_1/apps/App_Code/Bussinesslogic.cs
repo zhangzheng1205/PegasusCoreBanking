@@ -540,4 +540,21 @@ public class Bussinesslogic
         }
         return result;
     }
+
+    public Result SaveReversalRequest(string[] parameters)
+    {
+        Result result = new Result();
+        int rowsAffected = dh.ExecuteNonQuery("InsertReversedTransaction", parameters);
+        if (rowsAffected > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNABLE TO ADD CUSTOMER AS SIGNATORY. TRY AGAIN OR CONTACT BANK ADMIN";
+        }
+        return result;
+    }
 }

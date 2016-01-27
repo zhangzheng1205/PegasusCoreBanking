@@ -155,7 +155,9 @@
                                 <hr />
                                 <div class="row">
                                     <div class="table-responsive">
-                                        <asp:DataGrid runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults"></asp:DataGrid>
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
+                                             <AlternatingRowStyle BackColor="#BFE4FF" />
+                                        </asp:GridView>
                                     </div>
                                 </div>
                             </asp:View>

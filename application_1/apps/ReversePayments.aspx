@@ -143,7 +143,7 @@
                                 <div class="row">
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" OnSelectedIndexChanged="dataGridResults_SelectedIndexChanged">
-                                           <AlternatingRowStyle BackColor="#BFE4FF" />
+                                           <AlternatingRowStyle BackColor="#BFE4FF"  />
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Reverse">
                                                     <HeaderTemplate >

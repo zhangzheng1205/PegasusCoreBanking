@@ -31,6 +31,7 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
@@ -210,6 +211,9 @@
                             </li>
                             <li>
                                 <a href="AddOrEditBankCharges.aspx"><i class="fa fa-caret-right"></i> Create Bank Charge</a>
+                            </li>
+                            <li>
+                                <a href="AddOrEditChargeType.aspx"><i class="fa fa-caret-right"></i> Create Charge Type</a>
                             </li>
                              <li>
                                 <a href="AddOrEditAccountType.aspx"><i class="fa fa-caret-right"></i> Create Account Type</a>

@@ -115,7 +115,7 @@ public partial class Receipt : System.Web.UI.Page
     {
         try
         {
-            string pageto = Session["frompage"].ToString();
+            string pageto = "Transact.aspx";//Session["frompage"].ToString();
             Response.Redirect(pageto, true);
         }
         catch (NullReferenceException ex)

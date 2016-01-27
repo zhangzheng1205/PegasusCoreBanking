@@ -28,6 +28,16 @@ public class BussinessLogic
         return result;
     }
 
+    public Result SaveChargeType(ChargeType chargeType, string BankCode)
+    {
+        Result result = new Result();
+        string Id = dh.SaveChargeType(chargeType, BankCode);
+        result.PegPayId = Id;
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        return result;
+    }
+
     public Result SaveBankDetails(Bank bank)
     {
         Result result = new Result();
@@ -475,7 +485,7 @@ public class BussinessLogic
     internal bool IsValidReversal(string bankRef, string bankCode, out BaseObject valObject)
     {
         valObject = new BaseObject();
-        DataTable dt = dh.GetTransactionById(bankRef, bankCode);
+        DataTable dt = dh.GetTransactionByBankId(bankRef, bankCode);
         if (dt.Rows.Count > 0)
         {
             foreach (DataRow dr in dt.Rows) 
@@ -564,5 +574,29 @@ public class BussinessLogic
             return true;
         }
         return false;
+    }
+
+    public List<BankCustomer> GetAccountSignatories(string accountNumber, string bankCode, string Password)
+    {
+        List<BankCustomer> all = new List<BankCustomer>();
+        DataTable dt = dh.GetAccountSignatories(accountNumber, bankCode);
+        foreach (DataRow dr in dt.Rows) 
+        {
+            BankCustomer cust = new BankCustomer();
+            cust.BankCode = dr["BankCode"].ToString();
+            cust.BranchCode = dr["BranchCode"].ToString();
+            cust.CanHaveAccount = dr["CanHaveAccount"].ToString();
+            cust.DateOfBirth = dr["DateOfBirth"].ToString();
+            cust.Email = dr["Email"].ToString();
+            cust.FullName = dr["FullName"].ToString();
+            cust.Gender = dr["Gender"].ToString();
+            cust.Id = dr["UserId"].ToString();
+            cust.ModifiedBy = dr["ModifiedBy"].ToString();
+            cust.PathToProfilePic = dr["PathToProfilePic"].ToString();
+            cust.PathToSignature = dr["PathToSignature"].ToString();
+            cust.PhoneNumber = dr["PhoneNumber"].ToString();
+            all.Add(cust);
+        }
+        return all;
     }
 }

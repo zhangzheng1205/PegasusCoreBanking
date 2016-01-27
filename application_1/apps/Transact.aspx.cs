@@ -53,38 +53,8 @@ public partial class Transact : System.Web.UI.Page
         {
             //generate transaction request
             TransactionRequest tran = GetTranRequest();
-
-            //does request need approval??
-            if (bll.TransactionRequiresApproval(ref tran)) 
-            {
-                //send to supervisor
-                //display message to user
-                string msg = "Transaction Has Been Sent to Supervisor for Approval: "+tran.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
-            }
-            //doesnt need approval
-            else
-            {
-                //go to core banking and move funds
-                Result result = client.Transact(tran);
-
-                //is successfull
-                if (result.StatusCode == "0")
-                {
-                    //generate reciept
-                    string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-                    bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
-                    Session["frompage"] = Request.Url.AbsolutePath;
-                    Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
-                }
-                //it has failed
-                else
-                {
-                    //display error
-                    string msg = result.StatusDesc;
-                    bll.ShowMessage(lblmsg, msg, true, Session);
-                }
-            }
+            Session["TranSummary"] = tran;
+            Response.Redirect("TransactionSummaryPage.aspx");
         }
         catch (Exception ex) 
         {

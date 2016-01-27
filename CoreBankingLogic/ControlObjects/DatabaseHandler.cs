@@ -1012,8 +1012,58 @@ public class DatabaseHandler
         }
     }
 
-    internal DataTable GetTransactionById(string bankRef, string bankCode)
+    internal DataTable GetTransactionByBankId(string bankRef, string bankCode)
     {
-        throw new Exception("The method or operation is not implemented.");
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("GetTransactionByBankId",
+                                                       bankRef,
+                                                       bankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal string SaveChargeType(ChargeType chargeType, string BankCode)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("ChargeTypes_Update",
+                                                        chargeType.ChargeTypeCode,
+                                                        chargeType.ChargeTypeName,
+                                                        chargeType.ModifiedBy,
+                                                        chargeType.BankCode,
+                                                        chargeType.Description,
+                                                        chargeType.IsActive
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal DataTable GetAccountSignatories(string accountNumber, string bankCode)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("GetAccountSignatories",
+                                                        accountNumber,
+                                                        bankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 }

@@ -255,7 +255,14 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
-    
+    public List<BankCustomer> GetAccountSignatories(string accountNumber, string bankCode, string Password)
+    {
+        List<BankCustomer> all = new List<BankCustomer>();
+        all = bll.GetAccountSignatories(accountNumber, bankCode, Password);
+        return all;
+    }
+
+    [WebMethod]
     public BaseObject[] GetAll(string className, string bankCode, string Password)
     {
         BaseObject[] result = { };
@@ -351,6 +358,30 @@ public class Service : System.Web.Services.WebService
             {
                 result.StatusCode = accountType.StatusCode;
                 result.StatusDesc = accountType.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED : " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveChargeTypeDetails(ChargeType chargeType, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (chargeType.IsValid(BankCode, Password))
+            {
+                result = bll.SaveChargeType(chargeType, BankCode);
+            }
+            else
+            {
+                result.StatusCode = chargeType.StatusCode;
+                result.StatusDesc = chargeType.StatusDesc;
             }
         }
         catch (Exception ex)

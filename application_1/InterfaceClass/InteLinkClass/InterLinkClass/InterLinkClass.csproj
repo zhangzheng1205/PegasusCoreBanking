@@ -129,6 +129,9 @@
     <None Include="Web References\CoreBankingApi\BankAccountStatement.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\CoreBankingApi\BankCustomer.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\CoreBankingApi\BaseObject.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

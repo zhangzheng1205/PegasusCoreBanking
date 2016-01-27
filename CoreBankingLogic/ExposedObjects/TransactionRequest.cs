@@ -23,6 +23,7 @@ public class TransactionRequest:BaseObject
     public string DigitalSignature = "";
     public string TranCategory = "";
     public string BranchCode = "";
+    public string Currency = "";
    
 
 
@@ -200,22 +201,22 @@ public class TransactionRequest:BaseObject
             StatusDesc = "PLEASE SUPPLY A ID OF BANK SUPERVISOR IN APPROVED BY FIELD";
             return false;
         }
-        else if (bll.IsValidUser(this.ApprovedBy,this.BankCode,"SUPERVISOR",out valObject))
+        else if (!bll.IsValidUser(this.ApprovedBy,this.BankCode,"SUPERVISOR",out valObject))
         {
             StatusCode = "100";
             StatusDesc = valObject.StatusDesc;
             return false;
         }
-        else if (bll.IsValidUser(this.Teller,this.BankCode,"TELLER",out valObject))
+        else if (!bll.IsValidUser(this.Teller,this.BankCode,"TELLER",out valObject))
         {
             StatusCode = "100";
             StatusDesc = valObject.StatusDesc;
             return false;
         }
 
-        else if (bll.IsValidReversal(this.BankTranId, this.BankCode, out valObject))
+        else if (!bll.IsValidReversal(this.BankTranId, this.BankCode, out valObject))
         {
-            StatusCode = valObject.StatusCode;
+            StatusCode = "0";
             StatusDesc = valObject.StatusDesc;
             return false;
         }

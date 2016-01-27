@@ -18,6 +18,7 @@ public partial class ReversePayments : System.Web.UI.Page
     BankUser user;
     Service client = new Service();
     Bussinesslogic bll = new Bussinesslogic();
+    string BankTranId = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -124,14 +125,13 @@ public partial class ReversePayments : System.Web.UI.Page
 
     private void SendReversalRequest(GridViewRow row)
     {
-        //get the Bank Transaction Id and the bank code
-        string BankTranId = row.Cells[1].Text.Trim();
-        string BankCode = user.BankCode;
 
+        BankTranId = row.Cells[1].Text.Trim();
+        string BankCode = ddBank.SelectedValue;
+        string Approver = user.Id;
         //build reversal request
-        TransactionRequest tranRequest = new TransactionRequest();
-        tranRequest.BankCode = BankCode;
-        tranRequest.BankTranId = BankTranId;
+        TransactionRequest tranRequest = GetTranRequest(row);
+
 
         //send the request
         Result result = client.ReverseTransaction(tranRequest);
@@ -139,7 +139,10 @@ public partial class ReversePayments : System.Web.UI.Page
         //succees
         if (result.StatusCode == "0")
         {
+            string[] parameters = { BankTranId, BankCode, Approver };
+            bll.SaveReversalRequest(parameters);
             string msg = "SUCCESS: Transaction with bank Id:" + BankTranId + " reversed Successfully";
+            SearchDb();
             bll.ShowMessage(lblmsg, msg, false, Session);
         }
         //failure
@@ -148,6 +151,20 @@ public partial class ReversePayments : System.Web.UI.Page
             string msg = result.StatusDesc;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
+    }
+
+    private TransactionRequest GetTranRequest(GridViewRow row)
+    {
+        //get the Bank Transaction Id and the bank code
+        
+        string BankCode = user.BankCode;
+        TransactionRequest tranRequest = new TransactionRequest();
+        tranRequest.BankCode = BankCode;
+        tranRequest.BankTranId = BankTranId;
+        tranRequest.Password = bll.BankPassword;
+        tranRequest.Teller = row.Cells[2].Text.Trim();
+        tranRequest.ApprovedBy = user.Id;
+        return tranRequest;
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)

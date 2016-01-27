@@ -12,11 +12,12 @@ namespace PegPayCbApiTester
         {
             Tester test = new Tester();
             //test.TestSaveBankBranchDetails();
-            test.TestSaveBankTellerDetails();
+            //test.TestSaveBankTellerDetails();
             //test.TestSaveUserDetails();
             //test.TestSaveCustomerDetails();
             //test.TestSaveAccountDetails();
-            //test.TestTransact();
+            test.TestTransact();
+            //test.TestTransact_SuspectedDoublePostingGoesAwayAfter10min();
             //test.TestReverseTransaction();
             //test.TestSaveBankDetails();
             //test.TestSaveCustomerTypeDetails();

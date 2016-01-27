@@ -190,11 +190,13 @@ public class BussinessLogic
             {
                 obj.StatusCode = "100";
                 obj.StatusDesc = "FAILED:DUPLICATE BANK TRANSACTION ID[" + BankRef + "], ORIGINAL RECIEPT NUMBER =" + PegPayId;
+                return false;
             }
             else
             {
                 obj.StatusCode = "100";
                 obj.StatusDesc = "FAILED:SUSPECTED DOUBLE POSTING,SAME AMOUNT TO SAME ACCOUNT NUMBER WITHIN 10 min, ORIGINAL RECIEPT NUMBER =" + PegPayId;
+                return false;
             }
         }
         //no record of Id found

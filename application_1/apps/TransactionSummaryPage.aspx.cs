@@ -56,6 +56,7 @@ public partial class TransactionSummaryPage : System.Web.UI.Page
         lblToAccount.Text = tran.ToAccount;
         lblTranCategory.Text = tran.TranCategory;
         lblTeller.Text=tran.Teller;
+        lblCurrency.Text = tran.CurrencyCode;
         BankCustomer[] signatories=client.GetAccountSignatories(tran.FromAccount, tran.BankCode, tran.Password);
         DisplayPhotosAndSignaturesForIdentification(signatories);
         

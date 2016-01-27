@@ -93,6 +93,13 @@ namespace PegPayCbApiTester.CbApi {
         [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/GetById", ReplyAction="*")]
         System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.BaseObject> GetByIdAsync(string className, string objectId, string bankCode, string Password);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/GetAccountSignatories", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        PegPayCbApiTester.CbApi.BankCustomer[] GetAccountSignatories(string accountNumber, string bankCode, string Password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/GetAccountSignatories", ReplyAction="*")]
+        System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.BankCustomer[]> GetAccountSignatoriesAsync(string accountNumber, string bankCode, string Password);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/GetAll", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         PegPayCbApiTester.CbApi.BaseObject[] GetAll(string className, string bankCode, string Password);
@@ -127,6 +134,13 @@ namespace PegPayCbApiTester.CbApi {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/SaveAccountTypeDetails", ReplyAction="*")]
         System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.Result> SaveAccountTypeDetailsAsync(PegPayCbApiTester.CbApi.AccountType accountType, string BankCode, string Password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/SaveChargeTypeDetails", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        PegPayCbApiTester.CbApi.Result SaveChargeTypeDetails(PegPayCbApiTester.CbApi.ChargeType chargeType, string BankCode, string Password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/SaveChargeTypeDetails", ReplyAction="*")]
+        System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.Result> SaveChargeTypeDetailsAsync(PegPayCbApiTester.CbApi.ChargeType chargeType, string BankCode, string Password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://pegasus.co.ug/SaveTransactionCategoryDetails", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
@@ -201,6 +215,8 @@ namespace PegPayCbApiTester.CbApi {
         private string tranCategoryField;
         
         private string branchCodeField;
+        
+        private string currencyField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -381,17 +397,30 @@ namespace PegPayCbApiTester.CbApi {
                 this.RaisePropertyChanged("BranchCode");
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        public string Currency {
+            get {
+                return this.currencyField;
+            }
+            set {
+                this.currencyField = value;
+                this.RaisePropertyChanged("Currency");
+            }
+        }
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionCategory))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ChargeType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccountType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccessRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bank))]
@@ -562,6 +591,99 @@ namespace PegPayCbApiTester.CbApi {
             set {
                 this.isActiveField = value;
                 this.RaisePropertyChanged("IsActive");
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class ChargeType : BaseObject {
+        
+        private string chargeTypeCodeField;
+        
+        private string chargeTypeNameField;
+        
+        private string descriptionField;
+        
+        private string isActiveField;
+        
+        private string bankCodeField;
+        
+        private string modifiedByField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string ChargeTypeCode {
+            get {
+                return this.chargeTypeCodeField;
+            }
+            set {
+                this.chargeTypeCodeField = value;
+                this.RaisePropertyChanged("ChargeTypeCode");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string ChargeTypeName {
+            get {
+                return this.chargeTypeNameField;
+            }
+            set {
+                this.chargeTypeNameField = value;
+                this.RaisePropertyChanged("ChargeTypeName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+                this.RaisePropertyChanged("Description");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+                this.RaisePropertyChanged("IsActive");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+                this.RaisePropertyChanged("BankCode");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+                this.RaisePropertyChanged("ModifiedBy");
             }
         }
     }
@@ -1038,8 +1160,8 @@ namespace PegPayCbApiTester.CbApi {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -1074,6 +1196,10 @@ namespace PegPayCbApiTester.CbApi {
         private string bankCodeField;
         
         private string transactionLimitField;
+        
+        private string pathToProfilePicField;
+        
+        private string pathToSignatureField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -1242,27 +1368,28 @@ namespace PegPayCbApiTester.CbApi {
                 this.RaisePropertyChanged("TransactionLimit");
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class BankCustomer : BankUser {
-        
-        private string[] bankAccountNumbersField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Order=0)]
-        public string[] BankAccountNumbers {
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public string PathToProfilePic {
             get {
-                return this.bankAccountNumbersField;
+                return this.pathToProfilePicField;
             }
             set {
-                this.bankAccountNumbersField = value;
-                this.RaisePropertyChanged("BankAccountNumbers");
+                this.pathToProfilePicField = value;
+                this.RaisePropertyChanged("PathToProfilePic");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        public string PathToSignature {
+            get {
+                return this.pathToSignatureField;
+            }
+            set {
+                this.pathToSignatureField = value;
+                this.RaisePropertyChanged("PathToSignature");
             }
         }
     }
@@ -1288,6 +1415,15 @@ namespace PegPayCbApiTester.CbApi {
                 this.RaisePropertyChanged("TellerAccountNumber");
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class BankCustomer : BankUser {
     }
     
     /// <remarks/>
@@ -1948,6 +2084,8 @@ namespace PegPayCbApiTester.CbApi {
         
         private string accountTypeField;
         
+        private string chargeTypeField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
         public string Id {
@@ -2101,6 +2239,18 @@ namespace PegPayCbApiTester.CbApi {
             set {
                 this.accountTypeField = value;
                 this.RaisePropertyChanged("AccountType");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public string ChargeType {
+            get {
+                return this.chargeTypeField;
+            }
+            set {
+                this.chargeTypeField = value;
+                this.RaisePropertyChanged("ChargeType");
             }
         }
     }
@@ -2295,6 +2445,14 @@ namespace PegPayCbApiTester.CbApi {
             return base.Channel.GetByIdAsync(className, objectId, bankCode, Password);
         }
         
+        public PegPayCbApiTester.CbApi.BankCustomer[] GetAccountSignatories(string accountNumber, string bankCode, string Password) {
+            return base.Channel.GetAccountSignatories(accountNumber, bankCode, Password);
+        }
+        
+        public System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.BankCustomer[]> GetAccountSignatoriesAsync(string accountNumber, string bankCode, string Password) {
+            return base.Channel.GetAccountSignatoriesAsync(accountNumber, bankCode, Password);
+        }
+        
         public PegPayCbApiTester.CbApi.BaseObject[] GetAll(string className, string bankCode, string Password) {
             return base.Channel.GetAll(className, bankCode, Password);
         }
@@ -2333,6 +2491,14 @@ namespace PegPayCbApiTester.CbApi {
         
         public System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.Result> SaveAccountTypeDetailsAsync(PegPayCbApiTester.CbApi.AccountType accountType, string BankCode, string Password) {
             return base.Channel.SaveAccountTypeDetailsAsync(accountType, BankCode, Password);
+        }
+        
+        public PegPayCbApiTester.CbApi.Result SaveChargeTypeDetails(PegPayCbApiTester.CbApi.ChargeType chargeType, string BankCode, string Password) {
+            return base.Channel.SaveChargeTypeDetails(chargeType, BankCode, Password);
+        }
+        
+        public System.Threading.Tasks.Task<PegPayCbApiTester.CbApi.Result> SaveChargeTypeDetailsAsync(PegPayCbApiTester.CbApi.ChargeType chargeType, string BankCode, string Password) {
+            return base.Channel.SaveChargeTypeDetailsAsync(chargeType, BankCode, Password);
         }
         
         public PegPayCbApiTester.CbApi.Result SaveTransactionCategoryDetails(PegPayCbApiTester.CbApi.TransactionCategory tranType, string BankCode, string Password) {

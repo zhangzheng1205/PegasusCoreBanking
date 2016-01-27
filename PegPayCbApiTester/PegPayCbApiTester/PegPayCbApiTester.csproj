@@ -62,6 +62,9 @@
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BankAccountStatement.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BankCustomer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\CbApi\PegPayCbApiTester.CbApi.BaseObject.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

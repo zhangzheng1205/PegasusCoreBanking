@@ -73,7 +73,7 @@ public partial class Receipt : System.Web.UI.Page
             {
                 lblcode.Text = BankCode;
                 lblAgentRef.Text = vendorref;
-                lblamount.Text = dr["TranAmount"].ToString();
+                lblamount.Text = dr["TranAmount"].ToString().Split('.')[0];
                 lblcashier.Text = dr["Teller"].ToString();
                 lblCustname.Text = dr["CustomerName"].ToString();
                 lblAccountRef.Text = dr["AccountNumber"].ToString();

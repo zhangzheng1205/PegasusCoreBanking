@@ -991,7 +991,7 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string branchCodeField;
         
-        private string currencyField;
+        private string currencyCodeField;
         
         /// <remarks/>
         public string CustomerName {
@@ -1144,12 +1144,12 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string Currency {
+        public string CurrencyCode {
             get {
-                return this.currencyField;
+                return this.currencyCodeField;
             }
             set {
-                this.currencyField = value;
+                this.currencyCodeField = value;
             }
         }
     }

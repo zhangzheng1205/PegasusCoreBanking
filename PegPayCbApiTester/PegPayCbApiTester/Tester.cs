@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using PegPayCbApiTester.CbApi;
+using System.Threading;
 
 namespace PegPayCbApiTester
 {
@@ -136,24 +137,131 @@ namespace PegPayCbApiTester
             Assert.AreEqual(result.StatusCode, "0");
         }
 
-        public void TestTransact()
+        public void TestTransact_DuplicateTranRef()
         {
             TransactionRequest req = new TransactionRequest();
-            req.ApprovedBy = "100";
+            req.ApprovedBy = "admin";
             req.BankCode = "TESTBANK";
-            req.BankTranId = "133328";
-            req.CustomerId = "100";
+            req.BankTranId = "133329";
+            req.CustomerId = "";
             req.CustomerName = "TEST CUSTOMER";
             req.DigitalSignature = "";
             req.FromAccount = "0140586848601";
             req.ToAccount = "0140586848602";
             req.Teller = "TEST";
             req.TranAmount = "500";
-            req.TranCategory = "TEST";
+            req.TranCategory = "WITHDRAW";
             req.BranchCode = "TESTBRANCH";
             req.Narration = "TEST NARRATION";
             req.PaymentDate = "28/12/2015";
             req.Password = "TEST";
+            req.Currency = "UGS";
+
+            //transact using same bank tranid
+            Result result = client.Transact(req);
+            if (result.StatusDesc.Contains("DUPLICATE"))
+            {
+                Assert.Pass();
+            }
+            else
+            {
+                Assert.Fail("RESPONSE DOESNT INDICATE DUPLICATE TRANSACTION REF ERROR");
+            }
+        }
+
+        public void TestTransact_SuspectedDoublePosting()
+        {
+            TransactionRequest req = new TransactionRequest();
+            req.ApprovedBy = "admin";
+            req.BankCode = "TESTBANK";
+            req.BankTranId = "133330";
+            req.CustomerId = "";
+            req.CustomerName = "TEST CUSTOMER";
+            req.DigitalSignature = "";
+            req.FromAccount = "0140586848601";
+            req.ToAccount = "0140586848602";
+            req.Teller = "TEST";
+            req.TranAmount = "500";
+            req.TranCategory = "WITHDRAW";
+            req.BranchCode = "TESTBRANCH";
+            req.Narration = "TEST NARRATION";
+            req.PaymentDate = "28/12/2015";
+            req.Password = "TEST";
+            req.Currency = "UGS";
+
+            Result result = client.Transact(req);
+            req.BankTranId += "1";
+
+            //transact same amount,same account in 10 min
+            result = client.Transact(req);
+            if (result.StatusDesc.Contains("SUSPECTED"))
+            {
+                Assert.Pass();
+            }
+            else 
+            {
+                Assert.Fail("RESPONSE DOESNT INDICATE SUSPECTED DOUBLE POSTING");
+            }
+        }
+
+        public void TestTransact_SuspectedDoublePostingGoesAwayAfter10min()
+        {
+            TransactionRequest req = new TransactionRequest();
+            req.ApprovedBy = "admin";
+            req.BankCode = "TESTBANK";
+            req.BankTranId = "133330";
+            req.CustomerId = "";
+            req.CustomerName = "TEST CUSTOMER";
+            req.DigitalSignature = "";
+            req.FromAccount = "0140586848601";
+            req.ToAccount = "0140586848602";
+            req.Teller = "TEST";
+            req.TranAmount = "500";
+            req.TranCategory = "WITHDRAW";
+            req.BranchCode = "TESTBRANCH";
+            req.Narration = "TEST NARRATION";
+            req.PaymentDate = "28/12/2015";
+            req.Password = "TEST";
+            req.Currency = "UGS";
+
+            Result result = client.Transact(req);
+            req.BankTranId += "1";
+
+            Console.WriteLine("Testing if Suspected double posting dissapears after 10 min");
+            Console.WriteLine("Sleeping for 11 minutes");
+            Thread.Sleep(new TimeSpan(0,11,0));
+            Console.WriteLine("Waking Up");
+            //transact same amount,same account in 10 min
+            result = client.Transact(req);
+            if (result.StatusDesc.Contains("SUSPECTED"))
+            {
+                Assert.Fail("RESPONSE INDICATES SUSPECTED DOUBLE POSTING AFTER 10 MIIN");
+            }
+            else
+            {
+                Assert.Pass();
+            }
+        }
+
+        public void TestTransact()
+        {
+            TransactionRequest req = new TransactionRequest();
+            req.ApprovedBy = "admin";
+            req.BankCode = "TESTBANK";
+            req.BankTranId = "133334";
+            req.CustomerId = "";
+            req.CustomerName = "TEST CUSTOMER";
+            req.DigitalSignature = "";
+            req.FromAccount = "0140586848602";
+            req.ToAccount = "0140586848601";
+            req.Teller = "admin";
+            req.TranAmount = "612";
+            req.TranCategory = "WITHDRAW";
+            req.BranchCode = "TESTBRANCH";
+            req.Narration = "TEST NARRATION";
+            req.PaymentDate = "28/12/2015";
+            req.Password = "TEST";
+            req.Currency = "UGS";
 
             Result result = client.Transact(req);
             Assert.AreEqual(result.StatusCode, "0");

@@ -91,6 +91,11 @@
                                     <td>
                                         <asp:Label ID="lblAmount" runat="server">N Large Postal</asp:Label></td>
                                 </tr>
+                                <tr style="padding-top: 15px;">
+                                    <th scope="row"><b>Currency</b></th>
+                                    <td>
+                                        <asp:Label ID="lblCurrency" runat="server">N Large Postal</asp:Label></td>
+                                </tr>
                                 <tr style="height: 15px;">
                                     <th scope="row">Transaction Category</th>
                                     <td>
@@ -113,8 +118,8 @@
                         <hr />
                         <asp:MultiView runat="server" ID="Multiview2">
                             <asp:View runat="server" ID="resultView">
-                                <div class="row"><h4>See Below Identification for the <b>From-Account</b> Signatories</h4></div>
-                                <div class="row" id="SignatoriesSection" runat="server">
+                                <div class="row text-center"><h4>See Below Identification for the <b>From-Account</b> Signatories</h4></div>
+                                <div class="row text-center" id="SignatoriesSection" runat="server">
                                     
                                 </div>
                                 <hr />
@@ -143,4 +148,10 @@
         </asp:View>
     </asp:MultiView>
     
+
+    <style>
+        th, td {
+            padding: 7px;
+        }
+    </style>
 </asp:Content>

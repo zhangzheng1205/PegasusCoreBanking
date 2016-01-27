@@ -28,6 +28,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="DigitalSignature" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="TranCategory" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -102,6 +103,7 @@
               <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeType" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -324,6 +326,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="Gender" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="TransactionLimit" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToProfilePic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToSignature" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -352,6 +356,32 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAccountSignatories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountSignatoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountSignatoriesResult" type="tns:ArrayOfBankCustomer" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBankCustomer">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BankCustomer" nillable="true" type="tns:BankCustomer" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BankCustomer">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BankUser" />
+        </s:complexContent>
+      </s:complexType>
       <s:element name="GetAll">
         <s:complexType>
           <s:sequence>
@@ -501,6 +531,36 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SaveChargeTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="chargeType" type="tns:ChargeType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ChargeType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveChargeTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveChargeTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="SaveTransactionCategoryDetails">
         <s:complexType>
           <s:sequence>
@@ -542,15 +602,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="BankCustomer">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:BankUser">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="BankAccountNumbers" type="tns:ArrayOfString" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
       <s:element name="SaveBankCustomerDetailsResponse">
         <s:complexType>
           <s:sequence>
@@ -684,6 +735,12 @@
   <wsdl:message name="GetByIdSoapOut">
     <wsdl:part name="parameters" element="tns:GetByIdResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAccountSignatoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountSignatories" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountSignatoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountSignatoriesResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAllSoapIn">
     <wsdl:part name="parameters" element="tns:GetAll" />
   </wsdl:message>
@@ -713,6 +770,12 @@
   </wsdl:message>
   <wsdl:message name="SaveAccountTypeDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:SaveAccountTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveChargeTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveChargeTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveChargeTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveChargeTypeDetailsResponse" />
   </wsdl:message>
   <wsdl:message name="SaveTransactionCategoryDetailsSoapIn">
     <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetails" />
@@ -789,6 +852,10 @@
       <wsdl:input message="tns:GetByIdSoapIn" />
       <wsdl:output message="tns:GetByIdSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <wsdl:input message="tns:GetAccountSignatoriesSoapIn" />
+      <wsdl:output message="tns:GetAccountSignatoriesSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetAll">
       <wsdl:input message="tns:GetAllSoapIn" />
       <wsdl:output message="tns:GetAllSoapOut" />
@@ -808,6 +875,10 @@
     <wsdl:operation name="SaveAccountTypeDetails">
       <wsdl:input message="tns:SaveAccountTypeDetailsSoapIn" />
       <wsdl:output message="tns:SaveAccountTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <wsdl:input message="tns:SaveChargeTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveChargeTypeDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SaveTransactionCategoryDetails">
       <wsdl:input message="tns:SaveTransactionCategoryDetailsSoapIn" />
@@ -931,6 +1002,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <soap:operation soapAction="http://pegasus.co.ug/GetAccountSignatories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAll">
       <soap:operation soapAction="http://pegasus.co.ug/GetAll" style="document" />
       <wsdl:input>
@@ -969,6 +1049,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveAccountTypeDetails">
       <soap:operation soapAction="http://pegasus.co.ug/SaveAccountTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveChargeTypeDetails" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1123,6 +1212,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetAccountSignatories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAll">
       <soap12:operation soapAction="http://pegasus.co.ug/GetAll" style="document" />
       <wsdl:input>
@@ -1161,6 +1259,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveAccountTypeDetails">
       <soap12:operation soapAction="http://pegasus.co.ug/SaveAccountTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveChargeTypeDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

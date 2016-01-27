@@ -44,6 +44,7 @@ public partial class Transact : System.Web.UI.Page
     private void LoadData()
     {
         bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
+        bll.LoadCurrenciesIntoDropDown(user.BankCode, ddCurrency, user);
     }
 
 
@@ -79,7 +80,9 @@ public partial class Transact : System.Web.UI.Page
         tran.ToAccount = txtToAccount.Text;
         tran.TranAmount = txtAmount.Text;
         tran.TranCategory = ddTranCategory.SelectedValue;
+        tran.CurrencyCode = ddCurrency.SelectedValue;
         tran.BankTranId = bll.SaveTranRequest(tran,tran.FromAccount);
+        
         return tran;
     }
 }

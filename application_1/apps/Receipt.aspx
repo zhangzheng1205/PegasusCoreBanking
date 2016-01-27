@@ -144,6 +144,12 @@
                                                     <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
                                                         <asp:Label ID="lblamount" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
                                                 </tr>
+                                                 <tr>
+                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Currency</td>
+                                                    <td style="width: 2%">&nbsp;</td>
+                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                        <asp:Label ID="lblCurrency" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
+                                                </tr>
                                                 <tr>
                                                     <td colspan="3" style="height: 10px"></td>
                                                 </tr>

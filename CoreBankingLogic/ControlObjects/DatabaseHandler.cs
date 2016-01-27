@@ -194,11 +194,17 @@ public class DatabaseHandler
                                                         tranRequest.BankCode,
                                                         tranRequest.Narration,
                                                         tranRequest.TranCategory,
-                                                        tranRequest.BranchCode
+                                                        tranRequest.BranchCode,
+                                                        tranRequest.CurrencyCode
                                                       );
             DataSet ds = CbDatabase.ExecuteDataSet(command);
-            int index = ds.Tables.Count - 1;
-            return ds.Tables[index].Rows[0][0].ToString();
+            int index = ds.Tables.Count-1;
+            DataTable dt = ds.Tables[index];
+            foreach (DataTable de in ds.Tables) 
+            {
+                DataTable dc = de;
+            }
+            return dt.Rows[0][0].ToString();
         }
         catch (Exception ex)
         {

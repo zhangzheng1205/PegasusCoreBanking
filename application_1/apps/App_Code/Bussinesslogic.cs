@@ -198,17 +198,18 @@ public class Bussinesslogic
     public string SaveTranRequest(TransactionRequest tran, string AccountNumber)
     {
         string[] parameters ={ tran.CustomerName,
-                                 AccountNumber,
-                              tran.ToAccount,
-                              tran.FromAccount,
-                              tran.TranAmount,
-                              tran.TranCategory,
-                              DateTime.Now.ToString(),
-                              tran.Teller,
-                              tran.ApprovedBy,
-                              tran.BankCode,
-                              tran.BranchCode,
-                              tran.Narration};
+                               AccountNumber,
+                               tran.ToAccount,
+                               tran.FromAccount,
+                               tran.TranAmount,
+                               tran.TranCategory,
+                               DateTime.Now.ToString(),
+                               tran.Teller,
+                               tran.ApprovedBy,
+                               tran.BankCode,
+                               tran.BranchCode,
+                               tran.Narration,
+                               tran.CurrencyCode};
         DataSet ds = dh.ExecuteSelect("SaveTranRequest", parameters);
         DataTable dt = ds.Tables[0];
         DataRow dr = dt.Rows[0];
@@ -229,6 +230,22 @@ public class Bussinesslogic
             string TranType = dr["TranType"].ToString();
             string TranTypeName = dr["TranType"].ToString();
             ddlst.Items.Add(new ListItem(TranTypeName, TranType));
+        }
+    }
+
+    public void LoadCurrenciesIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetCurrenciesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string CurrencyCode = dr["CurrencyCode"].ToString();
+            string CurrencyName = dr["CurrencyName"].ToString();
+            ddlst.Items.Add(new ListItem(CurrencyName, CurrencyCode));
         }
     }
 

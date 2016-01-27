@@ -23,7 +23,7 @@ public class TransactionRequest:BaseObject
     public string DigitalSignature = "";
     public string TranCategory = "";
     public string BranchCode = "";
-    public string Currency = "";
+    public string CurrencyCode = "";
    
 
 
@@ -106,6 +106,12 @@ public class TransactionRequest:BaseObject
         {
             StatusCode = "100";
             StatusDesc = "PLEASE SUPPLY A TRANSACTION CATEGORY";
+            return false;
+        }
+        else if (string.IsNullOrEmpty(this.CurrencyCode))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY THE CURRENCY CODE.";
             return false;
         }
         else if (!bll.IsValidBankCode(this.BankCode,out valObj))

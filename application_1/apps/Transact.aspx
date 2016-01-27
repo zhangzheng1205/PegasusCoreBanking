@@ -74,13 +74,21 @@
                                 <p class="help-block">The customers name</p>
                             </div>
                             <div class="col-lg-6">
-                                <label>Amount</label>
-                                <div class="form-group input-group">
-                                     <span class="input-group-addon">$</span>
-                                    <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control" placeholder="Enter Amount" />
-                                    <span class="input-group-addon">.00</span>
+                                <div class="col-lg-8" style="padding-left:0px;">
+                                    <label>Amount</label>
+                                    <div class="form-group input-group">
+                                        <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control" placeholder="Enter Amount" />
+                                        <span class="input-group-addon">.00</span>
+                                    </div>
+                                    <p class="help-block">The Transaction Amount eg: 500</p>
                                 </div>
-                                 <p class="help-block">The Transaction Amount eg: 500</p>
+                                <div class="col-lg-4">
+                                    <label>Currency</label>
+                                    <asp:DropDownList ID="ddCurrency" runat="server" CssClass="form-control">
+                                        <asp:ListItem>True</asp:ListItem>
+                                        <asp:ListItem>False</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
                             </div>
                         </div>
 

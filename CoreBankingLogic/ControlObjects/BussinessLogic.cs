@@ -601,4 +601,15 @@ public class BussinessLogic
         }
         return all;
     }
+
+    public Result SaveCurrencyDetails(Currency currency, string BankCode)
+    {
+        Result result = new Result();
+        result.RequestId = currency.CurrencyCode;
+        string Id = dh.SaveCurrencyDetails(currency);
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = Id;
+        return result;
+    }
 }

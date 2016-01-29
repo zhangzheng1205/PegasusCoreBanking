@@ -134,21 +134,21 @@
                                 <div class="row">
                                     <div class="col-lg-2"></div>
 
-                                    <div class="col-lg-2">
+                                    <div class="col-sm-2">
                                         <asp:RadioButton ID="rdPdf" runat="server" Font-Bold="True" GroupName="FileFormat"
                                             Text=" PDF" />
                                     </div>
-                                    <div class="col-lg-2">
+                                    <div class="col-sm-2">
                                         <asp:RadioButton ID="rdExcel" runat="server" Font-Bold="True" GroupName="FileFormat"
                                             Text=" EXCEL" />
                                     </div>
-                                    <div class="col-lg-2">
-                                        <asp:Button ID="btnConvert" runat="server" Font-Size="9pt" Height="23px" OnClick="btnConvert_Click"
-                                            CssClass="btn-primary" Text="Export As" Width="85px" />
+                                    <div class="col-sm-2">
+                                        <asp:Button ID="btnConvert" runat="server" OnClick="btnConvert_Click"
+                                            CssClass="btn btn-primary" Text="Export As"  />
                                     </div>
                                     <div class="col-lg-2">
-                                        <asp:Button ID="btnPrint" runat="server" Font-Size="9pt" Height="23px" OnClick="btnConvert_Click"
-                                            CssClass="btn-primary" Text="Print Statement" />
+                                        <asp:Button ID="btnPrint" runat="server" OnClick="btnConvert_Click"
+                                            CssClass="btn btn-success btn-block" Text="Print Statement" />
                                     </div>
                                     <div class="col-lg-2"></div>
                                 </div>
@@ -157,6 +157,8 @@
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
                                              <AlternatingRowStyle BackColor="#BFE4FF" />
+                                            <HeaderStyle BackColor="#115E9B" Font-Bold="false" ForeColor="white" Font-Italic="False"
+                                             Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
                                         </asp:GridView>
                                     </div>
                                 </div>

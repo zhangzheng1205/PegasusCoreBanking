@@ -219,6 +219,9 @@
                                 <a href="AddOrEditAccountType.aspx"><i class="fa fa-caret-right"></i> Create Account Type</a>
                             </li>
                              <li>
+                                <a href="AddOrEditCurrency.aspx"><i class="fa fa-caret-right"></i> Create Currency</a>
+                            </li>
+                             <li>
                                 <a href="AddOrEditTransactionRule.aspx"><i class="fa fa-caret-right"></i> Create Transaction Rule</a>
                             </li>
                              <li>

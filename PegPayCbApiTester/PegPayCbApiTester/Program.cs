@@ -16,7 +16,8 @@ namespace PegPayCbApiTester
             //test.TestSaveUserDetails();
             //test.TestSaveCustomerDetails();
             //test.TestSaveAccountDetails();
-            test.TestTransact();
+            //test.TestTransact();
+            test.TestExportPdf();
             //test.TestTransact_SuspectedDoublePostingGoesAwayAfter10min();
             //test.TestReverseTransaction();
             //test.TestSaveBankDetails();

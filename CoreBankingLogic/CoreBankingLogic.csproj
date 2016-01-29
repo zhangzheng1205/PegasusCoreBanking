@@ -67,6 +67,7 @@
     <Compile Include="ExposedObjects\AccountType.cs" />
     <Compile Include="ExposedObjects\Bank.cs" />
     <Compile Include="ExposedObjects\ChargeType.cs" />
+    <Compile Include="ExposedObjects\Currency.cs" />
     <Compile Include="ExposedObjects\CustomerType.cs" />
     <Compile Include="ExposedObjects\Result.cs" />
     <Compile Include="ExposedObjects\Status.cs" />

@@ -1072,4 +1072,24 @@ public class DatabaseHandler
             throw ex;
         }
     }
+
+    internal string SaveCurrencyDetails(Currency currency)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Currencies_Update",
+                                                        currency.CurrencyName,
+                                                        currency.CurrencyCode,
+                                                        currency.BankCode,
+                                                        currency.ModifiedBy,
+                                                        currency.ValueInLocalCurrency
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString() ;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

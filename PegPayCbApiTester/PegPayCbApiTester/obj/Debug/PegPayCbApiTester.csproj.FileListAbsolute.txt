@@ -22,3 +22,4 @@ C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPa
 C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.dll
 C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\nunit.framework.xml
 C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\obj\Debug\PegPayCbApiTester.csprojResolveAssemblyReference.cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\PegPayCbApiTester\PegPayCbApiTester\bin\Debug\itextsharp.dll

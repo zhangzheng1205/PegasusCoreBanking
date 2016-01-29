@@ -339,6 +339,35 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SaveCurrencyDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="currency" type="tns:Currency" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Currency">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ValueInLocalCurrency" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveCurrencyDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveCurrencyDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetById">
         <s:complexType>
           <s:sequence>
@@ -729,6 +758,12 @@
   <wsdl:message name="SaveBankUserDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:SaveBankUserDetailsResponse" />
   </wsdl:message>
+  <wsdl:message name="SaveCurrencyDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveCurrencyDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveCurrencyDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveCurrencyDetailsResponse" />
+  </wsdl:message>
   <wsdl:message name="GetByIdSoapIn">
     <wsdl:part name="parameters" element="tns:GetById" />
   </wsdl:message>
@@ -847,6 +882,10 @@
     <wsdl:operation name="SaveBankUserDetails">
       <wsdl:input message="tns:SaveBankUserDetailsSoapIn" />
       <wsdl:output message="tns:SaveBankUserDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <wsdl:input message="tns:SaveCurrencyDetailsSoapIn" />
+      <wsdl:output message="tns:SaveCurrencyDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetById">
       <wsdl:input message="tns:GetByIdSoapIn" />
@@ -986,6 +1025,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveBankUserDetails">
       <soap:operation soapAction="http://pegasus.co.ug/SaveBankUserDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveCurrencyDetails" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1196,6 +1244,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveBankUserDetails">
       <soap12:operation soapAction="http://pegasus.co.ug/SaveBankUserDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveCurrencyDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

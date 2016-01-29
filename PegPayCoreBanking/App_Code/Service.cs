@@ -245,6 +245,31 @@ public class Service : System.Web.Services.WebService
         }
         return result;
     }
+    
+    [WebMethod]
+    public Result SaveCurrencyDetails(Currency currency, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (currency.IsValid(BankCode, Password))
+            {
+                result = bll.SaveCurrencyDetails(currency, BankCode);
+            }
+            else
+            {
+                result.StatusCode = currency.StatusCode;
+                result.StatusDesc = currency.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
 
     [WebMethod]
     public BaseObject GetById(string className, string objectId, string bankCode, string Password)

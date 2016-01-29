@@ -78,7 +78,29 @@ public partial class Reports : System.Web.UI.Page
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)
-    { }
+    {
+        try
+        {
+            string[] searchParams = GetSearchParameters();
+            DataTable dt = bll.SearchGeneralLedgerTable(searchParams);
+            if (dt.Rows.Count > 0)
+            {
+                Session["StatementDataTable"] = dt;
+                string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
+                Response.Redirect("Statement.aspx");
+            }
+            else
+            {
+                string msg = "No Records Found Matching Search Criteria";
+                bll.ShowMessage(lblmsg, msg, true, Session);
+            }
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {

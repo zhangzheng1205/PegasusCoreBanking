@@ -50,6 +50,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private System.Threading.SendOrPostCallback SaveBankUserDetailsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SaveCurrencyDetailsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetByIdOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAccountSignatoriesOperationCompleted;
@@ -143,6 +145,9 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event SaveBankUserDetailsCompletedEventHandler SaveBankUserDetailsCompleted;
+        
+        /// <remarks/>
+        public event SaveCurrencyDetailsCompletedEventHandler SaveCurrencyDetailsCompleted;
         
         /// <remarks/>
         public event GetByIdCompletedEventHandler GetByIdCompleted;
@@ -504,6 +509,39 @@ namespace InterLinkClass.CoreBankingApi {
             if ((this.SaveBankUserDetailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SaveBankUserDetailsCompleted(this, new SaveBankUserDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveCurrencyDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveCurrencyDetails(Currency currency, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveCurrencyDetails", new object[] {
+                        currency,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveCurrencyDetailsAsync(Currency currency, string BankCode, string Password) {
+            this.SaveCurrencyDetailsAsync(currency, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void SaveCurrencyDetailsAsync(Currency currency, string BankCode, string Password, object userState) {
+            if ((this.SaveCurrencyDetailsOperationCompleted == null)) {
+                this.SaveCurrencyDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveCurrencyDetailsOperationCompleted);
+            }
+            this.InvokeAsync("SaveCurrencyDetails", new object[] {
+                        currency,
+                        BankCode,
+                        Password}, this.SaveCurrencyDetailsOperationCompleted, userState);
+        }
+        
+        private void OnSaveCurrencyDetailsOperationCompleted(object arg) {
+            if ((this.SaveCurrencyDetailsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveCurrencyDetailsCompleted(this, new SaveCurrencyDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1161,6 +1199,7 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Currency))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
@@ -1795,6 +1834,75 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.isActiveField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.79.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class Currency : BaseObject {
+        
+        private string currencyNameField;
+        
+        private string currencyCodeField;
+        
+        private string bankCodeField;
+        
+        private string modifiedByField;
+        
+        private string valueInLocalCurrencyField;
+        
+        /// <remarks/>
+        public string CurrencyName {
+            get {
+                return this.currencyNameField;
+            }
+            set {
+                this.currencyNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyCode {
+            get {
+                return this.currencyCodeField;
+            }
+            set {
+                this.currencyCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ValueInLocalCurrency {
+            get {
+                return this.valueInLocalCurrencyField;
+            }
+            set {
+                this.valueInLocalCurrencyField = value;
             }
         }
     }
@@ -3063,6 +3171,32 @@ namespace InterLinkClass.CoreBankingApi {
         private object[] results;
         
         internal SaveBankUserDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void SaveCurrencyDetailsCompletedEventHandler(object sender, SaveCurrencyDetailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveCurrencyDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveCurrencyDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

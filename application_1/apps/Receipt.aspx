@@ -27,194 +27,188 @@
         }
     </style>
 </head>
-<body>
+<body style="width: 70%;">
     <form id="form1" runat="server">
-        <div style="text-align: center">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
             <asp:Label ID="lblmsg" runat="server" Font-Bold="False" Font-Names="Arial Narrow"
                 ForeColor="Red" Style="font: menu" Text="."></asp:Label><br />
             <asp:MultiView ID="MultiView1" runat="server">
                 <asp:View ID="View2" runat="server">
-                    <table align="center" style="width: 95%">
-                        <tr>
-                            <td style="text-align: center" class="auto-style1">
-                                <input id="Button3" accesskey="P" class="btn btn-success btn-lg" onclick="window.print();" size="20"
-                                    value="Print Receipt" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100%; height: 50px; text-align: center"></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100%; height: 150px; text-align: center">
-                                <table align="center" cellpadding="0" cellspacing="0" class="style12" style="border-right: #617da6 2px double; border-top: #617da6 2px double; border-left: #617da6 2px double; border-bottom: #617da6 2px double; height: 25px;"
-                                    width="900px">
-                                    <tr>
-                                        <td style="vertical-align: top; height: 5px; text-align: right">
-                                            <img alt="" width="400" class="thumbnail" height="150" src="" id="logo1" runat="server" /></td>
-                                        <td  class="text-center" style="align-content:center;padding-left:230px;">
-                                            <div class="text-center">
-                                                <asp:Label ID="Label1" runat="server" CssClass="text-center" Font-Bold="True" Font-Size="X-Large" Text="UMEME LIMITTED">
+                    <div class="text-center">
+                        <table class="text-center" style="width: 70%;padding-left:10px;">
+                            <tr>
+                                <td style="text-align: center" class="auto-style1">
+                                    <input id="Button3" accesskey="P" class="btn btn-success btn-lg" onclick="window.print();" size="20"
+                                        value="Print Receipt" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; height: 50px; text-align: center"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; height: 150px; text-align: center">
+                                    <table align="center" cellpadding="0" cellspacing="0" class="style12" style="border-right: #617da6 2px double; border-top: #617da6 2px double; border-left: #617da6 2px double; border-bottom: #617da6 2px double; height: 25px;">
+                                        <tr>
+                                            <td colspan="1" style="vertical-align: top; height: 5px; text-align: right">
+                                                <img alt="" width="200" class="thumbnail" height="150" src="" id="logo1" runat="server" />
+                                            </td>
+                                            <td colspan="1" style="text-align: center;padding-right:100px;">
+                                                <asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="X-Large" Text="UMEME LIMITTED">
                                                 </asp:Label>
-                                            </div>
-                                        </td>
-                                        <td style="vertical-align: top; height: 5px; padding-left: 295px;">
-                                            <img alt="" width="400" class="thumbnail" height="150" src="" id="logo2" runat="server" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 5px; text-align: center">
-                                            <asp:Label ID="lblTitle" runat="server" Font-Bold="True" Text="."></asp:Label></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 2px; text-align: center"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="vertical-align: top; width: 50%; height: 5px; text-align: left">
-                                            <table align="center" cellpadding="0" cellspacing="0" style="width: 98%">
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Reciept No</td>
-                                                    <td style="width: 2%; height: 20px;"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblRecieptno" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Bank Ref</td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblAgentRef" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Account No</td>
-                                                    <td style="width: 2%">&nbsp;</td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblAccountRef" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; height: 20px; text-align: justify; font-weight: bold; font-family: 'Courier New';">Customer Name</td>
-                                                    <td style="width: 2%; height: 20px"></td>
-                                                    <td style="width: 65%; height: 45px; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblCustname" runat="server" Text="Label"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Cashier</td>
-                                                    <td style="width: 2%; height: 20px"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblcashier" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Payment Date</td>
-                                                    <td style="width: 2%; height: 20px"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblPayDate" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td style="vertical-align: top; width: 2%; height: 10px; text-align: center"></td>
-                                        <td style="vertical-align: top; width: 48%; height: 5px; text-align: center">
-                                            <table align="center" cellpadding="0" cellspacing="0" style="width: 98%">
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">BankCode</td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblBankCode" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Amount Paid</td>
-                                                    <td style="width: 2%">&nbsp;</td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblamount" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
-                                                </tr>
-                                                 <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Currency</td>
-                                                    <td style="width: 2%">&nbsp;</td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblCurrency" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-weight: bold; width: 35%; font-family: 'Courier New'; text-align: justify">Transaction Category</td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="font-weight: bold; width: 65%; font-family: 'Courier New'; text-align: justify">
-                                                        <asp:Label ID="lblTranCategory" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <%--<tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Provisional.
-                                                    Balance
-                                                    </td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; height: 45px; text-align: left;">
-                                                        <asp:Label ID="lblbal" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
-                                                </tr>--%>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Branch Code</td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
-                                                        <asp:Label ID="lblBranchCode" runat="server" Font-Size="Medium" Text="Label"></asp:Label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" style="height: 10px"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="font-weight: bold; width: 35%; font-family: 'Courier New'; text-align: justify">Signiture</td>
-                                                    <td style="width: 2%"></td>
-                                                    <td style="font-weight: bold; width: 65%; font-family: 'Courier New'; text-align: justify">&nbsp;.........................</td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100%; height: 50px; text-align: center"></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100%; height: 2px; text-align: center">
-                                <asp:Button ID="Button4" runat="server" class="btn-primary"
-                                    OnClick="Button4_Click" Style="font: menu" Text="RETURN" Width="150px" /></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 100%; height: 2px; text-align: center">
-                                <hr />
-                            </td>
-                        </tr>
-                    </table>
-                    <asp:Label ID="lblcode" runat="server" Text="." Visible="False" Width="16px"></asp:Label><asp:Label ID="lblvendorcode"
-                        runat="server" Text="." Visible="False"></asp:Label>
+                                            </td>
+                                            <td colspan="1" style="vertical-align: top; height: 5px; padding-left:100px">
+                                                <img alt="" width="200" class="thumbnail" height="150" src="" id="logo2" runat="server" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="vertical-align: top; height: 5px; text-align: center">
+                                                <asp:Label ID="lblTitle" runat="server" Font-Bold="True" Text="."></asp:Label></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="vertical-align: top; height: 2px; text-align: center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align: top; width: 50%; height: 5px; text-align: left">
+                                                <table align="center" cellpadding="10"  cellspacing="0" style="width: 90%;padding-left:20px;">
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Reciept No</td>
+                                                        <td style="width: 2%; height: 20px;"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblRecieptno" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Bank Ref</td>
+                                                        <td style="width: 2%"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblAgentRef" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Account No</td>
+                                                        <td style="width: 2%">&nbsp;</td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblAccountRef" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; height: 20px; text-align: justify; font-weight: bold; font-family: 'Courier New';">Customer Name</td>
+                                                        <td style="width: 2%; height: 20px"></td>
+                                                        <td style="width: 65%; height: 45px; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblCustname" runat="server" Text="Label"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Cashier</td>
+                                                        <td style="width: 2%; height: 20px"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblcashier" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Payment Date</td>
+                                                        <td style="width: 2%; height: 20px"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblPayDate" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="vertical-align: top; width: 2%; height: 10px; text-align: center"></td>
+                                            <td style="vertical-align: top; width: 48%; height: 5px; text-align: center">
+                                                <table align="center" cellpadding="0" cellspacing="0" style="width: 98%">
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">BankCode</td>
+                                                        <td style="width: 2%"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblBankCode" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Amount Paid</td>
+                                                        <td style="width: 2%">&nbsp;</td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblamount" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Currency</td>
+                                                        <td style="width: 2%">&nbsp;</td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblCurrency" runat="server" Text="Label" Font-Size="Medium"></asp:Label>&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: bold; width: 35%; font-family: 'Courier New'; text-align: justify">Transaction Category</td>
+                                                        <td style="width: 2%"></td>
+                                                        <td style="font-weight: bold; width: 65%; font-family: 'Courier New'; text-align: justify">
+                                                            <asp:Label ID="lblTranCategory" runat="server" Text="Label" Font-Size="Medium"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 35%; text-align: justify; font-weight: bold; font-family: 'Courier New';">Branch Code</td>
+                                                        <td style="width: 2%"></td>
+                                                        <td style="width: 65%; font-weight: bold; font-family: 'Courier New'; text-align: justify;">
+                                                            <asp:Label ID="lblBranchCode" runat="server" Font-Size="Medium" Text="Label"></asp:Label></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="height: 10px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight: bold; width: 35%; font-family: 'Courier New'; text-align: justify">Signiture</td>
+                                                        <td style="width: 2%"></td>
+                                                        <td style="font-weight: bold; width: 65%; font-family: 'Courier New'; text-align: justify">&nbsp;.................</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="vertical-align: top; height: 5px; text-align: center"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; height: 50px; text-align: center"></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; height: 2px; text-align: center">
+                                    <asp:Button ID="Button4" runat="server" class="btn-primary"
+                                        OnClick="Button4_Click" Style="font: menu" Text="RETURN" Width="150px" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 100%; height: 2px; text-align: center">
+                                    <hr />
+                                </td>
+                            </tr>
+                        </table>
+                        <asp:Label ID="lblcode" runat="server" Text="." Visible="False" Width="16px"></asp:Label><asp:Label ID="lblvendorcode"
+                            runat="server" Text="." Visible="False"></asp:Label>
+                    </div>
                 </asp:View>
                 <asp:View ID="View1" runat="server">
                     <table align="center" style="width: 90%">
@@ -251,6 +245,7 @@
                 </asp:View>
             </asp:MultiView>&nbsp;
         </div>
+        <div class="col-lg-2"></div>
     </form>
 </body>
 </html>

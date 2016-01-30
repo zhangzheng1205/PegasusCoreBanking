@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Statement.aspx.cs" Inherits="Statement" %>
 
+<%@ Import Namespace="InterLinkClass.CoreBankingApi" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
@@ -31,7 +32,7 @@
 
 </head>
 
-<body style="font-size:9px;">
+<body style="font-size: 12px;">
     <form runat="server">
         <div class="container" style="padding: 10px;">
 
@@ -73,23 +74,38 @@
             <div class="row" style="padding: 15px; border: 1px solid gray;">
                 <%-- company logo --%>
                 <div class="col-lg-4" style="padding-left: 10px;">
-                    <img class="img-responsive img-thumbnail" alt="" src="Images/StanbicLogo.png" style="height: 250px; width: 350px; border: 1px solid gray;" />
+                    <img class="img-responsive img-thumbnail" alt="" src="Images\<% Bank bank = (Bank)Session["UsersBank"]; Response.Write(bank.BankCode + @"\" + bank.PathToLogoImage); %>" style="height: 250px; width: 350px; border: 1px solid gray;" />
                 </div>
 
                 <%-- printing details --%>
                 <div class="col-lg-8" style="vertical-align: bottom">
-                    <h1>TESTBANK Statement</h1>
-                    <h4>Printed By: Nsubuga Kasozi</h4>
-                    <h4>Role:       Teller</h4>
-                    <h4>Printed On: 29/01/2016 10:16 a.m</h4>
-                    <h4>BranchName: TestBranch</h4>
+                    <h1>
+                        <asp:Label ID="lblTitle" runat="server">TESTBANK Statement</asp:Label>
+
+                    </h1>
+                    <h4>
+                        <asp:Label ID="lblPrintedBy" runat="server">Printed By: Nsubuga Kasozi</asp:Label>
+
+                    </h4>
+                    <h4>
+                        <asp:Label ID="lblUserId" runat="server">Printed By: Nsubuga Kasozi</asp:Label>
+                    </h4>
+                    <h4>
+                        <asp:Label ID="lblRole" runat="server">Role:       Teller</asp:Label>
+                    </h4>
+                    <h4>Printed On: <%Response.Write(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")); %>
+
+                    </h4>
+                    <h4>
+                        <asp:Label ID="lblBranchName" runat="server">BranchName: TestBranch</asp:Label>
+                    </h4>
                 </div>
             </div>
 
             <%-- title section --%>
             <div class="row" style="padding: 15px; border: 1px solid gray; border-top: none;">
                 <div class="text-center">
-                    <h4>BANK STATEMENT FOR TRANSACTIONS DONE FROM 17/02/1991 to 21/02/1991</h4>
+                    <h4><asp:Label ID="lblHeading" runat="server"></asp:Label></h4>
                 </div>
             </div>
 
@@ -97,7 +113,6 @@
             <div class="row" style="padding: 15px; border: 1px solid gray; border-top: none;">
                 <div class="table-responsive">
                     <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
-                        <AlternatingRowStyle BackColor="#BFE4FF" />
                         <HeaderStyle BackColor="#115E9B" Font-Bold="false" ForeColor="white" Font-Italic="False"
                             Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
                     </asp:GridView>

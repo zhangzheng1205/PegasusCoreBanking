@@ -47,7 +47,7 @@ public partial class ApproveBankAccount : System.Web.UI.Page
 
     private void LoadData()
     {
-        bll.LoadBanksIntoDropDownALL(user, ddBank);
+        bll.LoadBanksIntoDropDown(user, ddBank);
         bll.LoadBanksBranchesIntoDropDownALL(user.BankCode, ddBankBranch, user);
     }
 

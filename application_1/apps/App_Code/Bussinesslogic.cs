@@ -35,6 +35,13 @@ public class Bussinesslogic
             string BranchCode = dr["BranchCode"].ToString();
             ddlst.Items.Add(new ListItem(BranchName, BranchCode));
         }
+
+        //disable branch selection option if user is not an admin
+        if (user.Usertype != "SYS_ADMIN" && user.Usertype != "BANK_ADMIN" && user.Usertype != "BUSSINESS_ADMIN")
+        {
+            ddlst.SelectedValue = user.BranchCode;
+            ddlst.Enabled = false;
+        }
     }
 
     public void LoadBanksBranchesIntoDropDownALL(string bankCode, DropDownList ddlst, BankUser user)
@@ -50,6 +57,13 @@ public class Bussinesslogic
             string BranchName = dr["BranchName"].ToString();
             string BranchCode = dr["BranchCode"].ToString();
             ddlst.Items.Add(new ListItem(BranchName, BranchCode));
+        }
+
+        //disable branch selection option if user is not an admin
+        if (user.Usertype != "SYS_ADMIN" && user.Usertype != "BANK_ADMIN" && user.Usertype != "BUSSINESS_ADMIN") 
+        {
+            ddlst.SelectedValue = user.BranchCode;
+            ddlst.Enabled = false;
         }
     }
 
@@ -140,27 +154,24 @@ public class Bussinesslogic
 
     public void LoadBanksIntoDropDownALL(BankUser user, DropDownList ddlst)
     {
-        ddlst.Items.Clear();
         string[] parameters = { };
-        if (user.Usertype.ToUpper() == "SYS_ADMIN")
-        {
-            ddlst.Items.Add(new ListItem("ALL", "ALL"));
-            parameters = new string[] { "ALL" };
-        }
-        else
-        {
-            parameters = new string[] { user.BankCode };
-            ddlst.Enabled = false;
-        }
-        DataSet ds = dh.ExecuteSelect("Banks_SelectRow", parameters);
+        DataSet ds = dh.ExecuteSelect("GetAllBanks", parameters);
         DataTable dt = ds.Tables[0];
 
-
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("ALL", "ALL"));
         foreach (DataRow dr in dt.Rows)
         {
-            string bankcode = dr["BankCode"].ToString();
-            string bankName = dr["BankName"].ToString();
-            ddlst.Items.Add(new ListItem(bankName, bankcode));
+            string BankName = dr["BankName"].ToString();
+            string UserTypeCode = dr["BankCode"].ToString();
+            ddlst.Items.Add(new ListItem(BankName, UserTypeCode));
+        }
+
+        //if user is not a Pegasus Admin disbale bank selection
+        if (user.Usertype.ToUpper() != "SYS_ADMIN")
+        {
+            ddlst.SelectedValue = user.BankCode;
+            ddlst.Enabled = false;
         }
 
     }
@@ -446,10 +457,7 @@ public class Bussinesslogic
                 allowedAreas.AddRange(allowedArea.Split(','));
             }
         }
-        else
-        {
-            throw new Exception("Unable to Determine User Access Rights");
-        }
+ 
         return allowedAreas;
     }
 

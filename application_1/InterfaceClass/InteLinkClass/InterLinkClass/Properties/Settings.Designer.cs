@@ -46,7 +46,7 @@ namespace InterLinkClass.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:50102/PegPayCoreBanking/Service.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:59541/PegPayCoreBanking/Service.asmx")]
         public string InterLinkClass_CoreBankingApi_Service {
             get {
                 return ((string)(this["InterLinkClass_CoreBankingApi_Service"]));

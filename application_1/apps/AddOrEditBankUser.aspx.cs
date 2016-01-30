@@ -85,8 +85,8 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     private void LoadData()
     {
         bll.LoadBanksIntoDropDown(user, ddBank);
-        bll.LoadBanksBranchesIntoDropDown(user.BankCode, ddBankBranch, user);
-        bll.LoadUsertypesIntoDropDowns(user.BankCode, ddUserType, user);
+        bll.LoadBanksBranchesIntoDropDown(ddBank.SelectedValue, ddBankBranch, user);
+        bll.LoadUsertypesIntoDropDowns(ddBank.SelectedValue, ddUserType, user);
         CustomersSection.Visible = false;
         TellersSection.Visible = false;
         txtTranLimit.Text = "0";
@@ -162,7 +162,12 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                if (newUser.Usertype.Contains("CUSTOMER"))
+                if (newUser.Usertype.Contains("CUSTOMER_SERVICE"))
+                {
+                    string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
+                    bll.ShowMessage(lblmsg, msg, false, Session);
+                }
+                else if (newUser.Usertype.Contains("CUSTOMER"))
                 {
                     Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
                 }

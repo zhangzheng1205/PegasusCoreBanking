@@ -161,12 +161,12 @@
               <s:element minOccurs="0" maxOccurs="1" name="AccountId" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountBalance" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="AccountSignatories" type="tns:ArrayOfString" />
             </s:sequence>
           </s:extension>
@@ -1380,10 +1380,10 @@
   </wsdl:binding>
   <wsdl:service name="Service">
     <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
-      <soap:address location="http://localhost:50102/PegPayCoreBanking/Service.asmx" />
+      <soap:address location="http://localhost:59541/PegPayCoreBanking/Service.asmx" />
     </wsdl:port>
     <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
-      <soap12:address location="http://localhost:50102/PegPayCoreBanking/Service.asmx" />
+      <soap12:address location="http://localhost:59541/PegPayCoreBanking/Service.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -156,19 +156,25 @@ public class DatabaseHandler
     {
         try
         {
-            command = CbDatabase.GetStoredProcCommand("Accounts_Update",
-                                                        account.AccountId,
-                                                        account.AccountBalance,
-                                                        account.UserId,
-                                                        account.AccountNumber,
-                                                        account.AccountType,
-                                                        account.BankCode,
-                                                        account.ModifiedBy,
-                                                        account.BranchCode,
-                                                        account.IsActive
-                );
-            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
-            return datatable.Rows[0][0].ToString();
+            string AccountId="";
+            foreach (string signatory in account.AccountSignatories)
+            {
+                command = CbDatabase.GetStoredProcCommand("Accounts_Update",
+                                                            account.AccountId,
+                                                            account.AccountBalance,
+                                                            signatory,
+                                                            account.AccountNumber,
+                                                            account.AccountType,
+                                                            account.BankCode,
+                                                            account.ModifiedBy,
+                                                            account.BranchCode,
+                                                            account.IsActive,
+                                                            account.CurrencyCode
+                    );
+                DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+                AccountId = datatable.Rows[0][0].ToString();
+            }
+            return AccountId;
         }
         catch (Exception ex)
         {
@@ -363,7 +369,9 @@ public class DatabaseHandler
                                                        accountType.IsDebitable,
                                                        accountType.Description,
                                                        accountType.ModifiedBy,
-                                                       accountType.IsActive
+                                                       accountType.IsActive,
+                                                       accountType.MinNumberOfSignatories,
+                                                       accountType.MaxNumberOfSignatories
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -425,7 +433,7 @@ public class DatabaseHandler
                 else
                 {
                     user.StatusCode = "100";
-                    user.StatusDesc = "FAILED: USER SPECIFIED [" + objectId + "] IS DEACTIVATED.";
+                    user.StatusDesc = "FAILED: USER [" + objectId + "] IS NOT ACTIVATED.";
                 }
             }
             else
@@ -502,6 +510,8 @@ public class DatabaseHandler
                 type.MinimumBalance = dr["MinimumBal"].ToString();
                 type.ModifiedOn = dr["ModifiedOn"].ToString();
                 type.ModifiedBy = dr["ModifiedBy"].ToString();
+                type.MinNumberOfSignatories = ConvertToInt(dr["MinNumberOfSignatories"].ToString());
+                type.MaxNumberOfSignatories = ConvertToInt(dr["MaxNumberOfSignatories"].ToString());
                 type.StatusCode = "0";
                 type.StatusDesc = "SUCCESS";
             }
@@ -519,11 +529,26 @@ public class DatabaseHandler
         return type;
     }
 
+    public int ConvertToInt(string aString)
+    {
+        int result = 0;
+        try
+        {
+            result = Convert.ToInt32(aString);
+            return result;
+        }
+        catch (Exception)
+        {
+            result = 0;
+            return result;
+        }
+    }
+
 
 
     internal BankAccount GetBankAccountById(string objectId, string BankCode)
     {
-        BankAccount type = new BankAccount();
+        BankAccount account = new BankAccount();
         try
         {
             command = CbDatabase.GetStoredProcCommand("Accounts_SelectRow",
@@ -534,30 +559,44 @@ public class DatabaseHandler
             if (datatable.Rows.Count > 0)
             {
                 DataRow dr = datatable.Rows[0];
-                type.AccountBalance = dr["AccBalance"].ToString();
-                type.AccountId = dr["AccountId"].ToString();
-                type.BankCode = dr["BankCode"].ToString();
-                type.AccountNumber = dr["AccNumber"].ToString();
-                type.AccountType = dr["AccType"].ToString();
-                type.IsActive = dr["IsActive"].ToString();
-                type.BranchCode = dr["BranchCode"].ToString();
-                type.ModifiedBy = dr["ModifiedBy"].ToString();
-                type.ModifiedBy = dr["ModifiedBy"].ToString();
-                type.StatusCode = "0";
-                type.StatusDesc = "SUCCESS";
+                string IsActive = dr["IsActive"].ToString();
+                if (IsActive.ToUpper() == "TRUE")
+                {
+                    account.AccountBalance = dr["AccBalance"].ToString();
+                    account.AccountId = dr["AccountId"].ToString();
+                    account.BankCode = dr["BankCode"].ToString();
+                    account.AccountNumber = dr["AccNumber"].ToString();
+                    account.AccountType = dr["AccType"].ToString();
+                    account.IsActive = dr["IsActive"].ToString();
+                    account.BranchCode = dr["BranchCode"].ToString();
+                    account.ModifiedBy = dr["ModifiedBy"].ToString();
+                    account.ModifiedBy = dr["ModifiedBy"].ToString();
+                    account.CurrencyCode = dr["CurrencyCode"].ToString();
+                    foreach (DataRow row in datatable.Rows) 
+                    {
+                        account.AccountSignatories.Add(row["UserId"].ToString());
+                    }
+                    account.StatusCode = "0";
+                    account.StatusDesc = "SUCCESS";
+                }
+                else 
+                {
+                    account.StatusCode = "100";
+                    account.StatusDesc = "FAILED: ACCOUNT ["+objectId+"] IS NOT ACTIVATED AT PEGPAY";
+                }
             }
             else
             {
-                type.StatusCode = "100";
-                type.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:" + objectId + " NOT FOUND UNDER " + BankCode;
+                account.StatusCode = "100";
+                account.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
             }
         }
         catch (Exception ex)
         {
-            type.StatusCode = "100";
-            type.StatusDesc = "FAILED: " + ex.Message;
+            account.StatusCode = "100";
+            account.StatusDesc = "FAILED: " + ex.Message;
         }
-        return type;
+        return account;
     }
 
     internal BankUser[] GetAllUsers(string bankCode)
@@ -872,7 +911,7 @@ public class DatabaseHandler
             else
             {
                 bank.StatusCode = "100";
-                bank.StatusDesc = "FAILED: BANK NOT FOUND";
+                bank.StatusDesc = "FAILED: BANK  [" + objectId + "] NOT FOUND";
             }
         }
         catch (Exception ex)
@@ -895,16 +934,25 @@ public class DatabaseHandler
             if (datatable.Rows.Count > 0)
             {
                 DataRow dr = datatable.Rows[0];
-                category.ApprovedBy = "";
-                category.BankCode = dr["BankCode"].ToString();
-                category.Description = dr["Description"].ToString();
-                category.Id = dr["TranTypeId"].ToString();
-                category.IsActive = dr["IsActive"].ToString();
-                category.ModifiedBy = dr["ModifiedBy"].ToString();
-                category.TranCategoryCode = dr["TranType"].ToString();
-                category.TranCategoryName = dr["TranType"].ToString();
-                category.StatusCode = "0";
-                category.StatusDesc = "SUCCESS";
+                string IsActive = dr["IsActive"].ToString().ToUpper();
+                if (IsActive == "TRUE")
+                {
+                    category.ApprovedBy = "";
+                    category.BankCode = dr["BankCode"].ToString();
+                    category.Description = dr["Description"].ToString();
+                    category.Id = dr["TranTypeId"].ToString();
+                    category.IsActive = dr["IsActive"].ToString();
+                    category.ModifiedBy = dr["ModifiedBy"].ToString();
+                    category.TranCategoryCode = dr["TranType"].ToString();
+                    category.TranCategoryName = dr["TranType"].ToString();
+                    category.StatusCode = "0";
+                    category.StatusDesc = "SUCCESS";
+                }
+                else 
+                {
+                    category.StatusCode = "100";
+                    category.StatusDesc = "FAILED: TRANSACTION CATEGORY  [" + objectId + "] IS NOT ACTIVATED";
+                }
             }
             else
             {

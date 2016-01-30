@@ -47,7 +47,7 @@ public partial class ApproveBankUser : System.Web.UI.Page
 
     private void LoadData()
     {
-        bll.LoadBanksIntoDropDownALL(user, ddBank);
+        bll.LoadBanksIntoDropDown(user, ddBank);
         bll.LoadBanksBranchesIntoDropDownALL(user.BankCode, ddBankBranch, user);
     }
 
@@ -86,16 +86,17 @@ public partial class ApproveBankUser : System.Web.UI.Page
         string UserId = row.Cells[1].Text.Trim();
         string BankCode = ddBank.SelectedValue;
         string ApprovedBy = user.Id;
-        string IsActive="True";
-        string[] parameters = { UserId, BankCode,IsActive ,ApprovedBy };
+        string IsActive = "True";
+        string[] parameters = { UserId, BankCode, IsActive, ApprovedBy };
 
         Result result = bll.UpdateUserIsActiveStatus(parameters);
-        if (result.StatusCode == "0") 
+        if (result.StatusCode == "0")
         {
-             string msg = "User(s) Approved Successfully";
-             bll.ShowMessage(lblmsg, msg, false, Session);
+            SearchDB();
+            string msg = "User(s) Approved Successfully";
+            bll.ShowMessage(lblmsg, msg, false, Session);
         }
-        else 
+        else
         {
             string msg = result.StatusDesc;
             bll.ShowMessage(lblmsg, msg, true, Session);
@@ -107,26 +108,33 @@ public partial class ApproveBankUser : System.Web.UI.Page
     {
         try
         {
-            string[] parameters = GetSearchParameters();
-            DataTable dt = bll.SearchBankUsersTable(parameters);
-            if (dt.Rows.Count > 0)
-            {
-                dataGridResults.DataSource = dt;
-                dataGridResults.DataBind();
-                string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
-                Multiview2.ActiveViewIndex = 0;
-                bll.ShowMessage(lblmsg, msg, false, Session);
-            }
-            else
-            {
-                string msg = "No Records Found Matching Search Criteria";
-                Multiview2.ActiveViewIndex = 1;
-                bll.ShowMessage(lblmsg, msg, true, Session);
-            }
+            SearchDB();
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void SearchDB()
+    {
+        string[] parameters = GetSearchParameters();
+        DataTable dt = bll.SearchBankUsersTable(parameters);
+        if (dt.Rows.Count > 0)
+        {
+            dataGridResults.DataSource = dt;
+            dataGridResults.DataBind();
+            string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
+            Multiview2.ActiveViewIndex = 0;
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            dataGridResults.DataSource = null;
+            dataGridResults.DataBind();
+            string msg = "No Records Found Matching Search Criteria";
+            Multiview2.ActiveViewIndex = 1;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
@@ -141,7 +149,7 @@ public partial class ApproveBankUser : System.Web.UI.Page
         string Username = txtCustName.Text;
         string fromDate = txtFromDate.Text;
         string toDate = txtToDate.Text;
-       
+
         parameters.Add(BankCode);
         parameters.Add(BranchCode);
         parameters.Add(Teller);
@@ -149,7 +157,7 @@ public partial class ApproveBankUser : System.Web.UI.Page
         parameters.Add(Username);
         parameters.Add(fromDate);
         parameters.Add(toDate);
-      
+
         return parameters.ToArray();
     }
 
@@ -177,5 +185,5 @@ public partial class ApproveBankUser : System.Web.UI.Page
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
- 
+
 }

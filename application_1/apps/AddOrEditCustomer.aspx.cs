@@ -184,7 +184,7 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
         aUser.FullName = txtBankUsersName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
-        aUser.IsActive = ddIsActive.Text;
+        aUser.IsActive = "false";
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GenerateBankPassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;

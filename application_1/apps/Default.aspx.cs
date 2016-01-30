@@ -76,19 +76,7 @@ public partial class _Default : System.Web.UI.Page
         {
             if (user.Password == Password)
             {
-                Bank UsersBank = client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword) as Bank;
-                List<string> allowedAreas = bll.GetAllowedAreas(user.Usertype, user.BankCode);
-
-                if (UsersBank.StatusCode != "0") 
-                {
-                    throw new Exception("Unable To Determine Users Bank");
-                }
-               
-
-                Session["User"] = user;
-                Session["UsersBank"] = UsersBank;
-                Session["AllowedAreas"] = allowedAreas;
-                Response.Redirect("LoggedInStartPage.aspx",false);
+                AssignSessionVariables(user);
             }
             else
             {
@@ -99,6 +87,56 @@ public partial class _Default : System.Web.UI.Page
         {
             ShowMessage(user.StatusDesc,true);
         }
+    }
+
+    private void AssignSessionVariables(BankUser user)
+    {
+        Bank UsersBank = client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword) as Bank;
+        List<string> allowedAreas = bll.GetAllowedAreas(user.Usertype, user.BankCode);
+
+        if (user.Usertype == "SYS_ADMIN") 
+        {
+            SetSysAdminSession(ref UsersBank,ref allowedAreas, user);
+        }
+        if (UsersBank.StatusCode != "0")
+        {
+            throw new Exception("Unable To Determine Your Bank. Please contact System Administrator");
+        }
+        else if (allowedAreas.Count == 0)
+        {
+            throw new Exception("Unable To Determine Your Access Rights. Please contact System Administrator");
+        }
+        else
+        {
+            Session["User"] = user;
+            Session["UsersBank"] = UsersBank;
+            Session["AllowedAreas"] = allowedAreas;
+            Response.Redirect("LoggedInStartPage.aspx", false);
+        }
+    }
+
+    private void SetSysAdminSession(ref Bank UsersBank,ref List<string> allowedAreas,BankUser user)
+    {
+        if (user.Usertype == "SYS_ADMIN") 
+        {
+            if (UsersBank.StatusCode!="0")
+            {
+                UsersBank = new Bank();
+                UsersBank.BankName = "PEGASUS TECH";
+                UsersBank.BankCode = "PEGASUS";
+                UsersBank.BankContactEmail = "kasozi.nsobya@pegasustechnologies.co.ug";
+                UsersBank.BankPassword = "T3rr1613";
+                UsersBank.IsActive = "True";
+                UsersBank.ModifiedBy = "admin";
+                UsersBank.PathToLogoImage = "Billing.jpg";
+                UsersBank.PathToPublicKey = "";
+                UsersBank.StatusCode = "0";
+                UsersBank.StatusDesc = "SUCCESS";
+                allowedAreas.Add("ALL");
+            }
+        }
+        
+
     }
 
     private string EncryptPassword(string password)

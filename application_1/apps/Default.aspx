@@ -54,7 +54,7 @@
                 <hr />
 
                 <div class="account-wall">
-                    <img id="logoImage" runat="server" class="profile-img" src="Images/Billing.jpg" alt="" />
+                    <img id="logoImage" runat="server" class="profile-img" src="Images/PEGASUS/Billing.jpg" alt="" />
                     <form runat="server" action="#" class="form-signin">
                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email" required="true" autofocus="true" />
                         <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" required="true" />

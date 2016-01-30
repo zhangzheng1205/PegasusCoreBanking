@@ -81,7 +81,7 @@
                                     <asp:ListItem>Male</asp:ListItem>
                                     <asp:ListItem>Female</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">The Bank to which the user belongs</p>
+                                <p class="help-block">The Bank to which the Customer belongs</p>
                             </div>
                             <div class="col-lg-6">
                                 <label>Bank Branch</label>
@@ -89,7 +89,7 @@
                                     <asp:ListItem>Male</asp:ListItem>
                                     <asp:ListItem>Female</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">The Bank to which the user belongs</p>
+                                <p class="help-block">The Branch at which the Customer is Opening up their account</p>
                             </div>
                         </div>
 

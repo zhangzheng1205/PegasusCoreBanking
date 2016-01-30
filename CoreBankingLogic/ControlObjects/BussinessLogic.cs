@@ -151,19 +151,17 @@ public class BussinessLogic
         return result;
     }
 
-    public bool AreValidBankCredentials(string BankCode, string Password,out BaseObject valObj)
+    public bool AreValidBankCredentials(string BankCode, string Password, out BaseObject valObj)
     {
         valObj = new BaseObject();
         Bank bank = dh.GetBankById(BankCode);
-        if (bank.StatusCode == "0")
+        valObj = bank;
+        if (valObj.StatusCode == "0")
         {
-            //check that bank password is correct and that bank is Active
-            valObj = bank;
             return true;
         }
         else
         {
-            valObj = bank;
             return false;
         }
     }
@@ -208,7 +206,7 @@ public class BussinessLogic
         return true;
     }
 
-    
+
 
     internal bool IsValidUser(string UserId, string BankCode, string UserType, out BaseObject obj)
     {
@@ -225,7 +223,7 @@ public class BussinessLogic
             else
             {
                 obj.StatusCode = "100";
-                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:"+UserType+" IS NOT PERMITTED TO PERFORM THIS OPERATION" ;
+                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + UserType + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
             }
         }
         else
@@ -308,7 +306,7 @@ public class BussinessLogic
             result = category;
             return result;
         }
-        else if (className.ToUpper() == "ACCOUNTYPE")
+        else if (className.ToUpper() == "ACCOUNTTYPE")
         {
             AccountType category = dh.GetAccountTypeById(objectId, bankCode);
             result = category;
@@ -335,11 +333,6 @@ public class BussinessLogic
             BankTeller teller = new BankTeller(user);
             teller.TellerAccountNumber = dh.GetAccountsByUserId(user.Id)[0];
             result = teller;
-        }
-        else if (user.Usertype == "CUSTOMER")
-        {
-            //BankCustomer cust = new BankCustomer(user);
-            //cust.
         }
         else
         {
@@ -467,7 +460,14 @@ public class BussinessLogic
         valObj = new BaseObject();
         BankAccount account = dh.GetBankAccountById(AccountNumber, BankCode);
         valObj = account;
-        return true;
+        if (valObj.StatusCode == "0")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     internal bool IsValidTransactionAmount(string Amount, out BaseObject valObj)
@@ -481,7 +481,15 @@ public class BussinessLogic
         valObj = new BaseObject();
         TransactionCategory category = dh.GetTransactionCategoryById(tranCategory, BankCode);
         valObj = category;
-        return true;
+
+        if (valObj.StatusCode == "0")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     internal bool IsValidReversal(string bankRef, string bankCode, out BaseObject valObject)
@@ -490,17 +498,17 @@ public class BussinessLogic
         DataTable dt = dh.GetTransactionByBankId(bankRef, bankCode);
         if (dt.Rows.Count > 0)
         {
-            foreach (DataRow dr in dt.Rows) 
+            foreach (DataRow dr in dt.Rows)
             {
                 string TranCategory = dr["TranCategory"].ToString().Trim().ToUpper();
                 if (TranCategory == "REVERSAL")
                 {
-                    string PegPayId=dr["PegPayTranId"].ToString();
+                    string PegPayId = dr["PegPayTranId"].ToString();
                     valObject.StatusCode = "100";
-                    valObject.StatusDesc = "TRANSACTION WITH BANK REF:"+bankRef+" ALREADY REVERSED. RECIEPT NUMBER FOR REVERSAL:"+PegPayId;
+                    valObject.StatusDesc = "TRANSACTION WITH BANK REF:" + bankRef + " ALREADY REVERSED. RECIEPT NUMBER FOR REVERSAL:" + PegPayId;
                     return false;
                 }
-                else 
+                else
                 {
                     continue;
                 }
@@ -509,29 +517,50 @@ public class BussinessLogic
             valObject.StatusDesc = "SUCCESS";
             return true;
         }
-        else 
+        else
         {
             valObject.StatusCode = "100";
-            valObject.StatusDesc = "TRANSACTION WITH BANK ID:"+bankRef+" NOT FOUND: REVERSAL NOT POSSIBLE";
+            valObject.StatusDesc = "TRANSACTION WITH BANK ID:" + bankRef + " NOT FOUND: REVERSAL NOT POSSIBLE";
             return false;
         }
     }
 
     internal bool IsValidBoolean(string p)
     {
-        if (String.IsNullOrEmpty(p)) 
+        if (String.IsNullOrEmpty(p))
         {
             return false;
         }
-        else if (p.ToUpper() == "TRUE" || p.ToUpper() == "FALSE") 
+        else if (p.ToUpper() == "TRUE" || p.ToUpper() == "FALSE")
         {
             return true;
         }
         return false;
     }
 
-    internal bool IsValidAccountType(string AccountType,string BankCode)
+    internal bool IsValidAccountType(string accountType, string BankCode, List<string> AccountSignatories, out BaseObject valObj)
     {
+        valObj = new BaseObject();
+        AccountType accType = dh.GetAccountTypeById(accountType,BankCode);
+        if (accType.StatusCode == "0")
+        {
+            //account must have less signatories(Owners) than those specified by the account type
+            if (AccountSignatories.Count >= accType.MinNumberOfSignatories && AccountSignatories.Count<=accType.MaxNumberOfSignatories)
+            {
+                valObj = accType;
+            }
+            else
+            {
+                valObj.StatusCode = "100";
+                valObj.StatusDesc = "THIS ACCOUNT REQUIRES AT LEAST " + accType.MinNumberOfSignatories +
+                                    " SIGNATORIES AND " + accType.MaxNumberOfSignatories + " MAXIMUM";
+            }
+        }
+        else
+        {
+            valObj.StatusCode = accType.StatusCode;
+            valObj.StatusDesc = accType.StatusDesc;
+        }
         return true;
     }
     internal bool IsNumeric(string Amount)
@@ -553,7 +582,7 @@ public class BussinessLogic
         try
         {
             int amount = int.Parse(Amount);
-            if (amount <= 0) 
+            if (amount <= 0)
             {
                 return false;
             }
@@ -567,11 +596,11 @@ public class BussinessLogic
 
     internal bool IsValidGender(string Gender)
     {
-        if (string.IsNullOrEmpty(Gender)) 
+        if (string.IsNullOrEmpty(Gender))
         {
             return false;
         }
-        else if (Gender.ToUpper() == "MALE" || Gender.ToUpper() == "FEMALE") 
+        else if (Gender.ToUpper() == "MALE" || Gender.ToUpper() == "FEMALE")
         {
             return true;
         }
@@ -582,7 +611,7 @@ public class BussinessLogic
     {
         List<BankCustomer> all = new List<BankCustomer>();
         DataTable dt = dh.GetAccountSignatories(accountNumber, bankCode);
-        foreach (DataRow dr in dt.Rows) 
+        foreach (DataRow dr in dt.Rows)
         {
             BankCustomer cust = new BankCustomer();
             cust.BankCode = dr["BankCode"].ToString();
@@ -611,5 +640,10 @@ public class BussinessLogic
         result.StatusDesc = "SUCCESS";
         result.PegPayId = Id;
         return result;
+    }
+
+    internal bool IsValidCurrencyCode(string currencyCode)
+    {
+        return true;
     }
 }

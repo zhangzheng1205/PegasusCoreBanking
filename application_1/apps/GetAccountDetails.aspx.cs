@@ -15,6 +15,7 @@ public partial class GetAccountDetails : System.Web.UI.Page
     string UserId = "";
     string Id = "";
     string BranchCode = "";
+    string Msg = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -26,6 +27,7 @@ public partial class GetAccountDetails : System.Web.UI.Page
             BankCode = Request.QueryString["BankCode"];
             UserId = Request.QueryString["CustomerId"];
             BranchCode = Request.QueryString["BranchCode"];
+            Msg = Request.QueryString["Msg"];
 
             //Session is invalid
             if (user == null)
@@ -41,6 +43,13 @@ public partial class GetAccountDetails : System.Web.UI.Page
                 LoadData();
                 MultiView1.ActiveViewIndex = 0;
                 Multiview2.ActiveViewIndex = 1;
+            }
+            else if (Msg != null)
+            {
+                LoadData();
+                MultiView1.ActiveViewIndex = 0;
+                Multiview2.ActiveViewIndex = 1;
+                bll.ShowMessage(lblmsg, Msg, true, Session);
             }
             else
             {

@@ -109,10 +109,10 @@
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="View Statement">
+                                                <asp:TemplateField HeaderText="View Details">
                                                     <ItemTemplate>
-                                                        <asp:HyperLink runat="server" Text='View Statement'
-                                                            NavigateUrl='<%# "Reports.aspx?Id=" + DataBinder.Eval(Container.DataItem,"AccNumber").ToString()+    
+                                                        <asp:HyperLink runat="server" Text='View Details'
+                                                            NavigateUrl='<%# "DisplayAccountDetails.aspx?Id=" + DataBinder.Eval(Container.DataItem,"AccNumber").ToString()+    
                                                                                  "&BankCode=" +ddBank.SelectedValue  %>'
                                                             ID="EditColumn" />
                                                     </ItemTemplate>

@@ -85,7 +85,7 @@ public partial class Reports : System.Web.UI.Page
             DataTable dt = bll.SearchGeneralLedgerTable(searchParams);
             if (dt.Rows.Count > 0)
             {
-                Session["StatementDataTable"] = dt;
+                SetSessionVariables(dt);
                 string msg = "Found " + dt.Rows.Count + " Records Matching Search Criteria";
                 Response.Redirect("Statement.aspx");
             }
@@ -99,6 +99,21 @@ public partial class Reports : System.Web.UI.Page
         {
             string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void SetSessionVariables(DataTable dt)
+    {
+        Session["StatementDataTable"] = dt;
+        if (string.IsNullOrEmpty(txtFromDate.Text) || string.IsNullOrEmpty(txtToDate.Text))
+        {
+            Session["fromDate"] = "THE START";
+            Session["toDate"] = "TO TODAY";
+        }
+        else
+        {
+            Session["fromDate"] = txtFromDate.Text;
+            Session["toDate"] = txtToDate.Text;
         }
     }
 

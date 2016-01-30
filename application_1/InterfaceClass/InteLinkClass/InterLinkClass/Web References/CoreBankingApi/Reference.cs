@@ -2565,8 +2565,6 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string accountBalanceField;
         
-        private string userIdField;
-        
         private string accountTypeField;
         
         private string bankCodeField;
@@ -2576,6 +2574,8 @@ namespace InterLinkClass.CoreBankingApi {
         private string branchCodeField;
         
         private string isActiveField;
+        
+        private string currencyCodeField;
         
         private string[] accountSignatoriesField;
         
@@ -2606,16 +2606,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.accountBalanceField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserId {
-            get {
-                return this.userIdField;
-            }
-            set {
-                this.userIdField = value;
             }
         }
         
@@ -2666,6 +2656,16 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyCode {
+            get {
+                return this.currencyCodeField;
+            }
+            set {
+                this.currencyCodeField = value;
             }
         }
         

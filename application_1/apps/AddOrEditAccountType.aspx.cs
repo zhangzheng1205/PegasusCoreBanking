@@ -113,6 +113,8 @@ public partial class AddOrEditAccountType : System.Web.UI.Page
         accType.MinimumBalance = txtMinBal.Text;
         accType.ModifiedBy = user.Id;
         accType.IsActive = ddIsActive.Text;
+        accType.MaxNumberOfSignatories = Convert.ToInt32(ddMaxSignatories.SelectedValue);
+        accType.MinNumberOfSignatories = Convert.ToInt32(ddMinSignatories.SelectedValue);
         return accType;
     }
 }

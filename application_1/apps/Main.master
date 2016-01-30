@@ -19,7 +19,7 @@
 
     <title>BANK_OS</title>
 
-<%--    <!-- Bootstrap Core CSS -->
+    <%--    <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />--%>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
 
@@ -34,7 +34,7 @@
 
 </head>
 
-<body>
+<body style="font-size: 12px;">
     <form runat="server">
         <div id="wrapper">
 
@@ -141,18 +141,6 @@
                              <li>
                                 <a href="GetAccountDetails.aspx"><i class="fa fa-caret-right"></i> Check balance/Mini Statement</a>
                             </li>
-                            <li>
-                                <a href="Transact.aspx"><i class="fa fa-caret-right"></i> Transact</a>
-                            </li>
-                            <li>
-                                <a href="DepositWithdraw.aspx?Op=Deposit"><i class="fa fa-caret-right"></i> Deposit</a>
-                            </li>
-                             <li>
-                                <a href="DepositWithdraw.aspx?Op=Withdraw"><i class="fa fa-caret-right"></i> Withdraw</a>
-                            </li>
-                             <li>
-                                <a href="#"><i class="fa fa-caret-right"></i> End Of Day Report</a>
-                            </li>
                         </ul>
                     </li>
                     <%} %>
@@ -192,9 +180,6 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#CustService"><i class="fa fa-fw fa-edit"></i> Customer Service<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="CustService" class="collapse">
-                            <li>
-                                <a href="AddOrEditCustomer.aspx"><i class="fa fa-caret-right"></i> Create Customer</a>
-                            </li>
                              <li>
                                 <a href="AddOrEditBankAccount.aspx"><i class="fa fa-caret-right"></i> Create Bank Account</a>
                             </li>

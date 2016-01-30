@@ -16,8 +16,8 @@ namespace CoreBankingLogic.ExposedObjects
         public string IsDebitable = "";
         public string ModifiedOn = "";
         public string IsActive = "";
-        public int MinNumberOfSignatories = 0;
-        public int MaxNumberOfSignatories = 0;
+        public int MinNumberOfSignatories = 1;
+        public int MaxNumberOfSignatories = 4;
 
 
         public bool IsValid(string BankCode, string Password) 
@@ -75,6 +75,12 @@ namespace CoreBankingLogic.ExposedObjects
             {
                 StatusCode = "100";
                 StatusDesc = "PLEASE SUPPLY THE ID OF USER MODIFYING THIS ACCOUNT TYPE";
+                return false;
+            }
+            else if (MinNumberOfSignatories<=0)
+            {
+                StatusCode = "100";
+                StatusDesc = "ACCOUNT TYPE MUST ACCEPT AT LEAST ONE SIGNATORY.";
                 return false;
             }
             else if (!bll.IsValidUser(this.ModifiedBy,this.BankCode,"BANK_ADMIN|SYS_ADMIN",out valObj))

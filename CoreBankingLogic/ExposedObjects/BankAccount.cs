@@ -10,12 +10,12 @@ namespace CoreBankingLogic.EntityObjects
         public string AccountId = "0";
         public string AccountNumber = "";
         public string AccountBalance = "";
-        public string UserId = "";
         public string AccountType = "";
         public string BankCode = "";
         public string ModifiedBy = "";
         public string BranchCode = "";
         public string IsActive = "";
+        public string CurrencyCode = "";
         public List<string> AccountSignatories = new List<string>();
 
 
@@ -26,15 +26,15 @@ namespace CoreBankingLogic.EntityObjects
             //
         }
 
-        public BankAccount(string accountType) 
+        public BankAccount(string accountType)
         {
             this.AccountType = accountType;
         }
 
-        public bool IsValidSaveAccountRequest(string BankCode,string Password)
+        public bool IsValidSaveAccountRequest(string BankCode, string Password)
         {
             BaseObject valObj = new BaseObject();
-            if (string.IsNullOrEmpty(this.AccountNumber)) 
+            if (string.IsNullOrEmpty(this.AccountNumber))
             {
                 StatusCode = "100";
                 StatusDesc = "PLEASE SUPPLY AN ACCOUNT NUMBER";
@@ -50,6 +50,12 @@ namespace CoreBankingLogic.EntityObjects
             {
                 StatusCode = "100";
                 StatusDesc = "PLEASE SUPPLY A BANKCODE FOR BANK TO WHICH THIS ACCOUNT BELONGS";
+                return false;
+            }
+            else if (string.IsNullOrEmpty(this.CurrencyCode))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE INDICATE THE CURRENCY THAT THE ACCOUNT BALANCE IS STORED IN.";
                 return false;
             }
             else if (string.IsNullOrEmpty(this.BranchCode))
@@ -70,16 +76,16 @@ namespace CoreBankingLogic.EntityObjects
                 StatusDesc = "PLEASE SUPPLY  ID of USER WHO IS MODIFYING THIS ACCOUNT";
                 return false;
             }
-            else if (string.IsNullOrEmpty(this.UserId))
+            else if (AccountSignatories.Count == 0)
             {
                 StatusCode = "100";
-                StatusDesc = "PLEASE SUPPLY THE ID OF THE CUSTOMER TO WHOM THIS ACCOUNT BELONGS";
+                StatusDesc = "PLEASE SUPPLY AN ACCOUNT SIGNATORY.i.e ID OF CUSTOMER WHO OWNS THE CUSTOMER";
                 return false;
             }
-            else if (!bll.IsValidAccountType(this.AccountType,this.BankCode))
+            else if (!bll.IsValidAccountType(this.AccountType, this.BankCode, AccountSignatories, out valObj))
             {
                 StatusCode = "100";
-                StatusDesc = "INVALID ACCOUNT TYPE SUPPLIED";
+                StatusDesc = valObj.StatusDesc;
                 return false;
             }
             else if (!bll.IsValidBoolean(this.IsActive))
@@ -88,21 +94,30 @@ namespace CoreBankingLogic.EntityObjects
                 StatusDesc = "PLEASE INDICATE WHETHER THIS ACCOUNT IS ACTIVE [TRUE OR FALSE]";
                 return false;
             }
-            else if (!bll.IsValidUser(this.ModifiedBy,BankCode,"CUSTOMER_SERVICE|MANAGER|BANK_ADMIN",out valObj))
+            else if (!bll.IsValidCurrencyCode(this.CurrencyCode))
+            {
+                StatusCode = "100";
+                StatusDesc = "PLEASE SUPPLY A VALID CURRENCY CODE.";
+                return false;
+            }
+            else if (!bll.IsValidUser(this.ModifiedBy, BankCode, "CUSTOMER_SERVICE|MANAGER|BANK_ADMIN", out valObj))
             {
                 StatusCode = "100";
                 StatusDesc = valObj.StatusDesc;
                 return false;
             }
-            else if (!bll.IsValidUser(this.UserId, BankCode, "CUSTOMER",out valObj))
+            foreach (string UserId in AccountSignatories)
             {
-                StatusCode = "100";
-                StatusDesc = valObj.StatusDesc;
-                return false;
+                if (!bll.IsValidUser(UserId, BankCode, "CUSTOMER|TELLER", out valObj))
+                {
+                    StatusCode = "100";
+                    StatusDesc = valObj.StatusDesc;
+                    return false;
+                }
             }
             return true;
         }
 
-        
+
     }
 }

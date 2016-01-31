@@ -548,20 +548,22 @@ public class BussinessLogic
             if (AccountSignatories.Count >= accType.MinNumberOfSignatories && AccountSignatories.Count<=accType.MaxNumberOfSignatories)
             {
                 valObj = accType;
+                return true;
             }
             else
             {
                 valObj.StatusCode = "100";
                 valObj.StatusDesc = "THIS ACCOUNT REQUIRES AT LEAST " + accType.MinNumberOfSignatories +
                                     " SIGNATORIES AND " + accType.MaxNumberOfSignatories + " MAXIMUM";
+                return false;
             }
         }
         else
         {
             valObj.StatusCode = accType.StatusCode;
             valObj.StatusDesc = accType.StatusDesc;
+            return false;
         }
-        return true;
     }
     internal bool IsNumeric(string Amount)
     {

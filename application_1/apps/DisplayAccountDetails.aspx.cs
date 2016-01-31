@@ -73,6 +73,8 @@ public partial class DisplayAccountDetails : System.Web.UI.Page
                 signatories += signatory + ", ";
             }
             lblSignatories.Text = signatories;
+            BankCustomer[] accountSignatories = client.GetAccountSignatories(account.AccountNumber, BankCode, bll.BankPassword);
+            DisplayPhotosAndSignaturesForIdentification(accountSignatories);
         }
         else
         {
@@ -80,6 +82,34 @@ public partial class DisplayAccountDetails : System.Web.UI.Page
             Response.Redirect("GetAccountDetails.aspx?Msg=" + msg);
         }
     }
+
+    private void DisplayPhotosAndSignaturesForIdentification(BankCustomer[] signatories)
+    {
+        foreach (BankCustomer cust in signatories)
+        {
+            string BankCode = cust.BankCode;
+
+            if (!string.IsNullOrEmpty(cust.PathToProfilePic))
+            {
+                string ImageName = cust.PathToProfilePic;
+                SignatoriesImages.InnerHtml += "<img class=\"img-responsive img-thumbnail magnify\" alt='' style=\"height:250px;width:250px; border:double;border-color:grey\" src=\"Images/" + BankCode + "/" + ImageName + "\"/>";
+            }
+            if (!string.IsNullOrEmpty(cust.PathToSignature))
+            {
+                string ImageName = cust.PathToSignature;
+                SignatoriesImages.InnerHtml += "<img class=\"img-responsive img-thumbnail magnify\" alt='' style=\"height:250px;width:250px; border:double;border-color:grey\" src=\"Images/" + BankCode + "/" + ImageName + "\"/>";
+            }
+        }
+        if (signatories.Length > 0)
+        {
+            SignatoriesSection.Visible = true;
+        }
+        else
+        {
+            SignatoriesSection.Visible = false;
+        }
+    }
+
 
 
     protected void btnTransact_Click(object sender, EventArgs e)

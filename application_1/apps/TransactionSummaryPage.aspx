@@ -116,15 +116,6 @@
 
                         <div class="row" style="height: 10px"></div>
                         <hr />
-                        <asp:MultiView runat="server" ID="Multiview2">
-                            <asp:View runat="server" ID="resultView">
-                                <div class="row text-center"><h4>See Below Identification for the <b>From-Account</b> Signatories</h4></div>
-                                <div class="row text-center" id="SignatoriesSection" runat="server">
-                                    
-                                </div>
-                                <hr />
-                            </asp:View>
-                        </asp:MultiView>
                         <div class="row">
                             <div class="text-center">
                                 <asp:Button ID="btnSubmit" runat="server" Text="Confirm Transaction" CssClass="btn btn-success btn-md" OnClick="btnSubmit_Click" />

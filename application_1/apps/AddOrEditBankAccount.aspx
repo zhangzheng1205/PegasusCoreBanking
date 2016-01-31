@@ -86,7 +86,7 @@
                         <div class="row">
                              <div class="col-lg-6">
                                 <label>Account Type</label>
-                                <asp:DropDownList ID="ddAccountType" runat="server" CssClass="form-control">
+                                <asp:DropDownList ID="ddAccountType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddAccountType_SelectedIndexChanged">
                                     <asp:ListItem>True</asp:ListItem>
                                     <asp:ListItem>False</asp:ListItem>
                                 </asp:DropDownList>

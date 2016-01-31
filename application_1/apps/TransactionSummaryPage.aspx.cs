@@ -57,38 +57,8 @@ public partial class TransactionSummaryPage : System.Web.UI.Page
         lblTranCategory.Text = tran.TranCategory;
         lblTeller.Text=tran.Teller;
         lblCurrency.Text = tran.CurrencyCode;
-        BankCustomer[] signatories=client.GetAccountSignatories(tran.FromAccount, tran.BankCode, tran.Password);
-        DisplayPhotosAndSignaturesForIdentification(signatories);
         
     }
-
-    private void DisplayPhotosAndSignaturesForIdentification(BankCustomer[] signatories)
-    {
-        foreach (BankCustomer cust in signatories) 
-        {
-            string BankCode = cust.BankCode;
-           
-            if (!string.IsNullOrEmpty(cust.PathToProfilePic)) 
-            {
-                string ImageName = cust.PathToProfilePic;
-                SignatoriesSection.InnerHtml += "<img class=\"img-responsive img-thumbnail magnify\" alt='' style=\"height:250px;width:250px; border:double;border-color:grey\" src=\"Images/" + BankCode + "/" + ImageName + "\"/>";
-            }
-            if (!string.IsNullOrEmpty(cust.PathToSignature))
-            {
-                string ImageName = cust.PathToSignature;
-                SignatoriesSection.InnerHtml += "<img class=\"img-responsive img-thumbnail magnify\" alt='' style=\"height:250px;width:250px; border:double;border-color:grey\" src=\"Images/" + BankCode + "/" + ImageName + "\"/>";
-            }
-        }
-        if (signatories.Length > 0)
-        {
-            Multiview2.ActiveViewIndex = 0;
-        }
-        else 
-        {
-            Multiview2.ActiveViewIndex = -1;
-        }
-    }
-
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
@@ -139,7 +109,7 @@ public partial class TransactionSummaryPage : System.Web.UI.Page
     {
         try
         {
-            Response.Redirect("Transact.aspx");
+            Response.Redirect("GetAccountDetails.aspx");
         }
         catch (Exception ex)
         {

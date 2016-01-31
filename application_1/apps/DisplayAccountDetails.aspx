@@ -54,64 +54,79 @@
                                 <%Response.Write("</div>"); %>
                             </div>
                         </div>
-                        
+
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Account Number</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblAccountNumber" runat="server" /></p>
+                                    <asp:Label ID="lblAccountNumber" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Bank</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblBank" runat="server" /></p>
+                                    <asp:Label ID="lblBank" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Created at Branch</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblBankBranch" runat="server" /></p>
+                                    <asp:Label ID="lblBankBranch" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Account Type</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblAccountType" runat="server" /></p>
+                                    <asp:Label ID="lblAccountType" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Account Balance</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblBalance" runat="server" /></p>
+                                    <asp:Label ID="lblBalance" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Currency In Which Balances are stored</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblCurrency" runat="server" /></p>
+                                    <asp:Label ID="lblCurrency" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Is Activated</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblIsActive" runat="server" /></p>
+                                    <asp:Label ID="lblIsActive" runat="server" />
+                                </p>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Account Signatories</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static">
-                                    <asp:Label ID="lblSignatories" runat="server" /></p>
+                                    <asp:Label ID="lblSignatories" runat="server" />
+                                </p>
                             </div>
                         </div>
-
+                        <hr />
+                        <div class="row" id="SignatoriesSection" runat="server">
+                            <div class="row text-center">
+                                <h4>See Below Identification for the <b>Account Signatories</b></h4>
+                            </div>
+                            <div class="row text-center" id="SignatoriesImages" runat="server">
+                            </div>
+                        </div>
                         <hr />
                         <div class="row">
                             <div class="text-center">

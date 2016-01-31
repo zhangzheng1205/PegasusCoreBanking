@@ -82,6 +82,7 @@ public partial class Receipt : System.Web.UI.Page
                 lblTitle.Text = "Payment Reciept";
                 lblTranCategory.Text = dr["TranCategory"].ToString();
                 lblBranchCode.Text = dr["BranchCode"].ToString();
+                lblCurrency.Text = dr["CurrencyCode"].ToString();
                 lblBankCode.Text = BankCode;
                 Label1.Text = usersBank.BankName;
                 logo1.Attributes["src"] = @"Images\"+usersBank.BankCode+@"\"+ usersBank.PathToLogoImage;
@@ -115,7 +116,7 @@ public partial class Receipt : System.Web.UI.Page
     {
         try
         {
-            string pageto = "Transact.aspx";//Session["frompage"].ToString();
+            string pageto = "GetAccountDetails.aspx";//Session["frompage"].ToString();
             Response.Redirect(pageto, true);
         }
         catch (NullReferenceException ex)

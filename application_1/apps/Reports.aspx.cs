@@ -75,6 +75,16 @@ public partial class Reports : System.Web.UI.Page
         bll.LoadBanksIntoDropDown(user, ddBank);
         bll.LoadBanksBranchesIntoDropDownALL(ddBank.SelectedValue, ddBankBranch, user);
         bll.LoadTransactionTypesIntoDropDownALL(ddBank.SelectedValue, ddTranCategory, user);
+        if (user.Usertype == "TELLER")
+        {
+            txtTeller.Text = user.Id;
+            txtTeller.Enabled = false;
+        }
+        else 
+        {
+            txtTeller.Text = "";
+            txtTeller.Enabled = true;
+        }
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)

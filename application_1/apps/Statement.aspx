@@ -41,6 +41,7 @@
                 <div class="text-center">
                     <input id="Button3" accesskey="P" class="btn btn-success" onclick="window.print();"
                         value="Print Statement" />
+                    <asp:Button ID="btnReturn" Text="Return" runat="server" CssClass="btn btn-primary" OnClick="btnReturn_Click" />
                 </div>
             </div>
 

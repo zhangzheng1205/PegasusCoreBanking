@@ -62,7 +62,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             else
             {
                 LoadData();
-                
+
                 MultiView1.ActiveViewIndex = 0;
             }
         }
@@ -205,10 +205,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             if (result.StatusCode == "0")
             {
                 SaveVariablesInViewState(newUser);
-                ClearCustomerDetailsPanel();
-                string msg = "CUSTOMER ADDED AS SIGNATORY";
-                bll.ShowMessage(lblmsg, msg, false,Session);
-            }
+                ClearCustomerDetailsPanel();            }
             else
             {
                 string msg = result.StatusDesc;
@@ -238,13 +235,15 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         {
             AccountSignatories = new List<string>();
             AccountSignatories.Add(cust.Id);
-
+           
         }
         else
         {
             AccountSignatories.Add(cust.Id);
         }
         ViewState["AccountSignatories"] = AccountSignatories;
+        string msg = "CUSTOMER ADDED AS SIGNATORY. NUMBER OF SIGNATORIES ADDED: " + AccountSignatories.Count;
+        bll.ShowMessage(lblmsg, msg, false, Session);
     }
 
     private BankCustomer GetBankCustomer()
@@ -318,11 +317,20 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         }
     }
 
-    protected void btnAddSignatory_Click(object sender, EventArgs e)
+    protected void ddAccountType_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
         {
-            Response.Redirect("GetAccountDetails.aspx?CustomerId=" + UserId + "&BankCode=" + BankCode + "&BranchCode=" + BranchCode);
+            AccountType type = client.GetById("ACCOUNTTYPE", ddAccountType.SelectedValue, ddBank.SelectedValue, bll.BankPassword) as AccountType;
+            if (type.StatusCode == "0")
+            {
+                string msg = ddAccountType.Text + " MUST HAVE BETWEEN " + type.MinNumberOfSignatories + " AND " + type.MaxNumberOfSignatories + " SIGNATORIES";
+                bll.ShowMessage(lblmsg, msg, false, Session);
+            }
+            else
+            {
+
+            }
         }
         catch (Exception ex)
         {

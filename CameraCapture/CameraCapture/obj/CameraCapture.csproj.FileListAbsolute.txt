@@ -1,0 +1,7 @@
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\bin\Debug\CameraCapture.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\bin\Debug\CameraCapture.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\obj\Debug\CameraCapture.UserControl1.resources
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\obj\Debug\CameraCapture.csproj.GenerateResource.Cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\obj\Debug\CameraCapture.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CameraCapture\CameraCapture\obj\Debug\CameraCapture.pdb

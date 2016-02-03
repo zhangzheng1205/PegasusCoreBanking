@@ -55,8 +55,10 @@ public partial class DepositWithdraw : System.Web.UI.Page
     {
         bll.LoadTransactionTypesIntoDropDown(teller.BankCode, ddTranCategory, teller);
         bll.LoadCurrenciesIntoDropDown(teller.BankCode, ddCurrency, teller);
+        bll.LoadPaymentTypesIntoDropDown(teller.BankCode, ddPaymentType, teller);
         DisableControls();
         MultiView1.ActiveViewIndex = 0;
+        ChequeNumberSec.Visible = false;
     }
 
     public void DisableControls() 
@@ -96,8 +98,23 @@ public partial class DepositWithdraw : System.Web.UI.Page
         {
             //generate transaction request
             TransactionRequest tran = GetTranRequest();
-            Session["TranSummary"] = tran;
-            Response.Redirect("TransactionSummaryPage.aspx");
+
+            //validate request
+            Result result = client.ValidateTransactionRequest(tran, teller.BankCode, bll.BankPassword);
+
+            //its valid
+            if (result.StatusCode == "0")
+            {
+                Session["TranSummary"] = tran;
+                Response.Redirect("TransactionSummaryPage.aspx");
+            }
+            //its invalid
+            else 
+            {
+                //display error
+                string msg = tran.StatusDesc;
+                bll.ShowMessage(lblmsg, msg, true, Session);
+            }
         }
         catch (Exception ex)
         {
@@ -131,7 +148,30 @@ public partial class DepositWithdraw : System.Web.UI.Page
         {
             tran.BankTranId = bll.SaveTranRequest(tran, tran.FromAccount);
         }
+        tran.PaymentType = ddPaymentType.SelectedValue;
+        tran.ChequeNumber = txtChequeNumber.Text;
 
         return tran;
+    }
+
+    protected void ddPaymentType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ddPaymentType.SelectedValue.ToUpper().Contains("CHEQUE"))
+            {
+                ChequeNumberSec.Visible = true;
+            }
+            else
+            {
+                ChequeNumberSec.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            //display error
+            string msg = "Failed: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
     }
 }

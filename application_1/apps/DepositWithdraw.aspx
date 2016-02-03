@@ -116,10 +116,30 @@
 
 
                         <div class="row">
+                            <div class="col-lg-6">
+                                <label>Payment Type</label>
+                                <asp:DropDownList ID="ddPaymentType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddPaymentType_SelectedIndexChanged">
+                                    <asp:ListItem>* TRANSFER</asp:ListItem>
+                                    <asp:ListItem>EXTERNAL TRANSFER</asp:ListItem>
+                                    <asp:ListItem>CHEQUE</asp:ListItem>
+                                </asp:DropDownList>
+                                <p class="help-block">How is this transaction being effected.i.e cash,cheque etc</p>
+                            </div>
+                            <div class="col-lg-6" id="ChequeNumberSec" runat="server">
+                                <label>Cheque Number</label>
+                                <asp:TextBox ID="txtChequeNumber" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The Cheque Number.</p>
+                            </div>
+                        </div>
+
+
+                        <hr />
+                        <div class="row">
                             <div class="text-center">
                                 <asp:Button ID="btnSubmit" runat="server" Text="Transact" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
                             </div>
                         </div>
+                        <hr />
 
                         <%-- </form>--%>
                         <%-- /form --%>

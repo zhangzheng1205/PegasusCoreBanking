@@ -234,6 +234,10 @@
                                 <a href="AddOrEditAccessControl.aspx"><i class="fa fa-caret-right"></i> Create Access Control Rule</a>
                             </li>
                              <li>
+                                <a href="ViewAuditLogs.aspx"><i class="fa fa-caret-right"></i>View Audit Logs</a>
+                            </li>
+                            
+                             <li>
                                 <a href="ViewAll.aspx"><i class="fa fa-caret-right"></i> View/Edit Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
                         </ul>
@@ -252,6 +256,9 @@
                             </li>
                             <li>
                                 <a href="AddOrEditBankUser.aspx"><i class="fa fa-caret-right"></i> Create BankAdmin</a>
+                            </li>
+                             <li>
+                                <a href="CameraCaptureForm.aspx"><i class="fa fa-caret-right"></i> Get Camera Capture</a>
                             </li>
                              <li>
                                 <a href="ViewAll.aspx"><i class="fa fa-caret-right"></i> View/Edit Banks,Branches,Tellers,Account Types,Transaction Categories</a>

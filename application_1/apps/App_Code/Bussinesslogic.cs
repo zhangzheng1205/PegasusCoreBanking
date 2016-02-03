@@ -220,7 +220,9 @@ public class Bussinesslogic
                                tran.BankCode,
                                tran.BranchCode,
                                tran.Narration,
-                               tran.CurrencyCode};
+                               tran.CurrencyCode,
+                               tran.PaymentType,
+                               tran.ChequeNumber};
         DataSet ds = dh.ExecuteSelect("SaveTranRequest", parameters);
         DataTable dt = ds.Tables[0];
         DataRow dr = dt.Rows[0];
@@ -480,7 +482,6 @@ public class Bussinesslogic
             tran.BankCode = BankCode;
             tran.BankTranId = BankTranId;
             tran.BranchCode = dr["BranchCode"].ToString();
-            tran.CustomerId = "";
             tran.CustomerName = dr["CustomerName"].ToString();
             tran.DigitalSignature = "";
             tran.FromAccount = dr["fromAccount"].ToString();
@@ -493,6 +494,9 @@ public class Bussinesslogic
             tran.ToAccount = dr["toAccount"].ToString();
             tran.TranAmount = dr["TranAmount"].ToString();
             tran.TranCategory = dr["TranCategory"].ToString();
+            tran.CurrencyCode = dr["CurrencyCode"].ToString();
+            tran.PaymentType = dr["PaymentType"].ToString();
+            tran.ChequeNumber = dr["ChequeNumber"].ToString();
         }
         else
         {
@@ -581,5 +585,28 @@ public class Bussinesslogic
             result.StatusDesc = "UNABLE TO ADD CUSTOMER AS SIGNATORY. TRY AGAIN OR CONTACT BANK ADMIN";
         }
         return result;
+    }
+
+    public DataTable SearchAuditlogsTable(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("SearchAuditlogsTable", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
+    }
+
+    public void LoadPaymentTypesIntoDropDown(string bankCode, DropDownList ddlst, BankTeller teller)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetPaymentTypesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string CurrencyCode = dr["PaymentTypeCode"].ToString();
+            string CurrencyName = dr["PaymentTypeName"].ToString();
+            ddlst.Items.Add(new ListItem(CurrencyName, CurrencyCode));
+        }
     }
 }

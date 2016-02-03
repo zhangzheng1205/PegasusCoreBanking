@@ -45,6 +45,8 @@ public partial class Transact : System.Web.UI.Page
     {
         bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
         bll.LoadCurrenciesIntoDropDown(user.BankCode, ddCurrency, user);
+
+        ChequeNumberSec.Visible = false;
     }
 
 
@@ -82,7 +84,28 @@ public partial class Transact : System.Web.UI.Page
         tran.TranCategory = ddTranCategory.SelectedValue;
         tran.CurrencyCode = ddCurrency.SelectedValue;
         tran.BankTranId = bll.SaveTranRequest(tran,tran.FromAccount);
-        
+        tran.PaymentType = ddPaymentType.SelectedValue;
+        tran.ChequeNumber = txtChequeNumber.Text;
         return tran;
+    }
+    protected void ddPaymentType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ddPaymentType.SelectedValue.ToUpper().Contains("CHEQUE")) 
+            {
+                ChequeNumberSec.Visible = true;
+            }
+            else 
+            {
+                ChequeNumberSec.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            //display error
+            string msg = "Failed: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
     }
 }

@@ -189,7 +189,6 @@ public class DatabaseHandler
             DateTime payDate = DateTime.ParseExact(tranRequest.PaymentDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             command = CbDatabase.GetStoredProcCommand("InsertReceivedTransactionWithCharges",
                                                         tranRequest.CustomerName,
-                                                        tranRequest.CustomerId,
                                                         tranRequest.ToAccount,
                                                         tranRequest.FromAccount,
                                                         tranRequest.TranAmount,
@@ -201,7 +200,9 @@ public class DatabaseHandler
                                                         tranRequest.Narration,
                                                         tranRequest.TranCategory,
                                                         tranRequest.BranchCode,
-                                                        tranRequest.CurrencyCode
+                                                        tranRequest.CurrencyCode,
+                                                        tranRequest.PaymentType,
+                                                        tranRequest.ChequeNumber
                                                       );
             DataSet ds = CbDatabase.ExecuteDataSet(command);
             int index = ds.Tables.Count-1;
@@ -286,25 +287,6 @@ public class DatabaseHandler
         }
     }
 
-    //internal string SaveCustomerType(CustomerType custType, string BankCode)
-    //{
-    //    try
-    //    {
-    //        command = CbDatabase.GetStoredProcCommand("UserTypes_Update",
-    //                                                   custType.Id,
-    //                                                   custType.CustType,
-    //                                                   "CUSTOMER",
-    //                                                   custType.Description,
-    //                                                   custType.
-    //                                                  );
-    //        DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
-    //        return datatable.Rows[0][0].ToString();
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw ex;
-    //    }
-    //}
 
     internal string SaveUserDetails(BankUser user, string BankCode)
     {
@@ -345,7 +327,8 @@ public class DatabaseHandler
                                                        userType.UserTypeCode,
                                                        userType.Role,
                                                        userType.Description,
-                                                       userType.BankCode
+                                                       userType.BankCode,
+                                                       userType.ModifiedBy
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();

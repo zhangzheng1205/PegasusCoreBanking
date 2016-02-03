@@ -38,6 +38,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private System.Threading.SendOrPostCallback GetFullStatementOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ValidateTransactionRequestOperationCompleted;
+        
         private System.Threading.SendOrPostCallback SaveBankAccountDetailsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveBankDetailsOperationCompleted;
@@ -127,6 +129,9 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event GetFullStatementCompletedEventHandler GetFullStatementCompleted;
+        
+        /// <remarks/>
+        public event ValidateTransactionRequestCompletedEventHandler ValidateTransactionRequestCompleted;
         
         /// <remarks/>
         public event SaveBankAccountDetailsCompletedEventHandler SaveBankAccountDetailsCompleted;
@@ -311,6 +316,39 @@ namespace InterLinkClass.CoreBankingApi {
             if ((this.GetFullStatementCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetFullStatementCompleted(this, new GetFullStatementCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/ValidateTransactionRequest", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result ValidateTransactionRequest(TransactionRequest tran, string BankCode, string Password) {
+            object[] results = this.Invoke("ValidateTransactionRequest", new object[] {
+                        tran,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ValidateTransactionRequestAsync(TransactionRequest tran, string BankCode, string Password) {
+            this.ValidateTransactionRequestAsync(tran, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void ValidateTransactionRequestAsync(TransactionRequest tran, string BankCode, string Password, object userState) {
+            if ((this.ValidateTransactionRequestOperationCompleted == null)) {
+                this.ValidateTransactionRequestOperationCompleted = new System.Threading.SendOrPostCallback(this.OnValidateTransactionRequestOperationCompleted);
+            }
+            this.InvokeAsync("ValidateTransactionRequest", new object[] {
+                        tran,
+                        BankCode,
+                        Password}, this.ValidateTransactionRequestOperationCompleted, userState);
+        }
+        
+        private void OnValidateTransactionRequestOperationCompleted(object arg) {
+            if ((this.ValidateTransactionRequestCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ValidateTransactionRequestCompleted(this, new ValidateTransactionRequestCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1001,8 +1039,6 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string customerNameField;
         
-        private string customerIdField;
-        
         private string toAccountField;
         
         private string fromAccountField;
@@ -1031,6 +1067,10 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string currencyCodeField;
         
+        private string paymentTypeField;
+        
+        private string chequeNumberField;
+        
         /// <remarks/>
         public string CustomerName {
             get {
@@ -1038,16 +1078,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.customerNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CustomerId {
-            get {
-                return this.customerIdField;
-            }
-            set {
-                this.customerIdField = value;
             }
         }
         
@@ -1188,6 +1218,26 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.currencyCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PaymentType {
+            get {
+                return this.paymentTypeField;
+            }
+            set {
+                this.paymentTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ChequeNumber {
+            get {
+                return this.chequeNumberField;
+            }
+            set {
+                this.chequeNumberField = value;
             }
         }
     }
@@ -3024,6 +3074,32 @@ namespace InterLinkClass.CoreBankingApi {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((BankAccountStatement)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void ValidateTransactionRequestCompletedEventHandler(object sender, ValidateTransactionRequestCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ValidateTransactionRequestCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ValidateTransactionRequestCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
             }
         }
     }

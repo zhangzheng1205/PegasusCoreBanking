@@ -102,6 +102,32 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public Result ValidateTransactionRequest(TransactionRequest tran, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (tran.IsValidTransactRequest())
+            {
+                result.StatusCode = "0";
+                result.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                result.StatusCode = tran.StatusCode;
+                result.StatusDesc = tran.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+
+    [WebMethod]
     public Result SaveBankAccountDetails(BankAccount account, string BankCode, string Password)
     {
         Result result = new Result();

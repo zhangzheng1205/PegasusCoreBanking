@@ -9,7 +9,6 @@ using System.Collections.Generic;
 public class TransactionRequest:BaseObject
 {
     public string CustomerName="";
-    public string CustomerId="";
     public string ToAccount="";
     public string FromAccount="";
     public string TranAmount ="";
@@ -24,6 +23,9 @@ public class TransactionRequest:BaseObject
     public string TranCategory = "";
     public string BranchCode = "";
     public string CurrencyCode = "";
+    public string PaymentType = "";
+    public string ChequeNumber = "";
+
    
 
 
@@ -54,6 +56,13 @@ public class TransactionRequest:BaseObject
             StatusDesc = "PLEASE SUPPLY A BRANCH CODE";
             return false;
         }
+        else if (string.IsNullOrEmpty(this.PaymentType))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A PAYMENT TYPE";
+            return false;
+        }
+
         else if (string.IsNullOrEmpty(this.CustomerName))
         {
             StatusCode = "100";
@@ -112,6 +121,12 @@ public class TransactionRequest:BaseObject
         {
             StatusCode = "100";
             StatusDesc = "PLEASE SUPPLY THE CURRENCY CODE.";
+            return false;
+        }
+        else if (this.PaymentType.ToUpper().Contains("CHEQUE")&&string.IsNullOrEmpty(this.ChequeNumber))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY THE CHEQUE NUMBER";
             return false;
         }
         else if (!bll.IsValidBankCode(this.BankCode,out valObj))

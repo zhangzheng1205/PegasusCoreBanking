@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" Title="View Account Details" AutoEventWireup="true" CodeFile="GetAccountDetails.aspx.cs" Inherits="GetAccountDetails" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" Title="VIEW AUDIT TRAIL" AutoEventWireup="true" CodeFile="ViewAuditLogs.aspx.cs" Inherits="ViewAuditLogs" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:MultiView ID="MultiView1" runat="server">
@@ -63,17 +63,17 @@
                                     <asp:ListItem>True</asp:ListItem>
                                     <asp:ListItem>False</asp:ListItem>
                                 </asp:DropDownList>
-                                <p class="help-block">The bank to which the Account Belongs</p>
+                                <p class="help-block">The bank to which the User Belongs</p>
                             </div>
                             <div class="col-md-3">
-                                <label>Account Number</label>
-                                <asp:TextBox ID="txtAccountNumber" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">The Account Number</p>
+                                <label>User Id</label>
+                                <asp:TextBox ID="txtUserId" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The Users Id</p>
                             </div>
                             <div class="col-sm-3">
-                                <label>Customers Name</label>
+                                <label>Action</label>
                                 <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">The Customers Name. Can be empty</p>
+                                <p class="help-block">The Action carried out by the user. Can be empty</p>
                             </div>
                             <div class="col-sm-3"></div>
                         </div>
@@ -108,7 +108,7 @@
                                 <div class="row">
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
-                                            <Columns>
+                                            <%--<Columns>
                                                 <asp:TemplateField HeaderText="View Details">
                                                     <ItemTemplate>
                                                         <asp:HyperLink runat="server" Text='View Details'
@@ -117,7 +117,7 @@
                                                             ID="EditColumn" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                            </Columns>
+                                            </Columns>--%>
                                         </asp:GridView>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                                 <div class="row">
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults2">
-                                            
+                                           
                                         </asp:GridView>
                                     </div>
                                 </div>

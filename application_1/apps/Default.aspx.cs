@@ -132,7 +132,8 @@ public partial class _Default : System.Web.UI.Page
                 UsersBank.PathToPublicKey = "";
                 UsersBank.StatusCode = "0";
                 UsersBank.StatusDesc = "SUCCESS";
-                allowedAreas.Add("ALL");
+                allowedAreas.Add("SYS_ADMIN");
+                allowedAreas.Add("REPORTS");
             }
         }
         

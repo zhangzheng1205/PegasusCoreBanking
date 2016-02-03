@@ -14,7 +14,6 @@
           <s:extension base="tns:BaseObject">
             <s:sequence>
               <s:element minOccurs="0" maxOccurs="1" name="CustomerName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="CustomerId" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="ToAccount" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="FromAccount" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="TranAmount" type="s:string" />
@@ -29,6 +28,8 @@
               <s:element minOccurs="0" maxOccurs="1" name="TranCategory" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
               <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChequeNumber" type="s:string" />
             </s:sequence>
           </s:extension>
         </s:complexContent>
@@ -142,6 +143,22 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetFullStatementResult" type="tns:BankAccountStatement" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateTransactionRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tran" type="tns:TransactionRequest" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateTransactionRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ValidateTransactionRequestResult" type="tns:Result" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -722,6 +739,12 @@
   <wsdl:message name="GetFullStatementSoapOut">
     <wsdl:part name="parameters" element="tns:GetFullStatementResponse" />
   </wsdl:message>
+  <wsdl:message name="ValidateTransactionRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateTransactionRequest" />
+  </wsdl:message>
+  <wsdl:message name="ValidateTransactionRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateTransactionRequestResponse" />
+  </wsdl:message>
   <wsdl:message name="SaveBankAccountDetailsSoapIn">
     <wsdl:part name="parameters" element="tns:SaveBankAccountDetails" />
   </wsdl:message>
@@ -859,6 +882,10 @@
       <wsdl:input message="tns:GetFullStatementSoapIn" />
       <wsdl:output message="tns:GetFullStatementSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <wsdl:input message="tns:ValidateTransactionRequestSoapIn" />
+      <wsdl:output message="tns:ValidateTransactionRequestSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="SaveBankAccountDetails">
       <wsdl:input message="tns:SaveBankAccountDetailsSoapIn" />
       <wsdl:output message="tns:SaveBankAccountDetailsSoapOut" />
@@ -971,6 +998,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetFullStatement">
       <soap:operation soapAction="http://pegasus.co.ug/GetFullStatement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <soap:operation soapAction="http://pegasus.co.ug/ValidateTransactionRequest" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1190,6 +1226,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetFullStatement">
       <soap12:operation soapAction="http://pegasus.co.ug/GetFullStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <soap12:operation soapAction="http://pegasus.co.ug/ValidateTransactionRequest" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

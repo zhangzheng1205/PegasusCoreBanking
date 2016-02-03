@@ -6,16 +6,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class GetAccountDetails : System.Web.UI.Page
+public partial class ViewAuditLogs : System.Web.UI.Page
 {
     BankUser user;
     Service client = new Service();
     Bussinesslogic bll = new Bussinesslogic();
-    string BankCode = "";
-    string UserId = "";
-    string Id = "";
-    string BranchCode = "";
-    string Msg = "";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -24,10 +19,6 @@ public partial class GetAccountDetails : System.Web.UI.Page
 
             user = Session["User"] as BankUser;
             Session["IsError"] = null;
-            BankCode = Request.QueryString["BankCode"];
-            UserId = Request.QueryString["CustomerId"];
-            BranchCode = Request.QueryString["BranchCode"];
-            Msg = Request.QueryString["Msg"];
 
             //Session is invalid
             if (user == null)
@@ -37,19 +28,6 @@ public partial class GetAccountDetails : System.Web.UI.Page
             else if (IsPostBack)
             {
 
-            }
-            else if (UserId!=null)
-            {
-                LoadData();
-                MultiView1.ActiveViewIndex = 0;
-                Multiview2.ActiveViewIndex = 1;
-            }
-            else if (Msg != null)
-            {
-                LoadData();
-                MultiView1.ActiveViewIndex = 0;
-                Multiview2.ActiveViewIndex = 1;
-                bll.ShowMessage(lblmsg, Msg, true, Session);
             }
             else
             {
@@ -70,8 +48,8 @@ public partial class GetAccountDetails : System.Web.UI.Page
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)
-    { 
-    
+    {
+
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -79,31 +57,20 @@ public partial class GetAccountDetails : System.Web.UI.Page
         try
         {
             string[] parameters = GetSearchParameters();
-            DataTable dt = bll.SearchAccountsTable(parameters);
+            DataTable dt = bll.SearchAuditlogsTable(parameters);
             if (dt.Rows.Count > 0)
             {
-                if (UserId == null)
-                {
-                    dataGridResults.DataSource = dt;
-                    dataGridResults.DataBind();
-                    Multiview2.ActiveViewIndex = 0;
-                    string msg = "SUCCESS: " + dt.Rows.Count + " RECORDS FOUND";
-                    bll.ShowMessage(lblmsg, msg, false, Session);
-                }
-                else 
-                {
-                    dataGridResults2.DataSource = dt;
-                    dataGridResults2.DataBind();
-                    Multiview2.ActiveViewIndex = 2;
-                    string msg = "SUCCESS: " + dt.Rows.Count + " RECORDS FOUND";
-                    bll.ShowMessage(lblmsg, msg, false, Session);
-                }
+                dataGridResults2.DataSource = dt;
+                dataGridResults2.DataBind();
+                Multiview2.ActiveViewIndex = 2;
+                string msg = "SUCCESS: " + dt.Rows.Count + " RECORDS FOUND";
+                bll.ShowMessage(lblmsg, msg, false, Session);
             }
-            else 
+            else
             {
                 dataGridResults.DataSource = null;
                 dataGridResults.DataBind();
-                string msg = "NO RECORD OF ACCOUNT FOUND FOR BANK SPECIFIED";
+                string msg = "NO RECORD OF LOGS FOUND FOR USER SPECIFIED";
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
         }
@@ -117,11 +84,10 @@ public partial class GetAccountDetails : System.Web.UI.Page
     private string[] GetSearchParameters()
     {
         List<string> all = new List<string>();
-        string AccNumber = txtAccountNumber.Text;
+        string AccNumber = txtUserId.Text;
         string BankCode = ddBank.SelectedValue;
         all.Add(AccNumber);
         all.Add(BankCode);
         return all.ToArray();
     }
-    
 }

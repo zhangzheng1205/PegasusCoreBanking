@@ -220,12 +220,12 @@
                                         <div class="row" id="CustomersSection" runat="server">
                                             <div class="col-lg-6">
                                                 <label>Upload Individuals Picture</label>
-                                                <asp:FileUpload runat="server" accept="image/*" ID="fuProfilePic" type="file" />
+                                                <asp:FileUpload runat="server" accept="image/*" capture="camera" ID="fuProfilePic" type="file" />
                                                 <p class="help-block">Profile Picture of the Individual. Will be used to identify the Customer.</p>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Upload Individuals Signature</label>
-                                                <asp:FileUpload runat="server" accept="image/*" ID="fuCustomerSign" type="file" />
+                                                <asp:FileUpload runat="server" accept="image/*" capture="camera" ID="fuCustomerSign" type="file" />
                                                 <p class="help-block">Image of Customers Signature.</p>
                                             </div>
                                         </div>

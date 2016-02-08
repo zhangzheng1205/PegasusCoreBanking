@@ -1,0 +1,14 @@
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.exe.config
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.exe
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.pdb
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\BIM-ISO8583.NET.dll
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.exe
+c:\users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.pdb
+C:\Users\nkasozi\documents\visual studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.csprojResolveAssemblyReference.cache
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.exe.config
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.exe
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.exe
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\TcpListenerClient.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\bin\Debug\BIM-ISO8583.NET.dll
+C:\Users\JediMaster\Documents\Visual Studio 2013\Projects\TcpListenerClient\TcpListenerClient\obj\Debug\TcpListenerClient.csprojResolveAssemblyReference.cache

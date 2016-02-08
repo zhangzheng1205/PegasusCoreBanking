@@ -1,0 +1,1484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://pegasus.co.ug/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://pegasus.co.ug/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://pegasus.co.ug/">
+      <s:element name="Transact">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tranRequest" type="tns:TransactionRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransactionRequest">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="CustomerName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ToAccount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FromAccount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankTranId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentDate" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Teller" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ApprovedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Narration" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DigitalSignature" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranCategory" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChequeNumber" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="StatusCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StatusDesc" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Result">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="RequestId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PegPayId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ThirdPartyId" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="TransactResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TransactResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tranRequest" type="tns:TransactionRequest" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransactionResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMiniStatement">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMiniStatementResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMiniStatementResult" type="tns:BankAccountStatement" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankAccountStatement">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Result">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="statement" type="tns:ArrayOfString" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetFullStatement">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFullStatementResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFullStatementResult" type="tns:BankAccountStatement" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateTransactionRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tran" type="tns:TransactionRequest" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateTransactionRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ValidateTransactionRequestResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankAccountDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="account" type="tns:BankAccount" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankAccount">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="AccountId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountBalance" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountSignatories" type="tns:ArrayOfString" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankAccountDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankAccountDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="bank" type="tns:Bank" />
+            <s:element minOccurs="0" maxOccurs="1" name="adminUsername" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="adminPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Bank">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="BankId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankContactEmail" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankPassword" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToPublicKey" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToLogoImage" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankChargeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="charge" type="tns:BankCharge" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankCharge">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CommissionAccountNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransCategory" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsDebit" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeType" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankChargeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankChargeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveAccessRule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rule" type="tns:AccessRule" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccessRule">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CanAccess" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveAccessRuleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveAccessRuleResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTransactionRule">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="rule" type="tns:TransactionRule" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransactionRule">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="RuleCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MinimumAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MaximumAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Approver" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveTransactionRuleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveTransactionRuleResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankUserDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="tns:BankUser" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankUser">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FullName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Usertype" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CanHaveAccount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DateOfBirth" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Gender" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransactionLimit" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToProfilePic" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PathToSignature" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankUserDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankUserDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveCurrencyDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="currency" type="tns:Currency" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Currency">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ValueInLocalCurrency" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveCurrencyDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveCurrencyDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetById">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="className" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="objectId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetByIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetByIdResult" type="tns:BaseObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountSignatories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountSignatoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountSignatoriesResult" type="tns:ArrayOfBankCustomer" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBankCustomer">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BankCustomer" nillable="true" type="tns:BankCustomer" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BankCustomer">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BankUser" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetAll">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="className" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllResult" type="tns:ArrayOfBaseObject" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBaseObject">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BaseObject" nillable="true" type="tns:BaseObject" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SaveBankTellerDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="teller" type="tns:BankTeller" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankTeller">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BankUser">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="TellerAccountNumber" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankTellerDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankTellerDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankBranchDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="branch" type="tns:BankBranch" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BankBranch">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="BankBranchId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BranchCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CreatedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CreatedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveBankBranchDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankBranchDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveUserTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userType" type="tns:UserType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="UserType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="UserTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Role" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveUserTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveUserTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveAccountTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accountType" type="tns:AccountType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MinimumBalance" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsDebitable" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="MinNumberOfSignatories" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="MaxNumberOfSignatories" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveAccountTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveAccountTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveChargeTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="chargeType" type="tns:ChargeType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ChargeType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveChargeTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveChargeTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTransactionCategoryDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tranType" type="tns:TransactionCategory" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TransactionCategory">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranCategoryCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TranCategoryName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ApprovedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveTransactionCategoryDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveTransactionCategoryDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SavePaymentTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="tns:PaymentType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PaymentType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SavePaymentTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SavePaymentTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankCustomerDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cust" type="tns:BankCustomer" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveBankCustomerDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveBankCustomerDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveCustomerTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="custType" type="tns:CustomerType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CustomerType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:UserType" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveCustomerTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveCustomerTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteNonQuery">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="storedProcedureName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parameters" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteNonQueryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteNonQueryResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteDataSet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="storedProcedureName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parameters" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExecuteDataSetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ExecuteDataSetResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="TransactSoapIn">
+    <wsdl:part name="parameters" element="tns:Transact" />
+  </wsdl:message>
+  <wsdl:message name="TransactSoapOut">
+    <wsdl:part name="parameters" element="tns:TransactResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMiniStatementSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMiniStatement" />
+  </wsdl:message>
+  <wsdl:message name="GetMiniStatementSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMiniStatementResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFullStatementSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFullStatement" />
+  </wsdl:message>
+  <wsdl:message name="GetFullStatementSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFullStatementResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateTransactionRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateTransactionRequest" />
+  </wsdl:message>
+  <wsdl:message name="ValidateTransactionRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateTransactionRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankAccountDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankAccountDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankAccountDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankAccountDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankChargeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankChargeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankChargeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankChargeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccessRuleSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveAccessRule" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccessRuleSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveAccessRuleResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionRuleSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTransactionRule" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionRuleSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTransactionRuleResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankUserDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankUserDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankUserDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankUserDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveCurrencyDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveCurrencyDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveCurrencyDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveCurrencyDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetByIdSoapIn">
+    <wsdl:part name="parameters" element="tns:GetById" />
+  </wsdl:message>
+  <wsdl:message name="GetByIdSoapOut">
+    <wsdl:part name="parameters" element="tns:GetByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountSignatoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountSignatories" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountSignatoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountSignatoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAll" />
+  </wsdl:message>
+  <wsdl:message name="GetAllSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankTellerDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankTellerDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankTellerDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankTellerDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankBranchDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankBranchDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankBranchDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankBranchDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveUserTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveUserTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveUserTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveUserTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccountTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveAccountTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccountTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveAccountTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveChargeTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveChargeTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveChargeTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveChargeTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionCategoryDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveTransactionCategoryDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SavePaymentTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SavePaymentTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SavePaymentTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SavePaymentTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankCustomerDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveBankCustomerDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveBankCustomerDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveBankCustomerDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveCustomerTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveCustomerTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SaveCustomerTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveCustomerTypeDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteNonQuerySoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteNonQuery" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteNonQuerySoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteNonQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteDataSetSoapIn">
+    <wsdl:part name="parameters" element="tns:ExecuteDataSet" />
+  </wsdl:message>
+  <wsdl:message name="ExecuteDataSetSoapOut">
+    <wsdl:part name="parameters" element="tns:ExecuteDataSetResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceSoap">
+    <wsdl:operation name="Transact">
+      <wsdl:input message="tns:TransactSoapIn" />
+      <wsdl:output message="tns:TransactSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <wsdl:input message="tns:ReverseTransactionSoapIn" />
+      <wsdl:output message="tns:ReverseTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMiniStatement">
+      <wsdl:input message="tns:GetMiniStatementSoapIn" />
+      <wsdl:output message="tns:GetMiniStatementSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFullStatement">
+      <wsdl:input message="tns:GetFullStatementSoapIn" />
+      <wsdl:output message="tns:GetFullStatementSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <wsdl:input message="tns:ValidateTransactionRequestSoapIn" />
+      <wsdl:output message="tns:ValidateTransactionRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankAccountDetails">
+      <wsdl:input message="tns:SaveBankAccountDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankAccountDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankDetails">
+      <wsdl:input message="tns:SaveBankDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankChargeDetails">
+      <wsdl:input message="tns:SaveBankChargeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankChargeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <wsdl:input message="tns:SaveAccessRuleSoapIn" />
+      <wsdl:output message="tns:SaveAccessRuleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <wsdl:input message="tns:SaveTransactionRuleSoapIn" />
+      <wsdl:output message="tns:SaveTransactionRuleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankUserDetails">
+      <wsdl:input message="tns:SaveBankUserDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankUserDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <wsdl:input message="tns:SaveCurrencyDetailsSoapIn" />
+      <wsdl:output message="tns:SaveCurrencyDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetById">
+      <wsdl:input message="tns:GetByIdSoapIn" />
+      <wsdl:output message="tns:GetByIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <wsdl:input message="tns:GetAccountSignatoriesSoapIn" />
+      <wsdl:output message="tns:GetAccountSignatoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAll">
+      <wsdl:input message="tns:GetAllSoapIn" />
+      <wsdl:output message="tns:GetAllSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankTellerDetails">
+      <wsdl:input message="tns:SaveBankTellerDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankTellerDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankBranchDetails">
+      <wsdl:input message="tns:SaveBankBranchDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankBranchDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserTypeDetails">
+      <wsdl:input message="tns:SaveUserTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveUserTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountTypeDetails">
+      <wsdl:input message="tns:SaveAccountTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveAccountTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <wsdl:input message="tns:SaveChargeTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveChargeTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <wsdl:input message="tns:SaveTransactionCategoryDetailsSoapIn" />
+      <wsdl:output message="tns:SaveTransactionCategoryDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <wsdl:input message="tns:SavePaymentTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SavePaymentTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankCustomerDetails">
+      <wsdl:input message="tns:SaveBankCustomerDetailsSoapIn" />
+      <wsdl:output message="tns:SaveBankCustomerDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveCustomerTypeDetails">
+      <wsdl:input message="tns:SaveCustomerTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SaveCustomerTypeDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteNonQuery">
+      <wsdl:input message="tns:ExecuteNonQuerySoapIn" />
+      <wsdl:output message="tns:ExecuteNonQuerySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteDataSet">
+      <wsdl:input message="tns:ExecuteDataSetSoapIn" />
+      <wsdl:output message="tns:ExecuteDataSetSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceSoap" type="tns:ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Transact">
+      <soap:operation soapAction="http://pegasus.co.ug/Transact" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap:operation soapAction="http://pegasus.co.ug/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMiniStatement">
+      <soap:operation soapAction="http://pegasus.co.ug/GetMiniStatement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFullStatement">
+      <soap:operation soapAction="http://pegasus.co.ug/GetFullStatement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <soap:operation soapAction="http://pegasus.co.ug/ValidateTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankAccountDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankAccountDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankChargeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankChargeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveAccessRule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionRule" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankUserDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankUserDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveCurrencyDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetById">
+      <soap:operation soapAction="http://pegasus.co.ug/GetById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <soap:operation soapAction="http://pegasus.co.ug/GetAccountSignatories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAll">
+      <soap:operation soapAction="http://pegasus.co.ug/GetAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankTellerDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankTellerDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankBranchDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankBranchDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveUserTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveAccountTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveChargeTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionCategoryDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SavePaymentTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankCustomerDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveBankCustomerDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCustomerTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SaveCustomerTypeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteNonQuery">
+      <soap:operation soapAction="http://pegasus.co.ug/ExecuteNonQuery" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteDataSet">
+      <soap:operation soapAction="http://pegasus.co.ug/ExecuteDataSet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceSoap12" type="tns:ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Transact">
+      <soap12:operation soapAction="http://pegasus.co.ug/Transact" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap12:operation soapAction="http://pegasus.co.ug/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMiniStatement">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetMiniStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFullStatement">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetFullStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateTransactionRequest">
+      <soap12:operation soapAction="http://pegasus.co.ug/ValidateTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankAccountDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankAccountDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankChargeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankChargeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccessRule">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveAccessRule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionRule">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveTransactionRule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankUserDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankUserDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCurrencyDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveCurrencyDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetById">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountSignatories">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetAccountSignatories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAll">
+      <soap12:operation soapAction="http://pegasus.co.ug/GetAll" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankTellerDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankTellerDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankBranchDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankBranchDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveUserTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAccountTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveAccountTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveChargeTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveChargeTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTransactionCategoryDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveTransactionCategoryDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SavePaymentTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveBankCustomerDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveBankCustomerDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveCustomerTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SaveCustomerTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteNonQuery">
+      <soap12:operation soapAction="http://pegasus.co.ug/ExecuteNonQuery" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExecuteDataSet">
+      <soap12:operation soapAction="http://pegasus.co.ug/ExecuteDataSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
+      <soap:address location="http://localhost:59541/Service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
+      <soap12:address location="http://localhost:59541/Service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

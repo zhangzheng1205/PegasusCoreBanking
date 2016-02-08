@@ -91,10 +91,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:59541/PegPayCoreBanking/Service.asmx">
+    <WebReferenceUrl Include="http://localhost:59541/Service.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CoreBankingApi\</RelPath>
-      <UpdateFromURL>http://localhost:59541/PegPayCoreBanking/Service.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:59541/Service.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

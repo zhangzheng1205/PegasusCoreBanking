@@ -233,13 +233,13 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     {
         try
         {
-            if (ddUserType.SelectedValue.Contains("CUSTOMER"))
+            if (ddUserType.SelectedValue=="CUSTOMER")
             {
                 CustomersSection.Visible = true;
                 TellersSection.Visible = false;
                 txtTranLimit.Text = "0";
             }
-            else if (ddUserType.SelectedValue.Contains("TELLER"))
+            else if (ddUserType.SelectedValue=="TELLER")
             {
                 CustomersSection.Visible = false;
                 TellersSection.Visible = true;

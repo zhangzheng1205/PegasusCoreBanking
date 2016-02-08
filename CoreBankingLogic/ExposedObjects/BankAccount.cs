@@ -94,10 +94,10 @@ namespace CoreBankingLogic.EntityObjects
                 StatusDesc = "PLEASE INDICATE WHETHER THIS ACCOUNT IS ACTIVE [TRUE OR FALSE]";
                 return false;
             }
-            else if (!bll.IsValidCurrencyCode(this.CurrencyCode))
+            else if (!bll.IsValidCurrencyCode(this.CurrencyCode,BankCode,out valObj))
             {
                 StatusCode = "100";
-                StatusDesc = "PLEASE SUPPLY A VALID CURRENCY CODE.";
+                StatusDesc = valObj.StatusDesc;
                 return false;
             }
             else if (!bll.IsValidUser(this.ModifiedBy, BankCode, "CUSTOMER_SERVICE|MANAGER|BANK_ADMIN", out valObj))
@@ -110,9 +110,20 @@ namespace CoreBankingLogic.EntityObjects
             {
                 if (!bll.IsValidUser(UserId, BankCode, "CUSTOMER|TELLER", out valObj))
                 {
-                    StatusCode = "100";
-                    StatusDesc = valObj.StatusDesc;
-                    return false;
+                    string statusDesc = valObj.StatusDesc.ToUpper();
+                    if (statusDesc.Contains("NOT ACTIVATED"))
+                    {
+                        StatusCode = "0";
+                        statusDesc = "SUCCESS";
+                        continue;
+                    }
+                    else
+                    {
+
+                        StatusCode = "100";
+                        StatusDesc = valObj.StatusDesc;
+                        return false;
+                    }
                 }
             }
             return true;

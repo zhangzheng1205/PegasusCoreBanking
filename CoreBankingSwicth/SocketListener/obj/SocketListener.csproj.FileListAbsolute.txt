@@ -1,0 +1,16 @@
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\BIM-ISO8583.NET.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\BIM-ISO8583.NET.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\SocketListener.dll
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\SocketListener.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.dll.config
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.dll.config
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.dll
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\SocketListener.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\BIM-ISO8583.NET.dll
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\bin\Debug\BIM-ISO8583.NET.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\SocketListener.dll
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\SocketListener\obj\Debug\SocketListener.pdb

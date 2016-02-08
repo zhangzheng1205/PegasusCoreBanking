@@ -1,7 +1,28 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "C:\...\PegPayCoreBanking\", "..\..\WebSites\PegPayCoreBanking\", "{CBE965D2-BC7F-405F-8FE5-707D164808B8}"
+	ProjectSection(WebsiteProperties) = preProject
+		ProjectReferences = "{0D50AF8E-C216-4E88-80CD-04E73A8816B9}|CoreBankingLogic.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/PegPayCoreBanking"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\WebSites\PegPayCoreBanking\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\PegPayCoreBanking\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/PegPayCoreBanking"
+		Release.AspNetCompiler.PhysicalPath = "..\..\WebSites\PegPayCoreBanking\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\PegPayCoreBanking\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "59541"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
 	ProjectSection(WebsiteProperties) = preProject
 		ProjectReferences = "{0D50AF8E-C216-4E88-80CD-04E73A8816B9}|CoreBankingLogic.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/PegPayCoreBanking"

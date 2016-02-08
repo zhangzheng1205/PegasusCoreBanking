@@ -197,17 +197,18 @@
                             <li>
                                 <a href="AddOrEditBankCharges.aspx"><i class="fa fa-caret-right"></i> Create Bank Charge</a>
                             </li>
+
                             <li>
                                 <a href="AddOrEditChargeType.aspx"><i class="fa fa-caret-right"></i> Create Charge Type</a>
                             </li>
                              <li>
                                 <a href="AddOrEditAccountType.aspx"><i class="fa fa-caret-right"></i> Create Account Type</a>
                             </li>
-                             <li>
-                                <a href="AddOrEditCurrency.aspx"><i class="fa fa-caret-right"></i> Create Currency</a>
+                            <li>
+                                <a href="AddOrEditPaymentType.aspx"><i class="fa fa-caret-right"></i> Create Payment Type</a>
                             </li>
                              <li>
-                                <a href="AddOrEditTransactionRule.aspx"><i class="fa fa-caret-right"></i> Create Transaction Rule</a>
+                                <a href="AddOrEditCurrency.aspx"><i class="fa fa-caret-right"></i> Create Currency</a>
                             </li>
                              <li>
                                 <a href="ViewAll.aspx"><i class="fa fa-caret-right"></i> View/Edit Branches,Tellers,Account Types,Transaction Categories</a>

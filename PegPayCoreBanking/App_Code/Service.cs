@@ -70,7 +70,7 @@ public class Service : System.Web.Services.WebService
 
 
     [WebMethod]
-    public BankAccountStatement GetMiniStatement(string AccountNumber, string BankCode, string Password, BankCharge[] charges)
+    public BankAccountStatement GetMiniStatement(string AccountNumber, string BankCode, string Password)
     {
         BankAccountStatement statement = new BankAccountStatement();
         try
@@ -467,6 +467,31 @@ public class Service : System.Web.Services.WebService
         }
         return result;
     }
+
+    [WebMethod]
+    public Result SavePaymentTypeDetails(PaymentType type, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (type.IsValid(BankCode, Password))
+            {
+                result = bll.SavePaymentType(type, BankCode);
+            }
+            else
+            {
+                result.StatusCode = type.StatusCode;
+                result.StatusDesc = type.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
 
 
 

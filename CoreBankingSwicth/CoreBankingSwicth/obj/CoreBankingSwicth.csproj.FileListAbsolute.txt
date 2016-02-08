@@ -1,0 +1,10 @@
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\bin\Debug\CoreBankingSwicth.exe
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\bin\Debug\CoreBankingSwicth.pdb
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\CoreBankingSwicth.exe
+C:\Users\nkasozi\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\CoreBankingSwicth.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\bin\Debug\CoreBankingSwicth.exe
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\bin\Debug\CoreBankingSwicth.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\CoreBankingSwicth.exe
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingSwicth\CoreBankingSwicth\obj\Debug\CoreBankingSwicth.pdb

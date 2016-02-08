@@ -41,14 +41,14 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             {
 
             }
-            ////create customers bank account request
-            //else if (UserId != null)
-            //{
-            //    LoadData();
-            //    DisableControls(UserId);
-            //    MultiView1.ActiveViewIndex = 0;
-            //    bll.ShowMessage(lblmsg, Msg, false, Session);
-            //}
+            //create customers bank account request
+            else if (UserId != null)
+            {
+                LoadData();
+                DisableControls2(UserId);
+                MultiView1.ActiveViewIndex = 0;
+                bll.ShowMessage(lblmsg, Msg, false,Session);
+            }
             //this is an edit bank account request
             else if (Id != null)
             {
@@ -56,7 +56,6 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
                 DisableControls(Id);
                 LoadAccountData(Id, BankCode);
                 MultiView1.ActiveViewIndex = 0;
-
             }
             //this is a normal create account request
             else
@@ -72,19 +71,57 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         }
     }
 
+    private void DisableControls2(string UserId)
+    {
+        ddBank.SelectedValue = BankCode;
+        ddBank.Enabled = false;
+        ddBankBranch.SelectedValue = BranchCode;
+        ddBankBranch.Enabled = true;
+
+        AddSignatorySection.Visible = false;
+        ddAccountType.Enabled = true;
+        ddBank.Enabled = false;
+        ddIsActive.Text = "False";
+        ddIsActive.Enabled = true;
+        ddCurrency.Enabled = true;
+        AddSignatorySection.Visible = false;
+
+        List<string> accountSignatories = ViewState["AccountSignatories"] as List<string>;
+
+        if (accountSignatories == null)
+        {
+            accountSignatories = new List<string>();
+        }
+
+        accountSignatories.Add(UserId);
+        ViewState["AccountSignatories"] = accountSignatories;
+    }
+
+
     private void DisableControls(string UserId)
     {
         ddBank.SelectedValue = BankCode;
         ddBank.Enabled = false;
         ddBankBranch.SelectedValue = BranchCode;
         ddBankBranch.Enabled = true;
+      
         AddSignatorySection.Visible = false;
         ddAccountType.Enabled = true;
         ddBank.Enabled = false;
         ddIsActive.Text = "False";
         ddIsActive.Enabled = true;
         ddCurrency.Enabled = false;
+        AddSignatorySection.Visible = false;
 
+        List<string> accountSignatories=ViewState["AccountSignatories"] as List<string>;
+
+        if (accountSignatories == null)
+        {
+            accountSignatories = new List<string>();
+        }
+
+        accountSignatories.Add(UserId);
+        ViewState["AccountSignatories"] = accountSignatories;
     }
 
     private void LoadAccountData(string Id, string BankCode)
@@ -97,6 +134,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             this.ddBankBranch.SelectedValue = account.BranchCode;
             this.ddIsActive.Text = account.IsActive;
             this.ddCurrency.SelectedValue = account.CurrencyCode;
+            
         }
         else
         {
@@ -124,21 +162,13 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             Result result = client.SaveBankAccountDetails(account, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                //if (string.IsNullOrEmpty(UserId))
-                //{
                 //create account request
                 string msg = "SUCCESS: BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] SAVED SUCCESSFULLY";
                 bll.ShowMessage(lblmsg, msg, false, Session);
 
                 //Reset this so incase restarts this process they have to do it all over again
                 ViewState["AccountSignatories"] = null;
-                //}
-                //else 
-                //{
-                //    //create customer request
-                //    string msg = "SUCCESS: USER ID:"+UserId+" BANK ACCOUNT WITH ACCOUNT NUMBER [" + result.PegPayId + "] CREATED SUCCESSFULLY";
-                //    bll.ShowMessage(lblmsg, msg, false, Session);
-                //}
+                
             }
             else
             {

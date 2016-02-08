@@ -1123,4 +1123,94 @@ public class DatabaseHandler
             throw ex;
         }
     }
+
+    internal Currency GetCurrencyCodeById(string CurrencyCode, string BankCode)
+    {
+        Currency currency = new Currency();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Currencies_SelectRow",
+                                                        CurrencyCode,
+                                                        BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                currency.BankCode = dr["BankCode"].ToString();
+                currency.CurrencyCode = dr["CurrencyCode"].ToString();
+                currency.CurrencyName = dr["CurrencyName"].ToString();
+                currency.ModifiedBy = dr["ModifiedBy"].ToString();
+                currency.ValueInLocalCurrency = dr["ValueInLocalCurrency"].ToString();
+                currency.StatusCode = "0";
+                currency.StatusDesc = "SUCCESS";
+            }
+            else 
+            {
+                currency.StatusCode = "100";
+                currency.StatusDesc = "CURRENCY CODE NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            currency.StatusCode = "100";
+            currency.StatusDesc = ex.Message;
+        }
+        return currency;
+    }
+
+    internal string SavePaymentType(PaymentType type)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("PaymentTypes_Update",
+                                                        type.PaymentTypeCode,
+                                                        type.PaymentTypeName,
+                                                        type.BankCode,
+                                                        type.ModifiedBy,
+                                                        type.IsActive
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal PaymentType GetPaymentTypeById(string Id, string BankCode)
+    {
+        PaymentType type = new PaymentType();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("PaymentTypes_SelectRow",
+                                                        Id,
+                                                        BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                type.BankCode = dr["BankCode"].ToString();
+                type.PaymentTypeCode = dr["PaymentTypeCode"].ToString();
+                type.PaymentTypeName = dr["PaymentTypeName"].ToString();
+                type.ModifiedBy = dr["ModifiedBy"].ToString();
+                type.StatusCode = "0";
+                type.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                type.StatusCode = "100";
+                type.StatusDesc = "PAYMENT TYPE NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            type.StatusCode = "100";
+            type.StatusDesc = ex.Message;
+        }
+        return type;
+    }
+
 }

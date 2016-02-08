@@ -78,37 +78,9 @@
             <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="charges" type="tns:ArrayOfBankCharge" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfBankCharge">
-        <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="BankCharge" nillable="true" type="tns:BankCharge" />
-        </s:sequence>
-      </s:complexType>
-      <s:complexType name="BankCharge">
-        <s:complexContent mixed="false">
-          <s:extension base="tns:BaseObject">
-            <s:sequence>
-              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="CommissionAccountNumber" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ChargeAmount" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="TransCategory" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="IsDebit" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ChargeDescription" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ChargeName" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
-              <s:element minOccurs="0" maxOccurs="1" name="ChargeType" type="s:string" />
-            </s:sequence>
-          </s:extension>
-        </s:complexContent>
-      </s:complexType>
       <s:element name="GetMiniStatementResponse">
         <s:complexType>
           <s:sequence>
@@ -238,6 +210,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:complexType name="BankCharge">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CommissionAccountNumber" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeAmount" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="TransCategory" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedOn" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsDebit" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeDescription" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="AccountType" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ChargeType" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
       <s:element name="SaveBankChargeDetailsResponse">
         <s:complexType>
           <s:sequence>
@@ -639,6 +633,35 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SavePaymentTypeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="tns:PaymentType" />
+            <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="PaymentType">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PaymentTypeName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BankCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModifiedBy" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="IsActive" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SavePaymentTypeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SavePaymentTypeDetailsResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="SaveBankCustomerDetails">
         <s:complexType>
           <s:sequence>
@@ -841,6 +864,12 @@
   <wsdl:message name="SaveTransactionCategoryDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:SaveTransactionCategoryDetailsResponse" />
   </wsdl:message>
+  <wsdl:message name="SavePaymentTypeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:SavePaymentTypeDetails" />
+  </wsdl:message>
+  <wsdl:message name="SavePaymentTypeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:SavePaymentTypeDetailsResponse" />
+  </wsdl:message>
   <wsdl:message name="SaveBankCustomerDetailsSoapIn">
     <wsdl:part name="parameters" element="tns:SaveBankCustomerDetails" />
   </wsdl:message>
@@ -949,6 +978,10 @@
     <wsdl:operation name="SaveTransactionCategoryDetails">
       <wsdl:input message="tns:SaveTransactionCategoryDetailsSoapIn" />
       <wsdl:output message="tns:SaveTransactionCategoryDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <wsdl:input message="tns:SavePaymentTypeDetailsSoapIn" />
+      <wsdl:output message="tns:SavePaymentTypeDetailsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="SaveBankCustomerDetails">
       <wsdl:input message="tns:SaveBankCustomerDetailsSoapIn" />
@@ -1151,6 +1184,15 @@
     </wsdl:operation>
     <wsdl:operation name="SaveTransactionCategoryDetails">
       <soap:operation soapAction="http://pegasus.co.ug/SaveTransactionCategoryDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <soap:operation soapAction="http://pegasus.co.ug/SavePaymentTypeDetails" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1386,6 +1428,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SavePaymentTypeDetails">
+      <soap12:operation soapAction="http://pegasus.co.ug/SavePaymentTypeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="SaveBankCustomerDetails">
       <soap12:operation soapAction="http://pegasus.co.ug/SaveBankCustomerDetails" style="document" />
       <wsdl:input>
@@ -1425,10 +1476,10 @@
   </wsdl:binding>
   <wsdl:service name="Service">
     <wsdl:port name="ServiceSoap" binding="tns:ServiceSoap">
-      <soap:address location="http://localhost:59541/PegPayCoreBanking/Service.asmx" />
+      <soap:address location="http://localhost:59541/Service.asmx" />
     </wsdl:port>
     <wsdl:port name="ServiceSoap12" binding="tns:ServiceSoap12">
-      <soap12:address location="http://localhost:59541/PegPayCoreBanking/Service.asmx" />
+      <soap12:address location="http://localhost:59541/Service.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

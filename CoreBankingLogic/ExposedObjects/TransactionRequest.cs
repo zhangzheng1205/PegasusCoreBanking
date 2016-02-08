@@ -183,6 +183,18 @@ public class TransactionRequest:BaseObject
             StatusDesc = valObj.StatusDesc;
             return false;
         }
+        else if (!bll.IsValidCurrencyCode(this.CurrencyCode, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else if (!bll.IsValidPaymentType(this.PaymentType, this.BankCode, out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
         
         return true;
     }

@@ -17,15 +17,15 @@ public partial class DepositWithdraw : System.Web.UI.Page
     {
         try
         {
-            Operation = Request.QueryString["Op"].ToUpper();
-            Id = Request.QueryString["Id"].ToUpper();
+            Operation = Request.QueryString["Op"];
+            Id = Request.QueryString["Id"];
             teller = Session["User"] as BankTeller;
             Session["IsError"] = null;
 
             //Session is invalid
             if (teller == null)
             {
-                LoadData();
+                Response.Redirect("Default.aspx?Msg=SESSION HAS EXPIRED");
             }
             //Operation is missing
             if (string.IsNullOrEmpty(Operation))
@@ -63,7 +63,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
 
     public void DisableControls() 
     {
-
+        Operation = Operation.ToUpper();
         //if teller wants to process deposit
         if (Operation == "DEPOSIT")
         {
@@ -112,7 +112,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
             else 
             {
                 //display error
-                string msg = tran.StatusDesc;
+                string msg = result.StatusDesc;
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
         }
@@ -140,6 +140,10 @@ public partial class DepositWithdraw : System.Web.UI.Page
         tran.TranCategory = ddTranCategory.SelectedValue;
         tran.CurrencyCode = ddCurrency.SelectedValue;
         tran.ApprovedBy = teller.Id;
+       
+        tran.PaymentType = ddPaymentType.SelectedValue;
+        tran.ChequeNumber = txtChequeNumber.Text;
+
         if (Operation == "Deposit")
         {
             tran.BankTranId = bll.SaveTranRequest(tran, tran.ToAccount);
@@ -148,8 +152,6 @@ public partial class DepositWithdraw : System.Web.UI.Page
         {
             tran.BankTranId = bll.SaveTranRequest(tran, tran.FromAccount);
         }
-        tran.PaymentType = ddPaymentType.SelectedValue;
-        tran.ChequeNumber = txtChequeNumber.Text;
 
         return tran;
     }

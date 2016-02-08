@@ -110,22 +110,16 @@ public class BussinessLogic
         if (dt.Rows.Count > 0)
         {
             List<string> allTransactions = new List<string>();
-            string Header = "BankId,Amount,PayDate,ToAccount,FromAccount,TransactionType";
-            allTransactions.Add(Header);
             foreach (DataRow dr in dt.Rows)
             {
-                string BankId = dr["VendorTranId"].ToString();
+                string BankId = dr["BankTranId"].ToString();
                 string Amount = dr["TranAmount"].ToString();
-                string PaymentDate = dr["PaymentDate"].ToString();
-                string toAccount = dr["toAccount"].ToString();
-                string fromAccount = dr["fromAccount"].ToString();
+                string PaymentDate = DateTime.Parse(dr["PaymentDate"].ToString()).ToString("ddMMyyyy");
                 string TranType = dr["TranType"].ToString();
                 string line = BankId + "," +
                               Amount + "," +
-                              PaymentDate + "," +
-                              toAccount + "," +
-                              fromAccount + "," +
-                              TranType;
+                              TranType + "," +
+                              PaymentDate;
                 allTransactions.Add(line);
             }
             statement.statement = allTransactions;
@@ -216,21 +210,23 @@ public class BussinessLogic
         BankUser user = dh.GetUserById(UserId, BankCode);
         if (user.StatusCode == "0")
         {
-            if (allowedUserTypes.Contains(UserType))
+            if (allowedUserTypes.Contains(user.Usertype.ToUpper()))
             {
                 obj = user;
+                return true;
             }
             else
             {
                 obj.StatusCode = "100";
-                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + UserType + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
+                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + user.Usertype + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
+                return false;
             }
         }
         else
         {
             obj = user;
+            return false;
         }
-        return true;
     }
 
 
@@ -644,8 +640,49 @@ public class BussinessLogic
         return result;
     }
 
-    internal bool IsValidCurrencyCode(string currencyCode)
+
+    internal bool IsValidCurrencyCode(string CurrencyCode, string BankCode, out BaseObject valObj)
     {
-        return true;
+        valObj = new BaseObject();
+        Currency code = dh.GetCurrencyCodeById(CurrencyCode, BankCode);
+        if (code.StatusCode == "0")
+        {
+            valObj = code;
+            return true;
+        }
+        else 
+        {
+            valObj.StatusCode = "100";
+            valObj.StatusDesc = code.StatusDesc;
+            return false;
+        }
+    }
+
+    internal bool IsValidPaymentType(string type, string BankCode, out BaseObject valObj)
+    {
+        valObj = new BaseObject();
+        PaymentType result = dh.GetPaymentTypeById(type, BankCode);
+        if (result.StatusCode == "0")
+        {
+            valObj = result;
+            return true;
+        }
+        else
+        {
+            valObj.StatusCode = "100";
+            valObj.StatusDesc = result.StatusDesc;
+            return false;
+        }
+    }
+
+    public Result SavePaymentType(PaymentType type, string BankCode)
+    {
+        Result result = new Result();
+        result.RequestId = type.PaymentTypeCode;
+        string Id = dh.SavePaymentType(type);
+        result.StatusCode = "0";
+        result.StatusDesc = "SUCCESS";
+        result.PegPayId = Id;
+        return result;
     }
 }

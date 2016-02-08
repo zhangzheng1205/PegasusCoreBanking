@@ -1,0 +1,121 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0D50AF8E-C216-4E88-80CD-04E73A8816B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreBankingLogic</RootNamespace>
+    <AssemblyName>CoreBankingLogic</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Work\DstvUtilitiiesSender\UtilReqSenderTest\UtilReqSender\UtilReqSender\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Work\DstvUtilitiiesSender\UtilReqSenderTest\UtilReqSender\UtilReqSender\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ObjectBuilder, Version=1.0.51206.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Work\DstvUtilitiiesSender\UtilReqSenderTest\UtilReqSender\UtilReqSender\bin\Debug\Microsoft.Practices.ObjectBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ControlObjects\BussinessLogic.cs" />
+    <Compile Include="ControlObjects\DatabaseHandler.cs" />
+    <Compile Include="DB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DB.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ExposedObjects\AccessRule.cs" />
+    <Compile Include="ExposedObjects\BankAccount.cs" />
+    <Compile Include="ExposedObjects\Admin.cs" />
+    <Compile Include="ExposedObjects\BankBranch.cs" />
+    <Compile Include="ExposedObjects\BankCharge.cs" />
+    <Compile Include="ExposedObjects\BankCustomer.cs" />
+    <Compile Include="ExposedObjects\BankAccountStatement.cs" />
+    <Compile Include="ExposedObjects\AccountType.cs" />
+    <Compile Include="ExposedObjects\Bank.cs" />
+    <Compile Include="ExposedObjects\ChargeType.cs" />
+    <Compile Include="ExposedObjects\Currency.cs" />
+    <Compile Include="ExposedObjects\CustomerType.cs" />
+    <Compile Include="ExposedObjects\Result.cs" />
+    <Compile Include="ExposedObjects\Status.cs" />
+    <Compile Include="ExposedObjects\BankTeller.cs" />
+    <Compile Include="ExposedObjects\TransactionRequest.cs" />
+    <Compile Include="ExposedObjects\BankUser.cs" />
+    <Compile Include="ExposedObjects\TransactionCategory.cs" />
+    <Compile Include="ExposedObjects\TransactionRule.cs" />
+    <Compile Include="ExposedObjects\UserType.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="DB.xsc">
+      <DependentUpon>DB.xsd</DependentUpon>
+    </None>
+    <None Include="DB.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DB.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DB.xss">
+      <DependentUpon>DB.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

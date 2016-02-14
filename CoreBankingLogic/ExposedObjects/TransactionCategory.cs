@@ -70,7 +70,7 @@ namespace CoreBankingLogic.ExposedObjects
                 StatusDesc = valobj.StatusDesc;
                 return false;
             }
-            else if (!bll.IsValidUser(ApprovedBy,BankCode,"BANK_ADMIN|SYS_ADMIN",out valobj))
+            else if (!bll.IsValidUser(ApprovedBy, BankCode, "BANK_ADMIN|SYS_ADMIN|BUSSINESS_ADMIN", out valobj))
             {
                 StatusCode = "100";
                 StatusDesc = valobj.StatusDesc;

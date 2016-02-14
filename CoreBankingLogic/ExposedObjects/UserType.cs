@@ -14,7 +14,6 @@ namespace CoreBankingLogic.ExposedObjects
         public string BankCode = "";
         public string IsActive = "";
         public string ModifiedBy = "";
-        public string ModifiedOn = "";
 
 
         public bool IsValid(string bankCode, string Password)

@@ -132,7 +132,6 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
         charge.IsActive = ddIsActive.Text;
         charge.IsDebit = ddIsDebit.Text;
         charge.ModifiedBy = user.Id;
-        charge.ModifiedOn = DateTime.Now.ToString("dd/MM/yyyy");
         charge.TransCategory = ddTranCategory.SelectedValue;
         charge.AccountType = ddAccountType.SelectedValue;
         charge.ChargeType = ddChargeType.SelectedValue;

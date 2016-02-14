@@ -80,6 +80,7 @@
       <DependentUpon>DB.xsd</DependentUpon>
     </Compile>
     <Compile Include="ExposedObjects\AccessRule.cs" />
+    <Compile Include="ExposedObjects\AuditLog.cs" />
     <Compile Include="ExposedObjects\BankAccount.cs" />
     <Compile Include="ExposedObjects\Admin.cs" />
     <Compile Include="ExposedObjects\BankBranch.cs" />

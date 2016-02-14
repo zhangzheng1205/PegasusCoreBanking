@@ -15,8 +15,8 @@ C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\Co
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.ObjectBuilder.dll
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.xml
-C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.csprojResolveAssemblyReference.cache
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.Properties.Resources.resources
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.csproj.GenerateResource.Cache
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.dll
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\CoreBankingLogic\obj\Debug\CoreBankingLogic.csprojResolveAssemblyReference.cache

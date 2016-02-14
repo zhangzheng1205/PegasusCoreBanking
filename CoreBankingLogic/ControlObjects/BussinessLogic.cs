@@ -4,6 +4,7 @@ using System.Configuration;
 using CoreBankingLogic.EntityObjects;
 using CoreBankingLogic.ExposedObjects;
 using System.Collections.Generic;
+using System.Reflection;
 
 /// <summary>
 /// Summary description for BussinessLogic
@@ -21,6 +22,7 @@ public class BussinessLogic
     public Result SaveAccountDetails(BankAccount account, string BankCode)
     {
         Result result = new Result();
+        LogChangesInAuditLog(account, account.BankCode, account.BankCode, account.ModifiedBy);
         string accountId = dh.SaveAccount(account, BankCode);
         result.PegPayId = accountId;
         result.StatusCode = "0";
@@ -31,6 +33,7 @@ public class BussinessLogic
     public Result SaveChargeType(ChargeType chargeType, string BankCode)
     {
         Result result = new Result();
+        LogChangesInAuditLog(chargeType, chargeType.BankCode, chargeType.BankCode, chargeType.ModifiedBy);
         string Id = dh.SaveChargeType(chargeType, BankCode);
         result.PegPayId = Id;
         result.StatusCode = "0";
@@ -41,6 +44,7 @@ public class BussinessLogic
     public Result SaveBankDetails(Bank bank)
     {
         Result result = new Result();
+        LogChangesInAuditLog(bank, bank.BankCode, bank.BankCode, bank.ModifiedBy);
         string bankId = dh.SaveBank(bank);
         result.PegPayId = bankId;
         result.StatusCode = "0";
@@ -62,7 +66,7 @@ public class BussinessLogic
     public Result ReverseTransaction(TransactionRequest tranRequest)
     {
         Result result = new Result();
-        string TransactId = dh.Reverse(tranRequest.BankTranId, tranRequest.BankCode);
+        string TransactId = dh.Reverse(tranRequest.BankTranId, tranRequest.BankCode, tranRequest.Teller, tranRequest.ApprovedBy);
         result.PegPayId = TransactId;
         result.RequestId = tranRequest.BankTranId;
         result.StatusCode = "0";
@@ -74,6 +78,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = charge.Id;
+        LogChangesInAuditLog(charge, charge.ChargeCode, charge.BankCode, charge.ModifiedBy);
         string Id = dh.SaveCharge(charge, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -85,6 +90,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = cust.Id;
+        LogChangesInAuditLog(cust, cust.Id, cust.BankCode, cust.ModifiedBy);
         string CustId = dh.SaveCustomer(cust, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -96,6 +102,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = tranType.Id;
+        LogChangesInAuditLog(tranType, tranType.TranCategoryCode, tranType.BankCode, tranType.ModifiedBy);
         string Id = dh.SaveTransactionType(tranType, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -138,6 +145,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = custType.Id;
+        LogChangesInAuditLog(custType, custType.UserTypeCode, custType.BankCode, custType.ModifiedBy);
         string Id = dh.SaveUserTypeDetails(custType, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -168,7 +176,7 @@ public class BussinessLogic
     public bool IsValidBankRef(string BankId, string BankCode, string toAccount, string fromAccount, string Amount, out BaseObject obj)
     {
         obj = new BaseObject();
-        string[] parameters ={ BankId, BankCode, toAccount, fromAccount, Amount };
+        string[] parameters = { BankId, BankCode, toAccount, fromAccount, Amount };
         DataSet ds = dh.ExecuteDataSet("IsValidBankRef", parameters);
         DataTable dt = ds.Tables[0];
 
@@ -234,6 +242,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = user.Id;
+        LogChangesInAuditLog(user, user.Id, user.BankCode, user.ModifiedBy);
         string Id = dh.SaveUserDetails(user, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -245,6 +254,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = userType.Id;
+        LogChangesInAuditLog(userType, userType.UserTypeCode, userType.BankCode, userType.ModifiedBy);
         string Id = dh.SaveUserTypeDetails(userType, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -256,6 +266,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = accountType.Id;
+        LogChangesInAuditLog(accountType, accountType.AccTypeCode, accountType.BankCode, accountType.ModifiedBy);
         string Id = dh.SaveAccountTypeDetails(accountType, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -263,18 +274,101 @@ public class BussinessLogic
         return result;
     }
 
+    private void LogChangesInAuditLog(BaseObject baseObj, string objectId, string BankCode, string modifiedBy)
+    {
+        try
+        {
+            //we use reflection to 
+            //1. get the class of object passed
+            //2.loop thru all properties of that class and get changes made
+            AuditLog log = new AuditLog();
+            BaseObject type = GetById(baseObj.GetType().Name, objectId, BankCode, "");
+            string changesMade = "";
+
+            //this is an Update
+            if (type.StatusCode == "0")
+            {
+                log.ActionType = "UPDATE";
+                changesMade += "Updated " + baseObj.GetType().Name + ",";
+                FieldInfo[] oldFields = type.GetType().GetFields();
+                FieldInfo[] newFields = baseObj.GetType().GetFields();
+                foreach (FieldInfo oldField in oldFields)
+                {
+                    string oldFieldName = oldField.Name;
+                    foreach (FieldInfo newField in newFields)
+                    {
+                        string newFieldName = newField.Name;
+
+                        //when we find the matching field in the new object
+                        if (oldFieldName == newFieldName)
+                        {
+                            //we compare the values in those fields
+
+                            object oldFieldValue = type.GetType().GetField(oldFieldName).GetValue(type);
+                            object newFieldValue = baseObj.GetType().GetField(newFieldName).GetValue(baseObj);
+
+                            //values have changed
+                            if (oldFieldValue != null && newFieldValue != null)
+                            {
+                                if (oldFieldValue.ToString() != newFieldValue.ToString())
+                                {
+                                    changesMade += " Changed " + oldFieldName + " From " + oldFieldValue + " To " + newFieldValue+",";
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+
+            }
+            //this is a new object. i.e an Insert
+            else
+            {
+                changesMade += "Created new " + baseObj.GetType().Name + " with ";
+                log.ActionType = "CREATE";
+                FieldInfo[] newFields = baseObj.GetType().GetFields();
+
+                foreach (FieldInfo newField in newFields)
+                {
+                    string newFieldName = newField.Name;
+                    object obj = baseObj.GetType().GetField(newFieldName).GetValue(baseObj);
+                    if (obj != null)
+                    {
+                        string newFieldValue =
+                        changesMade += newFieldName + " = " + obj.ToString() + ", ";
+                    }
+                }
+            }
+
+
+            log.BankCode = BankCode;
+            log.Action = changesMade;
+            log.ModifiedBy = modifiedBy;
+            log.TableName = baseObj.GetType().Name;
+            dh.InsertIntoAuditLog(log);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     public BaseObject GetById(string className, string objectId, string bankCode, string Password)
     {
         BaseObject result = new BaseObject();
         if (string.IsNullOrEmpty(className))
         {
+            result.StatusCode="100";
+            result.StatusDesc="PLEASE SUPPLY THE CLASS NAME";
             return result;
         }
         else if (string.IsNullOrEmpty(objectId))
         {
+             result.StatusCode="100";
+            result.StatusDesc="PLEASE SUPPLY THE OBJECT ID. i.e THE UNIQUE IDENTIFIER OF THIS OBJECT";
             return result;
         }
-        else if (className.ToUpper() == "BANKUSER")
+        else if (className.ToUpper() == "BANKUSER"||className.ToUpper() == "BANKTELLER"||className.ToUpper() == "BANKCUSTOMER")
         {
             result = GetBankUser(objectId, bankCode, Password);
             return result;
@@ -284,7 +378,19 @@ public class BussinessLogic
             result = dh.GetBankById(objectId);
             return result;
         }
+        else if (className.ToUpper() == "BANKBRANCH")
+        {
+            BankBranch branch=dh.GetBankBranchById(objectId,bankCode);
+            result = branch;
+            return result;
+        }
         else if (className.ToUpper() == "USERTYPE")
+        {
+            UserType user = dh.GetUserTypeById(objectId, bankCode);
+            result = user;
+            return result;
+        }
+        else if (className.ToUpper() == "CUSTOMERTYPE")
         {
             UserType user = dh.GetUserTypeById(objectId, bankCode);
             result = user;
@@ -308,9 +414,39 @@ public class BussinessLogic
             result = category;
             return result;
         }
+        else if (className.ToUpper() == "PAYMENTTYPE")
+        {
+            PaymentType category = dh.GetPaymentTypeById(objectId, bankCode);
+            result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "BANKCHARGE")
+        {
+            BankCharge category = dh.GetBankChargeById(objectId, bankCode);
+            result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "CHARGETYPE")
+        {
+            ChargeType category = dh.GetChargeTypeById(objectId, bankCode);
+            result = category;
+            return result;
+        }
+        else if (className.ToUpper() == "CURRENCY")
+        {
+            Currency category = dh.GetCurrencyCodeById(objectId, bankCode);
+            result = category;
+            return result;
+        }
         else if (className.ToUpper() == "ACCESSRULE")
         {
             AccessRule rule = dh.GetAccessRuleById(objectId, bankCode);
+            result = rule;
+            return result;
+        }
+        else if (className.ToUpper() == "TRANSACTIONRULE")
+        {
+            TransactionRule rule = dh.GetTransactionRuleById(objectId, bankCode);
             result = rule;
             return result;
         }
@@ -340,7 +476,7 @@ public class BussinessLogic
 
     public BaseObject[] GetAll(string className, string bankCode, string Password)
     {
-        BaseObject[] result ={ };
+        BaseObject[] result = { };
         if (string.IsNullOrEmpty(className))
         {
             return result;
@@ -379,6 +515,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = teller.Id;
+        LogChangesInAuditLog(teller, teller.Id, teller.BankCode, teller.ModifiedBy);
         string Id = dh.SaveBankTeller(teller, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -390,6 +527,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = branch.BankBranchId;
+        LogChangesInAuditLog(branch, branch.BranchCode, branch.BankCode, branch.ModifiedBy);
         string Id = dh.SaveBankBranch(branch, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -413,6 +551,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = rule.Id;
+        LogChangesInAuditLog(rule, rule.RuleName, rule.BankCode, rule.ModifiedBy);
         string Id = dh.SaveAccessRule(rule, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -424,6 +563,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = rule.Id;
+        LogChangesInAuditLog(rule, rule.RuleCode, rule.BankCode, rule.ModifiedBy);
         string Id = dh.SaveTransactionRule(rule, BankCode);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -537,11 +677,11 @@ public class BussinessLogic
     internal bool IsValidAccountType(string accountType, string BankCode, List<string> AccountSignatories, out BaseObject valObj)
     {
         valObj = new BaseObject();
-        AccountType accType = dh.GetAccountTypeById(accountType,BankCode);
+        AccountType accType = dh.GetAccountTypeById(accountType, BankCode);
         if (accType.StatusCode == "0")
         {
             //account must have less signatories(Owners) than those specified by the account type
-            if (AccountSignatories.Count >= accType.MinNumberOfSignatories && AccountSignatories.Count<=accType.MaxNumberOfSignatories)
+            if (AccountSignatories.Count >= accType.MinNumberOfSignatories && AccountSignatories.Count <= accType.MaxNumberOfSignatories)
             {
                 valObj = accType;
                 return true;
@@ -633,6 +773,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = currency.CurrencyCode;
+        LogChangesInAuditLog(currency, currency.CurrencyCode, currency.BankCode, currency.ModifiedBy);
         string Id = dh.SaveCurrencyDetails(currency);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";
@@ -650,7 +791,7 @@ public class BussinessLogic
             valObj = code;
             return true;
         }
-        else 
+        else
         {
             valObj.StatusCode = "100";
             valObj.StatusDesc = code.StatusDesc;
@@ -679,6 +820,7 @@ public class BussinessLogic
     {
         Result result = new Result();
         result.RequestId = type.PaymentTypeCode;
+        LogChangesInAuditLog(type, type.PaymentTypeCode, type.BankCode, type.ModifiedBy);
         string Id = dh.SavePaymentType(type);
         result.StatusCode = "0";
         result.StatusDesc = "SUCCESS";

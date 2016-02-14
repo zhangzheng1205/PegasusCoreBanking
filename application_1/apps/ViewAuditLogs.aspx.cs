@@ -68,8 +68,9 @@ public partial class ViewAuditLogs : System.Web.UI.Page
             }
             else
             {
-                dataGridResults.DataSource = null;
-                dataGridResults.DataBind();
+                dataGridResults2.DataSource = null;
+                dataGridResults2.DataBind();
+                Multiview2.ActiveViewIndex = 2;
                 string msg = "NO RECORD OF LOGS FOUND FOR USER SPECIFIED";
                 bll.ShowMessage(lblmsg, msg, true, Session);
             }
@@ -84,10 +85,12 @@ public partial class ViewAuditLogs : System.Web.UI.Page
     private string[] GetSearchParameters()
     {
         List<string> all = new List<string>();
-        string AccNumber = txtUserId.Text;
+        string UserId = txtUserId.Text;
         string BankCode = ddBank.SelectedValue;
-        all.Add(AccNumber);
+        string Action = ddAction.Text;
+        all.Add(UserId);
         all.Add(BankCode);
+        all.Add(Action);
         return all.ToArray();
     }
 }

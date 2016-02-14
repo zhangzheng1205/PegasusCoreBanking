@@ -10,9 +10,6 @@ public class BankBranch : BaseObject
     public string BranchCode = "";
     public string Location = "";
     public string BankCode = "";
-    public string CreatedOn = "";
-    public string ModifiedOn = "";
-    public string CreatedBy = "";
     public string ModifiedBy = "";
     public string IsActive = "";
 

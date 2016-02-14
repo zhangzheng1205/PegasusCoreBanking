@@ -1,7 +1,9 @@
 ﻿using InterLinkClass.CoreBankingApi;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -39,7 +41,13 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             }
             else if (IsPostBack)
             {
-
+                string parameters=Request["__EVENTARGUMENT"];
+                string target = Request["__EVENTTARGET"];
+                if (target.ToUpper() == "UPLOAD") 
+                {
+                    string[] parts = parameters.Split('|');
+                    Upload(parts[1], parts[0]);
+                }
             }
             //create customers bank account request
             else if (UserId != null)
@@ -47,7 +55,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
                 LoadData();
                 DisableControls2(UserId);
                 MultiView1.ActiveViewIndex = 0;
-                bll.ShowMessage(lblmsg, Msg, false,Session);
+                bll.ShowMessage(lblmsg, Msg, false, Session);
             }
             //this is an edit bank account request
             else if (Id != null)
@@ -104,7 +112,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         ddBank.Enabled = false;
         ddBankBranch.SelectedValue = BranchCode;
         ddBankBranch.Enabled = true;
-      
+
         AddSignatorySection.Visible = false;
         ddAccountType.Enabled = true;
         ddBank.Enabled = false;
@@ -113,7 +121,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         ddCurrency.Enabled = false;
         AddSignatorySection.Visible = false;
 
-        List<string> accountSignatories=ViewState["AccountSignatories"] as List<string>;
+        List<string> accountSignatories = ViewState["AccountSignatories"] as List<string>;
 
         if (accountSignatories == null)
         {
@@ -134,7 +142,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             this.ddBankBranch.SelectedValue = account.BranchCode;
             this.ddIsActive.Text = account.IsActive;
             this.ddCurrency.SelectedValue = account.CurrencyCode;
-            
+
         }
         else
         {
@@ -152,6 +160,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         bll.LoadAccountTypesIntoDropDown(ddBank.SelectedValue, ddAccountType, user);
         bll.LoadCurrenciesIntoDropDown(ddBank.SelectedValue, ddCurrency, user);
         AddSignatorySection.Visible = true;
+        CaptureCustomerDetailsForm.Visible = false;
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -168,7 +177,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
 
                 //Reset this so incase restarts this process they have to do it all over again
                 ViewState["AccountSignatories"] = null;
-                
+
             }
             else
             {
@@ -235,7 +244,10 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
             if (result.StatusCode == "0")
             {
                 SaveVariablesInViewState(newUser);
-                ClearCustomerDetailsPanel();            }
+                CaptureCustomerDetailsForm.Visible = false;
+                btnSubmit.Visible = true;
+                ClearCustomerDetailsPanel();
+            }
             else
             {
                 string msg = result.StatusDesc;
@@ -256,6 +268,10 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         txtPhoneNumber.Text = "";
         txtUserId.Text = "";
         txtBankUsersName.Text = "";
+        UploadProfilePicSection.Visible = true;
+        UploadSignatureSection.Visible = true;
+        AddSignatorySection.Visible = true;
+        btnSubmit.Visible = true;
     }
 
     private void SaveVariablesInViewState(BankCustomer cust)
@@ -265,7 +281,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         {
             AccountSignatories = new List<string>();
             AccountSignatories.Add(cust.Id);
-           
+
         }
         else
         {
@@ -293,57 +309,85 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         aUser.PhoneNumber = txtPhoneNumber.Text;
         aUser.Usertype = "CUSTOMER";
         aUser.TransactionLimit = "0";
-        aUser.PathToProfilePic = GetPathToProfilePicImage(ddBank.SelectedValue);
-        aUser.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
+        aUser.PathToProfilePic = ViewState["ProfilePic"] as string;//GetPathToProfilePicImage(ddBank.SelectedValue);
+        aUser.PathToSignature = ViewState["SignaturePic"] as string;//GetPathToImageOfSignature(ddBank.SelectedValue);
 
         return aUser;
     }
 
-    private string GetPathToProfilePicImage(string BankCode)
-    {
-        if (fuProfilePic.HasFile)
-        {
-            string fileName = fuProfilePic.FileName.ToUpper();
-            if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
-            {
-                string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
-                bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
-                string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
-                fuProfilePic.SaveAs(FullFileName);
-                return fuProfilePic.FileName;
-            }
-            else
-            {
-                throw new Exception("PLEASE UPLOAD A PROFILE PICTURE IMAGE IN .PNG OR .JPEG FORMAT");
-            }
-        }
-        else
-        {
-            return "";
-        }
-    }
+    //private string GetPathToProfilePicImage(string BankCode)
+    //{
+    //    if (fuProfilePic.HasFile)
+    //    {
+    //        string fileName = fuProfilePic.FileName.ToUpper();
+    //        if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
+    //        {
+    //            string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
+    //            bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
+    //            string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
+    //            fuProfilePic.SaveAs(FullFileName);
+    //            return fuProfilePic.FileName;
+    //        }
+    //        else
+    //        {
+    //            throw new Exception("PLEASE UPLOAD A PROFILE PICTURE IMAGE IN .PNG OR .JPEG FORMAT");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        return "";
+    //    }
+    //}
 
-    private string GetPathToImageOfSignature(string BankCode)
+    //private string GetPathToImageOfSignature(string BankCode)
+    //{
+    //    if (fuProfilePic.HasFile)
+    //    {
+    //        string fileName = fuProfilePic.FileName.ToUpper();
+    //        if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
+    //        {
+    //            string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
+    //            bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
+    //            string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
+    //            fuProfilePic.SaveAs(FullFileName);
+    //            return fuProfilePic.FileName;
+    //        }
+    //        else
+    //        {
+    //            throw new Exception("PLEASE UPLOAD SCANNED SIGNATURE IMAGE IN .PNG OR .JPEG FORMAT");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        return "";
+    //    }
+    //}
+
+    private void Upload(string base64,string PicName)
     {
-        if (fuProfilePic.HasFile)
+        BankUser user = HttpContext.Current.Session["User"] as BankUser;
+        if (user != null)
         {
-            string fileName = fuProfilePic.FileName.ToUpper();
-            if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
+            string[] parts = base64.Split(new char[] { ',' }, 2);
+            Byte[] bytes = Convert.FromBase64String(parts[1]);
+            string fileName = string.Format("{0}.jpg", DateTime.Now.Ticks);
+            string path = HttpContext.Current.Server.MapPath("Images") + @"\" + user.BankCode + @"\" + fileName;
+            
+            if (PicName == "Profile")
             {
-                string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
-                bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
-                string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
-                fuProfilePic.SaveAs(FullFileName);
-                return fuProfilePic.FileName;
+                ViewState["ProfilePic"] = fileName;
+                UploadProfilePicSection.Visible = false;
+                string msg = "Profile Picture Uploaded Successfully";
+                bll.ShowMessage(lblmsg, msg, false, Session);
             }
-            else
+            else 
             {
-                throw new Exception("PLEASE UPLOAD SCANNED SIGNATURE IMAGE IN .PNG OR .JPEG FORMAT");
+                ViewState["SignaturePic"] = fileName;
+                string msg = "Customers Signature Uploaded Successfully";
+                bll.ShowMessage(lblmsg, msg, false, Session);
+                UploadSignatureSection.Visible = false;
             }
-        }
-        else
-        {
-            return "";
+            System.IO.File.WriteAllBytes(path, bytes);
         }
     }
 
@@ -366,6 +410,32 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         {
             string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+    protected void btnAddAccountSingatory_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            CaptureCustomerDetailsForm.Visible = true;
+            btnSubmit.Visible = false;
+            AddSignatorySection.Visible = false;
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            CaptureCustomerDetailsForm.Visible = false;
+            btnSubmit.Visible = true;
+            AddSignatorySection.Visible = true;
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 }

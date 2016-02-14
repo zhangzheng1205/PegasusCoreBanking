@@ -1295,8 +1295,6 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCharge))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bank))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankAccount))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Result))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankAccountStatement))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionRequest))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
     [System.SerializableAttribute()]
@@ -1326,6 +1324,97 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.statusDescField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankAccountStatement))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class Result {
+        
+        private string requestIdField;
+        
+        private string pegPayIdField;
+        
+        private string thirdPartyIdField;
+        
+        private string statusCodeField;
+        
+        private string statusDescField;
+        
+        /// <remarks/>
+        public string RequestId {
+            get {
+                return this.requestIdField;
+            }
+            set {
+                this.requestIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PegPayId {
+            get {
+                return this.pegPayIdField;
+            }
+            set {
+                this.pegPayIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ThirdPartyId {
+            get {
+                return this.thirdPartyIdField;
+            }
+            set {
+                this.thirdPartyIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string StatusCode {
+            get {
+                return this.statusCodeField;
+            }
+            set {
+                this.statusCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string StatusDesc {
+            get {
+                return this.statusDescField;
+            }
+            set {
+                this.statusDescField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class BankAccountStatement : Result {
+        
+        private string[] statementField;
+        
+        /// <remarks/>
+        public string[] statement {
+            get {
+                return this.statementField;
+            }
+            set {
+                this.statementField = value;
             }
         }
     }
@@ -1609,8 +1698,6 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string isDebitableField;
         
-        private string modifiedOnField;
-        
         private string isActiveField;
         
         private int minNumberOfSignatoriesField;
@@ -1698,16 +1785,6 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string IsActive {
             get {
                 return this.isActiveField;
@@ -1762,8 +1839,6 @@ namespace InterLinkClass.CoreBankingApi {
         private string isActiveField;
         
         private string modifiedByField;
-        
-        private string modifiedOnField;
         
         /// <remarks/>
         public string Id {
@@ -1844,16 +1919,6 @@ namespace InterLinkClass.CoreBankingApi {
                 this.modifiedByField = value;
             }
         }
-        
-        /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
-            }
-        }
     }
     
     /// <remarks/>
@@ -1882,12 +1947,6 @@ namespace InterLinkClass.CoreBankingApi {
         private string locationField;
         
         private string bankCodeField;
-        
-        private string createdOnField;
-        
-        private string modifiedOnField;
-        
-        private string createdByField;
         
         private string modifiedByField;
         
@@ -1940,36 +1999,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.bankCodeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CreatedOn {
-            get {
-                return this.createdOnField;
-            }
-            set {
-                this.createdOnField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string CreatedBy {
-            get {
-                return this.createdByField;
-            }
-            set {
-                this.createdByField = value;
             }
         }
         
@@ -2324,8 +2353,6 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string branchCodeField;
         
-        private string modifiedOnField;
-        
         private string modifiedByField;
         
         private string approverField;
@@ -2431,16 +2458,6 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string ModifiedBy {
             get {
                 return this.modifiedByField;
@@ -2480,8 +2497,6 @@ namespace InterLinkClass.CoreBankingApi {
         private string userIdField;
         
         private string branchCodeField;
-        
-        private string modifiedOnField;
         
         private string modifiedByField;
         
@@ -2550,16 +2565,6 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string ModifiedBy {
             get {
                 return this.modifiedByField;
@@ -2607,8 +2612,6 @@ namespace InterLinkClass.CoreBankingApi {
         private string transCategoryField;
         
         private string modifiedByField;
-        
-        private string modifiedOnField;
         
         private string isDebitField;
         
@@ -2673,16 +2676,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.modifiedByField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ModifiedOn {
-            get {
-                return this.modifiedOnField;
-            }
-            set {
-                this.modifiedOnField = value;
             }
         }
         
@@ -3009,73 +3002,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.accountSignatoriesField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankAccountStatement))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class Result : BaseObject {
-        
-        private string requestIdField;
-        
-        private string pegPayIdField;
-        
-        private string thirdPartyIdField;
-        
-        /// <remarks/>
-        public string RequestId {
-            get {
-                return this.requestIdField;
-            }
-            set {
-                this.requestIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string PegPayId {
-            get {
-                return this.pegPayIdField;
-            }
-            set {
-                this.pegPayIdField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string ThirdPartyId {
-            get {
-                return this.thirdPartyIdField;
-            }
-            set {
-                this.thirdPartyIdField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class BankAccountStatement : Result {
-        
-        private string[] statementField;
-        
-        /// <remarks/>
-        public string[] statement {
-            get {
-                return this.statementField;
-            }
-            set {
-                this.statementField = value;
             }
         }
     }

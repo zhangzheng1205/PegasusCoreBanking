@@ -104,6 +104,12 @@ public class BankUser : BaseObject
             StatusDesc = "PLEASE SUPPLY A MD5 HASHED PASSWORD FOR THIS USER";
             return false;
         }
+        if (string.IsNullOrEmpty(this.Id))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY A UNIQUE ID FOR THIS INDIVIDUAL. It can be Email or Phone Number of User";
+            return false;
+        }
         if ((this.Id != this.Email) && (this.Id != this.PhoneNumber))
         {
             StatusCode = "100";
@@ -122,6 +128,7 @@ public class BankUser : BaseObject
             StatusDesc = "PLEASE INDICATE THE USERTYPE OF USER";
             return false;
         }
+       
         if (Usertype == "TELLER" && string.IsNullOrEmpty(TransactionLimit))
         {
             StatusCode = "100";

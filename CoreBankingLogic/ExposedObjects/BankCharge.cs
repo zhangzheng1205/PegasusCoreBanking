@@ -13,7 +13,6 @@ public class BankCharge:BaseObject
     public string ChargeAmount = "";
     public string TransCategory = "";
     public string ModifiedBy = "";
-    public string ModifiedOn = "";
     public string IsDebit = "";
     public string ChargeDescription = "";
     public string BankCode = "";

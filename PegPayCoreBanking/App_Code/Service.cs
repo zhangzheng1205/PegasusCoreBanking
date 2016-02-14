@@ -327,7 +327,7 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (teller.IsValid(BankCode, Password))
+            if (teller.IsValidBankTeller(BankCode, Password))
             {
                 result = bll.SaveTellerDetails(teller, BankCode);
             }

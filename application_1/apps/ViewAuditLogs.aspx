@@ -16,14 +16,14 @@
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
-                                <h4>View Account Details Below
+                                <h4>Specify Search Filters Below
                                 </h4>
                                 <ol class="breadcrumb">
                                     <li>
                                         <i class="fa fa-dashboard"></i>Dashboard
                                     </li>
                                     <li class="active">
-                                        <i class="fa fa-edit"></i>Account Details
+                                        <i class="fa fa-edit"></i>Search Audit Logs
                                     </li>
                                 </ol>
                             </div>
@@ -72,7 +72,12 @@
                             </div>
                             <div class="col-sm-3">
                                 <label>Action</label>
-                                <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <asp:DropDownList ID="ddAction" runat="server" CssClass="form-control">
+                                    <asp:ListItem></asp:ListItem>
+                                    <asp:ListItem>Create</asp:ListItem>
+                                    <asp:ListItem>Update</asp:ListItem>
+                                    <asp:ListItem>Delete</asp:ListItem>
+                                </asp:DropDownList>
                                 <p class="help-block">The Action carried out by the user. Can be empty</p>
                             </div>
                             <div class="col-sm-3"></div>
@@ -127,8 +132,7 @@
                             <asp:View runat="server" ID="AddSignatoryView">
                                 <div class="row">
                                     <div class="table-responsive">
-                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults2">
-                                           
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-condensed" AlternatingRowStyle-BackColor="SkyBlue" ID="dataGridResults2">
                                         </asp:GridView>
                                     </div>
                                 </div>

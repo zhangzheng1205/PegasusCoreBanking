@@ -10,6 +10,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="View1" runat="server">
+            <ajaxToolkit:ToolkitScriptManager ID="ScriptManager1" runat="Server" EnableScriptGlobalization="true"
+                EnableScriptLocalization="true" EnablePageMethods="true">
+            </ajaxToolkit:ToolkitScriptManager>
             <div id="page-wrapper">
 
                 <div class="container-fluid">
@@ -72,7 +75,7 @@
                                 </asp:DropDownList>
                                 <p class="help-block">The bank to Which the Account belongs</p>
                             </div>
-                            
+
                             <div class="col-lg-6">
                                 <label>Bank Branch</label>
                                 <asp:DropDownList ID="ddBankBranch" runat="server" CssClass="form-control">
@@ -84,7 +87,7 @@
                         </div>
 
                         <div class="row">
-                             <div class="col-lg-6">
+                            <div class="col-lg-6">
                                 <label>Account Type</label>
                                 <asp:DropDownList ID="ddAccountType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddAccountType_SelectedIndexChanged">
                                     <asp:ListItem>True</asp:ListItem>
@@ -92,7 +95,7 @@
                                 </asp:DropDownList>
                                 <p class="help-block">e.g Savings, Current Account</p>
                             </div>
-                             <div class="col-lg-6">
+                            <div class="col-lg-6">
                                 <label>Currency</label>
                                 <asp:DropDownList ID="ddCurrency" runat="server" CssClass="form-control">
                                     <asp:ListItem>True</asp:ListItem>
@@ -112,11 +115,11 @@
                                 </asp:DropDownList>
                                 <p class="help-block">True: Account is Active and can be used to Transact. False: Means its deactivated.</p>
                             </div>
-                           <div class="col-lg-6" id="AddSignatorySection" runat="server">
+                            <div class="col-lg-6" id="AddSignatorySection" runat="server">
                                 <label>Save Customer Details</label>
                                 <br />
                                 <!-- Trigger the modal with a button -->
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Add Account Signatory</button>
+                                <asp:Button runat="server" ID="btnAddAccountSingatory" class="btn btn-default" Text="Add Account Signatory" OnClick="btnAddAccountSingatory_Click"></asp:Button>
                             </div>
                         </div>
 
@@ -125,14 +128,13 @@
 
 
                         <!-- Modal -->
-                        <div id="myModal" class="modal fade" role="dialog">
+                        <div id="CaptureCustomerDetailsForm" runat="server">
                             <div class="modal-dialog">
 
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Edit Customer Details</h4>
+                                        <h4 class="modal-title">Enter Customer Details Below</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -218,25 +220,117 @@
                                         </div>
 
                                         <div class="row" id="CustomersSection" runat="server">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" id="UploadProfilePicSection" runat="server">
                                                 <label>Upload Individuals Picture</label>
-                                                <asp:FileUpload runat="server" accept="image/*" capture="camera" ID="fuProfilePic" type="file" />
+                                                <!-- Trigger the modal with a button -->
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="SetGlobal('Profile')">Take and Upload Picture</button>
                                                 <p class="help-block">Profile Picture of the Individual. Will be used to identify the Customer.</p>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-6" id="UploadSignatureSection" runat="server">
                                                 <label>Upload Individuals Signature</label>
-                                                <asp:FileUpload runat="server" accept="image/*" capture="camera" ID="fuCustomerSign" type="file" />
+                                                <!-- Trigger the modal with a button -->
+                                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" onclick="SetGlobal('Signature')">Take and Upload Picture</button>
                                                 <p class="help-block">Image of Customers Signature.</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
+                                    <div class="modal-footer text-center">
                                         <asp:Button ID="btnSaveCustomerDetails" runat="server" Text="Save Customer Details" CssClass="btn btn-primary" OnClick="btnSaveCustomerDetails_Click" />
+                                        <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="btn btn-danger" OnClick="btnCancel_Click" />
                                     </div>
                                 </div>
 
                             </div>
                         </div>
+
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Upload Customer Profile Picture</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="container">
+                                                    <video autoplay></video>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-4">
+                                                <canvas width='140' height='190' style="border: 1px solid #d3d3d3;"></canvas>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <input type="button" value="start capture" class="btn-default" onclick="startCapture()" />
+                                            <input type="button" value="take snapshot" class="btn-default" onclick="takePhoto()" />
+                                            <input type="button" value="upload picture" class="btn-default" onclick="upload()" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                       
+
+                        <script type="text/javascript">
+
+
+                            var localMediaStream = null;
+                            var video = document.querySelector('video');
+                            var canvas = document.querySelector('canvas');
+                            var UploadType = '';
+
+                            function upload() {
+                                var base64 = canvas.toDataURL('image/jpeg');
+                                __doPostBack('Upload', UploadType+'|'+base64);
+                                stopCapture();
+                            }
+
+                            function SetGlobal(PicName) {
+                                UploadType = PicName;
+                            }
+
+                            function takePhoto() {
+                                if (localMediaStream) {
+                                    var ctx = canvas.getContext('2d');
+                                    //ctx.drawImage(video, 0, 0, 320, 240); // original draw image
+                                    //ctx.drawImage(video, 0, 0, 640, 480, 0, 0, 320, 240); // entire image
+
+                                    //instead of
+                                    //ctx.drawImage(video, 90, 40, 140, 190, 0, 0, 140, 190);
+
+                                    // we double the source coordinates
+                                    ctx.drawImage(video, 180, 80, 280, 380, 0, 0, 140, 190);
+                                    document.querySelector('img').src = canvas.toDataURL('image/jpeg');
+                                }
+                            }
+
+                            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+                            window.URL = window.URL || window.webkitURL;
+
+                            function startCapture() {
+                                navigator.getUserMedia({ video: true }, function (stream) {
+                                    video.src = window.URL.createObjectURL(stream);
+
+                                    localMediaStream = stream;
+                                }, function (e) {
+                                    console.log(e);
+                                });
+                            }
+
+                            function stopCapture()
+                            {
+                                localMediaStream.getVideoTracks()[0].stop();
+                            }
+                        </script>
+
 
 
                         <div class="row">
@@ -246,9 +340,6 @@
                         </div>
 
                         <%-- Scripts--%>
-                        <ajaxToolkit:ToolkitScriptManager ID="ScriptManager1" runat="Server" EnableScriptGlobalization="true"
-                            EnableScriptLocalization="true">
-                        </ajaxToolkit:ToolkitScriptManager>
                         <br />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="cal_Theme1"
                             Format="dd/MM/yyyy" PopupPosition="BottomRight" OnClientShown="calendarShown" TargetControlID="txtDateOfBirth">
@@ -268,6 +359,36 @@
 
                 </div>
             </div>
+
+
+            <style type="text/css">
+                .container {
+                    width: 320px;
+                    height: 240px;
+                    border: 1px solid #d3d3d3;
+                }
+
+                    .container video {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .container .photoArea {
+                        border: 2px dashed white;
+                        width: 140px;
+                        height: 190px;
+                        position: relative;
+                        margin: 0 auto;
+                    }
+
+                canvas, img {
+                    float: left;
+                }
+
+                .controls {
+                    clear: both;
+                }
+            </style>
             <!-- /#page-wrapper -->
         </asp:View>
         <asp:View ID="View2" runat="server">

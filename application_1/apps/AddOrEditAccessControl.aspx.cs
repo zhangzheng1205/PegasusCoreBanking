@@ -83,7 +83,6 @@ public partial class AddOrEditAccessControl : System.Web.UI.Page
         rule.Id = "";
         rule.IsActive = ddIsActive.Text;
         rule.ModifiedBy = user.Id;
-        rule.ModifiedOn = DateTime.Now.ToString("dd/MM/yyyy");
         rule.RuleName = txtRuleName.Text;
         rule.UserId = txtUserId.Text;
         rule.UserType = ddUserType.SelectedValue;

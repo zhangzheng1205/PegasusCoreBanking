@@ -5,10 +5,12 @@ using CoreBankingLogic.EntityObjects;
 
 namespace CoreBankingLogic.ExposedObjects
 {
-    public class Result : BaseObject
+    public class Result
     {
-        public string RequestId;
-        public string PegPayId;
-        public string ThirdPartyId;
+        public string RequestId = "";
+        public string PegPayId = "";
+        public string ThirdPartyId = "";
+        public string StatusCode = "";
+        public string StatusDesc = "";
     }
 }

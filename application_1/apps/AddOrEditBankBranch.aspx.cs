@@ -107,12 +107,9 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         branch.BankCode = ddBank.SelectedValue;
         branch.BranchCode = txtBranchCode.Text;
         branch.BranchName = txtBranchName.Text;
-        branch.CreatedBy = user.Id;
-        branch.CreatedOn = DateTime.Now.ToString("dd/MM/yyyy");
         branch.IsActive = ddIsActive.Text;
         branch.Location = txtLocation.Text;
         branch.ModifiedBy = user.Id;
-        branch.ModifiedOn = branch.CreatedOn;
         return branch;
     }
 }

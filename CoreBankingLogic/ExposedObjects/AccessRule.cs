@@ -12,7 +12,6 @@ namespace CoreBankingLogic.ExposedObjects
         public string CanAccess = "";
         public string UserId = "";
         public string BranchCode = "";
-        public string ModifiedOn = "";
         public string ModifiedBy = "";
         public string RuleName = "";
         public string IsActive = "";

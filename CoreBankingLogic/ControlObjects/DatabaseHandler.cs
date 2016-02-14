@@ -107,9 +107,6 @@ public class DatabaseHandler
                                                        branch.Location,
                                                        branch.IsActive,
                                                        branch.BankCode,
-                                                       CreateDate,
-                                                       ModifyDate,
-                                                       branch.CreatedBy,
                                                        branch.ModifiedBy
 
                 );
@@ -219,13 +216,15 @@ public class DatabaseHandler
         }
     }
 
-    internal string Reverse(string BankId, string BankCode)
+    internal string Reverse(string BankId, string BankCode,string Teller,string ApprovedBy)
     {
         try
         {
             command = CbDatabase.GetStoredProcCommand("ReverseTransaction",
                                                         BankId,
-                                                        BankCode
+                                                        BankCode,
+                                                        Teller,
+                                                        ApprovedBy
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -365,6 +364,8 @@ public class DatabaseHandler
         }
     }
 
+   
+
     internal DataTable GetAccountStatement(string AccountNumber, string BankCode, string StatementType)
     {
         try
@@ -491,7 +492,6 @@ public class DatabaseHandler
                 type.IsActive = dr["IsActive"].ToString();
                 type.IsDebitable = dr["IsDebitable"].ToString();
                 type.MinimumBalance = dr["MinimumBal"].ToString();
-                type.ModifiedOn = dr["ModifiedOn"].ToString();
                 type.ModifiedBy = dr["ModifiedBy"].ToString();
                 type.MinNumberOfSignatories = ConvertToInt(dr["MinNumberOfSignatories"].ToString());
                 type.MaxNumberOfSignatories = ConvertToInt(dr["MaxNumberOfSignatories"].ToString());
@@ -839,9 +839,6 @@ public class DatabaseHandler
                     branch.BranchCode = dr["BranchCode"].ToString();
                     branch.IsActive = dr["BranchManagerId"].ToString();
                     branch.BranchName = dr["BranchName"].ToString();
-                    branch.CreatedBy = dr["CreatedBy"].ToString();
-                    branch.CreatedOn = dr["CreatedOn"].ToString();
-                    branch.ModifiedOn = dr["ModifiedOn"].ToString();
                     branch.Location = dr["Location"].ToString();
                     branch.ModifiedBy = dr["ModifiedBy"].ToString();
                     branch.StatusCode = "0";
@@ -970,7 +967,6 @@ public class DatabaseHandler
                 rule.Id = dr["RecordId"].ToString();
                 rule.IsActive = dr["IsActive"].ToString();
                 rule.ModifiedBy = dr["ModifiedBy"].ToString();
-                rule.ModifiedOn = dr["ModifiedOn"].ToString();
                 rule.UserId = dr["UserId"].ToString();
                 rule.UserType = dr["UserType"].ToString();
                 rule.StatusCode = "0";
@@ -1036,7 +1032,6 @@ public class DatabaseHandler
                                                       rule.IsActive,
                                                       rule.BankCode,
                                                       rule.BranchCode,
-                                                      rule.ModifiedOn,
                                                       rule.ModifiedBy,
                                                       rule.Approver
                                                      );
@@ -1211,6 +1206,222 @@ public class DatabaseHandler
             type.StatusDesc = ex.Message;
         }
         return type;
+    }
+
+
+    internal string InsertIntoAuditLog(AuditLog log)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("InsertIntoAuditTrail",
+                                                       log.ActionType,
+                                                       log.TableName,
+                                                       log.BankCode,
+                                                       log.ModifiedBy,
+                                                       log.Action
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    internal BankCharge GetBankChargeById(string objectId, string BankCode)
+    {
+        BankCharge charge = new BankCharge();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Charges_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString();
+                if (IsActive.ToUpper() == "TRUE")
+                {
+                    charge.AccountType = dr["AccountType"].ToString();
+                    charge.BankCode = dr["BankCode"].ToString();
+                    charge.BankCode = dr["BankCode"].ToString();
+                    charge.ChargeAmount = dr["ChargeAmount"].ToString();
+                    charge.ChargeCode = dr["ChargeCode"].ToString();
+                    charge.IsActive = dr["IsActive"].ToString();
+                    charge.ChargeDescription = dr["ChargeDesc"].ToString();
+                    charge.ModifiedBy = dr["ModifiedBy"].ToString();
+                    charge.ChargeName = dr["ChargeName"].ToString();
+                    charge.ChargeType = dr["ChargeType"].ToString();
+                    charge.CommissionAccountNumber = dr["CommissionAccountNumber"].ToString();
+                    charge.IsDebit = dr["IsDebit"].ToString();
+
+                    charge.StatusCode = "0";
+                    charge.StatusDesc = "SUCCESS";
+                }
+                else
+                {
+                    charge.StatusCode = "100";
+                    charge.StatusDesc = "FAILED: CHARGE [" + objectId + "] IS NOT ACTIVATED AT PEGPAY";
+                }
+            }
+            else
+            {
+                charge.StatusCode = "100";
+                charge.StatusDesc = "FAILED: CHARGE WITH CHARGE CODE:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            charge.StatusCode = "100";
+            charge.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return charge;
+    }
+
+    internal ChargeType GetChargeTypeById(string objectId, string BankCode)
+    {
+        ChargeType type = new ChargeType();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("ChargeTypes_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString();
+                if (IsActive.ToUpper() == "TRUE")
+                {
+                    type.BankCode = dr["BankCode"].ToString();
+                    type.ChargeTypeCode = dr["ChargeTypeCode"].ToString();
+                    type.ChargeTypeName = dr["ChargeTypeName"].ToString();
+                    type.IsActive = dr["IsActive"].ToString();
+                    type.Description = dr["Description"].ToString();
+                    type.ModifiedBy = dr["ModifiedBy"].ToString();
+      
+                    type.StatusCode = "0";
+                    type.StatusDesc = "SUCCESS";
+                }
+                else
+                {
+                    type.StatusCode = "100";
+                    type.StatusDesc = "FAILED: CHARGE TYPE [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
+                }
+            }
+            else
+            {
+                type.StatusCode = "100";
+                type.StatusDesc = "FAILED: CHARGE TYPE WITH CODE:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            type.StatusCode = "100";
+            type.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return type;
+    }
+
+    internal BankBranch GetBankBranchById(string objectId,string BankCode)
+    {
+        BankBranch branch = new BankBranch();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("BankBranches_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString();
+                if (IsActive.ToUpper() == "TRUE")
+                {
+                    branch.BankCode = dr["BankCode"].ToString();
+                    branch.BankBranchId = dr["BankBranchId"].ToString();
+                    branch.BranchCode = dr["BranchCode"].ToString();
+                    branch.IsActive = dr["IsActive"].ToString();
+                    branch.BranchName = dr["BranchName"].ToString();
+                    branch.ModifiedBy = dr["ModifiedBy"].ToString();
+                    branch.Location = dr["Location"].ToString();
+                    branch.StatusCode = "0";
+                    branch.StatusDesc = "SUCCESS";
+                }
+                else
+                {
+                    branch.StatusCode = "100";
+                    branch.StatusDesc = "FAILED: BANK BRANCH [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
+                }
+            }
+            else
+            {
+                branch.StatusCode = "100";
+                branch.StatusDesc = "FAILED: BANK BRANCH WITH CODE:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            branch.StatusCode = "100";
+            branch.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return branch;
+    }
+
+    internal TransactionRule GetTransactionRuleById(string objectId, string BankCode)
+    {
+        TransactionRule rule = new TransactionRule();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("TransactionRules_SelectRow",
+                                                       objectId,
+                                                       BankCode
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString();
+                if (IsActive.ToUpper() == "TRUE")
+                {
+                    rule.BankCode = dr["BankCode"].ToString();
+                    rule.Approver = dr["Approver"].ToString();
+                    rule.BranchCode = dr["BranchCode"].ToString();
+                    rule.IsActive = dr["IsActive"].ToString();
+                    rule.Description = dr["Description"].ToString();
+                    rule.MaximumAmount = dr["MaximumAmount"].ToString();
+                    rule.MinimumAmount = dr["MinimumAmount"].ToString();
+                    rule.RuleCode = dr["RuleCode"].ToString();
+                    rule.RuleName = dr["RuleName"].ToString();
+                    rule.UserId = dr["UserId"].ToString();
+                    rule.ModifiedBy = dr["ModifiedBy"].ToString();
+
+                    rule.StatusCode = "0";
+                    rule.StatusDesc = "SUCCESS";
+                }
+                else
+                {
+                    rule.StatusCode = "100";
+                    rule.StatusDesc = "FAILED: TRANSACTION RULE [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
+                }
+            }
+            else
+            {
+                rule.StatusCode = "100";
+                rule.StatusDesc = "FAILED: TRANSACTION RULE WITH CODE:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            rule.StatusCode = "100";
+            rule.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return rule;
     }
 
 }

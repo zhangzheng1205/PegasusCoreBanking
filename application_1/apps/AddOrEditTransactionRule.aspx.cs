@@ -83,7 +83,6 @@ public partial class AddOrEditTransactionRule : System.Web.UI.Page
         rule.MaximumAmount = txtMaxAmount.Text;
         rule.MinimumAmount = txtMinAmount.Text;
         rule.ModifiedBy = user.Id;
-        rule.ModifiedOn = ""+DateTime.Now;
         rule.RuleCode = txtRuleCode.Text;
         rule.RuleName = txtRuleName.Text;
         rule.UserId = txtUserId.Text;

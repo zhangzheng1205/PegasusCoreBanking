@@ -243,6 +243,14 @@
                             </div>
                         </div>
 
+                        <%-- Save Bank Account Details --%>
+                        <div class="row">
+                            <div class="text-center">
+                                <asp:Button ID="btnSubmit" runat="server" Text="Save" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
+                            </div>
+                        </div>
+
+                        <%-- Add Account Signatory Form --%>
                         <div id="myModal" class="modal fade" role="dialog">
                             <div class="modal-dialog">
 
@@ -254,9 +262,10 @@
                                     </div>
                                     <div class="modal-body">
 
+
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="container">
+                                                <div class="container12">
                                                     <video autoplay></video>
                                                 </div>
                                             </div>
@@ -265,79 +274,73 @@
                                                 <canvas width='140' height='190' style="border: 1px solid #d3d3d3;"></canvas>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <input type="button" value="start capture" class="btn-default" onclick="startCapture()" />
-                                            <input type="button" value="take snapshot" class="btn-default" onclick="takePhoto()" />
-                                            <input type="button" value="upload picture" class="btn-default" onclick="upload()" />
+                                        <div class="controls">
                                         </div>
+                                        <script type="text/javascript">
+
+
+                                            var localMediaStream = null;
+                                            var video = document.querySelector('video');
+                                            var canvas = document.querySelector('canvas');
+                                            var UploadType = '';
+
+                                            function upload() {
+                                                var base64 = canvas.toDataURL('image/jpeg');
+                                                __doPostBack('Upload', UploadType + '|' + base64);
+                                                stopCapture();
+                                            }
+
+                                            function SetGlobal(PicName) {
+                                                UploadType = PicName;
+                                            }
+
+                                            function takePhoto() {
+                                                if (localMediaStream) {
+                                                    var ctx = canvas.getContext('2d');
+                                                    //ctx.drawImage(video, 0, 0, 320, 240); // original draw image
+                                                    //ctx.drawImage(video, 0, 0, 640, 480, 0, 0, 320, 240); // entire image
+
+                                                    //instead of
+                                                    //ctx.drawImage(video, 90, 40, 140, 190, 0, 0, 140, 190);
+
+                                                    // we double the source coordinates
+                                                    ctx.drawImage(video, 180, 80, 280, 380, 0, 0, 140, 190);
+                                                    document.querySelector('img').src = canvas.toDataURL('image/jpeg');
+                                                }
+                                            }
+
+                                            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+                                            window.URL = window.URL || window.webkitURL;
+
+                                            function startCapture() {
+                                                navigator.getUserMedia({ video: true }, function (stream) {
+                                                    video.src = window.URL.createObjectURL(stream);
+
+                                                    localMediaStream = stream;
+                                                }, function (e) {
+                                                    console.log(e);
+                                                });
+                                            }
+
+                                            function stopCapture() {
+                                                localMediaStream.getVideoTracks()[0].stop();
+                                            }
+                                        </script>
                                     </div>
                                     <div class="modal-footer">
+                                        <div class="row">
+                                            <div class="col-lg-2"><input type="button" class="btn btn-success" value="Start capture" onclick="startCapture()" /></div>
+                                            <div class="col-lg-2"></div>
+                                            <div class="col-lg-2"><input type="button" class="btn btn-primary" value="Take Picture" onclick="takePhoto()" /></div>
+                                            <div class="col-lg-2"></div>                                            
+                                            <div class="col-lg-2"><input type="button" class="btn btn-danger" value="Upload" onclick="upload()" /></div>
+                                            <div class="col-lg-2"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                       
-
-                        <script type="text/javascript">
-
-
-                            var localMediaStream = null;
-                            var video = document.querySelector('video');
-                            var canvas = document.querySelector('canvas');
-                            var UploadType = '';
-
-                            function upload() {
-                                var base64 = canvas.toDataURL('image/jpeg');
-                                __doPostBack('Upload', UploadType+'|'+base64);
-                                stopCapture();
-                            }
-
-                            function SetGlobal(PicName) {
-                                UploadType = PicName;
-                            }
-
-                            function takePhoto() {
-                                if (localMediaStream) {
-                                    var ctx = canvas.getContext('2d');
-                                    //ctx.drawImage(video, 0, 0, 320, 240); // original draw image
-                                    //ctx.drawImage(video, 0, 0, 640, 480, 0, 0, 320, 240); // entire image
-
-                                    //instead of
-                                    //ctx.drawImage(video, 90, 40, 140, 190, 0, 0, 140, 190);
-
-                                    // we double the source coordinates
-                                    ctx.drawImage(video, 180, 80, 280, 380, 0, 0, 140, 190);
-                                    document.querySelector('img').src = canvas.toDataURL('image/jpeg');
-                                }
-                            }
-
-                            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-                            window.URL = window.URL || window.webkitURL;
-
-                            function startCapture() {
-                                navigator.getUserMedia({ video: true }, function (stream) {
-                                    video.src = window.URL.createObjectURL(stream);
-
-                                    localMediaStream = stream;
-                                }, function (e) {
-                                    console.log(e);
-                                });
-                            }
-
-                            function stopCapture()
-                            {
-                                localMediaStream.getVideoTracks()[0].stop();
-                            }
-                        </script>
-
-
-
-                        <div class="row">
-                            <div class="text-center">
-                                <asp:Button ID="btnSubmit" runat="server" Text="Save" Width="200px" CssClass="btn btn-success btn-lg" OnClick="btnSubmit_Click" />
-                            </div>
-                        </div>
 
                         <%-- Scripts--%>
                         <br />
@@ -362,18 +365,18 @@
 
 
             <style type="text/css">
-                .container {
+                .container12 {
                     width: 320px;
                     height: 240px;
                     border: 1px solid #d3d3d3;
                 }
 
-                    .container video {
+                    .container12 video {
                         width: 100%;
                         height: 100%;
                     }
 
-                    .container .photoArea {
+                    .container12 .photoArea {
                         border: 2px dashed white;
                         width: 140px;
                         height: 190px;

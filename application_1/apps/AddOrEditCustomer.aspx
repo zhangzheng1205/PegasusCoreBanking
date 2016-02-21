@@ -139,8 +139,8 @@
                             <div class="col-lg-6">
                                 <label>Is Active</label>
                                 <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
-                                    <asp:ListItem>True</asp:ListItem>
-                                    <asp:ListItem>False</asp:ListItem>
+                                    <asp:ListItem>TRUE</asp:ListItem>
+                                    <asp:ListItem>FALSE</asp:ListItem>
                                 </asp:DropDownList>
                                 <p class="help-block">Activate or Deactivate Customers' Credentials</p>
                             </div>

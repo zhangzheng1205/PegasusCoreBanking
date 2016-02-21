@@ -113,16 +113,9 @@
                                 <div class="row">
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
-                                            <%--<Columns>
-                                                <asp:TemplateField HeaderText="View Details">
-                                                    <ItemTemplate>
-                                                        <asp:HyperLink runat="server" Text='View Details'
-                                                            NavigateUrl='<%# "DisplayAccountDetails.aspx?Id=" + DataBinder.Eval(Container.DataItem,"AccNumber").ToString()+    
-                                                                                 "&BankCode=" +ddBank.SelectedValue  %>'
-                                                            ID="EditColumn" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>--%>
+                                            <AlternatingRowStyle BackColor="#BFE4FF" />
+                                            <HeaderStyle BackColor="#115E9B" Font-Bold="false" ForeColor="white" Font-Italic="False"
+                                                Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
                                         </asp:GridView>
                                     </div>
                                 </div>
@@ -132,7 +125,10 @@
                             <asp:View runat="server" ID="AddSignatoryView">
                                 <div class="row">
                                     <div class="table-responsive">
-                                        <asp:GridView runat="server" Width="100%" CssClass="table table-condensed" AlternatingRowStyle-BackColor="SkyBlue" ID="dataGridResults2">
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults2">
+                                            <AlternatingRowStyle BackColor="#BFE4FF" />
+                                            <HeaderStyle BackColor="#0375b7" Font-Bold="false" ForeColor="white" Font-Italic="False"
+                                                Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
                                         </asp:GridView>
                                     </div>
                                 </div>

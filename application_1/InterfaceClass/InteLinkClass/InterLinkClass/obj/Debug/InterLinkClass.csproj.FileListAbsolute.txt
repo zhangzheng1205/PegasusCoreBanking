@@ -14,3 +14,4 @@ C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\ap
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\application_1\InterfaceClass\InteLinkClass\InterLinkClass\bin\Debug\InterLinkClass.pdb
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\application_1\InterfaceClass\InteLinkClass\InterLinkClass\obj\Debug\InterLinkClass.dll
 C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\application_1\InterfaceClass\InteLinkClass\InterLinkClass\obj\Debug\InterLinkClass.pdb
+C:\Users\JediMaster\Documents\Visual Studio 2005\Projects\PegPayCoreBanking_1\application_1\InterfaceClass\InteLinkClass\InterLinkClass\obj\Debug\InterLinkClass.csprojResolveAssemblyReference.cache

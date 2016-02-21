@@ -305,7 +305,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         aUser.Id = txtUserId.Text;
         aUser.IsActive = "false";
         aUser.ModifiedBy = user.Id;
-        aUser.Password = bll.GenerateBankPassword();
+        aUser.Password = bll.GeneratePassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
         aUser.Usertype = "CUSTOMER";
         aUser.TransactionLimit = "0";

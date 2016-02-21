@@ -18,6 +18,7 @@ public partial class _Default : System.Web.UI.Page
     Bussinesslogic bll = new Bussinesslogic();
     Service client = new Service();
     String BankCode = "";
+
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -71,10 +72,11 @@ public partial class _Default : System.Web.UI.Page
 
     private void SignInUser(string UserId, string Password)
     {
-        BankUser user = (BankUser)client.GetById("BANKUSER", UserId, "ALL", "TEST");
+        BankUser user = bll.GetBankUser(UserId);
         if (user.StatusCode == "0")
         {
-            if (user.Password == Password)
+            string md5HashOfPassword = bll.GenerateMD5Hash(Password);
+            if (user.Password == md5HashOfPassword)
             {
                 AssignSessionVariables(user);
             }
@@ -91,21 +93,25 @@ public partial class _Default : System.Web.UI.Page
 
     private void AssignSessionVariables(BankUser user)
     {
-        Bank UsersBank = client.GetById("BANK", user.BankCode, user.BankCode, bll.BankPassword) as Bank;
+        Bank UsersBank = bll.GetBankById(user.BankCode);
         List<string> allowedAreas = bll.GetAllowedAreas(user.Usertype, user.BankCode);
 
+        //Set Session Variables Specific to System Admin
         if (user.Usertype == "SYS_ADMIN") 
         {
             SetSysAdminSession(ref UsersBank,ref allowedAreas, user);
         }
+        //we cant find the Users Bank
         if (UsersBank.StatusCode != "0")
         {
             throw new Exception("Unable To Determine Your Bank. Please contact System Administrator");
         }
+        //Get Areas the User is allowed to access
         else if (allowedAreas.Count == 0)
         {
             throw new Exception("Unable To Determine Your Access Rights. Please contact System Administrator");
         }
+        //Set Session Variables
         else
         {
             Session["User"] = user;

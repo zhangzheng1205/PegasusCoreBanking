@@ -110,8 +110,8 @@
                             <div class="col-lg-6">
                                 <label>Is Active</label>
                                 <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
-                                    <asp:ListItem>True</asp:ListItem>
-                                    <asp:ListItem>False</asp:ListItem>
+                                    <asp:ListItem>TRUE</asp:ListItem>
+                                    <asp:ListItem>FALSE</asp:ListItem>
                                 </asp:DropDownList>
                                 <p class="help-block">True: Account is Active and can be used to Transact. False: Means its deactivated.</p>
                             </div>
@@ -257,7 +257,7 @@
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <button type="button" class="close" data-dismiss="modal" onclick="StopCapture()">&times;</button>
                                         <h4 class="modal-title">Upload Customer Profile Picture</h4>
                                     </div>
                                     <div class="modal-body">

@@ -218,15 +218,24 @@ public class BussinessLogic
         BankUser user = dh.GetUserById(UserId, BankCode);
         if (user.StatusCode == "0")
         {
-            if (allowedUserTypes.Contains(user.Usertype.ToUpper()))
+            if (user.IsActive.ToUpper() == "TRUE")
             {
-                obj = user;
-                return true;
+                if (allowedUserTypes.Contains(user.Usertype.ToUpper()))
+                {
+                    obj = user;
+                    return true;
+                }
+                else
+                {
+                    obj.StatusCode = "100";
+                    obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + user.Usertype + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
+                    return false;
+                }
             }
-            else
+            else 
             {
                 obj.StatusCode = "100";
-                obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + user.Usertype + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
+                obj.StatusDesc = "FAILED: USER [" + UserId + "] IS NOT ACTIVATED.";
                 return false;
             }
         }
@@ -312,7 +321,7 @@ public class BussinessLogic
                             {
                                 if (oldFieldValue.ToString() != newFieldValue.ToString())
                                 {
-                                    changesMade += " Changed " + oldFieldName + " From " + oldFieldValue + " To " + newFieldValue+",";
+                                    changesMade += " Changed " + oldFieldName + " From " + oldFieldValue + " To " + newFieldValue + ",";
                                 }
                             }
                             break;
@@ -358,17 +367,17 @@ public class BussinessLogic
         BaseObject result = new BaseObject();
         if (string.IsNullOrEmpty(className))
         {
-            result.StatusCode="100";
-            result.StatusDesc="PLEASE SUPPLY THE CLASS NAME";
+            result.StatusCode = "100";
+            result.StatusDesc = "PLEASE SUPPLY THE CLASS NAME";
             return result;
         }
         else if (string.IsNullOrEmpty(objectId))
         {
-             result.StatusCode="100";
-            result.StatusDesc="PLEASE SUPPLY THE OBJECT ID. i.e THE UNIQUE IDENTIFIER OF THIS OBJECT";
+            result.StatusCode = "100";
+            result.StatusDesc = "PLEASE SUPPLY THE OBJECT ID. i.e THE UNIQUE IDENTIFIER OF THIS OBJECT";
             return result;
         }
-        else if (className.ToUpper() == "BANKUSER"||className.ToUpper() == "BANKTELLER"||className.ToUpper() == "BANKCUSTOMER")
+        else if (className.ToUpper() == "BANKUSER" || className.ToUpper() == "BANKTELLER" || className.ToUpper() == "BANKCUSTOMER")
         {
             result = GetBankUser(objectId, bankCode, Password);
             return result;
@@ -380,7 +389,7 @@ public class BussinessLogic
         }
         else if (className.ToUpper() == "BANKBRANCH")
         {
-            BankBranch branch=dh.GetBankBranchById(objectId,bankCode);
+            BankBranch branch = dh.GetBankBranchById(objectId, bankCode);
             result = branch;
             return result;
         }
@@ -574,13 +583,24 @@ public class BussinessLogic
     internal bool IsValidBankCode(string BankCode, out BaseObject obj)
     {
         obj = new BaseObject();
-        obj = dh.GetBankById(BankCode);
-        if (obj.StatusCode == "0")
+        Bank bank = dh.GetBankById(BankCode);
+        if (bank.StatusCode == "0")
         {
-            return true;
+            if (bank.IsActive.ToUpper() == "TRUE")
+            {
+                obj = bank;
+                return true;
+            }
+            else
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "BANK WITH BANK CODE [" + BankCode + "] IS NOT ACTIVATED";
+                return false;
+            }
         }
         else
         {
+            obj = bank;
             return false;
         }
     }
@@ -588,20 +608,51 @@ public class BussinessLogic
     internal bool IsValidBankBranchCode(string BranchCode, string BankCode, out BaseObject obj)
     {
         obj = new BaseObject();
-        return true;
+        BankBranch branch = dh.GetBankBranchById(BranchCode, BankCode);
+        if (branch.StatusCode == "0")
+        {
+            if (branch.IsActive.ToUpper() == "TRUE")
+            {
+                obj = branch;
+                return true;
+            }
+            else
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "FAILED: BANK BRANCH [" + BranchCode + "] IS NOT ACTIVE AT PEGPAY";
+                return false;
+            }
+        }
+        else
+        {
+            obj = branch;
+            return false;
+        }
     }
 
     internal bool IsValidAccountNumber(string AccountNumber, string BankCode, out BaseObject valObj)
     {
         valObj = new BaseObject();
         BankAccount account = dh.GetBankAccountById(AccountNumber, BankCode);
-        valObj = account;
-        if (valObj.StatusCode == "0")
+
+        if (account.StatusCode == "0")
         {
-            return true;
+            if (account.IsActive.ToUpper() == "FALSE")
+            {
+                valObj.StatusCode = "100";
+                valObj.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNTNUMBER [" + AccountNumber + "] IS NOT ACTIVATED";
+                return false;
+            }
+            else
+            {
+                valObj.StatusCode = "0";
+                valObj.StatusDesc = "SUCCESS";
+                return true;
+            }
         }
         else
         {
+            valObj = account;
             return false;
         }
     }
@@ -616,14 +667,26 @@ public class BussinessLogic
     {
         valObj = new BaseObject();
         TransactionCategory category = dh.GetTransactionCategoryById(tranCategory, BankCode);
-        valObj = category;
 
-        if (valObj.StatusCode == "0")
+
+        if (category.StatusCode == "0")
         {
-            return true;
+            if (category.IsActive.ToUpper() == "")
+            {
+                valObj.StatusCode = "0";
+                valObj.StatusDesc = "SUCCESS";
+                return true;
+            }
+            else
+            {
+                valObj.StatusCode = "100";
+                valObj.StatusDesc = "FAILED: TRANSACTION CATEGORY  [" + tranCategory + "] IS NOT ACTIVATED";
+                return false;
+            }
         }
         else
         {
+            valObj = category;
             return false;
         }
     }
@@ -680,6 +743,12 @@ public class BussinessLogic
         AccountType accType = dh.GetAccountTypeById(accountType, BankCode);
         if (accType.StatusCode == "0")
         {
+            if (accType.IsActive.ToUpper() == "FALSE")
+            {
+                valObj.StatusCode = "100";
+                valObj.StatusDesc = "FAILED: ACCOUNT TYPE [" + accountType + "] IS NOT ACTIVATED.";
+                return false;
+            }
             //account must have less signatories(Owners) than those specified by the account type
             if (AccountSignatories.Count >= accType.MinNumberOfSignatories && AccountSignatories.Count <= accType.MaxNumberOfSignatories)
             {
@@ -696,8 +765,7 @@ public class BussinessLogic
         }
         else
         {
-            valObj.StatusCode = accType.StatusCode;
-            valObj.StatusDesc = accType.StatusDesc;
+            valObj = accType;
             return false;
         }
     }
@@ -705,7 +773,7 @@ public class BussinessLogic
     {
         try
         {
-            int amount = int.Parse(Amount);
+            int amount = int.Parse(Amount.Split('.')[0]);
             return true;
         }
         catch (Exception)
@@ -719,12 +787,15 @@ public class BussinessLogic
     {
         try
         {
-            int amount = int.Parse(Amount);
+            int amount = int.Parse(Amount.Split('.')[0]);
             if (amount <= 0)
             {
                 return false;
             }
-            return true;
+            else
+            {
+                return true;
+            }
         }
         catch (Exception)
         {

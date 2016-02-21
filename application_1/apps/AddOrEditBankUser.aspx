@@ -134,16 +134,16 @@
                             <div class="col-lg-6">
                                 <label>Send Email with Credentials</label>
                                 <asp:DropDownList ID="ddSendEmail" runat="server" CssClass="form-control">
-                                    <asp:ListItem>False</asp:ListItem>
-                                    <asp:ListItem>True</asp:ListItem>
+                                    <asp:ListItem>NO</asp:ListItem>
+                                    <asp:ListItem>YES</asp:ListItem>
                                 </asp:DropDownList>
                                 <p class="help-block">Should an Email be sent to User with UserId and Password for access Web Portal directly</p>
                             </div>
                             <div class="col-lg-6">
                                 <label>Is Active</label>
                                 <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
-                                    <asp:ListItem>True</asp:ListItem>
-                                    <asp:ListItem>False</asp:ListItem>
+                                    <asp:ListItem>TRUE</asp:ListItem>
+                                    <asp:ListItem>FALSE</asp:ListItem>
                                 </asp:DropDownList>
                                 <p class="help-block">Activate or Deactivate Users Credentials</p>
                             </div>

@@ -153,7 +153,7 @@ public class DatabaseHandler
     {
         try
         {
-            string AccountId="";
+            string AccountId = "";
             foreach (string signatory in account.AccountSignatories)
             {
                 command = CbDatabase.GetStoredProcCommand("Accounts_Update",
@@ -202,9 +202,9 @@ public class DatabaseHandler
                                                         tranRequest.ChequeNumber
                                                       );
             DataSet ds = CbDatabase.ExecuteDataSet(command);
-            int index = ds.Tables.Count-1;
+            int index = ds.Tables.Count - 1;
             DataTable dt = ds.Tables[index];
-            foreach (DataTable de in ds.Tables) 
+            foreach (DataTable de in ds.Tables)
             {
                 DataTable dc = de;
             }
@@ -216,7 +216,7 @@ public class DatabaseHandler
         }
     }
 
-    internal string Reverse(string BankId, string BankCode,string Teller,string ApprovedBy)
+    internal string Reverse(string BankId, string BankCode, string Teller, string ApprovedBy)
     {
         try
         {
@@ -364,7 +364,7 @@ public class DatabaseHandler
         }
     }
 
-   
+
 
     internal DataTable GetAccountStatement(string AccountNumber, string BankCode, string StatementType)
     {
@@ -397,28 +397,22 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
-                if (IsActive == "TRUE")
-                {
-                    user.FullName = dr["FullName"].ToString();
-                    user.IsActive = IsActive;
-                    user.Password = dr["Password"].ToString();
-                    user.Id = dr["UserId"].ToString();
-                    user.Email = dr["Email"].ToString();
-                    user.Usertype = dr["Usertype"].ToString();
-                    user.PhoneNumber = dr["PhoneNumber"].ToString();
-                    user.BankCode = dr["BankCode"].ToString();
-                    user.BranchCode = dr["BranchCode"].ToString();
-                    user.Gender = dr["Gender"].ToString();
-                    user.DateOfBirth = dr["DateOfBirth"].ToString();
-                    user.CanHaveAccount = dr["CanHaveAccount"].ToString();
-                    user.StatusCode = "0";
-                    user.StatusDesc = "SUCCESS";
-                }
-                else
-                {
-                    user.StatusCode = "100";
-                    user.StatusDesc = "FAILED: USER [" + objectId + "] IS NOT ACTIVATED.";
-                }
+
+                user.FullName = dr["FullName"].ToString();
+                user.IsActive = IsActive;
+                user.Password = dr["Password"].ToString();
+                user.Id = dr["UserId"].ToString();
+                user.Email = dr["Email"].ToString();
+                user.Usertype = dr["Usertype"].ToString();
+                user.PhoneNumber = dr["PhoneNumber"].ToString();
+                user.BankCode = dr["BankCode"].ToString();
+                user.BranchCode = dr["BranchCode"].ToString();
+                user.Gender = dr["Gender"].ToString();
+                user.DateOfBirth = dr["DateOfBirth"].ToString();
+                user.CanHaveAccount = dr["CanHaveAccount"].ToString();
+                user.StatusCode = "0";
+                user.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -543,30 +537,24 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString();
-                if (IsActive.ToUpper() == "TRUE")
+
+                account.AccountBalance = dr["AccBalance"].ToString();
+                account.AccountId = dr["AccountId"].ToString();
+                account.BankCode = dr["BankCode"].ToString();
+                account.AccountNumber = dr["AccNumber"].ToString();
+                account.AccountType = dr["AccType"].ToString();
+                account.IsActive = dr["IsActive"].ToString();
+                account.BranchCode = dr["BranchCode"].ToString();
+                account.ModifiedBy = dr["ModifiedBy"].ToString();
+                account.ModifiedBy = dr["ModifiedBy"].ToString();
+                account.CurrencyCode = dr["CurrencyCode"].ToString();
+                foreach (DataRow row in datatable.Rows)
                 {
-                    account.AccountBalance = dr["AccBalance"].ToString();
-                    account.AccountId = dr["AccountId"].ToString();
-                    account.BankCode = dr["BankCode"].ToString();
-                    account.AccountNumber = dr["AccNumber"].ToString();
-                    account.AccountType = dr["AccType"].ToString();
-                    account.IsActive = dr["IsActive"].ToString();
-                    account.BranchCode = dr["BranchCode"].ToString();
-                    account.ModifiedBy = dr["ModifiedBy"].ToString();
-                    account.ModifiedBy = dr["ModifiedBy"].ToString();
-                    account.CurrencyCode = dr["CurrencyCode"].ToString();
-                    foreach (DataRow row in datatable.Rows) 
-                    {
-                        account.AccountSignatories.Add(row["UserId"].ToString());
-                    }
-                    account.StatusCode = "0";
-                    account.StatusDesc = "SUCCESS";
+                    account.AccountSignatories.Add(row["UserId"].ToString());
                 }
-                else 
-                {
-                    account.StatusCode = "100";
-                    account.StatusDesc = "FAILED: ACCOUNT ["+objectId+"] IS NOT ACTIVATED AT PEGPAY";
-                }
+                account.StatusCode = "0";
+                account.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -915,24 +903,18 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
-                if (IsActive == "TRUE")
-                {
-                    category.ApprovedBy = "";
-                    category.BankCode = dr["BankCode"].ToString();
-                    category.Description = dr["Description"].ToString();
-                    category.Id = dr["TranTypeId"].ToString();
-                    category.IsActive = dr["IsActive"].ToString();
-                    category.ModifiedBy = dr["ModifiedBy"].ToString();
-                    category.TranCategoryCode = dr["TranType"].ToString();
-                    category.TranCategoryName = dr["TranType"].ToString();
-                    category.StatusCode = "0";
-                    category.StatusDesc = "SUCCESS";
-                }
-                else 
-                {
-                    category.StatusCode = "100";
-                    category.StatusDesc = "FAILED: TRANSACTION CATEGORY  [" + objectId + "] IS NOT ACTIVATED";
-                }
+
+                category.ApprovedBy = "";
+                category.BankCode = dr["BankCode"].ToString();
+                category.Description = dr["Description"].ToString();
+                category.Id = dr["TranTypeId"].ToString();
+                category.IsActive = dr["IsActive"].ToString();
+                category.ModifiedBy = dr["ModifiedBy"].ToString();
+                category.TranCategoryCode = dr["TranType"].ToString();
+                category.TranCategoryName = dr["TranType"].ToString();
+                category.StatusCode = "0";
+                category.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -1111,7 +1093,7 @@ public class DatabaseHandler
                                                         currency.ValueInLocalCurrency
                                                       );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
-            return datatable.Rows[0][0].ToString() ;
+            return datatable.Rows[0][0].ToString();
         }
         catch (Exception ex)
         {
@@ -1140,7 +1122,7 @@ public class DatabaseHandler
                 currency.StatusCode = "0";
                 currency.StatusDesc = "SUCCESS";
             }
-            else 
+            else
             {
                 currency.StatusCode = "100";
                 currency.StatusDesc = "CURRENCY CODE NOT FOUND";
@@ -1243,29 +1225,23 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString();
-                if (IsActive.ToUpper() == "TRUE")
-                {
-                    charge.AccountType = dr["AccountType"].ToString();
-                    charge.BankCode = dr["BankCode"].ToString();
-                    charge.BankCode = dr["BankCode"].ToString();
-                    charge.ChargeAmount = dr["ChargeAmount"].ToString();
-                    charge.ChargeCode = dr["ChargeCode"].ToString();
-                    charge.IsActive = dr["IsActive"].ToString();
-                    charge.ChargeDescription = dr["ChargeDesc"].ToString();
-                    charge.ModifiedBy = dr["ModifiedBy"].ToString();
-                    charge.ChargeName = dr["ChargeName"].ToString();
-                    charge.ChargeType = dr["ChargeType"].ToString();
-                    charge.CommissionAccountNumber = dr["CommissionAccountNumber"].ToString();
-                    charge.IsDebit = dr["IsDebit"].ToString();
 
-                    charge.StatusCode = "0";
-                    charge.StatusDesc = "SUCCESS";
-                }
-                else
-                {
-                    charge.StatusCode = "100";
-                    charge.StatusDesc = "FAILED: CHARGE [" + objectId + "] IS NOT ACTIVATED AT PEGPAY";
-                }
+                charge.AccountType = dr["AccountType"].ToString();
+                charge.BankCode = dr["BankCode"].ToString();
+                charge.BankCode = dr["BankCode"].ToString();
+                charge.ChargeAmount = dr["ChargeAmount"].ToString();
+                charge.ChargeCode = dr["ChargeCode"].ToString();
+                charge.IsActive = dr["IsActive"].ToString();
+                charge.ChargeDescription = dr["ChargeDesc"].ToString();
+                charge.ModifiedBy = dr["ModifiedBy"].ToString();
+                charge.ChargeName = dr["ChargeName"].ToString();
+                charge.ChargeType = dr["ChargeType"].ToString();
+                charge.CommissionAccountNumber = dr["CommissionAccount"].ToString();
+                charge.IsDebit = dr["IsDebit"].ToString();
+
+                charge.StatusCode = "0";
+                charge.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -1295,23 +1271,17 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString();
-                if (IsActive.ToUpper() == "TRUE")
-                {
-                    type.BankCode = dr["BankCode"].ToString();
-                    type.ChargeTypeCode = dr["ChargeTypeCode"].ToString();
-                    type.ChargeTypeName = dr["ChargeTypeName"].ToString();
-                    type.IsActive = dr["IsActive"].ToString();
-                    type.Description = dr["Description"].ToString();
-                    type.ModifiedBy = dr["ModifiedBy"].ToString();
-      
-                    type.StatusCode = "0";
-                    type.StatusDesc = "SUCCESS";
-                }
-                else
-                {
-                    type.StatusCode = "100";
-                    type.StatusDesc = "FAILED: CHARGE TYPE [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
-                }
+
+                type.BankCode = dr["BankCode"].ToString();
+                type.ChargeTypeCode = dr["ChargeTypeCode"].ToString();
+                type.ChargeTypeName = dr["ChargeTypeName"].ToString();
+                type.IsActive = dr["IsActive"].ToString();
+                type.Description = dr["Description"].ToString();
+                type.ModifiedBy = dr["ModifiedBy"].ToString();
+
+                type.StatusCode = "0";
+                type.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -1327,7 +1297,7 @@ public class DatabaseHandler
         return type;
     }
 
-    internal BankBranch GetBankBranchById(string objectId,string BankCode)
+    internal BankBranch GetBankBranchById(string objectId, string BankCode)
     {
         BankBranch branch = new BankBranch();
         try
@@ -1341,23 +1311,17 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString();
-                if (IsActive.ToUpper() == "TRUE")
-                {
-                    branch.BankCode = dr["BankCode"].ToString();
-                    branch.BankBranchId = dr["BankBranchId"].ToString();
-                    branch.BranchCode = dr["BranchCode"].ToString();
-                    branch.IsActive = dr["IsActive"].ToString();
-                    branch.BranchName = dr["BranchName"].ToString();
-                    branch.ModifiedBy = dr["ModifiedBy"].ToString();
-                    branch.Location = dr["Location"].ToString();
-                    branch.StatusCode = "0";
-                    branch.StatusDesc = "SUCCESS";
-                }
-                else
-                {
-                    branch.StatusCode = "100";
-                    branch.StatusDesc = "FAILED: BANK BRANCH [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
-                }
+
+                branch.BankCode = dr["BankCode"].ToString();
+                branch.BankBranchId = dr["BranchId"].ToString();
+                branch.BranchCode = dr["BranchCode"].ToString();
+                branch.IsActive = dr["IsActive"].ToString();
+                branch.BranchName = dr["BranchName"].ToString();
+                branch.ModifiedBy = dr["ModifiedBy"].ToString();
+                branch.Location = dr["Location"].ToString();
+                branch.StatusCode = "0";
+                branch.StatusDesc = "SUCCESS";
+
             }
             else
             {
@@ -1387,28 +1351,22 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString();
-                if (IsActive.ToUpper() == "TRUE")
-                {
-                    rule.BankCode = dr["BankCode"].ToString();
-                    rule.Approver = dr["Approver"].ToString();
-                    rule.BranchCode = dr["BranchCode"].ToString();
-                    rule.IsActive = dr["IsActive"].ToString();
-                    rule.Description = dr["Description"].ToString();
-                    rule.MaximumAmount = dr["MaximumAmount"].ToString();
-                    rule.MinimumAmount = dr["MinimumAmount"].ToString();
-                    rule.RuleCode = dr["RuleCode"].ToString();
-                    rule.RuleName = dr["RuleName"].ToString();
-                    rule.UserId = dr["UserId"].ToString();
-                    rule.ModifiedBy = dr["ModifiedBy"].ToString();
 
-                    rule.StatusCode = "0";
-                    rule.StatusDesc = "SUCCESS";
-                }
-                else
-                {
-                    rule.StatusCode = "100";
-                    rule.StatusDesc = "FAILED: TRANSACTION RULE [" + objectId + "] IS NOT ACTIVE AT PEGPAY";
-                }
+                rule.BankCode = dr["BankCode"].ToString();
+                rule.Approver = dr["Approver"].ToString();
+                rule.BranchCode = dr["BranchCode"].ToString();
+                rule.IsActive = dr["IsActive"].ToString();
+                rule.Description = dr["Description"].ToString();
+                rule.MaximumAmount = dr["MaximumAmount"].ToString();
+                rule.MinimumAmount = dr["MinimumAmount"].ToString();
+                rule.RuleCode = dr["RuleCode"].ToString();
+                rule.RuleName = dr["RuleName"].ToString();
+                rule.UserId = dr["UserId"].ToString();
+                rule.ModifiedBy = dr["ModifiedBy"].ToString();
+
+                rule.StatusCode = "0";
+                rule.StatusDesc = "SUCCESS";
+
             }
             else
             {

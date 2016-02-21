@@ -51,6 +51,11 @@ public partial class AddOrEditBank : System.Web.UI.Page
             {
                 string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId+"]";
                 bll.ShowMessage(lblmsg, msg, false);
+
+                if (ddSendEmail.Text == "YES")
+                {
+                    bll.SendBankAdminCredentialsEmail(bank);
+                }
             }
             else
             {
@@ -72,7 +77,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
         bank.BankContactEmail = txtContactEmail.Text;
         bank.BankId = "0";
         bank.BankName = txtBankName.Text;
-        bank.BankPassword = bll.GenerateBankPassword();
+        bank.BankPassword = bll.GeneratePassword();
         bank.IsActive = ddIsActive.SelectedValue;
         bank.ModifiedBy = user.Id;
         bank.PathToPublicKey = GetPathToPublicKey(bank.BankCode);

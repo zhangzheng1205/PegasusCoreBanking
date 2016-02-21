@@ -10,6 +10,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     BankUser user;
     Service client = new Service();
     Bussinesslogic bll = new Bussinesslogic();
+    string Id = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         try
@@ -20,7 +21,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
             //----------------------------------
             //Check If this is an Edit Request
-            string Id = Request.QueryString["Id"];
+            Id = Request.QueryString["Id"];
             string BankCode = Request.QueryString["BankCode"];
 
             //Session is invalid
@@ -33,7 +34,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
             }
             //this is an edit Bank User request
-            else if (Id != null)
+            else if (!string.IsNullOrEmpty(Id))
             {
                 LoadData();
                 DisableControls(Id);
@@ -48,7 +49,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            bll.ShowMessage(lblmsg, ex.Message, true,Session);
+            bll.ShowMessage(lblmsg, ex.Message, true, Session);
         }
     }
 
@@ -79,7 +80,6 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         this.ddGender.Text = userEdited.Gender;
         this.ddIsActive.Text = userEdited.IsActive;
         this.ddUserType.Text = userEdited.Usertype;
-
     }
 
     private void LoadData()
@@ -144,8 +144,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
     private void DisableControls(string UserId)
     {
-        ddIsActive.Text = "False";
-        ddIsActive.Enabled = false;
+        ddUserType.Enabled = false;
         txtUserId.Text = UserId;
         txtUserId.Enabled = false;
     }
@@ -162,35 +161,25 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
             if (result.StatusCode == "0")
             {
-                if (newUser.Usertype.Contains("CUSTOMER_SERVICE"))
+
+                string msg = "SUCCESS: " + newUser.Usertype + " USER WITH ID [" + result.PegPayId + "] SAVED.";
+                bll.ShowMessage(lblmsg, msg, false, Session);
+
+                if (ddSendEmail.Text == "YES") 
                 {
-                    string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
-                    bll.ShowMessage(lblmsg, msg, false, Session);
-                }
-                else if (newUser.Usertype.Contains("CUSTOMER"))
-                {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
-                }
-                else if (newUser.Usertype.Contains("TELLER"))
-                {
-                    Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode+"&Msg=CREATE A TELLER ACCOUNT FOR THIS USER");
-                }
-                else
-                {
-                    string msg = "SUCCESS: BANK USER WITH USER ID [" + result.PegPayId + "] SAVED.";
-                    bll.ShowMessage(lblmsg, msg, false,Session);
+                    bll.SendBankUserCredentialsEmail(newUser);
                 }
             }
             else
             {
                 string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true,Session);
+                bll.ShowMessage(lblmsg, msg, true, Session);
             }
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
-            bll.ShowMessage(lblmsg, msg, true,Session);
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
 
@@ -207,7 +196,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.Id = txtUserId.Text;
         aUser.IsActive = ddIsActive.Text;
         aUser.ModifiedBy = user.Id;
-        aUser.Password = bll.GenerateBankPassword();
+        aUser.Password = bll.GeneratePassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
         aUser.Usertype = ddUserType.SelectedValue;
         if (aUser.Usertype == "CUSTOMER")
@@ -233,13 +222,13 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
     {
         try
         {
-            if (ddUserType.SelectedValue=="CUSTOMER")
+            if (ddUserType.SelectedValue == "CUSTOMER")
             {
                 CustomersSection.Visible = true;
                 TellersSection.Visible = false;
                 txtTranLimit.Text = "0";
             }
-            else if (ddUserType.SelectedValue=="TELLER")
+            else if (ddUserType.SelectedValue == "TELLER")
             {
                 CustomersSection.Visible = false;
                 TellersSection.Visible = true;
@@ -252,7 +241,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
                 txtTranLimit.Text = "0";
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);

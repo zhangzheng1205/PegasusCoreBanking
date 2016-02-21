@@ -43,7 +43,18 @@ public class Currency : BaseObject
             StatusDesc = "PLEASE SUPPLY LOCAL CURRENCY VALUE AS WELL.i.e HOW MUCH IS 1 UNIT OF THIS CURRENCY IN LOCAL CURRENCY";
             return false;
         }
-        return true;
+        else if (bll.IsValidUser(ModifiedBy, BankCode, "BUSSINESS_ADMIN", out valObj))
+        {
+            StatusCode = "100";
+            StatusDesc = valObj.StatusDesc;
+            return false;
+        }
+        else
+        {
+            StatusCode = "0";
+            StatusDesc = "SUCCESS";
+            return true;
+        }
     }
 }
 

@@ -66,7 +66,8 @@
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-lg-2">
-                                    <label>Report Category</label> <asp:DropDownList ID="ddReporttype" runat="server" CssClass="form-control">
+                                    <label>Report Category</label>
+                                    <asp:DropDownList ID="ddReporttype" runat="server" CssClass="form-control">
                                         <asp:ListItem>True</asp:ListItem>
                                         <asp:ListItem>False</asp:ListItem>
                                     </asp:DropDownList>
@@ -104,7 +105,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <asp:Button ID="btnConvert" runat="server" OnClick="btnConvert_Click"
-                                                CssClass="btn-primary" Text="Convert"  />
+                                                CssClass="btn-primary" Text="Convert" />
                                         </div>
                                         <div class="col-lg-2"></div>
                                         <div class="col-lg-2"></div>
@@ -112,20 +113,23 @@
                                     <hr />
                                     <div class="row">
                                         <%--<div class="table-responsive">--%>
-                                            <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" >
-                                                <Columns>
-                                                    <asp:TemplateField HeaderText="Edit">
-                                                        <ItemTemplate>
-                                                            <asp:HyperLink runat="server" Text='Edit'
-                                                                NavigateUrl='<%# "ViewAll.aspx?EditType=" + ddReporttype.SelectedValue+    
+                                        <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults">
+                                            <AlternatingRowStyle BackColor="#BFE4FF" />
+                                            <HeaderStyle BackColor="#0375b7" Font-Bold="false" ForeColor="white" Font-Italic="False"
+                                                Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="Edit">
+                                                    <ItemTemplate>
+                                                        <asp:HyperLink runat="server" Text='Edit'
+                                                            NavigateUrl='<%# "ViewAll.aspx?EditType=" + ddReporttype.SelectedValue+    
                                                                                  "&Id=" + DataBinder.Eval(Container.DataItem,"Id").ToString()+    
                                                                                  "&BankCode=" +ddBank.SelectedValue  %>'
-                                                                ID="EditColumn" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                       <%-- </div>--%>
+                                                            ID="EditColumn" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                        <%-- </div>--%>
                                     </div>
                                 </asp:View>
                                 <asp:View runat="server" ID="EmptyView"></asp:View>

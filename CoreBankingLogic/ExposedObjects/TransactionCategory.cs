@@ -15,7 +15,6 @@ namespace CoreBankingLogic.ExposedObjects
         public string BankCode = "";
         public string IsActive = "";
 
-        private BussinessLogic bll = new BussinessLogic();
 
        
 

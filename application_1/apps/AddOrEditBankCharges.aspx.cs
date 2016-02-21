@@ -66,6 +66,8 @@ public partial class AddOrEditBankCharges : System.Web.UI.Page
             this.txtChargeCode.Text = charge.ChargeCode;
             this.txtChargeDesc.Text = charge.ChargeDescription;
             this.txtChargeName.Text = charge.ChargeName;
+            this.ddAccountType.SelectedValue = charge.AccountType;
+            this.ddChargeType.SelectedValue = charge.ChargeType;
         }
         else 
         {

@@ -34,10 +34,10 @@ public partial class ViewAll : System.Web.UI.Page
             //is this a PostBack
             else if (IsPostBack)
             {
-                
+
             }
             //if this guy isnt empty then this is an Edit Request
-            else if (EditType!=null)
+            else if (EditType != null)
             {
                 RouteRequestToCorrectEditPage(EditType, Id, BankCode);
             }
@@ -56,54 +56,16 @@ public partial class ViewAll : System.Web.UI.Page
 
     private void RouteRequestToCorrectEditPage(string EditType, string Id, string BankCode)
     {
-        if (EditType == "TELLER") 
+        Result result = bll.GetRedirectUrl(EditType, user.Usertype);
+        if (result.StatusCode == "0")
         {
-            string url = "~/AddOrEditBankUser.aspx?Id=" + Id + "&BankCode=" + BankCode;
+            string Page = result.PegPayId;
+            string url = "~/" + Page + "?Id=" + Id + "&BankCode=" + BankCode;
             Server.Transfer(url);
         }
-        else if (EditType == "CUSTOMER")
+        else
         {
-            string url = "~/AddOrEditCustomer.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "")
-        {
-            string url = "~/AddOrEditBank.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "TRANSACTIONCATEGORY")
-        {
-            string url = "~/AddOrEditTranCategory.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "USERTYPE")
-        {
-            string url = "~/AddOrEditUserType.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "ACCOUNTTYPE")
-        {
-            string url = "~/AddOrEditAccountType.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "ACCOUNT")
-        {
-            string url = "~/AddOrEditBankAccount.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "BRANCHES")
-        {
-            string url = "~/AddOrEditBankBranch.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else if (EditType == "CHARGES")
-        {
-            string url = "~/AddOrEditBankCharges.aspx?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
-        }
-        else 
-        {
-            throw new Exception("UNABLE TO DETERMINE CORRECT EDIT PAGE TO ROUTE REQUEST TO");
+            throw new Exception(result.StatusDesc);
         }
 
     }
@@ -117,16 +79,7 @@ public partial class ViewAll : System.Web.UI.Page
     private void LoadReportTypesIntoDropDown()
     {
         //think of moving these to DB
-        ddReporttype.Items.Clear();
-        ddReporttype.Items.Add(new ListItem("", ""));
-        ddReporttype.Items.Add(new ListItem("BANK TELLERS", "TELLER"));
-        ddReporttype.Items.Add(new ListItem("BANK CUSTOMERS", "CUSTOMER"));
-        ddReporttype.Items.Add(new ListItem("TRANSACTION CATEGORIES", "TRANSACTIONCATEGORY"));
-        ddReporttype.Items.Add(new ListItem("USER TYPES", "USERTYPE"));
-        ddReporttype.Items.Add(new ListItem("ACCOUNT TYPES", "ACCOUNTTYPE"));
-        ddReporttype.Items.Add(new ListItem("BANK ACCOUNTS", "ACCOUNTS"));
-        ddReporttype.Items.Add(new ListItem("BANK BRANCHES", "BRANCHES"));
-        ddReporttype.Items.Add(new ListItem("BANK CHARGES", "CHARGES"));
+        bll.LoadReportTypesIntoDropDown(ddBank.SelectedValue, ddReporttype, user);
     }
 
     protected void btnConvert_Click(object sender, EventArgs e)
@@ -170,49 +123,27 @@ public partial class ViewAll : System.Web.UI.Page
         string Id = txtName.Text;
         string ReportType = ddReporttype.SelectedValue;
         string UserType = ddReporttype.SelectedValue;
-        if (ReportType == "TELLER" || ReportType == "CUSTOMER")
+
+        if (string.IsNullOrEmpty(ReportType))
+        {
+            throw new Exception("PLEASE SELECT A REPORT TYPE");
+        }
+        else if (ReportType == "TELLER" || ReportType == "CUSTOMER")
         {
             searchCriteria.Add(BankCode);
             searchCriteria.Add(ReportType);
             searchCriteria.Add(Id);
         }
-        else if (ReportType == "TRANSACTIONCATEGORY")
+        else if (ReportType == "SYSTEMUSERS")
+        {
+            searchCriteria.Add(BankCode);
+            searchCriteria.Add("ALL");
+            searchCriteria.Add(Id);
+        }
+        else
         {
             searchCriteria.Add(BankCode);
             searchCriteria.Add(Id);
-        }
-        else if (ReportType == "")
-        {
-            searchCriteria.Add(BankCode);
-        }
-        else if (ReportType == "USERTYPE")
-        {
-            searchCriteria.Add(BankCode);
-            searchCriteria.Add(Id);
-        }
-        else if (ReportType == "ACCOUNTTYPE")
-        {
-            searchCriteria.Add(BankCode);
-            searchCriteria.Add(Id);
-        }
-        else if (ReportType == "ACCOUNTS")
-        {
-            searchCriteria.Add(BankCode);
-            searchCriteria.Add(Id);
-        }
-        else if (ReportType == "BRANCHES")
-        {
-            searchCriteria.Add(BankCode);
-            searchCriteria.Add(Id);
-        }
-        else if (ReportType == "CHARGES")
-        {
-            searchCriteria.Add(BankCode);
-            searchCriteria.Add(Id);
-        }
-        else 
-        {
-            throw new Exception("PLEASE SELECT A BANK AND A REPORT TYPE");
         }
         return searchCriteria.ToArray();
     }

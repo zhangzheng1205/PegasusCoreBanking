@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 
@@ -60,7 +62,7 @@ public class Bussinesslogic
         }
 
         //disable branch selection option if user is not an admin
-        if (user.Usertype != "SYS_ADMIN" && user.Usertype != "BANK_ADMIN" && user.Usertype != "BUSSINESS_ADMIN") 
+        if (user.Usertype != "SYS_ADMIN" && user.Usertype != "BANK_ADMIN" && user.Usertype != "BUSSINESS_ADMIN")
         {
             ddlst.SelectedValue = user.BranchCode;
             ddlst.Enabled = false;
@@ -133,8 +135,8 @@ public class Bussinesslogic
 
     public void LoadBanksIntoDropDown(BankUser user, DropDownList ddlst)
     {
-        string[] parameters = {};
-        DataSet ds = dh.ExecuteSelect("GetAllBanks",parameters);
+        string[] parameters = { };
+        DataSet ds = dh.ExecuteSelect("GetAllBanks", parameters);
         DataTable dt = ds.Tables[0];
 
         ddlst.Items.Clear();
@@ -186,9 +188,62 @@ public class Bussinesslogic
         }
     }
 
-    public string GenerateBankPassword()
+    public void SendBankUserCredentialsEmail(BankUser user)
     {
-        return "T3rr1613";
+
+        string email = user.Email;
+        if (!string.IsNullOrEmpty(email))
+        {
+            string Subject = "BANK OS WEB PORTAL CREDENTIALS";
+            string Message = "Hi " + user.FullName + "<br/>" +
+                             "Find Below details needed to access " + user.BankCode + " BankOS Web Portal.<br/>" +
+                             "Username: " + user.Email + "<br/>" +
+                             "Password: " + user.Password + "<br/>" +
+                             "URL: https://pegasus.co.ug <br/>" +
+                             "Thank you.<br/>" +
+                             "BankOS Team";
+            Email.SendTo(email, Message, Subject);
+        }
+    }
+
+    public void SendBankAdminCredentialsEmail(Bank bank)
+    {
+
+        string email = bank.BankContactEmail;
+        if (!string.IsNullOrEmpty(email))
+        {
+            string Subject = "BANK OS WEB PORTAL CREDENTIALS";
+            string Message = "Hi " + bank.BankName + " Team,<br/>" +
+                             "Find Below details needed to access " + bank.BankName + " BankOS Web Service.<br/>" +
+                             "BankCode: " + bank.BankCode + "<br/>" +
+                             "Password: " + bank.BankPassword + "<br/>" +
+                             "URL: https://pegasus.co.ug <br/>" +
+                             "Thank you.<br/>" +
+                             "BankOS Team";
+            Email.SendTo(email, Message, Subject);
+        }
+    }
+
+    public string GeneratePassword()
+    {
+        string RandomPassword = "T3rr1613";
+        return GenerateMD5Hash(RandomPassword);
+    }
+
+    public string GenerateMD5Hash(string input)
+    {
+        // Use input string to calculate MD5 hash
+        MD5 md5 = System.Security.Cryptography.MD5.Create();
+        byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+        byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+        // Convert the byte array to hexadecimal string
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < hashBytes.Length; i++)
+        {
+            sb.Append(hashBytes[i].ToString("X2"));
+        }
+        return sb.ToString();
     }
 
     public void ShowMessage(Label lblmsg, string msg, bool IsError)
@@ -346,47 +401,20 @@ public class Bussinesslogic
     {
         DataTable dt = new DataTable();
         DataSet ds = new DataSet();
-        switch (code)
+        DataTable datatable = client.ExecuteDataSet("GetRedirectUrl", new string[] { code }).Tables[0];
+        if (datatable.Rows.Count > 0)
         {
-            case "":
-                ds = dh.ExecuteSelect("SearchBanksTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "TELLER":
-                ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "CUSTOMER":
-                ds = dh.ExecuteSelect("SearchBankUsersTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "TRANSACTIONCATEGORY":
-                ds = dh.ExecuteSelect("SearchTransactionCategoriesTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "USERTYPE":
-                ds = dh.ExecuteSelect("SearchUserTypesTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "ACCOUNTTYPE":
-                ds = dh.ExecuteSelect("SearchAccountTypesTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "ACCOUNTS":
-                ds = dh.ExecuteSelect("SearchBankAccountsTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "BRANCHES":
-                ds = dh.ExecuteSelect("SearchBankBranchesTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            case "CHARGES":
-                ds = dh.ExecuteSelect("SearchBankChargesTable", searchParams);
-                dt = ds.Tables[0];
-                return dt;
-            default:
-                return dt;
+            DataRow dr = datatable.Rows[0];
+            string storedProc = dr["StoredProc"].ToString();
+            ds = dh.ExecuteSelect(storedProc, searchParams);
+            dt = ds.Tables[0];
+            return dt;
         }
+        else
+        {
+            return dt;
+        }
+
     }
 
     public DataTable SearchTransactionRequestsTable(string[] searchParams)
@@ -459,7 +487,7 @@ public class Bussinesslogic
                 allowedAreas.AddRange(allowedArea.Split(','));
             }
         }
- 
+
         return allowedAreas;
     }
 
@@ -562,7 +590,7 @@ public class Bussinesslogic
             result.StatusCode = "0";
             result.StatusDesc = "SUCCESS";
         }
-        else 
+        else
         {
             result.StatusCode = "100";
             result.StatusDesc = "UNABLE TO ADD CUSTOMER AS SIGNATORY. TRY AGAIN OR CONTACT BANK ADMIN";
@@ -607,6 +635,147 @@ public class Bussinesslogic
             string CurrencyCode = dr["PaymentTypeCode"].ToString();
             string CurrencyName = dr["PaymentTypeName"].ToString();
             ddlst.Items.Add(new ListItem(CurrencyName, CurrencyCode));
+        }
+    }
+
+    public BankUser GetBankUser(string UserId)
+    {
+        BankUser user = new BankUser();
+        try
+        {
+            string[] parameters = { UserId };
+            DataTable datatable = client.ExecuteDataSet("Users_SelectRow", parameters).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString().ToUpper();
+                if (IsActive == "TRUE")
+                {
+                    user.FullName = dr["FullName"].ToString();
+                    user.IsActive = IsActive;
+                    user.Password = dr["Password"].ToString();
+                    user.Id = dr["UserId"].ToString();
+                    user.Email = dr["Email"].ToString();
+                    user.Usertype = dr["Usertype"].ToString();
+                    user.PhoneNumber = dr["PhoneNumber"].ToString();
+                    user.BankCode = dr["BankCode"].ToString();
+                    user.BranchCode = dr["BranchCode"].ToString();
+                    user.Gender = dr["Gender"].ToString();
+                    user.DateOfBirth = dr["DateOfBirth"].ToString();
+                    user.CanHaveAccount = dr["CanHaveAccount"].ToString();
+                    user.StatusCode = "0";
+                    user.StatusDesc = "SUCCESS";
+                }
+                else
+                {
+                    user.StatusCode = "100";
+                    user.StatusDesc = "FAILED: USER [" + UserId + "] IS DE-ACTIVATED. PLEASE CONTACT SYSTEM ADMINISTRATORS";
+                }
+            }
+            else
+            {
+                user.StatusCode = "100";
+                user.StatusDesc = "FAILED: USER WITH ID: " + UserId + " NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            user.StatusCode = "100";
+            user.StatusDesc = "FAILED: " + ex.Message + "";
+        }
+        return user;
+    }
+
+    public Bank GetBankById(string objectId)
+    {
+        Bank bank = new Bank();
+        try
+        {
+            string[] Parameters = { objectId };
+            DataTable datatable = client.ExecuteDataSet("Banks_SelectRow", Parameters).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                bank.BankCode = dr["BankCode"].ToString();
+                bank.BankContactEmail = dr["BankContactEmail"].ToString();
+                bank.BankId = dr["BankId"].ToString();
+                bank.BankName = dr["BankName"].ToString();
+                bank.BankPassword = dr["BankPassword"].ToString();
+                bank.IsActive = dr["IsActive"].ToString();
+                bank.ModifiedBy = dr["ModifiedBy"].ToString();
+                bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
+                bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
+                bank.StatusCode = "0";
+                bank.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                bank.StatusCode = "100";
+                bank.StatusDesc = "FAILED: BANK  [" + objectId + "] NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            bank.StatusCode = "100";
+            bank.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return bank;
+    }
+
+    public Result GetRedirectUrl(string EditType, string UserType)
+    {
+        Result result = new Result();
+        List<string> allowedUserTypes = new List<string>();
+        try
+        {
+            string[] parameters = { EditType };
+            DataTable dt = client.ExecuteDataSet("GetRedirectUrl", parameters).Tables[0];
+            if (dt.Rows.Count > 0)
+            {
+                allowedUserTypes.AddRange(dt.Rows[0]["UserTypeWhoCanView"].ToString().Split(','));
+                if (allowedUserTypes.Contains(UserType.ToUpper()))
+                {
+                    result.StatusCode = "0";
+                    result.StatusDesc = "SUCCESS";
+                    result.PegPayId = dt.Rows[0]["Url"].ToString();
+                }
+                else
+                {
+                    result.StatusCode = "100";
+                    result.StatusDesc = "YOU DONT HAVE ACCESS RIGHTS TO EDIT THIS";
+                }
+            }
+            else
+            {
+                result.StatusCode = "100";
+                result.StatusDesc = "NO REDIRECT URL FOUND FOR THIS OBJECT TYPE. CONTACT SYS ADMIN";
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return result;
+    }
+
+    public void LoadReportTypesIntoDropDown(string BankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { user.Usertype };
+        DataSet ds = dh.ExecuteSelect("GetAllRedirectUrls", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string TranType = dr["EditType"].ToString();
+            string TranTypeName = dr["Name"].ToString();
+            List<string> AllowedTypes = new List<string>();
+            AllowedTypes.AddRange(dr["UserTypeWhoCanView"].ToString().Split(','));
+            if (AllowedTypes.Contains(user.Usertype.ToUpper()))
+            {
+                ddlst.Items.Add(new ListItem(TranTypeName, TranType));
+            }
         }
     }
 }

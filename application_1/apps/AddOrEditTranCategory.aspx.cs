@@ -80,16 +80,13 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
         try
         {
             TransactionCategory category = GetTransactionCategory();
-            Result result = client.SaveTransactionCategoryDetails(category, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(category))
             {
-                string msg = "SUCCESS: TRANSACTION CATEGORY WITH CATEGORY CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(category);
             }
         }
         catch (Exception ex)
@@ -116,5 +113,41 @@ public partial class AddOrEditTranCategory : System.Web.UI.Page
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
         string bankCode = ddBank.SelectedValue;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            TransactionCategory category = GetTransactionCategory();
+            Save(category);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(TransactionCategory category)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveTransactionCategoryDetails(category, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: TRANSACTION CATEGORY WITH CATEGORY CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

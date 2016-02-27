@@ -7,12 +7,8 @@
 
                 <div class="container-fluid">
 
-
-
                     <div class="row">
-                        <%-- <div class="col-lg-6">--%>
 
-                        <%--<form runat="server" action="#" method="post">--%>
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
@@ -117,11 +113,6 @@
                             </div>
                         </div>
 
-
-                        <%--</form>--%>
-                        <%--</div>--%>
-                        <!-- /.row -->
-
                     </div>
                     <!-- /.container-fluid -->
 
@@ -129,7 +120,26 @@
             </div>
             <!-- /#page-wrapper -->
         </asp:View>
-        <asp:View ID="View2" runat="server">
+       <asp:View ID="View2" runat="server">
+            <div class="container">
+                <div class="text-center">
+                    <div class="row" style="padding-top: 70px;">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <div class="alert alert-info">
+                                This Bank Already Exists! Are you sure you want to Update it.
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <asp:Button ID="btnConfirm" runat="server" CssClass="btn btn-success" Text="Confirm Operation" OnClick="btnConfirm_Click" />
+                        <asp:Button ID="btnCancel" runat="server" CssClass="btn btn-danger" Text="Cancel Operation" OnClick="btnCancel_Click" />
+                    </div>
+                </div>
+                <hr />
+            </div>
         </asp:View>
     </asp:MultiView>
 

@@ -80,16 +80,13 @@ public partial class AddOrEditCurrency : System.Web.UI.Page
         try
         {
             Currency currency = GetCurrencyDetails();
-            Result result = client.SaveCurrencyDetails(currency, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(currency))
             {
-                string msg = "SUCCESS: CURRENCY WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(currency);
             }
         }
         catch (Exception ex)
@@ -108,5 +105,41 @@ public partial class AddOrEditCurrency : System.Web.UI.Page
         currency.ModifiedBy = user.Id;
         currency.ValueInLocalCurrency = txtValue.Text;
         return currency;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Currency currency = GetCurrencyDetails();
+            Save(currency);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(Currency currency)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveCurrencyDetails(currency, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: CURRENCY WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

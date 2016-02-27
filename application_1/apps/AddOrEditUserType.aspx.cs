@@ -80,16 +80,13 @@ public partial class AddOrEditUserType : System.Web.UI.Page
         try
         {
             UserType category = GetUserType();
-            Result result = client.SaveUserTypeDetails(category, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(category))
             {
-                string msg = "SUCCESS: USER CATEGORY WITH CATEGORY CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(category);
             }
         }
         catch (Exception ex)
@@ -111,5 +108,42 @@ public partial class AddOrEditUserType : System.Web.UI.Page
         category.IsActive = ddIsActive.SelectedValue;
         category.ModifiedBy = user.Id;
         return category;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            UserType category = GetUserType();
+            Save(category);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(UserType category)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveUserTypeDetails(category, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: USER CATEGORY WITH CATEGORY CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

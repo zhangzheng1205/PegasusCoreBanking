@@ -46,21 +46,13 @@ public partial class AddOrEditBank : System.Web.UI.Page
         try
         {
             Bank bank = GetBankFromDetails();
-            Result result = client.SaveBankDetails(bank, user.Id, user.Password);
-            if (result.StatusCode == "0")
+            if (bll.Exists(bank))
             {
-                string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId+"]";
-                bll.ShowMessage(lblmsg, msg, false);
-
-                if (ddSendEmail.Text == "YES")
-                {
-                    bll.SendBankAdminCredentialsEmail(bank);
-                }
+                MultiView1.ActiveViewIndex = 0;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true,Session);
+                Save(bank);
             }
         }
         catch (Exception ex)
@@ -132,5 +124,45 @@ public partial class AddOrEditBank : System.Web.UI.Page
         }
     }
 
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Bank bank = GetBankFromDetails();
+            Save(bank);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(Bank bank)
+    {
+        Result result = client.SaveBankDetails(bank, user.Id, user.Password);
+        if (result.StatusCode == "0")
+        {
+            MultiView1.ActiveViewIndex = 0;
+            string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId + "]";
+            bll.ShowMessage(lblmsg, msg, false);
+
+            if (ddSendEmail.Text == "YES")
+            {
+                bll.SendBankAdminCredentialsEmail(bank);
+            }
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
+    }
   
 }

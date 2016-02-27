@@ -311,7 +311,10 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         aUser.TransactionLimit = "0";
         aUser.PathToProfilePic = ViewState["ProfilePic"] as string;//GetPathToProfilePicImage(ddBank.SelectedValue);
         aUser.PathToSignature = ViewState["SignaturePic"] as string;//GetPathToImageOfSignature(ddBank.SelectedValue);
-
+        aUser.NextOfKinContact = txtNextOfKinTel.Text;
+        aUser.NextOfKinName = txtNextOfKinName.Text;
+        aUser.MaritalStatus = ddMaritalStatus.Text;
+        aUser.Nationality = txtNationality.Text;
         return aUser;
     }
 

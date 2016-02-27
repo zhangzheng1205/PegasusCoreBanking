@@ -2323,6 +2323,54 @@ namespace InterLinkClass.CoreBankingApi {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
     public partial class BankCustomer : BankUser {
+        
+        private string nextOfKinNameField;
+        
+        private string nextOfKinContactField;
+        
+        private string maritalStatusField;
+        
+        private string nationalityField;
+        
+        /// <remarks/>
+        public string NextOfKinName {
+            get {
+                return this.nextOfKinNameField;
+            }
+            set {
+                this.nextOfKinNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string NextOfKinContact {
+            get {
+                return this.nextOfKinContactField;
+            }
+            set {
+                this.nextOfKinContactField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MaritalStatus {
+            get {
+                return this.maritalStatusField;
+            }
+            set {
+                this.maritalStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Nationality {
+            get {
+                return this.nationalityField;
+            }
+            set {
+                this.nationalityField = value;
+            }
+        }
     }
     
     /// <remarks/>

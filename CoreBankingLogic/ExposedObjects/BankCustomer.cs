@@ -8,7 +8,13 @@ using System.Collections.Generic;
 /// Summary description for Customer
 /// </summary>
 public class BankCustomer:BankUser
-{  
+{
+    public string NextOfKinName = "";
+    public string NextOfKinContact = "";
+    public string MaritalStatus="";
+    public string Nationality = "";
+
+
 	public BankCustomer()
 	{
 		//

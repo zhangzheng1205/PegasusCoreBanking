@@ -200,6 +200,35 @@
                                             </div>
                                         </div>
 
+                                         <div class="row">
+                                            <div class="col-lg-6">
+                                               <label>Next of Kin Full Name</label>
+                                                <asp:TextBox ID="txtNextOfKinName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                                <p class="help-block">The name of the next of Kin</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Next of Kin Contact</label>
+                                                <asp:TextBox ID="txtNextOfKinTel" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                                <p class="help-block">Phone Number or Email or the next of Kin</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label>Marital Status</label>
+                                                <asp:DropDownList ID="ddMaritalStatus" runat="server" CssClass="form-control">
+                                                    <asp:ListItem>SINGLE</asp:ListItem>
+                                                    <asp:ListItem>MARRIED</asp:ListItem>
+                                                </asp:DropDownList>
+                                                <p class="help-block">The Customers Marital Status</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>Nationality</label>
+                                                <asp:TextBox ID="txtNationality" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                                <p class="help-block">The customers Nationality</p>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <label>Send Email with Credentials</label>

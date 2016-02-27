@@ -32,6 +32,15 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
+    <style type="text/css">
+        .navbar-inverse {
+            background-color: black;
+            border-color: inherit;
+            color: white;
+            /*border-width:5px;*/
+        }
+    </style>
+
 </head>
 
 <body style="font-size: 12px;">
@@ -298,16 +307,16 @@
         <!-- /#wrapper -->
 
         <!-- jQuery -->
-        <script src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
         <!-- Morris Charts JavaScript -->
-        <script src="js/plugins/morris/raphael.min.js"></script>
-        <script src="js/plugins/morris/morris.min.js"></script>
-        <script src="js/plugins/morris/morris-data.js"></script>
-        <!-- Script to Activate the Carousel -->
+        <script type="text/javascript" src="js/plugins/morris/raphael.min.js"></script>
+        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>
+        <script type="text/javascript" src="js/plugins/morris/morris-data.js"></script>
+        <!-- Script to Disable buttons once they are clicked -->
         <script type="text/javascript">
             function DisableButtons() {
                 var inputs = document.getElementsByTagName("INPUT");

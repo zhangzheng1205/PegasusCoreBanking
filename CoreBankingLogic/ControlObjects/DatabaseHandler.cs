@@ -1382,4 +1382,21 @@ public class DatabaseHandler
         return rule;
     }
 
+
+    internal void LogError(string Id, string BankCode, string msg)
+    {
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("InsertIntoErrorLogs",
+                                                      Id,
+                                                      BankCode,
+                                                      msg
+                                                     );
+             CbDatabase.ExecuteNonQuery(command);
+        }
+        catch (Exception)
+        {
+            //do nothing since at this stage we are just logging an error
+        }
+    }
 }

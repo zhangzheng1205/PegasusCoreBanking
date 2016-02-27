@@ -80,16 +80,13 @@ public partial class AddOrEditChargeType : System.Web.UI.Page
         try
         {
             ChargeType type = GetChargeType();
-            Result result = client.SaveChargeTypeDetails(type, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(type))
             {
-                string msg = "SUCCESS: ACCOUNT TYPE WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(type);
             }
         }
         catch (Exception ex)
@@ -109,5 +106,41 @@ public partial class AddOrEditChargeType : System.Web.UI.Page
         accType.ModifiedBy = user.Id;
         accType.IsActive = ddIsActive.Text;
         return accType;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ChargeType type = GetChargeType();
+            Save(type);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(ChargeType type)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveChargeTypeDetails(type, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: ACCOUNT TYPE WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

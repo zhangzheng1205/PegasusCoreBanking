@@ -81,16 +81,13 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         try
         {
             BankBranch branch = GetBranch();
-            Result result = client.SaveBankBranchDetails(branch, ddBank.SelectedValue, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(branch))
             {
-                string msg = "SUCCESS: BRANCH WITH BRANCH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
-            else 
+            else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(branch);
             }
         }
         catch (Exception ex)
@@ -111,5 +108,41 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         branch.Location = txtLocation.Text;
         branch.ModifiedBy = user.Id;
         return branch;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            BankBranch branch = GetBranch();
+            Save(branch);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(BankBranch branch)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveBankBranchDetails(branch, ddBank.SelectedValue, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: BRANCH WITH BRANCH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

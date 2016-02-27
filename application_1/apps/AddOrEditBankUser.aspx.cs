@@ -158,22 +158,13 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         try
         {
             BankUser newUser = GetBankUser();
-            Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(newUser)) 
             {
-
-                string msg = "SUCCESS: " + newUser.Usertype + " USER WITH ID [" + result.PegPayId + "] SAVED.";
-                bll.ShowMessage(lblmsg, msg, false, Session);
-
-                if (ddSendEmail.Text == "YES") 
-                {
-                    bll.SendBankUserCredentialsEmail(newUser);
-                }
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(newUser);
             }
         }
         catch (Exception ex)
@@ -246,5 +237,47 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
             string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            BankUser newUser = GetBankUser();
+            Save(newUser);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(BankUser newUser)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveBankUserDetails(newUser, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+
+            string msg = "SUCCESS: " + newUser.Usertype + " USER WITH ID [" + result.PegPayId + "] SAVED.";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+
+            if (ddSendEmail.Text == "YES")
+            {
+                bll.SendBankUserCredentialsEmail(newUser);
+            }
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

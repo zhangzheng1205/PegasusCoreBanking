@@ -778,4 +778,66 @@ public class Bussinesslogic
             }
         }
     }
+
+    public bool Exists(Object obj)
+    {
+        string className = GetClassNameByReflection(obj);
+        switch (className.ToUpper()) 
+        {
+            case "ACCOUNTTYPE":
+                AccountType type=obj as AccountType;
+                return TrueIfExists(className, type.AccTypeCode, type.BankCode);
+            case "BANK":
+                Bank bank = obj as Bank;
+                return TrueIfExists(className, bank.BankCode, bank.BankCode);
+            case "BANKACCOUNT":
+                BankAccount bankAcc = obj as BankAccount;
+                return TrueIfExists(className, bankAcc.AccountNumber, bankAcc.BankCode);
+            case "BANKBRANCH":
+                BankBranch branch = obj as BankBranch;
+                return TrueIfExists(className, branch.BranchCode, branch.BankCode);
+            case "BANKCHARGE":
+                BankCharge charge = obj as BankCharge;
+                return TrueIfExists(className, charge.ChargeCode, charge.BankCode);
+            case "BANKUSER":
+                BankUser user = obj as BankUser;
+                return TrueIfExists(className, user.Id, user.BankCode);
+            case "CHARGETYPE":
+                ChargeType chargeType = obj as ChargeType;
+                return TrueIfExists(className, chargeType.ChargeTypeCode, chargeType.BankCode);
+            case "CURRENCY":
+                Currency currency = obj as Currency;
+                return TrueIfExists(className, currency.CurrencyCode, currency.BankCode);
+            case "PAYMENTTYPE":
+                PaymentType payType = obj as PaymentType;
+                return TrueIfExists(className, payType.PaymentTypeCode, payType.BankCode);
+            case "TRANSACTIONCATEGORY":
+                TransactionCategory tranCategory = obj as TransactionCategory;
+                return TrueIfExists(className, tranCategory.TranCategoryCode, tranCategory.BankCode);
+            case "TRANSACTIONRULE":
+                TransactionRule rule = obj as TransactionRule;
+                return TrueIfExists(className, rule.RuleCode, rule.BankCode);
+            default:
+                return false;
+        }
+    }
+
+    private string GetClassNameByReflection(object obj)
+    {
+        string className = obj.GetType().Name;
+        return className;
+    }
+
+    private bool TrueIfExists(string className, string Id, string BankCode)
+    {
+        BaseObject obj = client.GetById(className, Id, BankCode, BankPassword);
+        if (obj.StatusCode == "0")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

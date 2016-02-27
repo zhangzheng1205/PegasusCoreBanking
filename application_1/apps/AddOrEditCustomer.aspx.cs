@@ -146,24 +146,18 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
         txtUserId.Enabled = false;
     }
 
-
-
-
-
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
             BankCustomer newUser = GetBankCustomer();
-            Result result = client.SaveBankCustomerDetails(newUser, user.BankCode, bll.BankPassword);
-            if (result.StatusCode == "0")
+            if (bll.Exists(newUser))
             {
-                Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(newUser);
             }
         }
         catch (Exception ex)
@@ -194,10 +188,46 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
         aUser.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
         return aUser;
     }
+
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
         string bankCode = ddBank.SelectedValue;
         bll.LoadBanksBranchesIntoDropDown(bankCode, ddBankBranch, user);
         ddBankBranch.Enabled = true;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            BankCustomer newUser = GetBankCustomer();
+            Save(newUser);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(BankCustomer newUser)
+    {
+        MultiView1.ActiveViewIndex = 0;
+        Result result = client.SaveBankCustomerDetails(newUser, user.BankCode, bll.BankPassword);
+        if (result.StatusCode == "0")
+        {
+            Response.Redirect("~/AddOrEditBankAccount.aspx?UserId=" + newUser.Id + "&BankCode=" + newUser.BankCode + "&BranchCode=" + newUser.BranchCode + "&Msg=CREATE A CUSTOMER ACCOUNT FOR THIS CUSTOMER");
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

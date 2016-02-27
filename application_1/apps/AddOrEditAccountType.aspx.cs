@@ -82,21 +82,34 @@ public partial class AddOrEditAccountType : System.Web.UI.Page
         try
         {
             AccountType accType = GetAccountType();
-            Result result = client.SaveAccountTypeDetails(accType,user.BankCode,bll.BankPassword);
-            if (result.StatusCode == "0") 
+            if (bll.Exists(accType))
             {
-                string msg = "SUCCESS: ACCOUNT TYPE WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
-                bll.ShowMessage(lblmsg, msg, false, Session);
+                MultiView1.ActiveViewIndex = 1;
             }
-            else 
+            else
             {
-                string msg = result.StatusDesc;
-                bll.ShowMessage(lblmsg, msg, true, Session);
+                Save(accType);
             }
         }
         catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    private void Save(AccountType accType)
+    {
+        Result result = client.SaveAccountTypeDetails(accType, user.BankCode, bll.BankPassword);
+        MultiView1.ActiveViewIndex = 0;
+        if (result.StatusCode == "0")
+        {
+            string msg = "SUCCESS: ACCOUNT TYPE WITH CODE [" + result.PegPayId + "] SAVED SUCCESSFULLY";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
             bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
@@ -116,5 +129,25 @@ public partial class AddOrEditAccountType : System.Web.UI.Page
         accType.MaxNumberOfSignatories = Convert.ToInt32(ddMaxSignatories.SelectedValue);
         accType.MinNumberOfSignatories = Convert.ToInt32(ddMinSignatories.SelectedValue);
         return accType;
+    }
+
+    protected void btnConfirm_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            AccountType accType = GetAccountType();
+            Save(accType);
+        }
+        catch (Exception ex)
+        {
+            string msg = "FAILED: " + ex.Message;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        //send fresh request to this very page
+        Server.TransferRequest(Request.Url.AbsolutePath, false);
     }
 }

@@ -229,6 +229,9 @@ public class BussinessLogic
                 {
                     obj.StatusCode = "100";
                     obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + user.Usertype + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
+                    
+                    //log error for audit purposes
+                    dh.LogError(UserId, BankCode, obj.StatusDesc);
                     return false;
                 }
             }

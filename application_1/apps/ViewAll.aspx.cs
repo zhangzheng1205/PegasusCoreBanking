@@ -27,7 +27,11 @@ public partial class ViewAll : System.Web.UI.Page
             string BankCode = Request.QueryString["BankCode"];
 
             //Session is invalid
-            if (user == null)
+            if (EditType != null)
+            {
+                RouteRequestToCorrectEditPage(EditType, Id, BankCode);
+            }
+            else if (user == null)
             {
                 Response.Redirect("Default.aspx");
             }
@@ -35,11 +39,6 @@ public partial class ViewAll : System.Web.UI.Page
             else if (IsPostBack)
             {
 
-            }
-            //if this guy isnt empty then this is an Edit Request
-            else if (EditType != null)
-            {
-                RouteRequestToCorrectEditPage(EditType, Id, BankCode);
             }
             else
             {
@@ -60,8 +59,9 @@ public partial class ViewAll : System.Web.UI.Page
         if (result.StatusCode == "0")
         {
             string Page = result.PegPayId;
-            string url = "~/" + Page + "?Id=" + Id + "&BankCode=" + BankCode;
-            Server.Transfer(url);
+            string url = Page + "?Id=" + Id + "&BankCode=" + BankCode;
+            Response.Redirect(url);
+            //Server.Transfer(url,false);
         }
         else
         {

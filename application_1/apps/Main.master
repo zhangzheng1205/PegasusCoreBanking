@@ -34,18 +34,6 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
-     <%
-         string style="<style type=\"text/css\">"+
-                       ".navbar-inverse {"+
-                       "background-color:"+(Session["UsersBank"] as Bank).BankThemeColor+";"+
-                       "border-color: inherit;"+
-                       "color: white;"+
-                       "}"+
-                       "</style>";
-        Response.Write(style);
-    %>
-    
-
 </head>
 
 <body style="font-size: 12px;">
@@ -273,9 +261,6 @@
                                 <a href="AddOrEditBankUser.aspx"><i class="fa fa-caret-right"></i> Create BankAdmin</a>
                             </li>
                              <li>
-                                <a href="CameraCaptureForm.aspx"><i class="fa fa-caret-right"></i> Get Camera Capture</a>
-                            </li>
-                             <li>
                                 <a href="ViewAll.aspx"><i class="fa fa-caret-right"></i> View/Edit Banks,Branches,Tellers,Account Types,Transaction Categories</a>
                             </li>
                         </ul>
@@ -333,6 +318,17 @@
             }
             window.onbeforeunload = DisableButtons;
         </script>
+
+        <%
+            string style = "<style type=\"text/css\">" +
+                          ".navbar-inverse {" +
+                          "background-color:" + (Session["UsersBank"] as Bank).BankThemeColor + ";" +
+                          "border-color: inherit;" +
+                          "color: white;" +
+                          "}" +
+                          "</style>";
+            Response.Write(style);
+        %>
     </form>
 </body>
 

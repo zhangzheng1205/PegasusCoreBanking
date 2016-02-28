@@ -31,6 +31,10 @@ public partial class AddOrEditBank : System.Web.UI.Page
             {
 
             }
+            else if (!string.IsNullOrEmpty(Id)) 
+            {
+                LoadData(Id);
+            }
             else
             {
                 MultiView1.ActiveViewIndex = 0;
@@ -39,6 +43,26 @@ public partial class AddOrEditBank : System.Web.UI.Page
         catch (Exception ex)
         {
             bll.ShowMessage(lblmsg, ex.Message, true,Session);
+        }
+    }
+
+    private void LoadData(string Id)
+    {
+        Bank bank = client.GetById("BANK", Id, user.BankCode, bll.BankPassword) as Bank;
+        MultiView1.ActiveViewIndex = 0;
+        if (bank.StatusCode == "0")
+        {
+            txtBankCode.Text = bank.BankCode;
+            txtBankCode.Enabled = false;
+            txtBankName.Text = bank.BankName;
+            txtColor.Text = bank.TextColor;
+            txtTheme.Text = bank.BankThemeColor;
+            txtContactEmail.Text = bank.BankContactEmail;
+        }
+        else 
+        {
+            string msg = bank.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
         }
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -160,8 +184,8 @@ public partial class AddOrEditBank : System.Web.UI.Page
         if (result.StatusCode == "0")
         {
            
-            string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId + "]";
-            bll.ShowMessage(lblmsg, msg, false);
+            string msg = "SUCCESS: BANK SAVED. BANKCODE = [" + result.PegPayId + "]";
+            bll.ShowMessage(lblmsg, msg, false,Session);
 
             if (ddSendEmail.Text == "YES")
             {

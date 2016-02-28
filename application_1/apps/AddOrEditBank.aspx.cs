@@ -48,7 +48,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
             Bank bank = GetBankFromDetails();
             if (bll.Exists(bank))
             {
-                MultiView1.ActiveViewIndex = 0;
+                MultiView1.ActiveViewIndex = 1;
             }
             else
             {
@@ -72,8 +72,23 @@ public partial class AddOrEditBank : System.Web.UI.Page
         bank.BankPassword = bll.GeneratePassword();
         bank.IsActive = ddIsActive.SelectedValue;
         bank.ModifiedBy = user.Id;
-        bank.PathToPublicKey = GetPathToPublicKey(bank.BankCode);
-        bank.PathToLogoImage = GetPathToLogoImage(bank.BankCode);
+        bank.BankThemeColor = "#"+txtTheme.Text;
+        bank.TextColor = "#" + txtColor.Text;
+
+        //check if user has already upload this stuff
+        string publicKey = ViewState["PublicKey"] as String;
+        if (string.IsNullOrEmpty(publicKey))
+        {
+            bank.PathToPublicKey = GetPathToPublicKey(bank.BankCode);
+            bank.PathToLogoImage = GetPathToLogoImage(bank.BankCode);
+            ViewState["PublicKey"] = bank.PathToPublicKey;
+            ViewState["BankLogo"] = bank.PathToLogoImage;
+        }
+        else 
+        {
+            bank.PathToPublicKey = publicKey;
+            bank.PathToLogoImage = ViewState["BankLogo"] as String;
+        }
         return bank;
     }
 
@@ -141,9 +156,10 @@ public partial class AddOrEditBank : System.Web.UI.Page
     private void Save(Bank bank)
     {
         Result result = client.SaveBankDetails(bank, user.Id, user.Password);
+        MultiView1.ActiveViewIndex = 0;
         if (result.StatusCode == "0")
         {
-            MultiView1.ActiveViewIndex = 0;
+           
             string msg = "SUCCESS: BANK CREATED WITH BANKCODE = [" + result.PegPayId + "]";
             bll.ShowMessage(lblmsg, msg, false);
 

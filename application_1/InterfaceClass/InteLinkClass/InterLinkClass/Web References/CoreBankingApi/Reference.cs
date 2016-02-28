@@ -2834,6 +2834,10 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string pathToLogoImageField;
         
+        private string bankThemeColorField;
+        
+        private string textColorField;
+        
         /// <remarks/>
         public string BankId {
             get {
@@ -2921,6 +2925,26 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.pathToLogoImageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankThemeColor {
+            get {
+                return this.bankThemeColorField;
+            }
+            set {
+                this.bankThemeColorField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string TextColor {
+            get {
+                return this.textColorField;
+            }
+            set {
+                this.textColorField = value;
             }
         }
     }

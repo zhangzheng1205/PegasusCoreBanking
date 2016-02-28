@@ -491,9 +491,9 @@ public class Bussinesslogic
         return allowedAreas;
     }
 
-    public void UpdateBankTransactionStatus(string BankID, string BankCode, string PegPayId)
+    public void UpdateBankTransactionStatus(string BankID, string BankCode, string PegPayId,string Status)
     {
-        string[] parameters = { BankID, BankCode, PegPayId };
+        string[] parameters = { BankID, BankCode, PegPayId,Status };
         int rowsAffected = dh.ExecuteNonQuery("UpdateBankTransactionStatus", parameters);
     }
 
@@ -543,7 +543,7 @@ public class Bussinesslogic
     public Result UpdateUserIsActiveStatus(string[] parameters)
     {
         Result result = new Result();
-        int rows = dh.ExecuteNonQuery("UpdateUserIsActiveStatus", parameters);
+        int rows = dh.ExecuteNonQuery("AprroveOrRejectUser", parameters);
         if (rows > 0)
         {
             result.StatusCode = "0";
@@ -560,7 +560,7 @@ public class Bussinesslogic
     public Result UpdateBankAccountApprovalStatus(string[] parameters)
     {
         Result result = new Result();
-        int rows = dh.ExecuteNonQuery("UpdateBankAccountsIsActiveStatus", parameters);
+        int rows = dh.ExecuteNonQuery("ApproveOrRejectBankAccount", parameters);
         if (rows > 0)
         {
             result.StatusCode = "0";
@@ -705,6 +705,8 @@ public class Bussinesslogic
                 bank.ModifiedBy = dr["ModifiedBy"].ToString();
                 bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
                 bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
+                bank.BankThemeColor = dr["ThemeColor"].ToString();
+                bank.TextColor = dr["NavbarTextColor"].ToString();
                 bank.StatusCode = "0";
                 bank.StatusDesc = "SUCCESS";
             }

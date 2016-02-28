@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Main.master" AutoEventWireup="true" CodeFile="AddOrEditBank.aspx.cs" Inherits="AddOrEditBank" Title="Add_Or_Edit_Bank" %>
 
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:MultiView ID="MultiView1" runat="server">
         <asp:View ID="View1" runat="server">
@@ -90,20 +92,32 @@
                                 </asp:DropDownList>
                                 <p class="help-block">Should an Email be sent to Contact Person with BankCode and Password for access API directly</p>
                             </div>
+                            
+                        </div>
 
+                        <div class="row">
                             <div class="col-lg-6">
                                 <label>Upload Bank public Key(.cer)</label>
                                 <asp:FileUpload runat="server" accept="*.cer" ID="fuPublicKey" type="file" />
                                 <p class="help-block">Public key of Bank in .cer format. This will be used to verify digital signatures of requests sent to the API</p>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-6"></div>
                             <div class="col-lg-6">
                                 <label>Upload Bank Logo</label>
                                 <asp:FileUpload runat="server" accept="image/*" ID="fuBankLogo" type="file" />
                                 <p class="help-block">Logo Image of Bank in PNG or JPEG format.Will be used to customize look and feel of Bank OS</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label>Theme Color</label>
+                                <asp:TextBox ID="txtTheme" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The color of the navigation bar for this Bank</p>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>NavBarText Color</label>
+                                <asp:TextBox ID="txtColor" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The color of text in the navigation bar</p>
                             </div>
                         </div>
 
@@ -116,11 +130,23 @@
                     </div>
                     <!-- /.container-fluid -->
 
+                    <%-- Scripts--%>
+                    <ajaxToolkit:ToolkitScriptManager ID="ScriptManager1" runat="Server" EnableScriptGlobalization="true"
+                        EnableScriptLocalization="true">
+                    </ajaxToolkit:ToolkitScriptManager>
+                    <br />
+                    <cdt:colorpickerextender id="cpe1" runat="server"
+                        targetcontrolid="txtTheme"
+                        popupbuttonid="txtTheme" />
+                     <cdt:colorpickerextender id="cpe2" runat="server"
+                        targetcontrolid="txtColor"
+                        popupbuttonid="txtColor" />
+
                 </div>
             </div>
             <!-- /#page-wrapper -->
         </asp:View>
-       <asp:View ID="View2" runat="server">
+        <asp:View ID="View2" runat="server">
             <div class="container">
                 <div class="text-center">
                     <div class="row" style="padding-top: 70px;">

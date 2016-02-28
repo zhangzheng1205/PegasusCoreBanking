@@ -23,7 +23,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
             Approver = Request.QueryString["Approver"];
 
             //Session is invalid
-            if (user == null||string.IsNullOrEmpty(Approver))
+            if (user == null || string.IsNullOrEmpty(Approver))
             {
                 Response.Redirect("Default.aspx");
             }
@@ -101,18 +101,18 @@ public partial class ApproveTransaction : System.Web.UI.Page
         string BankCode = ddBank.SelectedValue;
 
         //send transact request
-        TransactionRequest tran = bll.GetTransactionRequest(BankTranId, BankCode,user.Id);
+        TransactionRequest tran = bll.GetTransactionRequest(BankTranId, BankCode, user.Id);
         Result result = client.Transact(tran);
 
         //success
-        if (result.StatusCode == "0") 
+        if (result.StatusCode == "0")
         {
             //generate reciept
             string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-            bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
+            bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId,"SUCCESS");
             Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
         }
-        else 
+        else
         {
             //display error
             string msg = result.StatusDesc;
@@ -139,7 +139,7 @@ public partial class ApproveTransaction : System.Web.UI.Page
                 }
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             string msg = "FAILED: " + ex.Message;
             bll.ShowMessage(lblmsg, msg, true, Session);
@@ -199,5 +199,49 @@ public partial class ApproveTransaction : System.Web.UI.Page
         searchCriteria.Add(Approver);
         searchCriteria.Add(Status);
         return searchCriteria.ToArray();
+    }
+
+    protected void btnReject_Click(object sender, EventArgs e)
+    {
+        //loop thru the rows
+        foreach (GridViewRow row in dataGridResults.Rows)
+        {
+            //for each row get the checkbox attached
+            CheckBox ChkBox = (CheckBox)row.FindControl("CheckBox");
+
+            //has user ticked the box
+            if (ChkBox.Checked)
+            {
+                //if this row is not the header row
+                if (row.RowType != DataControlRowType.Header)
+                {
+                    try
+                    {
+                        //send reversal request
+                        RejectTransactionRequest(row);
+                    }
+                    catch (Exception ex)
+                    {
+                        string msg = "FAILED: " + ex.Message;
+                        bll.ShowMessage(lblmsg, msg, true, Session);
+                    }
+                }
+            }
+        }
+    }
+
+    private void RejectTransactionRequest(GridViewRow row)
+    {
+        //get the Bank Transaction Id and the bank code
+        string BankTranId = row.Cells[1].Text.Trim();
+        string BankCode = ddBank.SelectedValue;
+        string Status = "Rejected";
+        string RejectedBy = user.Id;
+        string Reason = "Rejected By " + RejectedBy;
+
+        //send transact request
+        bll.UpdateBankTransactionStatus(BankTranId, BankCode, Reason, Status);
+        string msg = "Successfully Rejected Transaction " + BankTranId;
+        bll.ShowMessage(lblmsg, msg, false, Session);
     }
 }

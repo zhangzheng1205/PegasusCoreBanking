@@ -55,7 +55,11 @@ public class DatabaseHandler
                                                        cust.Gender,
                                                        cust.TransactionLimit,
                                                        cust.PathToProfilePic,
-                                                       cust.PathToSignature
+                                                       cust.PathToSignature,
+                                                       cust.NextOfKinName,
+                                                       cust.NextOfKinContact,
+                                                       cust.MaritalStatus,
+                                                        cust.Nationality
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -80,7 +84,9 @@ public class DatabaseHandler
                                                         bank.IsActive,
                                                         bank.ModifiedBy,
                                                         bank.PathToLogoImage,
-                                                        bank.PathToPublicKey
+                                                        bank.PathToPublicKey,
+                                                        bank.BankThemeColor,
+                                                        bank.TextColor
                 );
             DataSet allTables = CbDatabase.ExecuteDataSet(command);
             //get last table because it has what we need
@@ -873,6 +879,8 @@ public class DatabaseHandler
                 bank.ModifiedBy = dr["ModifiedBy"].ToString();
                 bank.PathToLogoImage = dr["PathToLogoImage"].ToString();
                 bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
+                bank.BankThemeColor = dr["ThemeColor"].ToString();
+                bank.TextColor = dr["NavbarTextColor"].ToString();
                 bank.StatusCode = "0";
                 bank.StatusDesc = "SUCCESS";
             }
@@ -1392,7 +1400,7 @@ public class DatabaseHandler
                                                       BankCode,
                                                       msg
                                                      );
-             CbDatabase.ExecuteNonQuery(command);
+            CbDatabase.ExecuteNonQuery(command);
         }
         catch (Exception)
         {

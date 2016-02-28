@@ -16,6 +16,10 @@ namespace CoreBankingLogic.ExposedObjects
         public string ModifiedBy = "";
         public string PathToPublicKey = "";
         public string PathToLogoImage = "";
+        public string BankThemeColor = "";
+        public string TextColor = "";
+
+
         private string[] allowedPublicKeyTypes ={ ".cer" };
         private string[] allowedLogoImageTypes ={ ".jpg",".jpeg",".JPG",".JPEG",".png",".PNG" };
 

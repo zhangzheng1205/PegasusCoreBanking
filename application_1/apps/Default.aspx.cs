@@ -136,6 +136,8 @@ public partial class _Default : System.Web.UI.Page
                 UsersBank.ModifiedBy = "admin";
                 UsersBank.PathToLogoImage = "Billing.jpg";
                 UsersBank.PathToPublicKey = "";
+                UsersBank.BankThemeColor = "#06283D";
+                UsersBank.TextColor = "White";
                 UsersBank.StatusCode = "0";
                 UsersBank.StatusDesc = "SUCCESS";
                 allowedAreas.Add("SYS_ADMIN");

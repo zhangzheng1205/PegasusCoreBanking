@@ -2,6 +2,8 @@
 
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="InterLinkClass.CoreBankingApi" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -32,14 +34,17 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
-    <style type="text/css">
-        .navbar-inverse {
-            background-color: black;
-            border-color: inherit;
-            color: white;
-            /*border-width:5px;*/
-        }
-    </style>
+     <%
+         string style="<style type=\"text/css\">"+
+                       ".navbar-inverse {"+
+                       "background-color:"+(Session["UsersBank"] as Bank).BankThemeColor+";"+
+                       "border-color: inherit;"+
+                       "color: white;"+
+                       "}"+
+                       "</style>";
+        Response.Write(style);
+    %>
+    
 
 </head>
 

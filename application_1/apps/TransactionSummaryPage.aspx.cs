@@ -84,7 +84,7 @@ public partial class TransactionSummaryPage : System.Web.UI.Page
                 {
                     //generate reciept
                     string msg = "SUCCESS!! BANK Transaction Id: " + result.RequestId;
-                    bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId);
+                    bll.UpdateBankTransactionStatus(tran.BankTranId, tran.BankCode, result.PegPayId,"SUCCESS");
                     Session["frompage"] = Request.Url.AbsolutePath;
                     Response.Redirect("~/Receipt.aspx?Id=" + tran.BankTranId + "&BankCode=" + tran.BankCode);
                 }

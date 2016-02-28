@@ -14,12 +14,8 @@
 
                 <div class="container-fluid">
 
-
-
                     <div class="row">
-                        <%-- <div class="col-lg-6">--%>
 
-                        <%--<form runat="server" action="#" method="post">--%>
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
@@ -125,7 +121,9 @@
                                     <div class="col-lg-4"></div>
                                     <div class="col-lg-4">
                                         <asp:Button ID="btnApprove" runat="server" OnClick="btnApprove_Click"
-                                            CssClass="btn-primary" Text="Approve Users(s)" />
+                                            CssClass="btn btn-primary" Text="Approve Users(s)" />
+                                         <asp:Button ID="btnReject" runat="server" OnClick="btnReject_Click"
+                                            CssClass="btn btn-danger" Text="Reject Users(s)" />
                                     </div>
                                     <div class="col-lg-4"></div>
                                 </div>

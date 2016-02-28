@@ -186,4 +186,55 @@ public partial class ApproveBankUser : System.Web.UI.Page
         }
     }
 
+    protected void btnReject_Click(object sender, EventArgs e)
+    {
+        //loop thru the rows
+        foreach (GridViewRow row in dataGridResults.Rows)
+        {
+            //for each row get the checkbox attached
+            CheckBox ChkBox = (CheckBox)row.FindControl("CheckBox");
+
+            //has user ticked the box
+            if (ChkBox.Checked)
+            {
+                //if this row is not the header row
+                if (row.RowType != DataControlRowType.Header)
+                {
+                    try
+                    {
+                        //send reversal request
+                        RejectUser(row);
+                    }
+                    catch (Exception ex)
+                    {
+                        string msg = "FAILED: " + ex.Message;
+                        bll.ShowMessage(lblmsg, msg, true, Session);
+                    }
+                }
+            }
+        }
+    }
+
+    private void RejectUser(GridViewRow row)
+    {
+        //get the Bank Transaction Id and the bank code
+        string UserId = row.Cells[1].Text.Trim();
+        string BankCode = ddBank.SelectedValue;
+        string RejectedBy = user.Id;
+        string IsActive = "False";
+        string[] parameters = { UserId, BankCode, IsActive, RejectedBy };
+
+        Result result = bll.UpdateUserIsActiveStatus(parameters);
+        if (result.StatusCode == "0")
+        {
+            SearchDB();
+            string msg = "User(s) Rejected Successfully";
+            bll.ShowMessage(lblmsg, msg, false, Session);
+        }
+        else
+        {
+            string msg = result.StatusDesc;
+            bll.ShowMessage(lblmsg, msg, true, Session);
+        }
+    }
 }

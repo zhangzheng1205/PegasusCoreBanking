@@ -82,7 +82,7 @@ public partial class ApproveBankUser : System.Web.UI.Page
 
     private void ApproveUser(GridViewRow row)
     {
-        //get the Bank Transaction Id and the bank code
+        //get the Bank User Id and the bank code
         string UserId = row.Cells[1].Text.Trim();
         string BankCode = ddBank.SelectedValue;
         string ApprovedBy = user.Id;

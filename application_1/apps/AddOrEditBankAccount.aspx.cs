@@ -198,16 +198,9 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         account.AccountBalance = "0";
         account.AccountId = "";
         account.BranchCode = ddBankBranch.SelectedValue;
-        account.AccountNumber = GenerateAccountNumber();
+        account.AccountNumber = bll.GenerateAccountNumber();
         account.AccountType = ddAccountType.SelectedValue;
-        if (string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(UserId))
-        {
-            account.IsActive = "False";
-        }
-        else
-        {
-            account.IsActive = "True";
-        }
+        account.IsActive = ddIsActive.Text;
         account.BankCode = ddBank.SelectedValue;
         account.ModifiedBy = user.Id;
         account.CurrencyCode = ddCurrency.SelectedValue;
@@ -223,11 +216,7 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         return account;
     }
 
-    private string GenerateAccountNumber()
-    {
-        return DateTime.Now.ToString("yyyyMMddHHmmssfff");
-    }
-
+   
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)
     {
         string bankCode = ddBank.SelectedValue;
@@ -297,18 +286,16 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         BankCustomer aUser = new BankCustomer();
         aUser.BankCode = ddBank2.SelectedValue;
         aUser.BranchCode = ddBankBranches2.SelectedValue;
-        aUser.CanHaveAccount = "False";
+        aUser.ApprovedBy = user.Id;
         aUser.DateOfBirth = txtDateOfBirth.Text;
         aUser.Email = txtEmail.Text;
         aUser.FullName = txtBankUsersName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
-        aUser.IsActive = "false";
+        aUser.IsActive = ddIsActive.Text;
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GeneratePassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
-        aUser.Usertype = "CUSTOMER";
-        aUser.TransactionLimit = "0";
         aUser.PathToProfilePic = ViewState["ProfilePic"] as string;//GetPathToProfilePicImage(ddBank.SelectedValue);
         aUser.PathToSignature = ViewState["SignaturePic"] as string;//GetPathToImageOfSignature(ddBank.SelectedValue);
         aUser.NextOfKinContact = txtNextOfKinTel.Text;
@@ -317,54 +304,6 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         aUser.Nationality = txtNationality.Text;
         return aUser;
     }
-
-    //private string GetPathToProfilePicImage(string BankCode)
-    //{
-    //    if (fuProfilePic.HasFile)
-    //    {
-    //        string fileName = fuProfilePic.FileName.ToUpper();
-    //        if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
-    //        {
-    //            string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
-    //            bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
-    //            string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
-    //            fuProfilePic.SaveAs(FullFileName);
-    //            return fuProfilePic.FileName;
-    //        }
-    //        else
-    //        {
-    //            throw new Exception("PLEASE UPLOAD A PROFILE PICTURE IMAGE IN .PNG OR .JPEG FORMAT");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        return "";
-    //    }
-    //}
-
-    //private string GetPathToImageOfSignature(string BankCode)
-    //{
-    //    if (fuProfilePic.HasFile)
-    //    {
-    //        string fileName = fuProfilePic.FileName.ToUpper();
-    //        if (fileName.Contains(".JPG") || fileName.Contains(".JPEG") || fileName.Contains(".PNG"))
-    //        {
-    //            string PathToFolderForBankLogos = Server.MapPath("Images") + @"\" + BankCode + @"\";
-    //            bll.CreateFolderPathIfItDoesntExist(PathToFolderForBankLogos);
-    //            string FullFileName = PathToFolderForBankLogos + fuProfilePic.FileName;
-    //            fuProfilePic.SaveAs(FullFileName);
-    //            return fuProfilePic.FileName;
-    //        }
-    //        else
-    //        {
-    //            throw new Exception("PLEASE UPLOAD SCANNED SIGNATURE IMAGE IN .PNG OR .JPEG FORMAT");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        return "";
-    //    }
-    //}
 
     private void Upload(string base64,string PicName)
     {

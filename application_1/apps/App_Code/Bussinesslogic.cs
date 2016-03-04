@@ -23,6 +23,13 @@ public class Bussinesslogic
 
     }
 
+
+    public string GenerateAccountNumber()
+    {
+        return DateTime.Now.ToString("yyyyMMddHHmmssfff");
+    }
+
+
     public void LoadBanksBranchesIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
@@ -45,6 +52,31 @@ public class Bussinesslogic
             ddlst.Enabled = false;
         }
     }
+
+    public void LoadBranchesVaultAccNumbersIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetBankBranchesByBankCode", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string BranchName = dr["BranchName"].ToString();
+            string BranchCode = dr["BranchVaultAccNumber"].ToString();
+            ddlst.Items.Add(new ListItem(BranchName, BranchCode));
+        }
+
+        //disable branch selection option if user is not an admin
+        if (user.Usertype != "SYS_ADMIN" && user.Usertype != "BANK_ADMIN" && user.Usertype != "BUSSINESS_ADMIN")
+        {
+            ddlst.SelectedValue = user.BranchCode;
+            ddlst.Enabled = false;
+        }
+    }
+
+
 
     public void LoadBanksBranchesIntoDropDownALL(string bankCode, DropDownList ddlst, BankUser user)
     {
@@ -144,6 +176,27 @@ public class Bussinesslogic
         {
             string BankName = dr["BankName"].ToString();
             string UserTypeCode = dr["BankCode"].ToString();
+            ddlst.Items.Add(new ListItem(BankName, UserTypeCode));
+        }
+
+        if (user.Usertype.ToUpper() != "SYS_ADMIN")
+        {
+            ddlst.SelectedValue = user.BankCode;
+            ddlst.Enabled = false;
+        }
+    }
+
+    public void LoadBankVaultAccountsIntoDropDown(BankUser user, DropDownList ddlst)
+    {
+        string[] parameters = { };
+        DataSet ds = dh.ExecuteSelect("GetAllBanks", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        foreach (DataRow dr in dt.Rows)
+        {
+            string BankName = dr["BankName"].ToString();
+            string UserTypeCode = dr["BankVaultAccNumber"].ToString();
             ddlst.Items.Add(new ListItem(BankName, UserTypeCode));
         }
 
@@ -540,6 +593,13 @@ public class Bussinesslogic
         return dt;
     }
 
+    public DataTable SearchBankCustomersTable(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("GetBankCustomersPendingApproval", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
+    }
+
     public Result UpdateUserIsActiveStatus(string[] parameters)
     {
         Result result = new Result();
@@ -622,7 +682,7 @@ public class Bussinesslogic
         return dt;
     }
 
-    public void LoadPaymentTypesIntoDropDown(string bankCode, DropDownList ddlst, BankTeller teller)
+    public void LoadPaymentTypesIntoDropDown(string bankCode, DropDownList ddlst, BankUser teller)
     {
         string[] parameters = { bankCode };
         DataSet ds = dh.ExecuteSelect("GetPaymentTypesByBankCode", parameters);
@@ -649,7 +709,15 @@ public class Bussinesslogic
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
-                if (IsActive == "TRUE")
+                string ApprovedBy=dr["ApprovedBy"].ToString().ToUpper();
+
+
+                if (string.IsNullOrEmpty(ApprovedBy))
+                {
+                    user.StatusCode = "100";
+                    user.StatusDesc = "FAILED: SORRY YOUR ACCOUNT HAS NOT YET BEEN APPROVED. CONTACT SYSTEM ADMINISTRATOR.";
+                }
+                else if (IsActive == "TRUE")
                 {
                     user.FullName = dr["FullName"].ToString();
                     user.IsActive = IsActive;
@@ -662,7 +730,6 @@ public class Bussinesslogic
                     user.BranchCode = dr["BranchCode"].ToString();
                     user.Gender = dr["Gender"].ToString();
                     user.DateOfBirth = dr["DateOfBirth"].ToString();
-                    user.CanHaveAccount = dr["CanHaveAccount"].ToString();
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
                 }
@@ -841,5 +908,78 @@ public class Bussinesslogic
         {
             return false;
         }
+    }
+
+    public Result UpdateCustomerIsActiveStatus(string[] parameters)
+    {
+        Result result = new Result();
+        int rows = dh.ExecuteNonQuery("AprroveOrRejectCustomer", parameters);
+        if (rows > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNBALE TO APPROVE CUSTOMER AT THE MOMENT";
+        }
+        return result;
+    }
+
+    public void LoadTellersWhoDontHaveAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
+    {
+        string[] parameters = { bankCode };
+        DataSet ds = dh.ExecuteSelect("GetTellersWhoDontHaveAccounts", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string TranType = dr["UserId"].ToString();
+            string TranTypeName = dr["FullName"].ToString();
+            ddlst.Items.Add(new ListItem(TranTypeName, TranType));
+        }
+    }
+
+    public void LoadTellerAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user,string BranchCode)
+    {
+        string[] parameters = { bankCode,BranchCode };
+        DataSet ds = dh.ExecuteSelect("GetTellerAccounts", parameters);
+        DataTable dt = ds.Tables[0];
+
+        ddlst.Items.Clear();
+        ddlst.Items.Add(new ListItem("", ""));
+        foreach (DataRow dr in dt.Rows)
+        {
+            string TranType = dr["AccountNumber"].ToString();
+            string TranTypeName = dr["FullName"].ToString();
+            ddlst.Items.Add(new ListItem(TranTypeName, TranType));
+        }
+    }
+
+    public Result UpdateTellerAccountIsActiveStatus(string[] parameters)
+    {
+        Result result = new Result();
+        int rows = dh.ExecuteNonQuery("AprroveOrRejectTellerAccount", parameters);
+        if (rows > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNBALE TO APPROVE CUSTOMER AT THE MOMENT";
+        }
+        return result;
+    }
+
+    public DataTable GetBankTellerAccountsPendingApproval(string[] parameters)
+    {
+        DataSet ds = dh.ExecuteSelect("GetBankTellerAccountsPendingApproval", parameters);
+        DataTable dt = ds.Tables[0];
+        return dt;
     }
 }

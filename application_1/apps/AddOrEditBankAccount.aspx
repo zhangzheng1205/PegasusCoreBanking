@@ -382,9 +382,6 @@
                                 sender._popupBehavior._element.style.zIndex = 10005;
                             }
                         </script>
-                        <%-- </form>--%>
-                        <%--</div>--%>
-                        <!-- /.row -->
 
                     </div>
                     <!-- /.container-fluid -->

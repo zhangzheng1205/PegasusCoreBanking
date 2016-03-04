@@ -21,9 +21,9 @@
 
     <title>BANK_OS</title>
 
-    <%--    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />--%>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <%-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">--%>
 
     <!-- Custom CSS -->
     <link href="css/PutCustomCssHere.css" rel="stylesheet" />
@@ -165,11 +165,14 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#Manager"><i class="fa fa-fw fa-table"></i> Branch Manager<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Manager" class="collapse">
+                             <li>
+                                <a href="CreditTellerAccount.aspx"><i class="fa fa-caret-right"></i> Credit Teller Account</a>
+                            </li>
                             <li>
                                 <a href="ApproveTransaction.aspx?Approver=Manager"><i class="fa fa-caret-right"></i> Approve Transactions</a>
                             </li>
                             <li>
-                                <a href="ApproveBankUser.aspx"><i class="fa fa-caret-right"></i> Approve Customers</a>
+                                <a href="ApproveBankCustomer.aspx"><i class="fa fa-caret-right"></i> Approve Customers</a>
                             </li>
                              <li>
                                 <a href="ApproveBankAccount.aspx"><i class="fa fa-caret-right"></i> Approve Bank Accounts</a>
@@ -194,12 +197,20 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#BussinessAdmin"><i class="fa fa-fw fa-briefcase"></i> Bussiness Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="BussinessAdmin" class="collapse">
                             <li>
+                                <a href="CreditBranchAccount.aspx"><i class="fa fa-caret-right"></i> Credit Branch Vault</a>
+                            </li>
+                            <li>
                                 <a href="AddOrEditTranCategory.aspx"><i class="fa fa-caret-right"></i> Create Transaction Categories</a>
                             </li>
                             <li>
                                 <a href="AddOrEditBankCharges.aspx"><i class="fa fa-caret-right"></i> Create Bank Charge</a>
                             </li>
-
+                            <li>
+                                <a href="AddOrEditTellerAccount.aspx"><i class="fa fa-caret-right"></i> Create Teller Account</a>
+                            </li>
+                            <li>
+                                <a href="ApproveTellerBankAccount.aspx"><i class="fa fa-caret-right"></i> Approve Teller Account</a>
+                            </li>
                             <li>
                                 <a href="AddOrEditChargeType.aspx"><i class="fa fa-caret-right"></i> Create Charge Type</a>
                             </li>
@@ -234,6 +245,9 @@
                                 <a href="AddOrEditUserType.aspx"><i class="fa fa-caret-right"></i> Create User Category</a>
                             </li>
                              <li>
+                                <a href="ApproveBankUSer.aspx"><i class="fa fa-caret-right"></i> Approve Bank Users</a>
+                            </li>
+                             <li>
                                 <a href="AddOrEditAccessControl.aspx"><i class="fa fa-caret-right"></i> Create Access Control Rule</a>
                             </li>
                              <li>
@@ -251,6 +265,9 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-archive"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="SysAdmin" class="collapse">
+                            <li>
+                                <a href="CreditBankVault.aspx"><i class="fa fa-caret-right"></i> Credit Bank Vault</a>
+                            </li>
                             <li>
                                 <a href="AddOrEditBank.aspx"><i class="fa fa-caret-right"></i> Create Bank</a>
                             </li>

@@ -256,4 +256,9 @@ public class TransactionRequest:BaseObject
 
         return true;
     }
+
+    public bool IsValidCreditBankVaultRequest()
+    {
+        return true;
+    }
 }

@@ -172,20 +172,18 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
         BankCustomer aUser = new BankCustomer();
         aUser.BankCode = ddBank.SelectedValue;
         aUser.BranchCode = ddBankBranch.SelectedValue;
-        aUser.CanHaveAccount = "False";
         aUser.DateOfBirth = txtDateOfBirth.Text;
         aUser.Email = txtEmail.Text;
         aUser.FullName = txtBankUsersName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
-        aUser.IsActive = "false";
+        aUser.IsActive = ddIsActive.Text;
         aUser.ModifiedBy = user.Id;
         aUser.Password = bll.GeneratePassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
-        aUser.Usertype = "CUSTOMER";
-        aUser.TransactionLimit = "0";
         aUser.PathToProfilePic = GetPathToProfilePicImage(ddBank.SelectedValue);
         aUser.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
+        aUser.ApprovedBy = user.Id;
         return aUser;
     }
 

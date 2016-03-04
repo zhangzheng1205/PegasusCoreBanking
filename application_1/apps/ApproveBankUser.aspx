@@ -133,9 +133,9 @@
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" OnSelectedIndexChanged="dataGridResults_SelectedIndexChanged">
                                             <AlternatingRowStyle BackColor="#BFE4FF" />
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Approve">
+                                                <asp:TemplateField HeaderText="Select All">
                                                     <HeaderTemplate>
-                                                        <asp:CheckBox ID="chkboxSelectAll" Text="Approve All" runat="server" AutoPostBack="true" OnCheckedChanged="dataGridResults_SelectedIndexChanged" />
+                                                        <asp:CheckBox ID="chkboxSelectAll" Text="Select All" runat="server" AutoPostBack="true" OnCheckedChanged="dataGridResults_SelectedIndexChanged" />
                                                     </HeaderTemplate>
                                                     <ItemTemplate>
                                                         <asp:CheckBox runat="server" ID="CheckBox" />

@@ -4,7 +4,7 @@
     <hr />
     <div class="row" style="padding-top:10px">
         <div class="col-md-5">
-            <a href="portfolio-item.html">
+            <a href="LoggedInStartPage.aspx">
                 <img class="img-responsive img-thumbnail" style="height:300px;border:double;border-color:grey" 
                     src="Images\<% Bank bank = (Bank)Session["UsersBank"]; Response.Write(bank.BankCode+@"\"+bank.PathToLogoImage); %>" alt="">
             </a>

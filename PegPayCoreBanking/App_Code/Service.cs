@@ -21,6 +21,30 @@ public class Service : System.Web.Services.WebService
     }
 
     [WebMethod]
+    public Result CreditVaultAccount(TransactionRequest tranRequest)
+    {
+        Result result = new Result();
+        try
+        {
+            if (tranRequest.IsValidCreditBankVaultRequest())
+            {
+                result = bll.Transact(tranRequest);
+            }
+            else
+            {
+                result.StatusCode = tranRequest.StatusCode;
+                result.StatusDesc = tranRequest.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
     public Result Transact(TransactionRequest tranRequest)
     {
         Result result = new Result();
@@ -133,7 +157,31 @@ public class Service : System.Web.Services.WebService
         Result result = new Result();
         try
         {
-            if (account.IsValidSaveAccountRequest(BankCode, Password))
+            if (account.IsValidSaveCustomerAccountRequest(BankCode, Password))
+            {
+                result = bll.SaveAccountDetails(account, BankCode);
+            }
+            else
+            {
+                result.StatusCode = account.StatusCode;
+                result.StatusDesc = account.StatusDesc;
+            }
+        }
+        catch (Exception ex)
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return result;
+    }
+
+    [WebMethod]
+    public Result SaveBankTellerAccountDetails(BankAccount account, string BankCode, string Password)
+    {
+        Result result = new Result();
+        try
+        {
+            if (account.IsValidSaveTellerAccountRequest(BankCode, Password))
             {
                 result = bll.SaveAccountDetails(account, BankCode);
             }

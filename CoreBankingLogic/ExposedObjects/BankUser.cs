@@ -15,15 +15,13 @@ public class BankUser : BaseObject
     public string Password = "";
     public string IsActive = "";
     public string ModifiedBy = "";
-    public string CanHaveAccount = "";
     public string BranchCode = "";
     public string DateOfBirth = "";
     public string PhoneNumber = "";
     public string Gender = "";
     public string BankCode = "";
     public string TransactionLimit = "";
-    public string PathToProfilePic = "";
-    public string PathToSignature = "";
+    public string ApprovedBy = "";
 
 
     public BankUser()
@@ -35,7 +33,7 @@ public class BankUser : BaseObject
     {
         this.BankCode = user.BankCode;
         this.BranchCode = user.BranchCode;
-        this.CanHaveAccount = user.CanHaveAccount;
+        this.ApprovedBy = user.ApprovedBy;
         this.DateOfBirth = user.DateOfBirth;
         this.Email = user.Email;
         this.FullName = user.FullName;
@@ -48,14 +46,29 @@ public class BankUser : BaseObject
         this.StatusCode = user.StatusCode;
         this.StatusDesc = user.StatusDesc;
         this.Usertype = user.Usertype;
-        this.PathToProfilePic = user.PathToProfilePic;
-        this.PathToSignature = user.PathToSignature;
         this.TransactionLimit = user.TransactionLimit;
     }
 
     public bool IsValid(string bankCode, string Password)
     {
         BaseObject valObj = new BaseObject();
+
+        //if the one who is Approving is the same as the one modifiying 
+        //set the Approved By to be empty
+        if (this.ModifiedBy.ToUpper().Trim() == this.ApprovedBy.ToUpper().Trim())
+        {
+            if (this.ModifiedBy.ToUpper() == "ADMIN")
+            {
+                this.ApprovedBy = "Admin";
+            }
+            else
+            {
+                this.ApprovedBy = "";
+            }
+        }
+
+
+        //Lets start validations
         if (string.IsNullOrEmpty(this.BankCode))
         {
             StatusCode = "100";

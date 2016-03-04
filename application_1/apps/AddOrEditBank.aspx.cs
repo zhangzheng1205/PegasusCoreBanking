@@ -98,6 +98,7 @@ public partial class AddOrEditBank : System.Web.UI.Page
         bank.ModifiedBy = user.Id;
         bank.BankThemeColor = "#"+txtTheme.Text;
         bank.TextColor = "#" + txtColor.Text;
+        bank.BankVaultAccNumber = bll.GenerateAccountNumber();
 
         //check if user has already upload this stuff
         string publicKey = ViewState["PublicKey"] as String;

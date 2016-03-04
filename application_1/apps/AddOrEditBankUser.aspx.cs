@@ -144,7 +144,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
     private void DisableControls(string UserId)
     {
-        ddUserType.Enabled = false;
+        //ddUserType.Enabled = false;
         txtUserId.Text = UserId;
         txtUserId.Enabled = false;
     }
@@ -158,7 +158,7 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         try
         {
             BankUser newUser = GetBankUser();
-            if (bll.Exists(newUser)) 
+            if (bll.Exists(newUser))
             {
                 MultiView1.ActiveViewIndex = 1;
             }
@@ -179,7 +179,6 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         BankUser aUser = new BankUser();
         aUser.BankCode = ddBank.SelectedValue;
         aUser.BranchCode = ddBankBranch.SelectedValue;
-        aUser.CanHaveAccount = "False";
         aUser.DateOfBirth = txtDateOfBirth.Text;
         aUser.Email = txtEmail.Text;
         aUser.FullName = txtBankUsersName.Text;
@@ -190,14 +189,8 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.Password = bll.GeneratePassword();
         aUser.PhoneNumber = txtPhoneNumber.Text;
         aUser.Usertype = ddUserType.SelectedValue;
-        if (aUser.Usertype == "CUSTOMER")
-        {
-            aUser.TransactionLimit = "0";
-        }
-        else
-        {
-            aUser.TransactionLimit = txtTranLimit.Text;
-        }
+        aUser.TransactionLimit = txtTranLimit.Text;
+        aUser.ApprovedBy = user.Id;
         return aUser;
     }
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)

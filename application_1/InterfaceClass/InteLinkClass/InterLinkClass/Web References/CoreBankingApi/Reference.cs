@@ -30,6 +30,8 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Web.Services.WebServiceBindingAttribute(Name="ServiceSoap", Namespace="http://pegasus.co.ug/")]
     public partial class Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback CreditVaultAccountOperationCompleted;
+        
         private System.Threading.SendOrPostCallback TransactOperationCompleted;
         
         private System.Threading.SendOrPostCallback ReverseTransactionOperationCompleted;
@@ -41,6 +43,8 @@ namespace InterLinkClass.CoreBankingApi {
         private System.Threading.SendOrPostCallback ValidateTransactionRequestOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveBankAccountDetailsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SaveBankTellerAccountDetailsOperationCompleted;
         
         private System.Threading.SendOrPostCallback SaveBankDetailsOperationCompleted;
         
@@ -121,6 +125,9 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
+        public event CreditVaultAccountCompletedEventHandler CreditVaultAccountCompleted;
+        
+        /// <remarks/>
         public event TransactCompletedEventHandler TransactCompleted;
         
         /// <remarks/>
@@ -137,6 +144,9 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event SaveBankAccountDetailsCompletedEventHandler SaveBankAccountDetailsCompleted;
+        
+        /// <remarks/>
+        public event SaveBankTellerAccountDetailsCompletedEventHandler SaveBankTellerAccountDetailsCompleted;
         
         /// <remarks/>
         public event SaveBankDetailsCompletedEventHandler SaveBankDetailsCompleted;
@@ -197,6 +207,35 @@ namespace InterLinkClass.CoreBankingApi {
         
         /// <remarks/>
         public event ExecuteDataSetCompletedEventHandler ExecuteDataSetCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/CreditVaultAccount", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result CreditVaultAccount(TransactionRequest tranRequest) {
+            object[] results = this.Invoke("CreditVaultAccount", new object[] {
+                        tranRequest});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CreditVaultAccountAsync(TransactionRequest tranRequest) {
+            this.CreditVaultAccountAsync(tranRequest, null);
+        }
+        
+        /// <remarks/>
+        public void CreditVaultAccountAsync(TransactionRequest tranRequest, object userState) {
+            if ((this.CreditVaultAccountOperationCompleted == null)) {
+                this.CreditVaultAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreditVaultAccountOperationCompleted);
+            }
+            this.InvokeAsync("CreditVaultAccount", new object[] {
+                        tranRequest}, this.CreditVaultAccountOperationCompleted, userState);
+        }
+        
+        private void OnCreditVaultAccountOperationCompleted(object arg) {
+            if ((this.CreditVaultAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CreditVaultAccountCompleted(this, new CreditVaultAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/Transact", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -385,6 +424,39 @@ namespace InterLinkClass.CoreBankingApi {
             if ((this.SaveBankAccountDetailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SaveBankAccountDetailsCompleted(this, new SaveBankAccountDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://pegasus.co.ug/SaveBankTellerAccountDetails", RequestNamespace="http://pegasus.co.ug/", ResponseNamespace="http://pegasus.co.ug/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result SaveBankTellerAccountDetails(BankAccount account, string BankCode, string Password) {
+            object[] results = this.Invoke("SaveBankTellerAccountDetails", new object[] {
+                        account,
+                        BankCode,
+                        Password});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SaveBankTellerAccountDetailsAsync(BankAccount account, string BankCode, string Password) {
+            this.SaveBankTellerAccountDetailsAsync(account, BankCode, Password, null);
+        }
+        
+        /// <remarks/>
+        public void SaveBankTellerAccountDetailsAsync(BankAccount account, string BankCode, string Password, object userState) {
+            if ((this.SaveBankTellerAccountDetailsOperationCompleted == null)) {
+                this.SaveBankTellerAccountDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSaveBankTellerAccountDetailsOperationCompleted);
+            }
+            this.InvokeAsync("SaveBankTellerAccountDetails", new object[] {
+                        account,
+                        BankCode,
+                        Password}, this.SaveBankTellerAccountDetailsOperationCompleted, userState);
+        }
+        
+        private void OnSaveBankTellerAccountDetailsOperationCompleted(object arg) {
+            if ((this.SaveBankTellerAccountDetailsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SaveBankTellerAccountDetailsCompleted(this, new SaveBankTellerAccountDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1286,10 +1358,10 @@ namespace InterLinkClass.CoreBankingApi {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(UserType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(CustomerType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankBranch))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Currency))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankUser))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(TransactionRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AccessRule))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCharge))]
@@ -1952,6 +2024,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string isActiveField;
         
+        private string branchVaultAccNumberField;
+        
         /// <remarks/>
         public string BankBranchId {
             get {
@@ -2019,6 +2093,241 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BranchVaultAccNumber {
+            get {
+                return this.branchVaultAccNumberField;
+            }
+            set {
+                this.branchVaultAccNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
+    public partial class BankCustomer : BaseObject {
+        
+        private string emailField;
+        
+        private string idField;
+        
+        private string fullNameField;
+        
+        private string passwordField;
+        
+        private string isActiveField;
+        
+        private string modifiedByField;
+        
+        private string branchCodeField;
+        
+        private string dateOfBirthField;
+        
+        private string phoneNumberField;
+        
+        private string genderField;
+        
+        private string bankCodeField;
+        
+        private string pathToProfilePicField;
+        
+        private string pathToSignatureField;
+        
+        private string approvedByField;
+        
+        private string nextOfKinNameField;
+        
+        private string nextOfKinContactField;
+        
+        private string maritalStatusField;
+        
+        private string nationalityField;
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string FullName {
+            get {
+                return this.fullNameField;
+            }
+            set {
+                this.fullNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string IsActive {
+            get {
+                return this.isActiveField;
+            }
+            set {
+                this.isActiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ModifiedBy {
+            get {
+                return this.modifiedByField;
+            }
+            set {
+                this.modifiedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BranchCode {
+            get {
+                return this.branchCodeField;
+            }
+            set {
+                this.branchCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string DateOfBirth {
+            get {
+                return this.dateOfBirthField;
+            }
+            set {
+                this.dateOfBirthField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PhoneNumber {
+            get {
+                return this.phoneNumberField;
+            }
+            set {
+                this.phoneNumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Gender {
+            get {
+                return this.genderField;
+            }
+            set {
+                this.genderField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string BankCode {
+            get {
+                return this.bankCodeField;
+            }
+            set {
+                this.bankCodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PathToProfilePic {
+            get {
+                return this.pathToProfilePicField;
+            }
+            set {
+                this.pathToProfilePicField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PathToSignature {
+            get {
+                return this.pathToSignatureField;
+            }
+            set {
+                this.pathToSignatureField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ApprovedBy {
+            get {
+                return this.approvedByField;
+            }
+            set {
+                this.approvedByField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string NextOfKinName {
+            get {
+                return this.nextOfKinNameField;
+            }
+            set {
+                this.nextOfKinNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string NextOfKinContact {
+            get {
+                return this.nextOfKinContactField;
+            }
+            set {
+                this.nextOfKinContactField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MaritalStatus {
+            get {
+                return this.maritalStatusField;
+            }
+            set {
+                this.maritalStatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Nationality {
+            get {
+                return this.nationalityField;
+            }
+            set {
+                this.nationalityField = value;
             }
         }
     }
@@ -2094,7 +2403,6 @@ namespace InterLinkClass.CoreBankingApi {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankTeller))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(BankCustomer))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -2116,8 +2424,6 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string modifiedByField;
         
-        private string canHaveAccountField;
-        
         private string branchCodeField;
         
         private string dateOfBirthField;
@@ -2130,9 +2436,7 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string transactionLimitField;
         
-        private string pathToProfilePicField;
-        
-        private string pathToSignatureField;
+        private string approvedByField;
         
         /// <remarks/>
         public string Email {
@@ -2205,16 +2509,6 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string CanHaveAccount {
-            get {
-                return this.canHaveAccountField;
-            }
-            set {
-                this.canHaveAccountField = value;
-            }
-        }
-        
-        /// <remarks/>
         public string BranchCode {
             get {
                 return this.branchCodeField;
@@ -2275,22 +2569,12 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string PathToProfilePic {
+        public string ApprovedBy {
             get {
-                return this.pathToProfilePicField;
+                return this.approvedByField;
             }
             set {
-                this.pathToProfilePicField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string PathToSignature {
-            get {
-                return this.pathToSignatureField;
-            }
-            set {
-                this.pathToSignatureField = value;
+                this.approvedByField = value;
             }
         }
     }
@@ -2312,63 +2596,6 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.tellerAccountNumberField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.18408")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://pegasus.co.ug/")]
-    public partial class BankCustomer : BankUser {
-        
-        private string nextOfKinNameField;
-        
-        private string nextOfKinContactField;
-        
-        private string maritalStatusField;
-        
-        private string nationalityField;
-        
-        /// <remarks/>
-        public string NextOfKinName {
-            get {
-                return this.nextOfKinNameField;
-            }
-            set {
-                this.nextOfKinNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string NextOfKinContact {
-            get {
-                return this.nextOfKinContactField;
-            }
-            set {
-                this.nextOfKinContactField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string MaritalStatus {
-            get {
-                return this.maritalStatusField;
-            }
-            set {
-                this.maritalStatusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Nationality {
-            get {
-                return this.nationalityField;
-            }
-            set {
-                this.nationalityField = value;
             }
         }
     }
@@ -2838,6 +3065,8 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string textColorField;
         
+        private string bankVaultAccNumberField;
+        
         /// <remarks/>
         public string BankId {
             get {
@@ -2947,6 +3176,16 @@ namespace InterLinkClass.CoreBankingApi {
                 this.textColorField = value;
             }
         }
+        
+        /// <remarks/>
+        public string BankVaultAccNumber {
+            get {
+                return this.bankVaultAccNumberField;
+            }
+            set {
+                this.bankVaultAccNumberField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -2976,6 +3215,8 @@ namespace InterLinkClass.CoreBankingApi {
         private string currencyCodeField;
         
         private string[] accountSignatoriesField;
+        
+        private string approvedByField;
         
         /// <remarks/>
         public string AccountId {
@@ -3074,6 +3315,42 @@ namespace InterLinkClass.CoreBankingApi {
             }
             set {
                 this.accountSignatoriesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ApprovedBy {
+            get {
+                return this.approvedByField;
+            }
+            set {
+                this.approvedByField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void CreditVaultAccountCompletedEventHandler(object sender, CreditVaultAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CreditVaultAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CreditVaultAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
             }
         }
     }
@@ -3221,6 +3498,32 @@ namespace InterLinkClass.CoreBankingApi {
         private object[] results;
         
         internal SaveBankAccountDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Result Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Result)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    public delegate void SaveBankTellerAccountDetailsCompletedEventHandler(object sender, SaveBankTellerAccountDetailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.18408")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SaveBankTellerAccountDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SaveBankTellerAccountDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -5,14 +5,15 @@ using CoreBankingLogic.EntityObjects;
 
 public class BankTeller : BankUser
 {
-    public BankTeller() 
+    public BankTeller()
     {
-    
+
     }
 
-    public BankTeller(BankUser user) :base(user)
+    public BankTeller(BankUser user)
+        : base(user)
     {
-    
+
     }
 
     public string TellerAccountNumber = "";
@@ -25,24 +26,9 @@ public class BankTeller : BankUser
         bool result = IsValid(BankCode, Password);
         if (result == true)
         {
-            if (string.IsNullOrEmpty(this.PathToProfilePic))
-            {
-                StatusCode = "100";
-                StatusDesc = "PLEASE SUPPLY A PROFILE PICTURE FOR THIS TELLER";
-                return false;
-            }
-            if (string.IsNullOrEmpty(this.PathToSignature))
-            {
-                StatusCode = "100";
-                StatusDesc = "PLEASE SUPPLY AN IMAGE OF THE TELLERS SIGNATURE.";
-                return false;
-            }
-            else
-            {
-                StatusCode = "0";
-                StatusDesc = "SUCCESS";
-                return true;
-            }
+            StatusCode = "0";
+            StatusDesc = "SUCCESS";
+            return true;
         }
         else
         {

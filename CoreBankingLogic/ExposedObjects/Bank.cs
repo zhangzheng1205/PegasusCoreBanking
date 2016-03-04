@@ -18,6 +18,7 @@ namespace CoreBankingLogic.ExposedObjects
         public string PathToLogoImage = "";
         public string BankThemeColor = "";
         public string TextColor = "";
+        public string BankVaultAccNumber = "";
 
 
         private string[] allowedPublicKeyTypes ={ ".cer" };

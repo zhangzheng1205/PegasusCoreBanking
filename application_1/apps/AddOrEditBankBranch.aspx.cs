@@ -107,6 +107,7 @@ public partial class AddOrEditBankBranch : System.Web.UI.Page
         branch.IsActive = ddIsActive.Text;
         branch.Location = txtLocation.Text;
         branch.ModifiedBy = user.Id;
+        branch.BranchVaultAccNumber = bll.GenerateAccountNumber();
         return branch;
     }
 

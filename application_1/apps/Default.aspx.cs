@@ -55,10 +55,6 @@ public partial class _Default : System.Web.UI.Page
             {
                 ShowMessage("PLEASE SUPPLY YOUR USER ID",true);
             }
-            else if (string.IsNullOrEmpty(Password))
-            {
-                ShowMessage("PLEASE SUPPLY YOUR PASSWORD",true);
-            }
             else 
             {
                 SignInUser(UserId, Password);

@@ -218,7 +218,13 @@ public class BussinessLogic
         BankUser user = dh.GetUserById(UserId, BankCode);
         if (user.StatusCode == "0")
         {
-            if (user.IsActive.ToUpper() == "TRUE")
+            if (string.IsNullOrEmpty(user.ApprovedBy))
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "USER [" + user.Id + " HAS NOT YET BEEN APPROVED";
+                return false;
+            }
+            else if (user.IsActive.ToUpper() == "TRUE")
             {
                 if (allowedUserTypes.Contains(user.Usertype.ToUpper()))
                 {
@@ -229,16 +235,50 @@ public class BussinessLogic
                 {
                     obj.StatusCode = "100";
                     obj.StatusDesc = "ACCESS DENIED: BANK USER:" + UserId + " OF TYPE:" + user.Usertype + " IS NOT PERMITTED TO PERFORM THIS OPERATION";
-                    
+
                     //log error for audit purposes
                     dh.LogError(UserId, BankCode, obj.StatusDesc);
                     return false;
                 }
             }
-            else 
+            else
             {
                 obj.StatusCode = "100";
                 obj.StatusDesc = "FAILED: USER [" + UserId + "] IS NOT ACTIVATED.";
+                return false;
+            }
+        }
+        else
+        {
+            obj = user;
+            return false;
+        }
+    }
+
+    internal bool IsValidCustomer(string CustomerId, string BankCode, string UserType, out BaseObject obj)
+    {
+        List<string> allowedUserTypes = new List<string>();
+        allowedUserTypes.AddRange(UserType.Split('|'));
+        obj = new BaseObject();
+        BankCustomer user = dh.GetCustomerById(CustomerId, BankCode);
+        if (user.StatusCode == "0")
+        {
+            if (string.IsNullOrEmpty(user.ApprovedBy))
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "USER [" + user.Id + " HAS NOT YET BEEN APPROVED";
+                return false;
+            }
+            else if (user.IsActive.ToUpper() == "TRUE")
+            {
+                obj.StatusCode = "0";
+                obj.StatusDesc = "SUCCESS";
+                return true;
+            }
+            else
+            {
+                obj.StatusCode = "100";
+                obj.StatusDesc = "FAILED: USER [" + CustomerId + "] IS NOT ACTIVATED.";
                 return false;
             }
         }
@@ -380,9 +420,14 @@ public class BussinessLogic
             result.StatusDesc = "PLEASE SUPPLY THE OBJECT ID. i.e THE UNIQUE IDENTIFIER OF THIS OBJECT";
             return result;
         }
-        else if (className.ToUpper() == "BANKUSER" || className.ToUpper() == "BANKTELLER" || className.ToUpper() == "BANKCUSTOMER")
+        else if (className.ToUpper() == "BANKUSER" || className.ToUpper() == "BANKTELLER")
         {
             result = GetBankUser(objectId, bankCode, Password);
+            return result;
+        }
+        else if (className.ToUpper() == "BANKCUSTOMER")
+        {
+            result = GetBankCustomer(objectId, bankCode, Password);
             return result;
         }
         else if (className.ToUpper() == "BANK")
@@ -466,6 +511,14 @@ public class BussinessLogic
         {
             return result;
         }
+    }
+
+    private BaseObject GetBankCustomer(string objectId, string bankCode, string Password)
+    {
+        BaseObject result = new BaseObject();
+        BankCustomer user = dh.GetCustomerById(objectId, bankCode);
+        result = user;
+        return result;
     }
 
     private BaseObject GetBankUser(string objectId, string bankCode, string Password)
@@ -646,6 +699,12 @@ public class BussinessLogic
                 valObj.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNTNUMBER [" + AccountNumber + "] IS NOT ACTIVATED";
                 return false;
             }
+            else if (string.IsNullOrEmpty(account.ApprovedBy))
+            {
+                valObj.StatusCode = "100";
+                valObj.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNTNUMBER [" + AccountNumber + "] HAS NOT YET BEEN APPROVED";
+                return false;
+            }
             else
             {
                 valObj.StatusCode = "0";
@@ -674,7 +733,7 @@ public class BussinessLogic
 
         if (category.StatusCode == "0")
         {
-            if (category.IsActive.ToUpper() == "")
+            if (category.IsActive.ToUpper() == "TRUE")
             {
                 valObj.StatusCode = "0";
                 valObj.StatusDesc = "SUCCESS";
@@ -828,7 +887,7 @@ public class BussinessLogic
             BankCustomer cust = new BankCustomer();
             cust.BankCode = dr["BankCode"].ToString();
             cust.BranchCode = dr["BranchCode"].ToString();
-            cust.CanHaveAccount = dr["CanHaveAccount"].ToString();
+            cust.ApprovedBy = dr["ApprovedBy"].ToString();
             cust.DateOfBirth = dr["DateOfBirth"].ToString();
             cust.Email = dr["Email"].ToString();
             cust.FullName = dr["FullName"].ToString();

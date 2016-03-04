@@ -51,7 +51,7 @@
                     <img id="logoImage" runat="server" class="profile-img" src="Images/PEGASUS/Billing.jpg" alt="" />
                     <form runat="server" action="#" class="form-signin">
                         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Email" required="true" autofocus="true" />
-                        <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" required="true" />
+                        <asp:TextBox ID="txtPassword" runat="server" TextMode="password" class="form-control" placeholder="Password" />
                         <asp:Button runat="server" Text="Sign in" CssClass="btn btn-lg btn-success btn-block" ID="btnLogin" OnClick="btnLogin_Click"></asp:Button>
                     </form>
                 </div>

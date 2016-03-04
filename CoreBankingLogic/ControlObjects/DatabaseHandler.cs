@@ -42,24 +42,22 @@ public class DatabaseHandler
                                                        cust.Id,
                                                        cust.Email,
                                                        cust.FullName,
-                                                       cust.Usertype,
                                                        cust.Password,
                                                        cust.IsActive,
                                                        cust.BankCode,
-                                                       cust.ModifiedBy,
-                                                       cust.ModifiedBy,
-                                                       cust.CanHaveAccount,
+                                                       cust.ModifiedBy,//CreatedBy
+                                                       cust.ModifiedBy,//ModifiedBY
+                                                       cust.ApprovedBy,
                                                        cust.PhoneNumber,
                                                        cust.BranchCode,
                                                        cust.DateOfBirth,
                                                        cust.Gender,
-                                                       cust.TransactionLimit,
                                                        cust.PathToProfilePic,
                                                        cust.PathToSignature,
                                                        cust.NextOfKinName,
                                                        cust.NextOfKinContact,
                                                        cust.MaritalStatus,
-                                                        cust.Nationality
+                                                       cust.Nationality
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
             return datatable.Rows[0][0].ToString();
@@ -86,7 +84,8 @@ public class DatabaseHandler
                                                         bank.PathToLogoImage,
                                                         bank.PathToPublicKey,
                                                         bank.BankThemeColor,
-                                                        bank.TextColor
+                                                        bank.TextColor,
+                                                        bank.BankVaultAccNumber
                 );
             DataSet allTables = CbDatabase.ExecuteDataSet(command);
             //get last table because it has what we need
@@ -113,7 +112,8 @@ public class DatabaseHandler
                                                        branch.Location,
                                                        branch.IsActive,
                                                        branch.BankCode,
-                                                       branch.ModifiedBy
+                                                       branch.ModifiedBy,
+                                                       branch.BranchVaultAccNumber
 
                 );
             DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
@@ -139,7 +139,7 @@ public class DatabaseHandler
                                                        teller.IsActive,
                                                        teller.ModifiedBy,//because he who creates either also modifies
                                                        teller.ModifiedBy,
-                                                       teller.CanHaveAccount,
+                                                       teller.ApprovedBy,
                                                        teller.BranchCode,
                                                        teller.DateOfBirth,
                                                        teller.PhoneNumber,
@@ -172,7 +172,8 @@ public class DatabaseHandler
                                                             account.ModifiedBy,
                                                             account.BranchCode,
                                                             account.IsActive,
-                                                            account.CurrencyCode
+                                                            account.CurrencyCode,
+                                                            account.ApprovedBy
                     );
                 DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
                 AccountId = datatable.Rows[0][0].ToString();
@@ -307,7 +308,7 @@ public class DatabaseHandler
                                                        user.BankCode,
                                                        user.ModifiedBy,
                                                        user.ModifiedBy,
-                                                       user.CanHaveAccount,
+                                                       user.ApprovedBy,
                                                        user.PhoneNumber,
                                                        user.BranchCode,
                                                        user.DateOfBirth,
@@ -415,7 +416,7 @@ public class DatabaseHandler
                 user.BranchCode = dr["BranchCode"].ToString();
                 user.Gender = dr["Gender"].ToString();
                 user.DateOfBirth = dr["DateOfBirth"].ToString();
-                user.CanHaveAccount = dr["CanHaveAccount"].ToString();
+                user.ApprovedBy = dr["ApprovedBy"].ToString();
                 user.StatusCode = "0";
                 user.StatusDesc = "SUCCESS";
 
@@ -552,8 +553,8 @@ public class DatabaseHandler
                 account.IsActive = dr["IsActive"].ToString();
                 account.BranchCode = dr["BranchCode"].ToString();
                 account.ModifiedBy = dr["ModifiedBy"].ToString();
-                account.ModifiedBy = dr["ModifiedBy"].ToString();
                 account.CurrencyCode = dr["CurrencyCode"].ToString();
+                account.ApprovedBy = dr["ApprovedBy"].ToString();
                 foreach (DataRow row in datatable.Rows)
                 {
                     account.AccountSignatories.Add(row["UserId"].ToString());
@@ -881,6 +882,7 @@ public class DatabaseHandler
                 bank.PathToPublicKey = dr["PathToPublicKey"].ToString();
                 bank.BankThemeColor = dr["ThemeColor"].ToString();
                 bank.TextColor = dr["NavbarTextColor"].ToString();
+                bank.BankVaultAccNumber = dr["BankVaultAccNumber"].ToString();
                 bank.StatusCode = "0";
                 bank.StatusDesc = "SUCCESS";
             }
@@ -1327,6 +1329,7 @@ public class DatabaseHandler
                 branch.BranchName = dr["BranchName"].ToString();
                 branch.ModifiedBy = dr["ModifiedBy"].ToString();
                 branch.Location = dr["Location"].ToString();
+                branch.BranchVaultAccNumber = dr["BranchVaultAccNumber"].ToString();
                 branch.StatusCode = "0";
                 branch.StatusDesc = "SUCCESS";
 
@@ -1406,5 +1409,47 @@ public class DatabaseHandler
         {
             //do nothing since at this stage we are just logging an error
         }
+    }
+
+    internal BankCustomer GetCustomerById(string objectId, string BankCode)
+    {
+        BankCustomer user = new BankCustomer();
+        try
+        {
+            command = CbDatabase.GetStoredProcCommand("Customers_SelectRow",
+                                                       objectId
+                                                      );
+            DataTable datatable = CbDatabase.ExecuteDataSet(command).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString().ToUpper();
+                user.FullName = dr["FullName"].ToString();
+                user.IsActive = IsActive;
+                user.Password = dr["Password"].ToString();
+                user.Id = dr["CustomerId"].ToString();
+                user.Email = dr["Email"].ToString();
+                user.PhoneNumber = dr["PhoneNumber"].ToString();
+                user.BankCode = dr["BankCode"].ToString();
+                user.BranchCode = dr["BranchCode"].ToString();
+                user.Gender = dr["Gender"].ToString();
+                user.DateOfBirth = dr["DateOfBirth"].ToString();
+                user.ApprovedBy = dr["ApprovedBy"].ToString();
+                user.StatusCode = "0";
+                user.StatusDesc = "SUCCESS";
+
+            }
+            else
+            {
+                user.StatusCode = "100";
+                user.StatusDesc = "FAILED: USER WITH ID: " + objectId + " NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            user.StatusCode = "100";
+            user.StatusDesc = "FAILED: " + ex.Message + "";
+        }
+        return user;
     }
 }

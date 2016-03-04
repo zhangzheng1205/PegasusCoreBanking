@@ -12,6 +12,7 @@ public class BankBranch : BaseObject
     public string BankCode = "";
     public string ModifiedBy = "";
     public string IsActive = "";
+    public string BranchVaultAccNumber = "";
 
 
     public bool IsValid(string BankCode, string Password)

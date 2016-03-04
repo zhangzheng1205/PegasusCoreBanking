@@ -9,7 +9,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
 {
     string Operation = "";
     string Id = "";
-    BankTeller teller;
+    BankUser user;
     Bussinesslogic bll = new Bussinesslogic();
     Service client = new Service();
 
@@ -19,16 +19,20 @@ public partial class DepositWithdraw : System.Web.UI.Page
         {
             Operation = Request.QueryString["Op"];
             Id = Request.QueryString["Id"];
-            teller = Session["User"] as BankTeller;
+            user = Session["User"] as BankUser;
             Session["IsError"] = null;
 
             //Session is invalid
-            if (teller == null)
+            if (user==null)
             {
                 Response.Redirect("Default.aspx?Msg=SESSION HAS EXPIRED");
             }
+            else if (user.Usertype.ToUpper()!="TELLER")
+            {
+                Response.Redirect("Default.aspx?Msg=ACCESS DENIED, YOU ARE NOT A TELLER");
+            }
             //Operation is missing
-            if (string.IsNullOrEmpty(Operation))
+            else if (string.IsNullOrEmpty(Operation))
             {
                 string msg = "FAILED: Operation not supported at the moment";
                 bll.ShowMessage(lblmsg, msg, true, Session);
@@ -40,9 +44,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
             }
             else
             {
-               
                 LoadData();
-               
             }
         }
         catch (Exception ex)
@@ -53,9 +55,9 @@ public partial class DepositWithdraw : System.Web.UI.Page
 
     private void LoadData()
     {
-        bll.LoadTransactionTypesIntoDropDown(teller.BankCode, ddTranCategory, teller);
-        bll.LoadCurrenciesIntoDropDown(teller.BankCode, ddCurrency, teller);
-        bll.LoadPaymentTypesIntoDropDown(teller.BankCode, ddPaymentType, teller);
+        bll.LoadTransactionTypesIntoDropDown(user.BankCode, ddTranCategory, user);
+        bll.LoadCurrenciesIntoDropDown(user.BankCode, ddCurrency, user);
+        bll.LoadPaymentTypesIntoDropDown(user.BankCode, ddPaymentType, user);
         DisableControls();
         MultiView1.ActiveViewIndex = 0;
         ChequeNumberSec.Visible = false;
@@ -64,10 +66,12 @@ public partial class DepositWithdraw : System.Web.UI.Page
     public void DisableControls() 
     {
         Operation = Operation.ToUpper();
+        BankTeller teller = client.GetById("BANKTELLER", user.Id, user.BankCode, bll.BankPassword) as BankTeller;
         //if teller wants to process deposit
         if (Operation == "DEPOSIT")
         {
             ddTranCategory.Text = Operation;
+            
             txtFromAccount.Text = teller.TellerAccountNumber;
             txtFromAccount.Enabled = false;
             txtToAccount.Text = Id;
@@ -100,7 +104,7 @@ public partial class DepositWithdraw : System.Web.UI.Page
             TransactionRequest tran = GetTranRequest();
 
             //validate request
-            Result result = client.ValidateTransactionRequest(tran, teller.BankCode, bll.BankPassword);
+            Result result = client.ValidateTransactionRequest(tran, user.BankCode, bll.BankPassword);
 
             //its valid
             if (result.StatusCode == "0")
@@ -127,19 +131,19 @@ public partial class DepositWithdraw : System.Web.UI.Page
     private TransactionRequest GetTranRequest()
     {
         TransactionRequest tran = new TransactionRequest();
-        tran.BankCode = teller.BankCode;
-        tran.BranchCode = teller.BranchCode;
+        tran.BankCode = user.BankCode;
+        tran.BranchCode = user.BranchCode;
         tran.CustomerName = txtName.Text;
         tran.FromAccount = txtFromAccount.Text;
         tran.Narration = txtReason.Text;
         tran.Password = bll.BankPassword;
         tran.PaymentDate = DateTime.Now.ToString("dd/MM/yyyy");
-        tran.Teller = teller.Id;
+        tran.Teller = user.Id;
         tran.ToAccount = txtToAccount.Text;
         tran.TranAmount = txtAmount.Text;
         tran.TranCategory = ddTranCategory.SelectedValue;
         tran.CurrencyCode = ddCurrency.SelectedValue;
-        tran.ApprovedBy = teller.Id;
+        tran.ApprovedBy = user.Id;
        
         tran.PaymentType = ddPaymentType.SelectedValue;
         tran.ChequeNumber = txtChequeNumber.Text;

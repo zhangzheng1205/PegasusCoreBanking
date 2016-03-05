@@ -97,6 +97,12 @@ public partial class _Default : System.Web.UI.Page
         {
             SetSysAdminSession(ref UsersBank,ref allowedAreas, user);
         }
+        else if (user.Usertype == "TELLER")
+        {
+            BankTeller teller = GetBankTeller(user);
+            user = teller;
+        }
+        
         //we cant find the Users Bank
         if (UsersBank.StatusCode != "0")
         {
@@ -115,6 +121,30 @@ public partial class _Default : System.Web.UI.Page
             Session["AllowedAreas"] = allowedAreas;
             Response.Redirect("LoggedInStartPage.aspx", false);
         }
+    }
+
+    private BankTeller GetBankTeller(BankUser user)
+    {
+        BankTeller teller = new BankTeller();
+        teller.TellerAccountNumber = bll.GetAccountsByUserId(user.Id)[0];
+        teller.ApprovedBy = user.ApprovedBy;
+        teller.BankCode = user.BankCode;
+        teller.BranchCode = user.BranchCode;
+        teller.DateOfBirth = user.DateOfBirth;
+        teller.Email = user.Email;
+        teller.FullName = user.FullName;
+        teller.Gender = user.Gender;
+        teller.Id = user.Id;
+        teller.IsActive = user.IsActive;
+        teller.ModifiedBy = user.ModifiedBy;
+        teller.Password = user.Password;
+        teller.PhoneNumber = user.PhoneNumber;
+        teller.StatusCode = user.StatusCode;
+        teller.StatusDesc = user.StatusDesc;
+        teller.TransactionLimit = user.TransactionLimit;
+        teller.Usertype = user.Usertype;
+        
+        return teller;
     }
 
     private void SetSysAdminSession(ref Bank UsersBank,ref List<string> allowedAreas,BankUser user)

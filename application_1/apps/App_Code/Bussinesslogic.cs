@@ -29,6 +29,104 @@ public class Bussinesslogic
         return DateTime.Now.ToString("yyyyMMddHHmmssfff");
     }
 
+    public UserType GetUserTypeById(string objectId, string BankCode)
+    {
+        UserType user = new UserType();
+        try
+        {
+            string[] parameters = { objectId, BankCode };
+            DataTable datatable = client.ExecuteDataSet("UserTypes_SelectRow", parameters).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                user.Description = dr["Description"].ToString();
+                user.Id = dr["UserTypeId"].ToString();
+                user.Role = dr["Role"].ToString();
+                user.UserTypeCode = dr["UserType"].ToString();
+                user.UserTypeName = dr["UserType"].ToString();
+                user.BankCode = dr["BankCode"].ToString();
+                user.StatusCode = "0";
+                user.StatusDesc = "SUCCESS";
+            }
+            else
+            {
+                user.StatusCode = "100";
+                user.StatusDesc = "FAILED: USERTYPE NOT FOUND";
+            }
+        }
+        catch (Exception ex)
+        {
+            user.StatusCode = "100";
+            user.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return user;
+    }
+
+    public List<string> GetAccountsByUserId(string userId)
+    {
+        List<string> all = new List<string>();
+        try
+        {
+            DataTable dt = client.ExecuteDataSet("GetAccountsByUserId", new string[] { userId }).Tables[0];
+
+            if (dt.Rows.Count == 0)
+            {
+                all.Add("");
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                string accNo = dr["AccNumber"].ToString();
+                all.Add(accNo);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return all;
+    }
+
+    public BankAccount GetBankAccountById(string objectId, string BankCode)
+    {
+        BankAccount account = new BankAccount();
+        try
+        {
+            string[] parameters = { objectId, BankCode };
+            DataTable datatable = client.ExecuteDataSet("Accounts_SelectRow", parameters).Tables[0];
+            if (datatable.Rows.Count > 0)
+            {
+                DataRow dr = datatable.Rows[0];
+                string IsActive = dr["IsActive"].ToString();
+                account.AccountBalance = dr["AccBalance"].ToString();
+                account.AccountId = dr["AccountId"].ToString();
+                account.BankCode = dr["BankCode"].ToString();
+                account.AccountNumber = dr["AccNumber"].ToString();
+                account.AccountType = dr["AccType"].ToString();
+                account.IsActive = dr["IsActive"].ToString();
+                account.BranchCode = dr["BranchCode"].ToString();
+                account.ModifiedBy = dr["ModifiedBy"].ToString();
+                account.CurrencyCode = dr["CurrencyCode"].ToString();
+                account.ApprovedBy = dr["ApprovedBy"].ToString();
+
+                account.StatusCode = "0";
+                account.StatusDesc = "SUCCESS";
+
+            }
+            else
+            {
+                account.StatusCode = "100";
+                account.StatusDesc = "FAILED: ACCOUNT WITH ACCOUNT_NUMBER:" + objectId + " NOT FOUND UNDER BANK: " + BankCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            account.StatusCode = "100";
+            account.StatusDesc = "FAILED: " + ex.Message;
+        }
+        return account;
+    }
+
+
 
     public void LoadBanksBranchesIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
@@ -544,9 +642,9 @@ public class Bussinesslogic
         return allowedAreas;
     }
 
-    public void UpdateBankTransactionStatus(string BankID, string BankCode, string PegPayId,string Status)
+    public void UpdateBankTransactionStatus(string BankID, string BankCode, string PegPayId, string Status)
     {
-        string[] parameters = { BankID, BankCode, PegPayId,Status };
+        string[] parameters = { BankID, BankCode, PegPayId, Status };
         int rowsAffected = dh.ExecuteNonQuery("UpdateBankTransactionStatus", parameters);
     }
 
@@ -709,7 +807,7 @@ public class Bussinesslogic
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
-                string ApprovedBy=dr["ApprovedBy"].ToString().ToUpper();
+                string ApprovedBy = dr["ApprovedBy"].ToString().ToUpper();
 
 
                 if (string.IsNullOrEmpty(ApprovedBy))
@@ -730,6 +828,10 @@ public class Bussinesslogic
                     user.BranchCode = dr["BranchCode"].ToString();
                     user.Gender = dr["Gender"].ToString();
                     user.DateOfBirth = dr["DateOfBirth"].ToString();
+                    user.TransactionLimit = dr["TranAmountLimit"].ToString();
+                    user.ApprovedBy = dr["ApprovedBy"].ToString();
+                    user.ModifiedBy = dr["ModifiedBy"].ToString();
+
                     user.StatusCode = "0";
                     user.StatusDesc = "SUCCESS";
                 }
@@ -851,10 +953,10 @@ public class Bussinesslogic
     public bool Exists(Object obj)
     {
         string className = GetClassNameByReflection(obj);
-        switch (className.ToUpper()) 
+        switch (className.ToUpper())
         {
             case "ACCOUNTTYPE":
-                AccountType type=obj as AccountType;
+                AccountType type = obj as AccountType;
                 return TrueIfExists(className, type.AccTypeCode, type.BankCode);
             case "BANK":
                 Bank bank = obj as Bank;
@@ -927,6 +1029,23 @@ public class Bussinesslogic
         return result;
     }
 
+    public Result ChangeUsersPassword(string UserId, string BankCode, string newPassword)
+    {
+        Result result = new Result();
+        int rows = dh.ExecuteNonQuery("ChangeUsersPassword", new string[] { UserId, BankCode, newPassword });
+        if (rows > 0)
+        {
+            result.StatusCode = "0";
+            result.StatusDesc = "SUCCESS";
+        }
+        else
+        {
+            result.StatusCode = "100";
+            result.StatusDesc = "UNBALE TO APPROVE CUSTOMER AT THE MOMENT";
+        }
+        return result;
+    }
+
     public void LoadTellersWhoDontHaveAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user)
     {
         string[] parameters = { bankCode };
@@ -943,9 +1062,9 @@ public class Bussinesslogic
         }
     }
 
-    public void LoadTellerAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user,string BranchCode)
+    public void LoadTellerAccountsIntoDropDown(string bankCode, DropDownList ddlst, BankUser user, string BranchCode)
     {
-        string[] parameters = { bankCode,BranchCode };
+        string[] parameters = { bankCode, BranchCode };
         DataSet ds = dh.ExecuteSelect("GetTellerAccounts", parameters);
         DataTable dt = ds.Tables[0];
 

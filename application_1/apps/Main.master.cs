@@ -13,7 +13,7 @@ using InterLinkClass.CoreBankingApi;
 
 public partial class Main : System.Web.UI.MasterPage
 {
-    ProcessUsers Usersdll = new ProcessUsers();
+    Bussinesslogic bll = new Bussinesslogic();
     BankUser user;
     Bank usersBank;
     protected void Page_Load(object sender, EventArgs e)
@@ -26,10 +26,7 @@ public partial class Main : System.Web.UI.MasterPage
             }
             else 
             {
-                user=(BankUser)Session["User"];
-                usersBank = (Bank)Session["UsersBank"];
-                TitleLbl.InnerHtml = "<i class=\"fa fa-bank\"></i> BANK-OS : " + usersBank.BankName.ToUpper();
-                lblName.Text = user.FullName;
+                LoadData();
             }
         }
         catch (NullReferenceException exe)
@@ -41,6 +38,35 @@ public partial class Main : System.Web.UI.MasterPage
         {
             string Msg = ex.Message;
             Response.Redirect("Default.aspx?Msg="+Msg, false);
+        }
+    }
+
+    private void LoadData()
+    {
+        user = (BankUser)Session["User"];
+        usersBank = (Bank)Session["UsersBank"];
+        TitleLbl.InnerHtml = "<i class=\"fa fa-bank\"></i> BANK-OS : " + usersBank.BankName.ToUpper();
+        lblName.Text = user.FullName;
+        lblUsersName.Text = user.FullName;
+        lblUsersRole.Text = user.Usertype;
+        lblCompnay.Text = usersBank.BankName;
+        UserType type = bll.GetUserTypeById(user.Usertype, user.BankCode);
+        if (type.StatusCode == "0") 
+        {
+            lblUsersRole.Text = type.UserTypeName;
+        }
+
+        BankTeller teller = user as BankTeller;
+        if (teller != null) 
+        {
+            BankAccount account = bll.GetBankAccountById(teller.TellerAccountNumber, teller.BankCode);
+            lblTellersBalance.Text = account.AccountBalance.Split('.')[0];
+            lblTellerAccount.Text = teller.TellerAccountNumber;
+            TellersSection.Visible = true;
+        }
+        else 
+        {
+            TellersSection.Visible = false;
         }
     }
 

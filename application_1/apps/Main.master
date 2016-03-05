@@ -113,13 +113,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <asp:Label runat="server" Text="Username" ID="lblName"/> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
                             <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            <a href="ChangePassword.aspx"><i class="fa fa-fw fa-gear"></i> Password Management</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -131,7 +128,16 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li>
+                    <li class="UserProfileSection">
+                        <p><b>Name:</b> <asp:Label ID="lblUsersName" runat="server">Users FullName</asp:Label></p>
+                        <p><b>Role:</b> <asp:Label ID="lblUsersRole" runat="server">Users Role</asp:Label></p>
+                        <p><b>Bank:</b> <asp:Label ID="lblCompnay" runat="server">Users Company</asp:Label></p>
+                        <div id="TellersSection" runat="server">
+                             <p ><b>Teller Account:</b> <asp:Label ID="lblTellerAccount" runat="server">Tellers Balance</asp:Label></p>
+                            <p ><b>Account Balance:</b> <asp:Label ID="lblTellersBalance" runat="server">Tellers Balance</asp:Label></p>
+                        </div>
+                    </li>
+                    <li style="border-top:none;">
                         <a href="LoggedInStartPage.aspx" style="border-top:hidden;" class="active" data-toggle="collapse" data-target="#Start"><i class="fa fa-fw fa-home"></i> Home</a>
                     </li>
                     <% List<string> allowedAreas = Session["AllowedAreas"] as List<string>; %>
@@ -266,9 +272,6 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#SysAdmin"><i class="fa fa-fw fa-archive"></i>System Admin<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="SysAdmin" class="collapse">
                             <li>
-                                <a href="CreditBankVault.aspx"><i class="fa fa-caret-right"></i> Credit Bank Vault</a>
-                            </li>
-                            <li>
                                 <a href="AddOrEditBank.aspx"><i class="fa fa-caret-right"></i> Create Bank</a>
                             </li>
                             <li>
@@ -290,7 +293,7 @@
                     </li>
                     <%} %>
                     <li>
-                        <a href="LoggedInStartPage.aspx" style="border-bottom:dotted;border-width:1px;"><i class="fa fa-fw fa-dashboard"></i> Profile Settings</a>
+                        <a href="ChangePassword.aspx" style="border-bottom:dotted;border-width:1px;"><i class="fa fa-fw fa-dashboard"></i> Password Management</a>
                     </li>
                 </ul>
             </div>

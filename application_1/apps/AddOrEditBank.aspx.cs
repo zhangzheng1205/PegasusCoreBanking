@@ -55,8 +55,8 @@ public partial class AddOrEditBank : System.Web.UI.Page
             txtBankCode.Text = bank.BankCode;
             txtBankCode.Enabled = false;
             txtBankName.Text = bank.BankName;
-            txtColor.Text = bank.TextColor;
-            txtTheme.Text = bank.BankThemeColor;
+            txtColor.Text = bank.TextColor.Replace("#", string.Empty);
+            txtTheme.Text = bank.BankThemeColor.Replace("#",string.Empty);
             txtContactEmail.Text = bank.BankContactEmail;
         }
         else 

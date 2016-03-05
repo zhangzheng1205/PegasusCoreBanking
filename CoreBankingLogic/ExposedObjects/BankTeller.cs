@@ -10,8 +10,7 @@ public class BankTeller : BankUser
 
     }
 
-    public BankTeller(BankUser user)
-        : base(user)
+    public BankTeller(BankUser user): base(user)
     {
 
     }

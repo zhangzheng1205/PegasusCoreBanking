@@ -307,6 +307,17 @@ ul.alert-dropdown {
 		}
 }
 
+.UserProfileSection {
+	display: block;
+	padding: 5px 65px 10px 28px;
+	text-decoration: none;
+	color: black;
+	border-left: hidden;
+	border-width: 0.5px;
+	border-bottom: double;
+	border-color: black;
+}
+
 .side-nav > li > ul {
 	padding: 0;
 }
@@ -322,6 +333,8 @@ ul.alert-dropdown {
 		border-bottom: hidden;
 		border-color: black;
 	}
+
+	
 
 		.side-nav > li > ul > li > a:hover {
 			color: #fff;

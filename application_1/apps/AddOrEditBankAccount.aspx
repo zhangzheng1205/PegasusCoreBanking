@@ -17,11 +17,7 @@
 
                 <div class="container-fluid">
 
-
-
                     <div class="row">
-
-                        <%--<form runat="server" action="#" method="post">--%>
 
                         <!-- Page Heading -->
                         <div class="row">
@@ -64,6 +60,23 @@
                                 <%Response.Write("</div>"); %>
                             </div>
                         </div>
+
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-info">
+                                            Hi. It Appears you want to create a Bank Account.
+                                            First Pick the Type of account you want to create,
+                                            The type of the account determines the number of signatories needed. 
+                                            There after create the account signatories using the "Add Signatory" button.
+                                            And then submit the details.The accounts will not be active until they are approved by the Branch Manager.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
 
                         <!-- /.row -->
                         <div class="row">

@@ -51,6 +51,22 @@
                             </div>
                         </div>
 
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-info">
+                                            Hi. It Appears you want to create a Bank Charges.
+                                            Remember a Bank charge can target a transaction category or an account type or both.
+                                            e.g You want a charge of 1000 to levied on all deposit transactions made on a Savings Account.
+                                            Use the form below to supply the necessary details
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+
                         <!-- /.row -->
                         <div class="row">
                             <div class="col-lg-6">

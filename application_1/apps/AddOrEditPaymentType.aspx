@@ -9,44 +9,60 @@
 
                     <div class="row">
 
-                            <!-- Page Heading -->
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h4>Input Payment Type Details
-                                    </h4>
-                                    <ol class="breadcrumb">
-                                        <li>
-                                            <i class="fa fa-dashboard"></i>Dashboard
-                                        </li>
-                                        <li class="active">
-                                            <i class="fa fa-edit"></i>Edit Payment Type
-                                        </li>
-                                    </ol>
-                                </div>
+                        <!-- Page Heading -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4>Input Payment Type Details
+                                </h4>
+                                <ol class="breadcrumb">
+                                    <li>
+                                        <i class="fa fa-dashboard"></i>Dashboard
+                                    </li>
+                                    <li class="active">
+                                        <i class="fa fa-edit"></i>Edit Payment Type
+                                    </li>
+                                </ol>
                             </div>
+                        </div>
 
-                            <%-- Message Label --%>
-                            <div class="row">
-                                <div class="text-center">
-                                    <% 
-                                        string IsError = Session["IsError"] as string;
-                                        if (IsError == null)
-                                        {
-                                            Response.Write("<div>");
+                        <%-- Message Label --%>
+                        <div class="row">
+                            <div class="text-center">
+                                <% 
+                                    string IsError = Session["IsError"] as string;
+                                    if (IsError == null)
+                                    {
+                                        Response.Write("<div>");
 
-                                        }
-                                        else if (IsError == "True")
-                                        {
-                                            Response.Write("<div class=\"alert alert-danger\">");
+                                    }
+                                    else if (IsError == "True")
+                                    {
+                                        Response.Write("<div class=\"alert alert-danger\">");
 
-                                        }
-                                        else
-                                        {
-                                            Response.Write("<div class=\"alert alert-success\">");
-                                        } 
-                                    %>
-                                    <strong><asp:Label ID="lblmsg" runat="server"></asp:Label></strong>
-                                    <%Response.Write("</div>"); %>
+                                    }
+                                    else
+                                    {
+                                        Response.Write("<div class=\"alert alert-success\">");
+                                    } 
+                                %>
+                                <strong>
+                                    <asp:Label ID="lblmsg" runat="server"></asp:Label></strong>
+                                <%Response.Write("</div>"); %>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-info">
+                                            Hi. It Appears you want to create a Payment Type.
+                                            A Payment Type is a way a user can make a payment e.g cash, chequue, eft
+                                            Use the form below to create the payment type
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
                                 </div>
                             </div>
 
@@ -77,7 +93,7 @@
 
 
                             <div class="row">
-                               <div class="col-lg-6">
+                                <div class="col-lg-6">
                                     <label>Is Active</label>
                                     <asp:DropDownList ID="ddIsActive" runat="server" CssClass="form-control">
                                         <asp:ListItem>TRUE</asp:ListItem>
@@ -94,11 +110,11 @@
                                 </div>
                             </div>
 
-                    </div>
-                    <!-- /.container-fluid -->
+                        </div>
+                        <!-- /.container-fluid -->
 
+                    </div>
                 </div>
-            </div>
             <!-- /#page-wrapper -->
         </asp:View>
         <asp:View ID="View2" runat="server">

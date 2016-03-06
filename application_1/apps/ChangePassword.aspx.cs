@@ -58,7 +58,7 @@ public partial class ChangePassword : System.Web.UI.Page
             {
                 user.Password = bll.GenerateMD5Hash(NewPassword);
                 user.ModifiedBy = user.Id;
-                Result result = bll.ChangeUsersPassword(user.Id,user.BankCode,NewPassword);
+                Result result = bll.ChangeUsersPassword(user.Id,user.BankCode,user.Password);
                 if (result.StatusCode == "0")
                 {
                     string msg = "Password Changed Successfully";

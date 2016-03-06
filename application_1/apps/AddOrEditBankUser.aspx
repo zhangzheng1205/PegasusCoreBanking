@@ -56,6 +56,23 @@
                                 <%Response.Write("</div>"); %>
                             </div>
                         </div>
+
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-info">
+                                            Hi. It Appears you want to create a Bank System User like a teller or Customer Service etc.
+                                            Remember that the user must belong to a specific bank and a specific branch in that bank.
+                                            Some User types require more details in comparison to others.
+                                            Use the form below to supply the required details. 
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+
                         <!-- /.row -->
                         <div class="row">
                             <div class="col-lg-6">

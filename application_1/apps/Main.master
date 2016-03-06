@@ -147,7 +147,7 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#teller"><i class="fa fa-fw fa-dashboard"></i> Teller<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="teller" class="collapse">
                              <li>
-                                <a href="GetAccountDetails.aspx"><i class="fa fa-caret-right"></i> Check balance/Mini Statement</a>
+                                <a href="GetAccountDetails.aspx"><i class="fa fa-caret-right"></i> Search/Transact Using Customer Account</a>
                             </li>
                         </ul>
                     </li>

@@ -50,6 +50,23 @@
                                 </div>
                             </div>
 
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <div class="alert alert-info">
+                                            Hi. It Appears you want to create a Transaction Category.
+                                            A Transaction Category is a way of grouping transactions.
+                                            e.g All transactions where a customer wishes to put money on his account are grouped under the 
+                                            deposit transaction type
+                                            Remember every Transaction must have a transaction type.
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+
                             <!-- /.row -->
                             <div class="row">
                                 <div class="col-lg-6">

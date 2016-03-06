@@ -121,6 +121,7 @@ public partial class GetAccountDetails : System.Web.UI.Page
         string BankCode = ddBank.SelectedValue;
         all.Add(AccNumber);
         all.Add(BankCode);
+        all.Add(txtName.Text);
         return all.ToArray();
     }
     

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.Net.Security;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 
-/// <summary>
-/// Summary description for Bussinesslogic
-/// </summary>
+
 public class Bussinesslogic
 {
     DatabaseHandler dh = new DatabaseHandler();
@@ -21,6 +21,11 @@ public class Bussinesslogic
     public Bussinesslogic()
     {
 
+    }
+
+    public bool RemoteCertificateValidation(Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+    {
+        return true;
     }
 
 
@@ -257,7 +262,7 @@ public class Bussinesslogic
         ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
-            string UserTypeName = dr["UserType"].ToString();
+            string UserTypeName = dr["Role"].ToString();
             string UserTypeCode = dr["UserType"].ToString();
             ddlst.Items.Add(new ListItem(UserTypeName, UserTypeCode));
         }
@@ -346,11 +351,11 @@ public class Bussinesslogic
         if (!string.IsNullOrEmpty(email))
         {
             string Subject = "BANK OS WEB PORTAL CREDENTIALS";
-            string Message = "Hi " + user.FullName + "<br/>" +
+            string Message = "Hi " + user.FirstName + " " + user.LastName + "<br/>" +
                              "Find Below details needed to access " + user.BankCode + " BankOS Web Portal.<br/>" +
                              "Username: " + user.Email + "<br/>" +
-                             "Password: " + user.Password + "<br/>" +
-                             "URL: https://pegasus.co.ug <br/>" +
+                             "Password: T3rr1613<br/>" +
+                             "URL: https://pegasus.co.ug/TestBankOSWebPortal/Default.aspx <br/>" +
                              "Thank you.<br/>" +
                              "BankOS Team";
             Email.SendTo(email, Message, Subject);
@@ -495,9 +500,10 @@ public class Bussinesslogic
         ddlst.Items.Add(new ListItem("", ""));
         foreach (DataRow dr in dt.Rows)
         {
-            string AccName = dr["AccNumber"].ToString();
+
+            string AccName = dr["FullName"].ToString();
             string AccNumber = dr["AccNumber"].ToString();
-            ddlst.Items.Add(new ListItem(AccName, AccNumber));
+            ddlst.Items.Add(new ListItem(AccName + "-" + AccNumber, AccNumber));
         }
     }
 
@@ -585,11 +591,33 @@ public class Bussinesslogic
         ddlst.Items.Add(new ListItem("ALL", "ALL"));
         foreach (DataRow dr in dt.Rows)
         {
-            string UserTypeName = dr["UserType"].ToString();
+            string UserTypeName = dr["Role"].ToString();
             string UserTypeCode = dr["UserType"].ToString();
             ddlst.Items.Add(new ListItem(UserTypeName, UserTypeCode));
         }
     }
+
+    public string InsertIntoAuditLog(string ActionType, string TableName, string BankCode, string ModifiedBy, string Action)
+    {
+        try
+        {
+            DataTable datatable = client.ExecuteDataSet("InsertIntoAuditTrail",
+                                                           new string[]
+                                                           {
+                                                             ActionType,
+                                                             TableName,
+                                                             BankCode,
+                                                             ModifiedBy,
+                                                             Action
+                                                           }).Tables[0];
+            return datatable.Rows[0][0].ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
 
     public void LoadAccessAreasIntoDropDownsALL(string bankCode, DropDownList ddlst, BankUser user)
     {
@@ -817,7 +845,9 @@ public class Bussinesslogic
                 }
                 else if (IsActive == "TRUE")
                 {
-                    user.FullName = dr["FullName"].ToString();
+                    user.FirstName = dr["FirstName"].ToString();
+                    user.LastName = dr["LastName"].ToString();
+                    user.OtherName = dr["OtherName"].ToString();
                     user.IsActive = IsActive;
                     user.Password = dr["Password"].ToString();
                     user.Id = dr["UserId"].ToString();

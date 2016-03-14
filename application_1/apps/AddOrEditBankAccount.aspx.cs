@@ -255,8 +255,9 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
         txtDateOfBirth.Text = "";
         txtEmail.Text = "";
         txtPhoneNumber.Text = "";
-        txtUserId.Text = "";
-        txtBankUsersName.Text = "";
+        txtFirstName.Text = "";
+        txtLastName.Text = "";
+        txtOtherName.Text = "";
         UploadProfilePicSection.Visible = true;
         UploadSignatureSection.Visible = true;
         AddSignatorySection.Visible = true;
@@ -283,26 +284,28 @@ public partial class AddOrEditBankAccount : System.Web.UI.Page
 
     private BankCustomer GetBankCustomer()
     {
-        BankCustomer aUser = new BankCustomer();
-        aUser.BankCode = ddBank2.SelectedValue;
-        aUser.BranchCode = ddBankBranches2.SelectedValue;
-        aUser.ApprovedBy = user.Id;
-        aUser.DateOfBirth = txtDateOfBirth.Text;
-        aUser.Email = txtEmail.Text;
-        aUser.FullName = txtBankUsersName.Text;
-        aUser.Gender = ddGender.Text;
-        aUser.Id = txtUserId.Text;
-        aUser.IsActive = ddIsActive.Text;
-        aUser.ModifiedBy = user.Id;
-        aUser.Password = bll.GeneratePassword();
-        aUser.PhoneNumber = txtPhoneNumber.Text;
-        aUser.PathToProfilePic = ViewState["ProfilePic"] as string;//GetPathToProfilePicImage(ddBank.SelectedValue);
-        aUser.PathToSignature = ViewState["SignaturePic"] as string;//GetPathToImageOfSignature(ddBank.SelectedValue);
-        aUser.NextOfKinContact = txtNextOfKinTel.Text;
-        aUser.NextOfKinName = txtNextOfKinName.Text;
-        aUser.MaritalStatus = ddMaritalStatus.Text;
-        aUser.Nationality = txtNationality.Text;
-        return aUser;
+        BankCustomer aCustomer = new BankCustomer();
+        aCustomer.BankCode = ddBank2.SelectedValue;
+        aCustomer.BranchCode = ddBankBranches2.SelectedValue;
+        aCustomer.ApprovedBy = user.Id;
+        aCustomer.DateOfBirth = txtDateOfBirth.Text;
+        aCustomer.Email = txtEmail.Text;
+        aCustomer.FirstName = txtFirstName.Text;
+        aCustomer.LastName = txtLastName.Text;
+        aCustomer.OtherName = txtOtherName.Text;
+        aCustomer.Gender = ddGender.Text;
+        if (string.IsNullOrEmpty(txtEmail.Text)) { aCustomer.Id = txtPhoneNumber.Text; } else { aCustomer.Id = txtEmail.Text; }
+        aCustomer.IsActive = ddIsActive.Text;
+        aCustomer.ModifiedBy = user.Id;
+        aCustomer.Password = bll.GeneratePassword();
+        aCustomer.PhoneNumber = txtPhoneNumber.Text;
+        aCustomer.PathToProfilePic = ViewState["ProfilePic"] as string;//GetPathToProfilePicImage(ddBank.SelectedValue);
+        aCustomer.PathToSignature = ViewState["SignaturePic"] as string;//GetPathToImageOfSignature(ddBank.SelectedValue);
+        aCustomer.NextOfKinContact = txtNextOfKinTel.Text;
+        aCustomer.NextOfKinName = txtNextOfKinName.Text;
+        aCustomer.MaritalStatus = ddMaritalStatus.Text;
+        aCustomer.Nationality = txtNationality.Text;
+        return aCustomer;
     }
 
     private void Upload(string base64,string PicName)

@@ -85,6 +85,8 @@ public partial class DepositWithdraw : System.Web.UI.Page
             txtFromAccount.Text = Id;
             txtFromAccount.Enabled = false;
             txtToAccount.Enabled = false;
+            PaymentTypesSection.Visible = false;
+            
         }
         //funds transfer
         //disable from account 
@@ -144,8 +146,16 @@ public partial class DepositWithdraw : System.Web.UI.Page
         tran.TranCategory = ddTranCategory.SelectedValue;
         tran.CurrencyCode = ddCurrency.SelectedValue;
         tran.ApprovedBy = user.Id;
-       
-        tran.PaymentType = ddPaymentType.SelectedValue;
+
+        if (PaymentTypesSection.Visible == true)
+        {
+            tran.PaymentType = ddPaymentType.SelectedValue;
+        }
+        else 
+        {
+            tran.PaymentType = "CASH";
+        }
+
         tran.ChequeNumber = txtChequeNumber.Text;
 
         if (Operation == "Deposit")

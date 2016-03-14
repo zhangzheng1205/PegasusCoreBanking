@@ -69,11 +69,12 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
 
     private void FillFormWithData(BankUser userEdited)
     {
-        this.txtBankUsersName.Text = userEdited.FullName;
+        this.txtFirstName.Text = userEdited.FirstName;
+        this.txtLastName.Text = userEdited.LastName;
+        this.txtOtherName.Text = userEdited.OtherName;
         this.txtDateOfBirth.Text = userEdited.DateOfBirth;
         this.txtEmail.Text = userEdited.Email;
         this.txtPhoneNumber.Text = userEdited.PhoneNumber;
-        this.txtUserId.Text = userEdited.Id;
         this.ddBank.Text = userEdited.BankCode;
         this.ddBankBranch.Text = userEdited.BranchCode;
         this.ddGender.Text = userEdited.Gender;
@@ -142,8 +143,6 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
     {
         ddIsActive.Text = "False";
         ddIsActive.Enabled = false;
-        txtUserId.Text = UserId;
-        txtUserId.Enabled = false;
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -169,22 +168,24 @@ public partial class AddOrEditCustomer : System.Web.UI.Page
 
     private BankCustomer GetBankCustomer()
     {
-        BankCustomer aUser = new BankCustomer();
-        aUser.BankCode = ddBank.SelectedValue;
-        aUser.BranchCode = ddBankBranch.SelectedValue;
-        aUser.DateOfBirth = txtDateOfBirth.Text;
-        aUser.Email = txtEmail.Text;
-        aUser.FullName = txtBankUsersName.Text;
-        aUser.Gender = ddGender.Text;
-        aUser.Id = txtUserId.Text;
-        aUser.IsActive = ddIsActive.Text;
-        aUser.ModifiedBy = user.Id;
-        aUser.Password = bll.GeneratePassword();
-        aUser.PhoneNumber = txtPhoneNumber.Text;
-        aUser.PathToProfilePic = GetPathToProfilePicImage(ddBank.SelectedValue);
-        aUser.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
-        aUser.ApprovedBy = user.Id;
-        return aUser;
+        BankCustomer aCustomer = new BankCustomer();
+        aCustomer.BankCode = ddBank.SelectedValue;
+        aCustomer.BranchCode = ddBankBranch.SelectedValue;
+        aCustomer.DateOfBirth = txtDateOfBirth.Text;
+        aCustomer.Email = txtEmail.Text;
+        aCustomer.FirstName = txtFirstName.Text;
+        aCustomer.LastName = txtLastName.Text;
+        aCustomer.OtherName = txtOtherName.Text;
+        aCustomer.Gender = ddGender.Text;
+        if (string.IsNullOrEmpty(txtEmail.Text)) { aCustomer.Id = txtPhoneNumber.Text; } else { aCustomer.Id = txtEmail.Text; }
+        aCustomer.IsActive = ddIsActive.Text;
+        aCustomer.ModifiedBy = user.Id;
+        aCustomer.Password = bll.GeneratePassword();
+        aCustomer.PhoneNumber = txtPhoneNumber.Text;
+        aCustomer.PathToProfilePic = GetPathToProfilePicImage(ddBank.SelectedValue);
+        aCustomer.PathToSignature = GetPathToImageOfSignature(ddBank.SelectedValue);
+        aCustomer.ApprovedBy = user.Id;
+        return aCustomer;
     }
 
     protected void ddBank_SelectedIndexChanged(object sender, EventArgs e)

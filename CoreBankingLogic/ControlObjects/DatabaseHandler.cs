@@ -41,7 +41,9 @@ public class DatabaseHandler
             command = CbDatabase.GetStoredProcCommand("Customers_Update",
                                                        cust.Id,
                                                        cust.Email,
-                                                       cust.FullName,
+                                                       cust.FirstName,
+                                                       cust.LastName,
+                                                       cust.OtherName,
                                                        cust.Password,
                                                        cust.IsActive,
                                                        cust.BankCode,
@@ -133,7 +135,9 @@ public class DatabaseHandler
             string ModifyDate = CreateDate;
             command = CbDatabase.GetStoredProcCommand("BankTellers_Update",
                                                        teller.Email,
-                                                       teller.FullName,
+                                                       teller.FirstName,
+                                                       teller.LastName,
+                                                       teller.OtherName,
                                                        teller.Usertype,
                                                        teller.Password,
                                                        teller.IsActive,
@@ -301,7 +305,9 @@ public class DatabaseHandler
             command = CbDatabase.GetStoredProcCommand("Users_Update",
                                                        user.Id,
                                                        user.Email,
-                                                       user.FullName,
+                                                       user.FirstName,
+                                                       user.LastName,
+                                                       user.OtherName,
                                                        user.Usertype,
                                                        user.Password,
                                                        user.IsActive,
@@ -405,7 +411,9 @@ public class DatabaseHandler
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
 
-                user.FullName = dr["FullName"].ToString();
+                user.FirstName = dr["FirstName"].ToString();
+                user.LastName = dr["LastName"].ToString();
+                user.OtherName = dr["OtherName"].ToString();
                 user.IsActive = IsActive;
                 user.Password = dr["Password"].ToString();
                 user.Id = dr["UserId"].ToString();
@@ -591,7 +599,9 @@ public class DatabaseHandler
                 foreach (DataRow dr in datatable.Rows)
                 {
                     BankUser user = new BankUser();
-                    user.FullName = dr["FullName"].ToString();
+                    user.FirstName = dr["FirstName"].ToString();
+                    user.LastName = dr["LastName"].ToString();
+                    user.OtherName = dr["OtherName"].ToString();
                     user.IsActive = dr["IsActive"].ToString();
                     user.Password = dr["Password"].ToString();
                     user.Id = dr["UserId"].ToString();
@@ -1424,7 +1434,9 @@ public class DatabaseHandler
             {
                 DataRow dr = datatable.Rows[0];
                 string IsActive = dr["IsActive"].ToString().ToUpper();
-                user.FullName = dr["FullName"].ToString();
+                user.FirstName = dr["FirstName"].ToString();
+                user.LastName = dr["LastName"].ToString();
+                user.OtherName = dr["OtherName"].ToString();
                 user.IsActive = IsActive;
                 user.Password = dr["Password"].ToString();
                 user.Id = dr["CustomerId"].ToString();

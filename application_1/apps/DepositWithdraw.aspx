@@ -7,11 +7,8 @@
 
                 <div class="container-fluid">
 
-
                     <%-- form beegins --%>
                     <div class="row">
-
-                        <%-- <form runat="server" action="#" method="post">--%>
 
                         <!-- Page Heading -->
                         <div class="row">
@@ -80,7 +77,7 @@
                                 <div class="col-lg-8" style="padding-left: 0px;">
                                     <label>Amount</label>
                                     <div class="form-group input-group">
-                                        <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control" placeholder="Enter Amount" />
+                                        <asp:TextBox ID="txtAmount" runat="server" CssClass="form-control" onkeyup="javascript:this.value=Comma(this.value);" placeholder="Enter Amount" />
                                         <span class="input-group-addon">.00</span>
                                     </div>
                                     <p class="help-block">The Transaction Amount eg: 500</p>
@@ -116,7 +113,7 @@
 
 
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" id="PaymentTypesSection" runat="server">
                                 <label>Payment Type</label>
                                 <asp:DropDownList ID="ddPaymentType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddPaymentType_SelectedIndexChanged">
                                     <asp:ListItem>* TRANSFER</asp:ListItem>
@@ -141,16 +138,28 @@
                         </div>
                         <hr />
 
-                        <%-- </form>--%>
-                        <%-- /form --%>
                     </div>
                     <!-- /.form row -->
 
                 </div>
                 <!-- /.container-fluid -->
             </div>
-            </div>
-                <!-- /#page-wrapper -->
+
+            <script type ="text/javascript">
+
+                function Comma(Num) {
+                    Num += '';
+                    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+                    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+                    x = Num.split('.');
+                    x1 = x[0];
+                    x2 = x.length > 1 ? '.' + x[1] : '';
+                    var rgx = /(\d+)(\d{3})/;
+                    while (rgx.test(x1))
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                    return x1 + x2;
+                }
+   </script>
         </asp:View>
         <asp:View ID="View2" runat="server">
         </asp:View>

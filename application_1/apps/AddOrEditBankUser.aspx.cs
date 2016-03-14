@@ -70,7 +70,9 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
 
     private void FillFormWithData(BankUser userEdited)
     {
-        this.txtBankUsersName.Text = userEdited.FullName;
+        this.txtFirstName.Text = userEdited.FirstName;
+        this.txtLastName.Text = userEdited.LastName;
+        this.txtOtherName.Text = userEdited.OtherName;
         this.txtDateOfBirth.Text = userEdited.DateOfBirth;
         this.txtEmail.Text = userEdited.Email;
         this.txtPhoneNumber.Text = userEdited.PhoneNumber;
@@ -181,7 +183,9 @@ public partial class AddOrEditBankUser : System.Web.UI.Page
         aUser.BranchCode = ddBankBranch.SelectedValue;
         aUser.DateOfBirth = txtDateOfBirth.Text;
         aUser.Email = txtEmail.Text;
-        aUser.FullName = txtBankUsersName.Text;
+        aUser.FirstName = txtFirstName.Text;
+        aUser.LastName = txtLastName.Text;
+        aUser.OtherName = txtOtherName.Text;
         aUser.Gender = ddGender.Text;
         aUser.Id = txtUserId.Text;
         aUser.IsActive = ddIsActive.Text;

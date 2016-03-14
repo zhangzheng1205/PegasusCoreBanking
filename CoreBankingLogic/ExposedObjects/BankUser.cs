@@ -10,7 +10,9 @@ public class BankUser : BaseObject
 {
     public string Email = "";
     public string Id = "";
-    public string FullName = "";
+    public string FirstName = "";
+    public string LastName = "";
+    public string OtherName = "";
     public string Usertype = "";
     public string Password = "";
     public string IsActive = "";
@@ -36,7 +38,9 @@ public class BankUser : BaseObject
         this.ApprovedBy = user.ApprovedBy;
         this.DateOfBirth = user.DateOfBirth;
         this.Email = user.Email;
-        this.FullName = user.FullName;
+        this.FirstName = user.FirstName;
+        this.LastName = user.LastName;
+        this.OtherName = user.OtherName;
         this.Gender = user.Gender;
         this.Id = user.Id;
         this.IsActive = user.IsActive;
@@ -93,10 +97,16 @@ public class BankUser : BaseObject
             StatusDesc = "PLEASE SUPPLY EITHER AN EMAIL OR A PHONE NUMBER FOR THIS INDIVIDUAL.";
             return false;
         }
-        if (string.IsNullOrEmpty(this.FullName))
+        if (string.IsNullOrEmpty(this.FirstName))
         {
             StatusCode = "100";
-            StatusDesc = "PLEASE SUPPLY THE FULL NAME OF THIS INDIVIDUAL";
+            StatusDesc = "PLEASE SUPPLY THE FIRST NAME OF THIS INDIVIDUAL";
+            return false;
+        }
+        if (string.IsNullOrEmpty(this.LastName))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY THE LAST NAME OF THIS INDIVIDUAL";
             return false;
         }
         if (!bll.IsValidGender(this.Gender))

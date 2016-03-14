@@ -132,6 +132,8 @@
                                     <div class="table-responsive">
                                         <asp:GridView runat="server" Width="100%" CssClass="table table-bordered table-hover" ID="dataGridResults" OnSelectedIndexChanged="dataGridResults_SelectedIndexChanged">
                                             <AlternatingRowStyle BackColor="#BFE4FF" />
+                                            <HeaderStyle BackColor="#0375b7" Font-Bold="false" ForeColor="white" Font-Italic="False"
+                                                Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Height="30px" />
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Select All">
                                                     <HeaderTemplate>
@@ -161,10 +163,6 @@
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" CssClass="cal_Theme1"
                             Format="dd/MM/yyyy" PopupPosition="BottomRight" TargetControlID="txtToDate">
                         </ajaxToolkit:CalendarExtender>
-                        <%--/Scripts
-                        <%--</form>--%>
-                        <%--</div>--%>
-                        <!-- /.row -->
 
                     </div>
                     <!-- /.container-fluid -->

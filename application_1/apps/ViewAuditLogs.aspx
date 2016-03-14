@@ -73,10 +73,12 @@
                             <div class="col-sm-3">
                                 <label>Action</label>
                                 <asp:DropDownList ID="ddAction" runat="server" CssClass="form-control">
-                                    <asp:ListItem></asp:ListItem>
+                                    <asp:ListItem>All</asp:ListItem>
                                     <asp:ListItem>Create</asp:ListItem>
                                     <asp:ListItem>Update</asp:ListItem>
                                     <asp:ListItem>Delete</asp:ListItem>
+                                    <asp:ListItem>Login</asp:ListItem>
+                                    <asp:ListItem>LogOut</asp:ListItem>
                                 </asp:DropDownList>
                                 <p class="help-block">The Action carried out by the user. Can be empty</p>
                             </div>

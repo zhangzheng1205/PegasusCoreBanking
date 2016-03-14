@@ -50,7 +50,7 @@ public partial class Statement : System.Web.UI.Page
         dataGridResults.DataBind();
         dataGridResults.AllowPaging = false;
         lblBranchName.Text = "BranchName: " + user.BranchCode;
-        lblPrintedBy.Text = "Printed BY: " + user.FullName;
+        lblPrintedBy.Text = "Printed BY: " + user.FirstName+" "+user.LastName+" "+user.OtherName;
         lblUserId.Text = "ID: [" + user.Id + "]";
         lblRole.Text = "Role: " + user.Usertype;
         lblTitle.Text = usersBank.BankName.ToUpper() + " STATEMENT";

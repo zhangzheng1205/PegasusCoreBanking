@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using InterLinkClass.EntityObjects;
 using InterLinkClass.CoreBankingApi;
+using System.Net;
 
 public partial class Main : System.Web.UI.MasterPage
 {
@@ -20,6 +21,7 @@ public partial class Main : System.Web.UI.MasterPage
     {
         try
         {
+            ServicePointManager.ServerCertificateValidationCallback = bll.RemoteCertificateValidation;
             if ((Session["User"] == null))
             {
                 Response.Redirect("Default.aspx");
@@ -46,8 +48,8 @@ public partial class Main : System.Web.UI.MasterPage
         user = (BankUser)Session["User"];
         usersBank = (Bank)Session["UsersBank"];
         TitleLbl.InnerHtml = "<i class=\"fa fa-bank\"></i> BANK-OS : " + usersBank.BankName.ToUpper();
-        lblName.Text = user.FullName;
-        lblUsersName.Text = user.FullName;
+        lblName.Text = user.FirstName+" "+user.LastName;
+        lblUsersName.Text = user.FirstName+" "+user.LastName+" "+user.OtherName;
         lblUsersRole.Text = user.Usertype;
         lblCompnay.Text = usersBank.BankName;
         UserType type = bll.GetUserTypeById(user.Usertype, user.BankCode);
@@ -74,8 +76,10 @@ public partial class Main : System.Web.UI.MasterPage
     {
         Session.Clear();
         Session.Abandon();
+        bll.InsertIntoAuditLog("LogOut", "", user.BankCode, user.Id, "Successfull Logout of User with ID :" +user.Id);
         Response.Redirect("Default.aspx");
     }
+
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
         Logout();

@@ -57,18 +57,28 @@
                             </div>
                         </div>
                         <!-- /.row -->
+                        <!-- /.row -->
                         <div class="row">
                             <div class="col-lg-6">
-                                <label>Full Name</label>
-                                <asp:TextBox ID="txtBankUsersName" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">The Name of the User</p>
+                                <label>First Name</label>
+                                <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The first Name(Given Name) of the User</p>
                             </div>
                             <div class="col-lg-6">
-                                <label>Customer Id</label>
-                                <asp:TextBox ID="txtUserId" runat="server" CssClass="form-control" placeholder="Enter text" />
-                                <p class="help-block">Unique Identifier of this Customer. It can be Customers' Email or PhoneNumber etc.</p>
+                                <label>Last Name</label>
+                                <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">The Last Name(Surname) of the User</p>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label>Other Name</label>
+                                <asp:TextBox ID="txtOtherName" runat="server" CssClass="form-control" placeholder="Enter text" />
+                                <p class="help-block">Any Other Names of the User</p>
+                            </div>
+                        </div>
+
 
                         <div class="row">
                             <div class="col-lg-6">
@@ -171,8 +181,7 @@
                         </ajaxToolkit:CalendarExtender>
 
                         <script type="text/javascript" language="javascript">
-                            function calendarShown(sender, args)
-                            {
+                            function calendarShown(sender, args) {
                                 sender._popupBehavior._element.style.zIndex = 10005;
                             }
                         </script>

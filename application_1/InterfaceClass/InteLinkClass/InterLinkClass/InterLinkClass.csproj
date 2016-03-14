@@ -91,10 +91,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:59541/Service.asmx">
+    <WebReferenceUrl Include="http://localhost:59541/Service.asmx%3fWSDL">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CoreBankingApi\</RelPath>
-      <UpdateFromURL>http://localhost:59541/Service.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:59541/Service.asmx%3fWSDL</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -171,9 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ConrolObjects\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\CoreBankingApi\Service.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,7 +11,9 @@ public class BankCustomer : BaseObject
 {
     public string Email = "";
     public string Id = "";
-    public string FullName = "";
+    public string FirstName = "";
+    public string LastName = "";
+    public string OtherName = "";
     public string Password = "";
     public string IsActive = "";
     public string ModifiedBy = "";
@@ -80,10 +82,16 @@ public class BankCustomer : BaseObject
             StatusDesc = "PLEASE SUPPLY EITHER AN EMAIL OR A PHONE NUMBER FOR THIS INDIVIDUAL.";
             return false;
         }
-        if (string.IsNullOrEmpty(this.FullName))
+        if (string.IsNullOrEmpty(this.FirstName))
         {
             StatusCode = "100";
-            StatusDesc = "PLEASE SUPPLY THE FULL NAME OF THIS INDIVIDUAL";
+            StatusDesc = "PLEASE SUPPLY THE FIRST NAME OF THIS INDIVIDUAL";
+            return false;
+        }
+        if (string.IsNullOrEmpty(this.LastName))
+        {
+            StatusCode = "100";
+            StatusDesc = "PLEASE SUPPLY THE LAST NAME OF THIS INDIVIDUAL";
             return false;
         }
         if (!bll.IsValidGender(this.Gender))

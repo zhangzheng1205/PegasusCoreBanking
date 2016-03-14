@@ -890,9 +890,11 @@ public class BussinessLogic
             cust.ApprovedBy = dr["ApprovedBy"].ToString();
             cust.DateOfBirth = dr["DateOfBirth"].ToString();
             cust.Email = dr["Email"].ToString();
-            cust.FullName = dr["FullName"].ToString();
+            cust.FirstName = dr["FirstName"].ToString();
+            cust.LastName = dr["LastName"].ToString();
+            cust.OtherName = dr["OtherName"].ToString();
             cust.Gender = dr["Gender"].ToString();
-            cust.Id = dr["UserId"].ToString();
+            cust.Id = dr["CustomerId"].ToString();
             cust.ModifiedBy = dr["ModifiedBy"].ToString();
             cust.PathToProfilePic = dr["PathToProfilePic"].ToString();
             cust.PathToSignature = dr["PathToSignature"].ToString();

@@ -12,6 +12,7 @@ using System.Web.UI.HtmlControls;
 using InterLinkClass.EntityObjects;
 using InterLinkClass.CoreBankingApi;
 using System.Collections.Generic;
+using System.Net;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -23,6 +24,7 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
+            ServicePointManager.ServerCertificateValidationCallback = bll.RemoteCertificateValidation;
             if (IsPostBack)
             {
                 BankCode = Request.QueryString["BankCode"];
@@ -78,17 +80,22 @@ public partial class _Default : System.Web.UI.Page
             }
             else
             {
-                ShowMessage("INVALID PASSWORD SUPPLIED",true);
+                string msg="INVALID PASSWORD SUPPLIED";
+                bll.InsertIntoAuditLog("Login", "", user.BankCode, user.Id, "Unsuccessfull login of User with ID :" + user.Id+" Error: "+msg);
+                ShowMessage(msg,true);
             }
         }
         else
         {
-            ShowMessage(user.StatusDesc,true);
+            string msg = user.StatusDesc;
+            bll.InsertIntoAuditLog("Login", "", user.BankCode, user.Id, "Unsuccessfull login of User with ID :" + user.Id + " Error: " + msg);
+            ShowMessage(msg,true);
         }
     }
 
     private void AssignSessionVariables(BankUser user)
     {
+        bll.InsertIntoAuditLog("Login", "", user.BankCode, user.Id, "Successfull login of User with ID :" + user.Id + " at " + DateTime.Now);
         Bank UsersBank = bll.GetBankById(user.BankCode);
         List<string> allowedAreas = bll.GetAllowedAreas(user.Usertype, user.BankCode);
 
@@ -132,7 +139,9 @@ public partial class _Default : System.Web.UI.Page
         teller.BranchCode = user.BranchCode;
         teller.DateOfBirth = user.DateOfBirth;
         teller.Email = user.Email;
-        teller.FullName = user.FullName;
+        teller.FirstName = user.FirstName;
+        teller.LastName = user.LastName;
+        teller.OtherName = user.OtherName;
         teller.Gender = user.Gender;
         teller.Id = user.Id;
         teller.IsActive = user.IsActive;

@@ -2119,7 +2119,11 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string idField;
         
-        private string fullNameField;
+        private string firstNameField;
+        
+        private string lastNameField;
+        
+        private string otherNameField;
         
         private string passwordField;
         
@@ -2172,12 +2176,32 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string FullName {
+        public string FirstName {
             get {
-                return this.fullNameField;
+                return this.firstNameField;
             }
             set {
-                this.fullNameField = value;
+                this.firstNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string OtherName {
+            get {
+                return this.otherNameField;
+            }
+            set {
+                this.otherNameField = value;
             }
         }
         
@@ -2414,7 +2438,11 @@ namespace InterLinkClass.CoreBankingApi {
         
         private string idField;
         
-        private string fullNameField;
+        private string firstNameField;
+        
+        private string lastNameField;
+        
+        private string otherNameField;
         
         private string usertypeField;
         
@@ -2459,12 +2487,32 @@ namespace InterLinkClass.CoreBankingApi {
         }
         
         /// <remarks/>
-        public string FullName {
+        public string FirstName {
             get {
-                return this.fullNameField;
+                return this.firstNameField;
             }
             set {
-                this.fullNameField = value;
+                this.firstNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string OtherName {
+            get {
+                return this.otherNameField;
+            }
+            set {
+                this.otherNameField = value;
             }
         }
         

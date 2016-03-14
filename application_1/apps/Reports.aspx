@@ -14,12 +14,8 @@
 
                 <div class="container-fluid">
 
-
-
                     <div class="row">
-                        <%-- <div class="col-lg-6">--%>
 
-                        <%--<form runat="server" action="#" method="post">--%>
                         <!-- Page Heading -->
                         <div class="row">
                             <div class="col-lg-12">
